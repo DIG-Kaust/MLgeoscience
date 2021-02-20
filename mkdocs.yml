@@ -1,0 +1,15 @@
+site_name: ErSE 222 - Machine Learning in Geoscience
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: teal
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
