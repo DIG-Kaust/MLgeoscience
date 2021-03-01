@@ -8,6 +8,7 @@ theme:
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
+  - attr_list
 
 extra_javascript:
   - javascripts/config.js

@@ -16,19 +16,23 @@ and outputs (e.g., label of the animal present in the photo), ML algorithms can 
 them such that they can infer the output from the input when provided with unseen inputs. 
 
 A large variety of ML algorithms have been developed by the scientific community, ranging from the basic *linear* and *logistic 
-regression* that we will see in our [third lecture](lectures/linreg.md), decision tree-based statistical methods such 
+regression* that we will see in our [third lecture](3_linreg.md), decision tree-based statistical methods such 
 as *random forrest* or *gradient boosting*, all the way to *deep neural networks*, which have recently
 shown to outperform previously developed algorithms in many fields (e.g., computer science, text analysis and speech recognition,
 seismic interpretation). This subfield has grown exponentially in the last few years and it is now referred to as **Deep Learning**
-and will be subject of most of our course. Whilst sharing the same underlying principle of learning from experience in the form 
-of a training data, different algorithms presents their own strenght and limitations and a machine learning practitioner 
+and will be subject of most of our course. In short, Deep learning is a particular kind of machine learning that
+represent the world as a nested hierarchy of increasingly complicated concepts the more we move away from the input and towards the
+output of the associated computational graph.  Whilst sharing the same underlying principle of *learning from experience in the form 
+of a training data*, different algorithms presents their own strenght and limitations and a machine learning practitioner 
 must make a careful judgment at any time depending on the problem to be solved.
 
-**FIGURE**
+![AI_ML_DL](figs/ai_ml_dl.png){: align=left }
+
+## Terminology
 
 Machine Learning is divided into 2 main categories:
 
-- Supervised Learning: learn a function that maps an input to an output ($X \rightarrow Y$). Inputs are also referred to as
+- **Supervised Learning**: learn a function that maps an input to an output ($X \rightarrow Y$). Inputs are also referred to as
   features and output are called targets. In practice we have access to a number of training pairs 
   $\{ \textbf{x}_i, \textbf{y}_i \} \; i=1,..,N$ and we learn $\textbf{y}_i=f_\theta(\textbf{x}_i)$ 
   where $f_\theta$ is for example parametrized via a neural network. Two main applications
@@ -36,12 +40,35 @@ Machine Learning is divided into 2 main categories:
     * *Classification*: the target is discrete
     * *Regression*: the target is continuous
   
-- Unsupervised Learning: learn patterns from unlabelled data. These methods have been shown to be able to find compact 
+- **Unsupervised Learning**: learn patterns from unlabelled data. These methods have been shown to be able to find compact 
   internal representation of the manifold the input data belongs to. Such compact representations can become valuable
   input features for subsequent tasks of supervised learning. We will get into the mathematical details of this family of
   models in the second part of our course.
   
 Input data can also come in 2 different types:
 
-- Structured data: tables (e.g., databases)
-- Unstructured data: images, audio, text, ...
+- **Structured data**: tables (e.g., databases)
+- **Unstructured data**: images, audio, text, ...
+
+## History
+
+Finally, we take a brief look at the history of Deep Learning. This field has so far experienced three main 
+waves of major development (and periods of success) interspersed by winters (or periods of disbelief):
+
+- **'40 - '50**: first learning algorithms heavily influenced by our understanding of the inner working of the human brain.
+  Mostly linear models such as the McCulloch-Pitts neuron, the perceptron by Rosenblatt, and the adaptive linear element
+  (ADALINE). The latter was trained on an algorithm very similar to Stochastic Gradient Descent (SGD). These models showed
+  poor performance in learning complex functions (e.g., XOR) and led to a drop in popularity of the field.
+- **'80 - '90**: these years so the creation of the Multi Layer Perceptron (MLP), the neocognitron (the ancestor of the
+  convolutional layer), the first deep neural networks (e.g., LeNet for MNIST classification), the first sequence-to-sequence 
+  networks and the LSTM layer.
+- **from 2010 till now**: a major moment for the history of this field happen in 2012, when a deep convolution neural networks
+  developed by Krizhevsky and co-authors won the ImageNet competition lowering the top-5 error rate from 26.1 percent 
+  (previous winner not based on a neural network) to 15.3 percent. Since then the field has exploded with advances both
+  in terms of model architectures (AlexNet, VGG, ResNet, GoogleLeNet, ...) and optimization algorithms (AdaGrad, RMSProp, Adam, ...),
+  as well as in the areas of unsupervised learning (e.g., dimensionality reduction and generative models).
+  
+**ADD FIGURE**
+
+An optional read if you are interested to dig deeper into the history of this field can be found 
+[here](http://beamlab.org/deeplearning/2017/02/23/deep_learning_101_part1.html).
