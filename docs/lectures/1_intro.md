@@ -2,8 +2,8 @@
 
 Humans have long dreamed of creating *machines that can think and act independently*. For many years this has been the
 aim of **Artificial Intelligence (AI)**. In the early days of AI, many problems that are difficult to solve by humans 
-(e.g., large summations or multiplications, solution of system of equations) turn out to be easier for computers as long
-as humans could define a list of tasks that the machines could perform at faster speed and higher precisions than humans
+(e.g., large summations or multiplications, solution of systems of equations) turn out to be easier for computers as long
+as humans could define a list of tasks that machines could perform at faster speed and higher precisions than humans
 can do themselves.
 
 On the other hand, tasks that are very easily solved by adult humans and even kids (e.g., recognizing animals in pictures
@@ -33,7 +33,7 @@ must make a careful judgment at any time depending on the problem to be solved.
 Machine Learning is divided into 2 main categories:
 
 - **Supervised Learning**: learn a function that maps an input to an output ($X \rightarrow Y$). Inputs are also referred to as
-  features and output are called targets. In practice we have access to a number of training pairs 
+  features and outputs are called targets. In practice we have access to a number of training pairs 
   $\{ \textbf{x}_i, \textbf{y}_i \} \; i=1,..,N$ and we learn $\textbf{y}_i=f_\theta(\textbf{x}_i)$ 
   where $f_\theta$ is for example parametrized via a neural network. Two main applications
   of supervised learning are
@@ -50,6 +50,15 @@ Input data can also come in 2 different types:
 - **Structured data**: tables (e.g., databases)
 - **Unstructured data**: images, audio, text, ...
 
+Examples of applications in geoscience are displayed in the figure below.
+
+![GEOSCIENTIFIC APPLICATIONS](figs/geo_examples.png){: align=left }
+
+A number of available data types in various geoscientific contexts is also displayed.
+
+![GEOSCIENTIFIC DATA](figs/geo_datatypes.png){: align=left }
+
+
 ## History
 
 Finally, we take a brief look at the history of Deep Learning. This field has so far experienced three main 
@@ -62,13 +71,13 @@ waves of major development (and periods of success) interspersed by winters (or 
 - **'80 - '90**: these years so the creation of the Multi Layer Perceptron (MLP), the neocognitron (the ancestor of the
   convolutional layer), the first deep neural networks (e.g., LeNet for MNIST classification), the first sequence-to-sequence 
   networks and the LSTM layer.
-- **from 2010 till now**: a major moment for the history of this field happen in 2012, when a deep convolution neural networks
-  developed by Krizhevsky and co-authors won the ImageNet competition lowering the top-5 error rate from 26.1 percent 
-  (previous winner not based on a neural network) to 15.3 percent. Since then the field has exploded with advances both
-  in terms of model architectures (AlexNet, VGG, ResNet, GoogleLeNet, ...) and optimization algorithms (AdaGrad, RMSProp, Adam, ...),
-  as well as in the areas of unsupervised learning (e.g., dimensionality reduction and generative models).
+- **from 2010 till now**: a major moment for the history of this field can be traced back to 2012, when a deep convolution 
+  neural network developed by Krizhevsky and co-authors won the ImageNet competition lowering the top-5 error rate from 26.1 percent 
+  (previous winning solution not based on a neural network) to 15.3 percent. Since then the field has exploded with advances both
+  in terms of model architectures (AlexNet, VGG, ResNet, GoogleLeNet, ...) optimization algorithms (AdaGrad, RMSProp, Adam, ...),
+  applications (computer vision, text analysis, speech recognition, ...). Moreover, recente developments in the area of 
+  unsupervised learning have led to the creation of dimensionality reduction and generative algorithms that can now
+  outperform any state-of-the-art method that is not based on neural networks.
   
-**ADD FIGURE**
-
-An optional read if you are interested to dig deeper into the history of this field can be found 
+If want to dig deeper into the history of this field, an interesting read can be found 
 [here](http://beamlab.org/deeplearning/2017/02/23/deep_learning_101_part1.html).
