@@ -8,7 +8,9 @@ theme:
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
-  - attr_list
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 extra_javascript:
   - javascripts/config.js
