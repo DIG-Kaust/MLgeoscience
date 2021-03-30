@@ -30,7 +30,7 @@ must make a careful judgment at any time depending on the problem to be solved.
 
 ## Terminology
 
-Machine Learning is divided into 2 main categories:
+Machine Learning is divided into 3 main categories:
 
 - **Supervised Learning**: learn a function that maps an input to an output ($X \rightarrow Y$). Inputs are also referred to as
   features and outputs are called targets. In practice we have access to a number of training pairs 
@@ -42,8 +42,13 @@ Machine Learning is divided into 2 main categories:
   
 - **Unsupervised Learning**: learn patterns from unlabelled data. These methods have been shown to be able to find compact 
   internal representation of the manifold the input data belongs to. Such compact representations can become valuable
-  input features for subsequent tasks of supervised learning. We will get into the mathematical details of this family of
+  input features for subsequent tasks of supervised learning. In the context of deep learning, unsupervised models
+  may even attempt to estimate the entire probability distribution of the dataset or how to generate new, indipendent 
+  samples from such distribution. We will get into the mathematical details of these families of
   models in the second part of our course.
+  
+- **Semi-supervised Learning**: it lies in between the other other learning paradigms as it learns from some examples
+  that include a target and some that do not.
   
 Input data can also come in 2 different types:
 
@@ -52,11 +57,11 @@ Input data can also come in 2 different types:
 
 Examples of applications in geoscience are displayed in the figure below.
 
-![GEOSCIENTIFIC APPLICATIONS](figs/geo_examples.png){: align=left }
+![GEOSCIENTIFIC APPLICATIONS](figs/geo_examples.png)
 
 A number of available data types in various geoscientific contexts is also displayed.
 
-![GEOSCIENTIFIC DATA](figs/geo_datatypes.png){: align=left }
+![GEOSCIENTIFIC DATA](figs/geo_datatypes.png)
 
 
 ## History
