@@ -73,7 +73,7 @@ and matrices are now described:
   of $\mathbf{x}$. It is defined as $cond(\mathbf{A})=\frac{|\lambda_{max}|}{|\lambda_{min}|}$.
 
 **Norms**: another important object that we will be using when defining cost functions for ML models are norms. A norm is a 
-function that maps a vector $\mathbf{x} \in \mathbb{R}^n$ to a scalar $d \in \mathbb{R}$ and it can be loosely seen as
+function that maps a vector $\mathbf{x} \in \mathbb{R}^N$ to a scalar $d \in \mathbb{R}$ and it can be loosely seen as
 measure of the lenght of the vector (i.e., distance from the origin). In general, the $L^p$ norm is defined as:
 
 $$

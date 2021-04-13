@@ -41,7 +41,7 @@ Optimization algorithms are generally divided into two main families: gradient-b
 will be discussed in more details below.
 
 ## Gradient- and steepest-descent algorithms
-The simplest of gradient-based methods is the so-called *gradient-descent* algorithm. As the name implies, 
+The simplest of gradient-based methods is the so-called **Gradient-descent** algorithm. As the name implies, 
 this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
 mimimum/maximum as depicted in the figure below.
 
@@ -88,11 +88,64 @@ On the other hand, if the curvature of the function of large, the function and i
 the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
 (i.e., $f(\theta+\delta \theta)\approx f(\theta) + \nabla f \delta \theta + \nabla^2 f \delta \theta^2$).
 
-In order to be able to discuss second-order optimization algorithm, let's first introduce the notion of *Jacobian*:
+Let's start again from the one-dimensional case and the well-known **Newton's method**. This method is generally employed to find the zeros of a function:
+$x: f(x)=0$ and can be written as:
 
-**FINISH...**
+$$
+x_{i+1} = x_i - \frac{f(x)|_{x_i}}{f'(x)|_{x_i}} 
+$$
+
+which can be easily derived from the Taylor expansion of $f(x)$ around $x_{i+1}$.
+
+If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
+($x: min_x f(x) \leftrightarrow x: f'(x)=0$), the Netwon's method can
+be written as:
+
+$$
+x_{i+1} = x_i - \frac{f'(x)|_{x_i}}{f''(x)|_{x_i}} 
+$$
+
+This is the so-called **Gauss-Netwon method**.
+
+In order to be able to discuss second-order optimization algorithms for the multi-dimensional case, let's first introduce the notion of *Jacobian*:
+
+$$\mathbf{y} = f(\mathbf{x}) \rightarrow  \mathbf{J}  = \begin{bmatrix} 
+                \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & ... & \frac{\partial f_1}{\partial x_M} \\
+                ...     & ...  & ...   & ... \\
+                \frac{\partial f_N}{\partial x_1} & \frac{\partial f_N}{\partial x_2} & ... & \frac{\partial f_N}{\partial x_M} \\
+  \end{bmatrix} \in \mathbb{R}^{[N \times M]}
+$$
+
+Through the notion of Jacobian, we can define the **Hessian** as the Jacobian of the gradient vector
+
+$$\mathbf{H} = \nabla (\nabla f) = \begin{bmatrix} 
+                \frac{\partial f^2}{\partial x_1^2} & \frac{\partial f^2}{\partial x_1 \partial x_2 } & ... & \frac{\partial f^2}{\partial x_1\partial x_M} \\
+                ...     & ...  & ...   & ... \\
+                \frac{\partial f^2}{\partial x_M \partial x_1} & \frac{\partial f^2}{\partial x_M \partial x_2} & ... & \frac{\partial f^2}{\partial x_M^2} \\
+  \end{bmatrix} \in \mathbb{R}^{[M \times M]}
+$$
+
+where we note that when $f$ is continuous, $\partial / \partial x_i \partial x_j = \partial / \partial x_j \partial x_i$, and $\mathbf{H}$
+is symmetric.
+
+The Gauss-Newton method can be written as:
+
+$$
+\mathbf{x}_{i+1} = \mathbf{x}_i - \mathbf{H}^{-1}\nabla f
+$$
+
+Approximated version of the Gauss-Netwon method have been developed over the years, mostly based on the idea that inverting $\mathbf{H}$ is
+sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse)
+using the gradient at the current iteration and that of a number of previous iterations. [BFGS](https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm)
+or its limited memory version [L-BFGS](https://en.wikipedia.org/wiki/Limited-memory_BFGS) are examples of such a kind. Due to their computational cost
+(as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the
+machine learning community to optimize the parameters of NNs in deep learning.
+
+## Stochastic-gradient descent
+
+!!HERE!!
+
 
 Finally, I encourage everyone to read the following [blog post](https://ruder.io/optimizing-gradient-descent/) for a more
 detailed overview of the optimization algorithms discussed here. Note that we will also look more into some of the recent 
 optimization algorithms that overcome some of the limitations of standard SGD in [this lecture](lectures/10_gradopt1.md).
-
