@@ -1,0 +1,28 @@
+name: mlcourse
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.6.4
+  - numpy>=1.15.0
+  - scipy>=1.4.0
+  - scikit-learn 
+  - pandas
+  - matplotlib
+  - pylops
+  - ipython
+  - jupyter
+  - pytorch
+  - torchvision
+  - torchaudio
+  - lightgbm
+  - xgboost
+  - tqdm 
+  - pip:
+    - torchsummary
+    - torchviz
+    - scooby
+    - lasio
+    - segyio
+    - seaborn
