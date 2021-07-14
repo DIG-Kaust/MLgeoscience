@@ -1,4 +1,4 @@
-#Machine Learning in Geoscience
+# Machine Learning in Geoscience
 
 Teaching material for ErSE 222 Machine Learning in Geoscience course to be held at KAUST during the Spring semester.
 

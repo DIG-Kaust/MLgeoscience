@@ -1,4 +1,4 @@
-#Machine Learning Experimentation tracking with WANDB
+# Machine Learning Experimentation tracking with WANDB
 
 A good idea when experimenting with Machine Learning models is to keep track of the parameters used in 
 each experiment as well as the evaluation metrics. Failing to do so will result in a lot of wasted time
@@ -9,7 +9,7 @@ A great tool for this is called [WANDB](https://wandb.ai/site). It allows making
 code to keep track of the input parameters that we are interested to change and the metrics we want to 
 assess.
 
-# Set up
+## Set up
 
 To begin with, head over to the WANDB site and create an Account.
 
@@ -21,7 +21,7 @@ wandb login
 Read this page for more details: https://docs.wandb.ai/quickstart.
 
 
-# Running an experiment
+## Running an experiment
 
 We have created a simple example in the `logreg.py` script, where Logistic Regression is applied to the 
 Two-Moon datasets. In this case we focus on 3 parameters:
