@@ -11,12 +11,16 @@ assess.
 
 ## Set up
 
-To begin with, head over to the WANDB site and create an Account.
+To begin with, head over to the WANDB site and create an Account. Once the account is created you will be added to the ``mleoscience`` team.
+At this point head over to https://wandb.ai/settings and set ``Default location to create new projects`
+` as ``mlgeoscience``.
 
 On your terminal, run
 ```
 wandb login
 ```
+
+You should sse that you are authenticated as ``mlgeoscience`` user.
 
 Read this page for more details: https://docs.wandb.ai/quickstart.
 
