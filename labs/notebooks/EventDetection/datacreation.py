@@ -34,6 +34,39 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
     return filtdata
 
 
+def pdf_snr(snr_min, snr_max, snr_skew, snr_loc):
+    """Pdf SNR
+
+    Compute SNR skew-normal probability density function
+
+    Parameters
+    ----------
+    snr_min : :obj:`np.array`
+        Minimum allowed SNR
+    snr_max : :obj:`float`
+        Maximum allowed SNR
+    snr_skew : :obj:`float`
+        SNR skewness
+    snr_loc : :obj:`float`
+        SNR mean
+
+    Returns
+    -------
+    snr : :obj:`np.array`
+        SNR axis
+    pdf : :obj:`np.array`
+        PDF of SRN
+
+    """
+    # define distribution
+    snr_distr = skewnorm(snr_skew, loc=snr_loc)
+    
+    # create pdf
+    snr = np.linspace(0.8*snr_min, 1.2*snr_max, 100)
+    pdf = snr_distr.pdf(snr)
+    return snr, pdf
+    
+
 def draw_snr(snr_min, snr_max, snr_skew, snr_loc):
     """Draw SNR
 
