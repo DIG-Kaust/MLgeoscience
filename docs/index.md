@@ -14,7 +14,7 @@ X, and X, XX:XXam - XX:XXam
 
 ## Teaching Staff
 
-- Instructor: [Matteo Ravasi](https://mrava87.github.io) - Office Hours: Monday 3pm to 5pm (by Appointment: Zoom or Office - BI-1432)
+- Instructor: [Matteo Ravasi](https://mrava87.github.io) - Office Hours: Tuesday 4pm to 5pm (by Appointment: Zoom or Office - BI-1432)
 
 ## Textbook
 

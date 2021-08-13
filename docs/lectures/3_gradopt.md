@@ -74,8 +74,8 @@ The most used selection rules are:
   (or validation) norm are generally adopted, but we will still refer to this case as costant step size;
 - Exact linesearch: at each iteration, $\alpha_i$ is chosen such that it minimizes $f(\theta_{i} + \alpha_i d_i)$. This
   is the most commonly used approach when dealing with linear systems of equations.
-- Backtracking  "Armijo" linesearch: each each iteration, given a parameter $\mu \in (0,1)$, start with $\alpha_i=1$ 
-  and reduce it by a factor of 2 until the following condition is satisfied: $f(\theta_i) - f(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla f^T d_i$
+- Backtracking  "Armijo" linesearch: at each iteration, given a parameter $\mu \in (0,1)$, start with $\alpha_i=1$ 
+  and reduce it by a factor of 2 until the following condition is satisfied: $f(\theta_i) - f(\theta_{i} + \alpha_i d_i) \ge  \mu \alpha_i \nabla f^T d_i$
   
 ## Second-order optimization
 Up until now we have discussed first-order optimization techniques that rely on the ability to evaluate the function $f$ and 
