@@ -575,8 +575,8 @@ fast (i.e., in a small number of iterations) to the optimal solution.</p>
   (or validation) norm are generally adopted, but we will still refer to this case as costant step size;</li>
 <li>Exact linesearch: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(f(\theta_{i} + \alpha_i d_i)\)</span>. This
   is the most commonly used approach when dealing with linear systems of equations.</li>
-<li>Backtracking  "Armijo" linesearch: each each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
-  and reduce it by a factor of 2 until the following condition is satisfied: <span class="arithmatex">\(f(\theta_i) - f(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla f^T d_i\)</span></li>
+<li>Backtracking  "Armijo" linesearch: at each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
+  and reduce it by a factor of 2 until the following condition is satisfied: <span class="arithmatex">\(f(\theta_i) - f(\theta_{i} + \alpha_i d_i) \ge  \mu \alpha_i \nabla f^T d_i\)</span></li>
 </ul>
 <h2 id="second-order-optimization">Second-order optimization</h2>
 <p>Up until now we have discussed first-order optimization techniques that rely on the ability to evaluate the function <span class="arithmatex">\(f\)</span> and 
