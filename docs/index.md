@@ -19,7 +19,6 @@ X, and X, XX:XXam - XX:XXam
 ## Textbook
 
 - [*Deep Learning*](https://www.deeplearningbook.org) by Ian Goodfellow and Yoshua Bengio and Aaron Courville – MIT Press.
--  *Practical Machine Learning Methods in Geosciences* by G. Schuster - SEG, Tulsa.
 
 ## Pre-requisites
 
