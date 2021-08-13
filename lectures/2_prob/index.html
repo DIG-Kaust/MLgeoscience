@@ -1,0 +1,646 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Probability refresher - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#probability-refresher" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Probability refresher
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      
+      <label class="md-nav__link" for="nav-4">
+        Lectures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Probability refresher
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Probability refresher
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#probability" class="md-nav__link">
+    Probability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#information-theory" class="md-nav__link">
+    Information theory
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_autoencoder/" class="md-nav__link">
+        Autoencoders
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_pca/" class="md-nav__link">
+        PCA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_bestpractice/" class="md-nav__link">
+        Best practice in Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_nn1/" class="md-nav__link">
+        More on Neural networks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#probability" class="md-nav__link">
+    Probability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#information-theory" class="md-nav__link">
+    Information theory
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="probability-refresher">Probability refresher</h1>
+<p>Another set of fundamental mathematical tools required to develop various machine learning algorithms 
+(especially towards the end of the course when we will focus on generative modelling)</p>
+<p>In order to develop various machine learning algorithms (especially towards the end of the 
+course when we will focus on generative modelling) we need to familarize with some basic concepts of:
+mathematical tools from:</p>
+<ul>
+<li><strong>Probability</strong>: mathematical framework to handle uncertain statements;</li>
+<li><strong>Information Theory</strong>: scientific field focused on the quantification of amount of uncertainty in a probability distribution.</li>
+</ul>
+<h2 id="probability">Probability</h2>
+<p><strong>Random Variable</strong>: a variable whose value is unknown, all we know is that it can take on different 
+values with a given probability. It is generally defined by an uppercase letter <span class="arithmatex">\(X\)</span>, whilst the values 
+it can take are in lowercase letter <span class="arithmatex">\(x\)</span>.</p>
+<p><strong>Probability distribution</strong>: description of how likely a variable <span class="arithmatex">\(x\)</span> is, <span class="arithmatex">\(P(x)\)</span> (or <span class="arithmatex">\(p(x)\)</span>). 
+Depending on the type of variable we have:</p>
+<ul>
+<li>
+<p><em>Discrete distributions</em>: <span class="arithmatex">\(P(X)\)</span> called Probability Mass Function (PMF) and <span class="arithmatex">\(X\)</span> can take on a discrete number of states N.
+A classical example is represented by a coin where N=2 and <span class="arithmatex">\(X={0,1}\)</span>. For a fair coin, <span class="arithmatex">\(P(X=0)=0.5\)</span> and <span class="arithmatex">\(P(X=1)=0.5\)</span>.</p>
+</li>
+<li>
+<p><em>Continuous distributions</em>: <span class="arithmatex">\(p(X)\)</span> called Probability Density Function (PDF) and <span class="arithmatex">\(X\)</span> can take on any value from a continuous space 
+  (e.g., <span class="arithmatex">\(\mathbb{R}\)</span>). A classical example is represented by the gaussian distribution where <span class="arithmatex">\(x \in (-\infty, \infty)\)</span>.</p>
+</li>
+</ul>
+<p>A probability distribution must satisfy the following conditions:</p>
+<ul>
+<li>
+<p>each of the possible states must have probability bounded between 0 (no occurrance) and 1 (certainty of occurcence):
+  <span class="arithmatex">\(\forall x \in X, \; 0 \leq P(x) \leq 1\)</span> (or <span class="arithmatex">\(p(x) \geq 0\)</span>, where the upper bound is removed because of the 
+  fact that the integration step <span class="arithmatex">\(\delta x\)</span> in the second condition can be smaller than 1: <span class="arithmatex">\(p(X=x) \delta x &lt;=1\)</span>);</p>
+</li>
+<li>
+<p>the sum of the probabilities of all possible states must equal to 1: <span class="arithmatex">\(\sum_x P(X=x)=1\)</span> (or <span class="arithmatex">\(\int p(X=x)dx=1\)</span>).</p>
+</li>
+</ul>
+<p><strong>Joint and Marginal Probabilities</strong>: assuming we have a probability distribution acting over a set of variables (e.g., <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>) 
+we can define</p>
+<ul>
+<li>
+<p><em>Joint distribution</em>: <span class="arithmatex">\(P(X=x, Y=y)\)</span> (or <span class="arithmatex">\(p(X=x, Y=y)\)</span>);</p>
+</li>
+<li>
+<p><em>Marginal distribution</em>: <span class="arithmatex">\(P(X=x) = \sum_{y \in Y} P(X=x, Y=y)\)</span> (or <span class="arithmatex">\(p(X=x) = \int P(X=x, Y=y) dy\)</span>), 
+  which is the probability spanning one or a subset of the original variables;</p>
+</li>
+</ul>
+<p><strong>Conditional Probability</strong>: provides us with the probability of an event given the knowledge 
+that another event has already occurred</p>
+<div class="arithmatex">\[
+P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)}
+\]</div>
+<p>This formula can be used recursively to define the joint probability of a number N of variables as product of conditional
+probabilities (so-called <em>Chain Rule of Probability</em>)</p>
+<div class="arithmatex">\[
+P(x_1, x_2, ..., x_N) = P(x_1) \prod_{i=2}^N P(x_i | x_1, x_2, x_{i-1})
+\]</div>
+<p><strong>Independence and Conditional Independence</strong>: Two variables X and Y are said to be indipendent if</p>
+<div class="arithmatex">\[
+P(X=x, Y=y) = P(X=x) P(Y=y)
+\]</div>
+<p>If both variables are conditioned on a third variable Z (i.e., P(X=x, Y=y | Z=z)), they are said to be conditionally
+independent if</p>
+<div class="arithmatex">\[
+P(X=x, Y=y | Z=z) = P(X=x | Z=z) P(Y=y| Z=z)
+\]</div>
+<p><strong>Mean (or Expectation)</strong>: Given a function <span class="arithmatex">\(f(x)\)</span> where <span class="arithmatex">\(x\)</span> is a stochastic variable with probability <span class="arithmatex">\(P(x)\)</span>, its average
+or mean value is defined as follows for the discrete case:</p>
+<div class="arithmatex">\[
+\mu = E_{x \sim P} [f(x)] = \sum_x P(x) f(x)
+\]</div>
+<p>and for the continuos case</p>
+<div class="arithmatex">\[
+\mu = E_{x \sim p} [f(x)] = \int p(x) f(x) dx
+\]</div>
+<p>In most Machine Learning applications we do not have knowledge of the full distribution to evaluate the mean, rather we 
+have access to N equi-probable samples that we assume are drawn from the underlying distribution. We can approximate the mean
+via the <em>Sample Mean</em>:</p>
+<div class="arithmatex">\[
+\mu \approx \sum_i \frac{1}{N} f(x_i)
+\]</div>
+<p><strong>Variance (and Covariance)</strong>: </p>
+<h2 id="information-theory">Information theory</h2>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../2_linalg/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Linear Algebra refresher
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../3_gradopt/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Gradient-based optimization
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

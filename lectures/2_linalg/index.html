@@ -1,0 +1,588 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Linear Algebra refresher - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#linear-algebra-refresher" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Linear Algebra refresher
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      
+      <label class="md-nav__link" for="nav-4">
+        Lectures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Linear Algebra refresher
+      </a>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_autoencoder/" class="md-nav__link">
+        Autoencoders
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_pca/" class="md-nav__link">
+        PCA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_bestpractice/" class="md-nav__link">
+        Best practice in Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_nn1/" class="md-nav__link">
+        More on Neural networks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="linear-algebra-refresher">Linear Algebra refresher</h1>
+<p>In this lecture we will go through some of the key concepts of linear algebra and inverse problem theory that are required
+to develop the theories of the different machine learning algorithm presented in this course. 
+This is not meant to be an exhaustive treatise and students are strongly advised to take the
+<a href="https://academicaffairs.kaust.edu.sa/Courses/Pages/DownloadSyllabus.aspx?Year=2017&amp;Semester=030&amp;Course=00008206&amp;V=I">ErSE 213 - Inverse Problems</a>
+prior to this course.</p>
+<p>Three key mathematical objects arise in the study of linear algebra:</p>
+<p><strong>Scalars</strong>: <span class="arithmatex">\(a \in \mathbb{R}\)</span>, a single number represented by a lower case italic letter;</p>
+<p><strong>Vectors</strong>: <span class="arithmatex">\(\mathbf{x} = [x_1, x_2, ..., x_N]^T \in \mathbb{R}^N\)</span>, ordered collection of <span class="arithmatex">\(N\)</span> numbers
+represented by a lower case bold letter; it is sometimes useful to extract a subset of elements by defining a set
+<span class="arithmatex">\(\mathbb{S}\)</span> and add it to as a superscript, <span class="arithmatex">\(\mathbf{x}_\mathbb{S}\)</span>. As an example, given <span class="arithmatex">\(\mathbb{S} = {1, 3, N}\)</span>
+we can define the vector <span class="arithmatex">\(\mathbf{x}_\mathbb{S} = [x_1, x_3, ..., x_N]\)</span> and its complementary vector 
+<span class="arithmatex">\(\mathbf{x}_{-\mathbb{S}} = [x_2, x_4, ..., x_{N-1}]\)</span></p>
+<p><strong>Matrices</strong>: <span class="arithmatex">\(\mathbf{X} \in \mathbb{R}^{[N \times M]}\)</span>, two dimensional collection of numbers represented by an upper case bold letter
+where <span class="arithmatex">\(N\)</span> and <span class="arithmatex">\(M\)</span> are referred to as the height and width of the matrix. More specifically a matrix can be written as</p>
+<div class="arithmatex">\[\mathbf{X} = \begin{bmatrix} 
+                x_{1,1} &amp; x_{1,2} &amp; x_{1,M} \\
+                ...     &amp; ...     &amp; ... \\
+                x_{N,1} &amp; x_{N,2} &amp; x_{N,M}
+  \end{bmatrix}
+\]</div>
+<p>A matrix can be indexed by rows <span class="arithmatex">\(\mathbf{X}_{i, :}\)</span> (i-th row), by columns <span class="arithmatex">\(\mathbf{X}_{:, j}\)</span> (j-th column), and by 
+element <span class="arithmatex">\(\mathbf{X}_{i, j}\)</span> (i-th row, j-th column). A number of useful operations that are commonly applied on vectors 
+and matrices are now described: </p>
+<ul>
+<li>Transpose: <span class="arithmatex">\(\mathbf{Y} = \mathbf{X}^T\)</span>, where <span class="arithmatex">\(Y_{i, j} = X_{j, i}\)</span></li>
+<li>Matrix plus vector: <span class="arithmatex">\(\mathbf{Y}_{[N \times M]} = \mathbf{X}_{[N \times M]} + \mathbf{z}_{[1 \times M]}\)</span>, where 
+  <span class="arithmatex">\(Y_{i, j} = X_{i, j} + z_{j}\)</span> (<span class="arithmatex">\(\mathbf{z}\)</span> is added to each row of the matrix <span class="arithmatex">\(\mathbf{X}\)</span>)</li>
+<li>Matrix-vector product: <span class="arithmatex">\(\mathbf{y}_{[N \times 1]} = \mathbf{A}_{[N \times M]} \mathbf{x}_{[M \times 1]}\)</span>, where 
+  <span class="arithmatex">\(y_i = \sum_{j=1}^M A_{i, j} x_j\)</span></li>
+<li>Matrix-vector product: <span class="arithmatex">\(\mathbf{y}_{[N \times 1]} = \mathbf{A}_{[N \times M]} \mathbf{x}_{[M \times 1]}\)</span>, where 
+  <span class="arithmatex">\(y_i = \sum_{j=1}^M A_{i, j} x_j\)</span></li>
+<li>Matrix-matrix product: <span class="arithmatex">\(\mathbf{C}_{[N \times K]} = \mathbf{A}_{[N \times M]} \mathbf{B}_{[M \times K]}\)</span>, where 
+  <span class="arithmatex">\(C_{i,k} = \sum_{j=1}^M A_{i, j} B_{j, k}\)</span></li>
+<li>Hadamart product (i.e., element-wise product): <span class="arithmatex">\(\mathbf{C}_{[N \times M]} = \mathbf{A}_{[N \times M]} \odot \mathbf{B}_{[N \times M]}\)</span>, where 
+  <span class="arithmatex">\(C_{i,j} = A_{i, j} B_{i, j}\)</span></li>
+<li>Dot product: <span class="arithmatex">\(a = \mathbf{x}_{[N \times 1]}^T \mathbf{y}_{[N \times 1]} = \sum_{i=1}^N x_i y_i\)</span></li>
+<li>Identity matrix: <span class="arithmatex">\(\mathbf{I}_N = diag\{\mathbf{1}_N\}\)</span>. Based on its definition, we have that 
+  <span class="arithmatex">\(\mathbf{I}_N \mathbf{x} = \mathbf{x}\)</span> and <span class="arithmatex">\(\mathbf{I}_N \mathbf{X} = \mathbf{X}\)</span></li>
+<li>Inverse matrix: given <span class="arithmatex">\(\mathbf{y} = \mathbf{A} \mathbf{x}\)</span>, the inverse matrix of <span class="arithmatex">\(\mathbf{A}\)</span> is a matrix that
+  satisfies the following equality <span class="arithmatex">\(\mathbf{A}^{-1} \mathbf{A} = \mathbf{I}_N\)</span>. We can finally write
+  <span class="arithmatex">\(\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}\)</span></li>
+<li>Orthogonal vectors and matrices: given two vectors <span class="arithmatex">\(\mathbf{x}\)</span> and <span class="arithmatex">\(\mathbf{y}\)</span>, they are said to be orthogonal if
+  <span class="arithmatex">\(\mathbf{y}^T \mathbf{x} = 0\)</span>. Given two matrices <span class="arithmatex">\(\mathbf{X}\)</span> and <span class="arithmatex">\(\mathbf{Y}\)</span>, they are said to be orthogonal if
+  <span class="arithmatex">\(\mathbf{Y}^T \mathbf{X} = \mathbf{I}_N\)</span>. Orthogonal matrices are especially interesting because their inverse is very 
+  cheap <span class="arithmatex">\(\mathbf{X}^{-1} = \mathbf{X}^T\)</span></li>
+<li>Matrix decomposition: like any scalar number can be decomposed into a product of prime numbers, a matrix <span class="arithmatex">\(\mathbf{A}\)</span>
+  can also be decomposed into a combination of vectors (i.e., eigenvectors) and scalars (i.e., eigenvalues).<ul>
+<li>Eigendecomposition: real-valued, square, symmetric matrices can be written as 
+    <span class="arithmatex">\(\mathbf{A} = \mathbf{V} \Lambda \mathbf{V}^T = \sum_i \lambda_i \mathbf{v}_i \mathbf{v}_i^T\)</span> 
+    where <span class="arithmatex">\(\lambda_i\)</span> and <span class="arithmatex">\(\mathbf{v}_i\)</span> are the eigenvalues and eigenvectors of the matrix <span class="arithmatex">\(\mathbf{A}\)</span>, respectively. 
+    Eigenvectors are placed along the columns of the matrix <span class="arithmatex">\(\mathbf{V}\)</span>, which is an orthogonal matrix 
+    (i.e., <span class="arithmatex">\(\mathbf{V}^T=\mathbf{V}^{-1}\)</span>). Eigenvalues are placed along the diagonal of the matrix 
+    <span class="arithmatex">\(\Lambda=diag\{\lambda\}\)</span> and tell us about the rank of the matrix, <span class="arithmatex">\(rank(\mathbf{A}) = \# \lambda \neq 0\)</span>. A
+    <em>full rank</em> matrix is matrix whose eigenvalues are all non-zero and can be inverted. In this case the inverse
+    of <span class="arithmatex">\(\mathbf{A}=\mathbf{V}\Lambda^{-1}\mathbf{V}^T\)</span></li>
+<li>Singular value decomposition (SVD): this is a more general decomposition which can be applied to real-valued, 
+    non-square, non-symmetric matrices. Singular vectors <span class="arithmatex">\(\mathbf{u}\)</span> and <span class="arithmatex">\(\mathbf{v}\)</span> and singular values <span class="arithmatex">\(\lambda\)</span>
+    generalized the concept of eigenvectors and and eigenvalues. The matrix <span class="arithmatex">\(\mathbf{A}\)</span> can be decomposed as
+    <span class="arithmatex">\(\mathbf{A} = \mathbf{U} \mathbf{D} \mathbf{V}^T\)</span> where <span class="arithmatex">\(\mathbf{D} = \Lambda\)</span> for square matrices, 
+    <span class="arithmatex">\(\mathbf{D} = [\Lambda \; \mathbf{0}]^T\)</span> for <span class="arithmatex">\(N&gt;M\)</span> and <span class="arithmatex">\(\mathbf{D} = [\Lambda \; \mathbf{0}]\)</span> for <span class="arithmatex">\(M&gt;N\)</span>. Similar
+    to the eigendecomposition, in this case the inverse of <span class="arithmatex">\(\mathbf{A}=\mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T\)</span></li>
+</ul>
+</li>
+<li>Conditioning: in general, it refers to how fast a function <span class="arithmatex">\(f(x)\)</span> changes given a small change in its input <span class="arithmatex">\(x\)</span>. Similarly
+  for a matrix, conditioning is linked to the curvature of its associated quadratic form 
+  <span class="arithmatex">\(f(\mathbf{A}) = \mathbf{x}^T \mathbf{A} \mathbf{x}\)</span> and it generally indicates how rapidly this function changes as function
+  of <span class="arithmatex">\(\mathbf{x}\)</span>. It is defined as <span class="arithmatex">\(cond(\mathbf{A})=\frac{|\lambda_{max}|}{|\lambda_{min}|}\)</span>.</li>
+</ul>
+<p><strong>Norms</strong>: another important object that we will be using when defining cost functions for ML models are norms. A norm is a 
+function that maps a vector <span class="arithmatex">\(\mathbf{x} \in \mathbb{R}^N\)</span> to a scalar <span class="arithmatex">\(d \in \mathbb{R}\)</span> and it can be loosely seen as
+measure of the lenght of the vector (i.e., distance from the origin). In general, the <span class="arithmatex">\(L^p\)</span> norm is defined as:</p>
+<div class="arithmatex">\[
+||\mathbf{x}||_p = \left( \sum_i |x_i|^p \right) ^{1/p} \; p \ge 0
+\]</div>
+<p>Popular norms are:</p>
+<ul>
+<li>Euclidean norm (<span class="arithmatex">\(L_2\)</span>): <span class="arithmatex">\(||\mathbf{x}||_2 = \sqrt{\sum_i x_i^2}\)</span>, is a real distance of a vector from the origin of the 
+  N-d Euclidean space. Note that <span class="arithmatex">\(||\mathbf{x}||_2^2 = \mathbf{x}^T \mathbf{x}\)</span> and that <span class="arithmatex">\(||\mathbf{x}||_2=1\)</span> for a unit vector;</li>
+<li><span class="arithmatex">\(L_1\)</span> norm: <span class="arithmatex">\(||\mathbf{x}||_1 = \sum_i |x_i|\)</span></li>
+<li><span class="arithmatex">\(L_0\)</span> norm: number of non-zero elements in the vector <span class="arithmatex">\(\mathbf{x}\)</span></li>
+<li><span class="arithmatex">\(L_\inf\)</span> norm: <span class="arithmatex">\(||\mathbf{x}||_2 = max |x_i|\)</span></li>
+<li>Frobenious norm (for matrices): <span class="arithmatex">\(||\mathbf{A}||_F = \sqrt{\sum_{i,j} A_{i,j}^2}\)</span>,</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../1_intro/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Introduction to Machine Learning
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../2_prob/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Probability refresher
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

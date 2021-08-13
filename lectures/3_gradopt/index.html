@@ -1,0 +1,721 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Gradient-based optimization - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gradient-based-optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Gradient-based optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      
+      <label class="md-nav__link" for="nav-4">
+        Lectures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Gradient-based optimization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Gradient-based optimization
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-and-steepest-descent-algorithms" class="md-nav__link">
+    Gradient- and steepest-descent algorithms
+  </a>
+  
+    <nav class="md-nav" aria-label="Gradient- and steepest-descent algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-lenght-selection" class="md-nav__link">
+    Step lenght selection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-order-optimization" class="md-nav__link">
+    Second-order optimization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stochastic-gradient-descent" class="md-nav__link">
+    Stochastic-gradient descent
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_autoencoder/" class="md-nav__link">
+        Autoencoders
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_pca/" class="md-nav__link">
+        PCA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_bestpractice/" class="md-nav__link">
+        Best practice in Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_nn1/" class="md-nav__link">
+        More on Neural networks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-and-steepest-descent-algorithms" class="md-nav__link">
+    Gradient- and steepest-descent algorithms
+  </a>
+  
+    <nav class="md-nav" aria-label="Gradient- and steepest-descent algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-lenght-selection" class="md-nav__link">
+    Step lenght selection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#second-order-optimization" class="md-nav__link">
+    Second-order optimization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stochastic-gradient-descent" class="md-nav__link">
+    Stochastic-gradient descent
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="gradient-based-optimization">Gradient-based optimization</h1>
+<p>After reviewing some of the basic concepts of linear algebra that we will be using during this course, we are now in a position
+to start our journey in the field of <em>learning algorithms</em>. Any learning algorithm, no matter its level of complexity, is 
+composed of 4 key elements:</p>
+<p><strong>Dataset</strong>: a collection of many examples (sometimes referred to as samples of data points) that represents the experience
+we wish our machine learning algorithm to learn from. More speficically, the dataset is defined as:
+$$
+\mathbf{x} = [x_1, x_2, ..., x_{N_f}]^T \quad \mathbf{X} = [\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, ..., \mathbf{x}^{(N_s)}] 
+$$
+and
+$$
+\mathbf{y} = [y_1, y_2, ..., y_{N_t}]^T \quad \mathbf{Y} = [\mathbf{y}^{(1)}, \mathbf{y}^{(2)}, ..., \mathbf{y}^{(N_s)}] 
+$$
+where <span class="arithmatex">\(N_f\)</span> and <span class="arithmatex">\(N_t\)</span> are the number of features and targets for each sample in the dataset, respectively, and 
+<span class="arithmatex">\(N_s\)</span> is the number of samples.</p>
+<p><strong>Model</strong>: a mathematical relation between the input (or features) and output (or target) 
+or our dataset. It is generally parametrized as function <span class="arithmatex">\(f\)</span> of a number of free parameters <span class="arithmatex">\(\theta\)</span> which we want the 
+learning algorithm to estimate given a task and a measure of performance, and we write it as 
+$$
+\mathbf{y} = f_\theta(\mathbf{x})
+$$</p>
+<p><strong>Loss (and cost) function</strong>: quantitative measure of the performance of the learning algorithm, which we wish to minimize 
+(or maximize) in order to make accurate predictions on unseen data. It is written as
+$$
+J = \sum_{i=1}^{N_s}  \mathscr{L} (\mathbf{y}^{(i)}, f(\mathbf{x}^{(i)}))
+$$</p>
+<p>where <span class="arithmatex">\(\mathscr{L}\)</span> is the loss function for each input-output pair and <span class="arithmatex">\(J\)</span> is the overall cost function.</p>
+<p><strong>Optimization algorithm</strong>: mathematical method that modifies the aims to drive down (up) the cost function by modifying
+its free-parameters <span class="arithmatex">\(\theta\)</span>:
+$$
+\hat{\theta} = \underset{\theta} {\mathrm{argmin}} J
+$$</p>
+<p>Optimization algorithms are generally divided into two main families: gradient-based 
+(or local) and gradient-free (or global). Gradient-based optimization is by far the most popular way to train NNs and 
+will be discussed in more details below.</p>
+<h2 id="gradient-and-steepest-descent-algorithms">Gradient- and steepest-descent algorithms</h2>
+<p>The simplest of gradient-based methods is the so-called <strong>Gradient-descent</strong> algorithm. As the name implies, 
+this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
+mimimum/maximum as depicted in the figure below.</p>
+<p><img alt="GRADIENT OPTIMIZATION" src="../figs/opt_gradient.png" /></p>
+<p>More formally, given a functional <span class="arithmatex">\(f_\theta\)</span> and its gradient <span class="arithmatex">\(\nabla f = \frac{\delta f}{\delta \theta}\)</span>, 
+the (minimization) algorithm can be written as:</p>
+<p>Initialization: choose <span class="arithmatex">\(\theta \in \mathbb{R}\)</span></p>
+<p>For <span class="arithmatex">\(i=0,...N-1\)</span>;</p>
+<ol>
+<li>Compute update direction <span class="arithmatex">\(d_i = -\nabla f |_{\theta_i}\)</span></li>
+<li>Estimate step-lenght <span class="arithmatex">\(\alpha_i\)</span></li>
+<li>Update <span class="arithmatex">\(\theta_{i+1} = \theta_{i} + \alpha_i d_i\)</span></li>
+</ol>
+<p>Note that the maximization version of this algorithm simply switches the sign in the update direction (first equation of the algorithm).
+Moreover, the proposed algorithm can be easily extended to N-dimensional model vectors <span class="arithmatex">\(\theta=[\theta_1, \theta_2, ..., \theta_N]\)</span> by
+defining the following gradient vector 
+<span class="arithmatex">\(\nabla f=[\delta f / \delta\theta_1, \delta f / \delta\theta_2, ..., \delta f/ \delta\theta_N]\)</span>.</p>
+<h3 id="step-lenght-selection">Step lenght selection</h3>
+<p>The choice of the step-lenght has tremendous impact on the performance of the algorithm and its ability to converge 
+fast (i.e., in a small number of iterations) to the optimal solution.</p>
+<p>The most used selection rules are:</p>
+<ul>
+<li>Constant: the step size is fixed to a constant value <span class="arithmatex">\(\alpha_i=\hat{\alpha}\)</span>. This is the most common situation that we
+  will encounter when training neural networks. In practice, some adaptive schemes based on the evolution of the train
+  (or validation) norm are generally adopted, but we will still refer to this case as costant step size;</li>
+<li>Exact linesearch: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(f(\theta_{i} + \alpha_i d_i)\)</span>. This
+  is the most commonly used approach when dealing with linear systems of equations.</li>
+<li>Backtracking  "Armijo" linesearch: each each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
+  and reduce it by a factor of 2 until the following condition is satisfied: <span class="arithmatex">\(f(\theta_i) - f(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla f^T d_i\)</span></li>
+</ul>
+<h2 id="second-order-optimization">Second-order optimization</h2>
+<p>Up until now we have discussed first-order optimization techniques that rely on the ability to evaluate the function <span class="arithmatex">\(f\)</span> and 
+its gradient <span class="arithmatex">\(\nabla f\)</span>. Second-order optimization method go one step beyond in that they use information from both the 
+local slope and curvature of the function f. </p>
+<p>When a function has small curvature, the function and its tangent line are very similar: 
+the gradient alone is therefore able to provide a good local approximation of the function (i.e., <span class="arithmatex">\(f(\theta+\delta \theta)\approx f(\theta) + \nabla f \delta \theta\)</span>).
+On the other hand, if the curvature of the function of large, the function and its tangent line start to differ very quickly away from
+the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
+(i.e., <span class="arithmatex">\(f(\theta+\delta \theta)\approx f(\theta) + \nabla f \delta \theta + \nabla^2 f \delta \theta^2\)</span>).</p>
+<p>Let's start again from the one-dimensional case and the well-known <strong>Newton's method</strong>. This method is generally employed to find the zeros of a function:
+<span class="arithmatex">\(x: f(x)=0\)</span> and can be written as:</p>
+<div class="arithmatex">\[
+x_{i+1} = x_i - \frac{f(x)|_{x_i}}{f'(x)|_{x_i}} 
+\]</div>
+<p>which can be easily derived from the Taylor expansion of <span class="arithmatex">\(f(x)\)</span> around <span class="arithmatex">\(x_{i+1}\)</span>.</p>
+<p>If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
+(<span class="arithmatex">\(x: min_x f(x) \leftrightarrow x: f'(x)=0\)</span>), the Netwon's method can
+be written as:</p>
+<div class="arithmatex">\[
+x_{i+1} = x_i - \frac{f'(x)|_{x_i}}{f''(x)|_{x_i}} 
+\]</div>
+<p>This is the so-called <strong>Gauss-Netwon method</strong>.</p>
+<p>In order to be able to discuss second-order optimization algorithms for the multi-dimensional case, let's first introduce the notion of <em>Jacobian</em>:</p>
+<div class="arithmatex">\[\mathbf{y} = f(\mathbf{x}) \rightarrow  \mathbf{J}  = \begin{bmatrix} 
+                \frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; ... &amp; \frac{\partial f_1}{\partial x_M} \\
+                ...     &amp; ...  &amp; ...   &amp; ... \\
+                \frac{\partial f_N}{\partial x_1} &amp; \frac{\partial f_N}{\partial x_2} &amp; ... &amp; \frac{\partial f_N}{\partial x_M} \\
+  \end{bmatrix} \in \mathbb{R}^{[N \times M]}
+\]</div>
+<p>Through the notion of Jacobian, we can define the <strong>Hessian</strong> as the Jacobian of the gradient vector</p>
+<div class="arithmatex">\[\mathbf{H} = \nabla (\nabla f) = \begin{bmatrix} 
+                \frac{\partial f^2}{\partial x_1^2} &amp; \frac{\partial f^2}{\partial x_1 \partial x_2 } &amp; ... &amp; \frac{\partial f^2}{\partial x_1\partial x_M} \\
+                ...     &amp; ...  &amp; ...   &amp; ... \\
+                \frac{\partial f^2}{\partial x_M \partial x_1} &amp; \frac{\partial f^2}{\partial x_M \partial x_2} &amp; ... &amp; \frac{\partial f^2}{\partial x_M^2} \\
+  \end{bmatrix} \in \mathbb{R}^{[M \times M]}
+\]</div>
+<p>where we note that when <span class="arithmatex">\(f\)</span> is continuous, <span class="arithmatex">\(\partial / \partial x_i \partial x_j = \partial / \partial x_j \partial x_i\)</span>, and <span class="arithmatex">\(\mathbf{H}\)</span>
+is symmetric.</p>
+<p>The Gauss-Newton method can be written as:</p>
+<div class="arithmatex">\[
+\mathbf{x}_{i+1} = \mathbf{x}_i - \mathbf{H}^{-1}\nabla f
+\]</div>
+<p>Approximated version of the Gauss-Netwon method have been developed over the years, mostly based on the idea that inverting <span class="arithmatex">\(\mathbf{H}\)</span> is
+sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse)
+using the gradient at the current iteration and that of a number of previous iterations. <a href="https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm">BFGS</a>
+or its limited memory version <a href="https://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> are examples of such a kind. Due to their computational cost
+(as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the
+machine learning community to optimize the parameters of NNs in deep learning.</p>
+<h2 id="stochastic-gradient-descent">Stochastic-gradient descent</h2>
+<p>!!HERE!!</p>
+<p>Finally, I encourage everyone to read the following <a href="https://ruder.io/optimizing-gradient-descent/">blog post</a> for a more
+detailed overview of the optimization algorithms discussed here. Note that we will also look more into some of the recent 
+optimization algorithms that overcome some of the limitations of standard SGD in <a href="lectures/10_gradopt1.md">this lecture</a>.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../2_prob/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Probability refresher
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../4_autoencoder/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Autoencoders
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,644 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Introduction to Machine Learning - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-to-machine-learning" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Introduction to Machine Learning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      
+      <label class="md-nav__link" for="nav-4">
+        Lectures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Introduction to Machine Learning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Introduction to Machine Learning
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#terminology" class="md-nav__link">
+    Terminology
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    History
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_autoencoder/" class="md-nav__link">
+        Autoencoders
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_pca/" class="md-nav__link">
+        PCA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_bestpractice/" class="md-nav__link">
+        Best practice in Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_nn1/" class="md-nav__link">
+        More on Neural networks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#terminology" class="md-nav__link">
+    Terminology
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    History
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="introduction-to-machine-learning">Introduction to Machine Learning</h1>
+<p>Humans have long dreamed of creating <em>machines that can think and act independently</em>. For many years this has been the
+aim of <strong>Artificial Intelligence (AI)</strong>. In the early days of AI, many problems that are difficult to solve by humans 
+(e.g., large summations or multiplications, solution of systems of equations) turn out to be easier for computers as long
+as humans could define a list of tasks that machines could perform at faster speed and higher precisions than humans
+can do themselves.</p>
+<p>On the other hand, tasks that are very easily solved by adult humans and even kids (e.g., recognizing animals in pictures
+or singing a song) turned out to be very difficult for computers. The main reason of such difficulties lies in the fact
+that humans cannot explain in words (and with a simple set of instructions) how they have learned to accomplish these tasks.
+This is where instead the second era of AI solutions, belonging to the field of <strong>Machine Learning (ML)</strong>, have shown astonishing
+results in the last decade. Instead of relying on hard-coded rules, these algorithms operate in a similar fashion to human 
+beings as they learn from <em>experience</em>. In other words, given enough <em>training data</em> in the form of inputs (e.g., photos)
+and outputs (e.g., label of the animal present in the photo), ML algorithms can learn a complex nonlinear mapping between
+them such that they can infer the output from the input when provided with unseen inputs. </p>
+<p>A large variety of ML algorithms have been developed by the scientific community, ranging from the basic <em>linear</em> and <em>logistic 
+regression</em> that we will see in our <a href="3_linreg.md">third lecture</a>, decision tree-based statistical methods such 
+as <em>random forrest</em> or <em>gradient boosting</em>, all the way to <em>deep neural networks</em>, which have recently
+shown to outperform previously developed algorithms in many fields (e.g., computer science, text analysis and speech recognition,
+seismic interpretation). This subfield has grown exponentially in the last few years and it is now referred to as <strong>Deep Learning</strong>
+and will be subject of most of our course. In short, Deep learning is a particular kind of machine learning that
+represent the world as a nested hierarchy of increasingly complicated concepts the more we move away from the input and towards the
+output of the associated computational graph.  Whilst sharing the same underlying principle of <em>learning from experience in the form 
+of a training data</em>, different algorithms presents their own strenght and limitations and a machine learning practitioner 
+must make a careful judgment at any time depending on the problem to be solved.</p>
+<p><img alt="AI_ML_DL" src="../figs/ai_ml_dl.png" />{: align=left }</p>
+<h2 id="terminology">Terminology</h2>
+<p>Machine Learning is divided into 3 main categories:</p>
+<ul>
+<li>
+<p><strong>Supervised Learning</strong>: learn a function that maps an input to an output (<span class="arithmatex">\(X \rightarrow Y\)</span>). Inputs are also referred to as
+  features and outputs are called targets. In practice we have access to a number of training pairs 
+  <span class="arithmatex">\(\{ \textbf{x}_i, \textbf{y}_i \} \; i=1,..,N\)</span> and we learn <span class="arithmatex">\(\textbf{y}_i=f_\theta(\textbf{x}_i)\)</span> 
+  where <span class="arithmatex">\(f_\theta\)</span> is for example parametrized via a neural network. Two main applications
+  of supervised learning are</p>
+<ul>
+<li><em>Classification</em>: the target is discrete</li>
+<li><em>Regression</em>: the target is continuous</li>
+</ul>
+</li>
+<li>
+<p><strong>Unsupervised Learning</strong>: learn patterns from unlabelled data. These methods have been shown to be able to find compact 
+  internal representation of the manifold the input data belongs to. Such compact representations can become valuable
+  input features for subsequent tasks of supervised learning. In the context of deep learning, unsupervised models
+  may even attempt to estimate the entire probability distribution of the dataset or how to generate new, indipendent 
+  samples from such distribution. We will get into the mathematical details of these families of
+  models in the second part of our course.</p>
+</li>
+<li>
+<p><strong>Semi-supervised Learning</strong>: it lies in between the other other learning paradigms as it learns from some examples
+  that include a target and some that do not.</p>
+</li>
+</ul>
+<p>Input data can also come in 2 different types:</p>
+<ul>
+<li><strong>Structured data</strong>: tables (e.g., databases)</li>
+<li><strong>Unstructured data</strong>: images, audio, text, ...</li>
+</ul>
+<p>Examples of applications in geoscience are displayed in the figure below.</p>
+<p><img alt="GEOSCIENTIFIC APPLICATIONS" src="../figs/geo_examples.png" /></p>
+<p>A number of available data types in various geoscientific contexts is also displayed.</p>
+<p><img alt="GEOSCIENTIFIC DATA" src="../figs/geo_datatypes.png" /></p>
+<h2 id="history">History</h2>
+<p>Finally, we take a brief look at the history of Deep Learning. This field has so far experienced three main 
+waves of major development (and periods of success) interspersed by winters (or periods of disbelief):</p>
+<ul>
+<li><strong>'40 - '50</strong>: first learning algorithms heavily influenced by our understanding of the inner working of the human brain.
+  Mostly linear models such as the McCulloch-Pitts neuron, the perceptron by Rosenblatt, and the adaptive linear element
+  (ADALINE). The latter was trained on an algorithm very similar to Stochastic Gradient Descent (SGD). These models showed
+  poor performance in learning complex functions (e.g., XOR) and led to a drop in popularity of the field.</li>
+<li><strong>'80 - '90</strong>: these years so the creation of the Multi Layer Perceptron (MLP), the neocognitron (the ancestor of the
+  convolutional layer), the first deep neural networks (e.g., LeNet for MNIST classification), the first sequence-to-sequence 
+  networks and the LSTM layer.</li>
+<li><strong>from 2010 till now</strong>: a major moment for the history of this field can be traced back to 2012, when a deep convolution 
+  neural network developed by Krizhevsky and co-authors won the ImageNet competition lowering the top-5 error rate from 26.1 percent 
+  (previous winning solution not based on a neural network) to 15.3 percent. Since then the field has exploded with advances both
+  in terms of model architectures (AlexNet, VGG, ResNet, GoogleLeNet, ...) optimization algorithms (AdaGrad, RMSProp, Adam, ...),
+  applications (computer vision, text analysis, speech recognition, ...). Moreover, recente developments in the area of 
+  unsupervised learning have led to the creation of dimensionality reduction and generative algorithms that can now
+  outperform any state-of-the-art method that is not based on neural networks.</li>
+</ul>
+<p>If want to dig deeper into the history of this field, an interesting read can be found 
+<a href="http://beamlab.org/deeplearning/2017/02/23/deep_learning_101_part1.html">here</a>.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../10_gradopt1/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                More on gradient-based optimization
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../2_linalg/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Linear Algebra refresher
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
