@@ -10,7 +10,8 @@ echo 'Creating ML Course environment with Pytorch (CPU)'
 
 # create conda env
 conda env create -f environment.yml
-source activate mlcourse
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate mlcourse
 conda env list
 echo 'Created and activated environment:' $(which python)
 
