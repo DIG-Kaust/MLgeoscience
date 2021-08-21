@@ -1,7 +1,7 @@
 # Homepage
 
 This course covers the fundamentals of machine learning, its applications to geoscientific problems, and
-it provides basic best practices for the rigorous development and evaluation of machine learning results.
+it provides basic best practices for the rigorous development and evaluation of machine learning models.
 The main focus of the course is on describing the fundamental theory of *linear regression*, *logistic regression*,
 *neural networks*, *convolutional neural networks*, *sequence modelling*, *dimensionality reduction*, 
 *generative modelling*, and *physics-inspired neural networks*. Students will also be introduced to 
