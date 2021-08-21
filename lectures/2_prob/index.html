@@ -539,6 +539,14 @@ independent if</p>
 <div class="arithmatex">\[
 P(X=x, Y=y | Z=z) = P(X=x | Z=z) P(Y=y| Z=z)
 \]</div>
+<p><strong>Bayes Rule</strong>: probabilistic way to update our knowledge of a certain phenomenon (called prior) based on a new piece of evidence
+(called likelihood):</p>
+<div class="arithmatex">\[
+P(x | y) = \frac{P(y|x) P(x)}{P(y)}
+\]</div>
+<p>where <span class="arithmatex">\(P(y) = \sum_x P(x, y) = \sum_x P(y |x) P(x)\)</span> is called the evidence. In practice it is unfeasible to compute this
+quantity as it would require evaluating <span class="arithmatex">\(y\)</span> for any possible combination of <span class="arithmatex">\(x\)</span> (we will see later how it is possible to 
+devise methods for which <span class="arithmatex">\(P(y)\)</span> can be ignored).</p>
 <p><strong>Mean (or Expectation)</strong>: Given a function <span class="arithmatex">\(f(x)\)</span> where <span class="arithmatex">\(x\)</span> is a stochastic variable with probability <span class="arithmatex">\(P(x)\)</span>, its average
 or mean value is defined as follows for the discrete case:</p>
 <div class="arithmatex">\[
@@ -554,8 +562,98 @@ via the <em>Sample Mean</em>:</p>
 <div class="arithmatex">\[
 \mu \approx \sum_i \frac{1}{N} f(x_i)
 \]</div>
-<p><strong>Variance (and Covariance)</strong>: </p>
+<p><strong>Variance (and Covariance)</strong>: Given a function <span class="arithmatex">\(f(x)\)</span> where <span class="arithmatex">\(x\)</span> is a stochastic variable with probability <span class="arithmatex">\(P(x)\)</span>,
+it represents a masure of how much the values of the function vary from the mean:</p>
+<div class="arithmatex">\[
+\sigma^2 = E_{x \sim p} [(f(x)-\mu)^2]
+\]</div>
+<p>Covariance is the extension of the variance to two or more variables, and it tells 
+how much these variables are related to each other:</p>
+<div class="arithmatex">\[
+Cov(f(x), g(y)) =  E_{x,y \sim p} [(f(x)-\mu_x)(f(y)-\mu_y)]
+\]</div>
+<p>Here, <span class="arithmatex">\(Cov \rightarrow 0\)</span> indicates no correlation between the variables, <span class="arithmatex">\(Cov &gt; 0\)</span> denotes positive correlation and
+<span class="arithmatex">\(Cov &lt; 0\)</span> denotes negative correlation. It is worth remembering that covariance is linked to correlation via:</p>
+<div class="arithmatex">\[
+Corr_{x,y} =  \frac{Cov_{x,y}}{\sigma_x \sigma_y}
+\]</div>
+<p>Finally, the covariance of a multidimensional vector <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^n\)</span> is defined as:</p>
+<div class="arithmatex">\[
+Cov_{i,j} = Cov(x_i, x_j), \qquad Cov_{i,i} = \sigma^2_i
+\]</div>
+<p><strong>Distributions</strong>: some of the most used probability distributions in Machine Learning are listed in the following.</p>
+<p><em>1. Bernoulli</em>: single binary variable <span class="arithmatex">\(x \in \{0,1\}\)</span> (commonly used to describe the toss of a coin). It is defined as</p>
+<div class="arithmatex">\[
+P(x=1)=\phi, \; P(x=0)=1-\phi, \; \phi \in [0,1]
+\]</div>
+<p>with probability:</p>
+<div class="arithmatex">\[
+P(x)=\phi^x(1-\phi)^{1-x}
+\]</div>
+<p>and momentums equal to:</p>
+<div class="arithmatex">\[
+E[x] = 1, \; \sigma^2 = \phi (1-\phi)
+\]</div>
+<p><em>2. Multinoulli (or categorical)</em>: extension of Bernoulli distribution to K different states</p>
+<div class="arithmatex">\[
+\textbf{P} \in [0,1]^{K-1}; \; P_k = 1- \textbf{1}^T\textbf{P}, \; \textbf{1}^T\textbf{P} \leq 1
+\]</div>
+<p><em>3. Gaussian</em>: most popular choice for continuous random variables (most distributions are close to a normal distribution
+  and the central limit theorem states that any sum of indipendent variables is approximately normal)</p>
+<div class="arithmatex">\[
+x \sim \mathcal{N}(\mu, \sigma^2) \rightarrow p(x) = \frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} = \sqrt{\frac{\beta}{2 \pi}} e^{-\frac{\beta(x-\mu)^2}{2}}
+\]</div>
+<p>where the second definition uses the precision <span class="arithmatex">\(\beta=\frac{1}{\sigma^2} \in (0, \infty)\)</span> to avoid possible division by zero. 
+A third way to parametrize the gaussian probability uses <span class="arithmatex">\(2 \delta = log \sigma^2 \in (-\infty, \infty)\)</span> which has the further
+benefit to be unbounded and can be easily optimized for during training.
+which is unbounded (compared to the
+variance that must be positive)</p>
+<p><em>4. Multivariate Gaussian</em>: extension of Gaussian distribution to a multidimensional vector <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^n\)</span></p>
+<div class="arithmatex">\[
+\textbf{x} \sim \mathcal{N}(\boldsymbol\mu, \boldsymbol\Sigma) \rightarrow p(\textbf{x}) = 
+\sqrt{\frac{1}{(2 \pi)^n det \boldsymbol\Sigma}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\Sigma^{-1}(\textbf{x}- \boldsymbol\mu)}=
+\sqrt{\frac{det \boldsymbol\beta}{(2 \pi)^n}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\beta(\textbf{x}- \boldsymbol\mu)} $$
+\]</div>
+<p>where again <span class="arithmatex">\(\boldsymbol\beta =\boldsymbol\Sigma^{-1}\)</span>. In ML applications <span class="arithmatex">\(\boldsymbol\beta\)</span> is generally assumed diagonal
+(mean-field approximation) or even isotropic ($\boldsymbol\beta = \beta \textbf{I}_n)</p>
+<p><em>5. Mixture of distributions</em>: any smooth probability density function can be expressed as a weighted sum of simpler distributions</p>
+<div class="arithmatex">\[
+P(x) = \sum_i P(c=i) P(x | c=i)
+\]</div>
+<p>where <span class="arithmatex">\(c\)</span> is a categorical variable with Multinoulli distribution and plays the role of a <em>latent variable</em>, a variable that 
+cannot be directly observed but is related to <span class="arithmatex">\(x\)</span> via the joint distribution:</p>
+<div class="arithmatex">\[
+P(x,c) = P(x | c) P(c), \; P(x) = \sum_c P(x|c)P(c)
+\]</div>
+<p>A special case is the so-called <em>Gaussian Mixture</em> where each probability <span class="arithmatex">\(P(x|c=i) \sim \mathcal{N}(\mu_i, \sigma_i^2)\)</span>.</p>
 <h2 id="information-theory">Information theory</h2>
+<p>In Machine Learning, we are sometimes interested to quantify how much information is contained in a signal or how much two
+signals (or probability distributions) differ from each other.</p>
+<p>A large body of literature exists in the context of telecommunications, where it is necessary to study how to transmit signals
+for a discrete alphabet over a noisy channel. More specifically, a code must be designed so to allow sending the least amount
+of bits for the most amount of useful information. Extension of such theory to continous variables is also available and more 
+commonly used in the context of ML systems.</p>
+<p><strong>Self-information</strong>: a measure of information in such a way that likely events have low information content, less 
+likely events have higher information content and indipendent events have additive information:</p>
+<div class="arithmatex">\[
+I(x) = - log_eP(x)
+\]</div>
+<p>such that for <span class="arithmatex">\(P(x) \rightarrow 0\)</span> (unlikely event), <span class="arithmatex">\(I \rightarrow \infty\)</span> and for <span class="arithmatex">\(P(x) \rightarrow 1\)</span> (likely event), <span class="arithmatex">\(I \rightarrow 0\)</span>.</p>
+<p><strong>Shannon entropy</strong>: extension of self-information to continous variables, representing the expected amount of information in an event <span class="arithmatex">\(x\)</span> 
+drawn from a probability $P:</p>
+<div class="arithmatex">\[
+H(x) = E_{x \sim P} [I(x)] = - E_{x \sim P} [log_eP(x)]
+\]</div>
+<p><strong>Kullback-Leibler divergence</strong>: extension of entropy to 2 variables with probability <span class="arithmatex">\(P\)</span> and <span class="arithmatex">\(Q\)</span>, respectively. It is used to measure
+their distance</p>
+<div class="arithmatex">\[
+D_{KL}(P||Q)  = E_{x \sim P} [log\frac{P(x)}{Q(x)}] = 
+E_{x \sim P} [logP(x)-logQ(x)]  = E_{x \sim P} [logP(x)] -E_{x \sim P}[logQ(x)] 
+\]</div>
+<p>which is <span class="arithmatex">\(D_{KL}(P||Q)=0\)</span> only when <span class="arithmatex">\(P=Q\)</span> and grows the further away the two probabilities are. 
+Finally, note that this is not a real distance in that <span class="arithmatex">\(D_{KL}(P||Q) \neq D_{KL}(Q|| P)\)</span> (non-symmetric), therefore
+the direction matter and it must be chosen wisely when devising optimization schemes with KL divergence in the loss function as
+we will discuss in more details later.</p>
                 
               
               

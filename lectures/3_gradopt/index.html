@@ -513,9 +513,9 @@
                 
                 
                 <h1 id="gradient-based-optimization">Gradient-based optimization</h1>
-<p>After reviewing some of the basic concepts of linear algebra that we will be using during this course, we are now in a position
-to start our journey in the field of <em>learning algorithms</em>. Any learning algorithm, no matter its level of complexity, is 
-composed of 4 key elements:</p>
+<p>After reviewing some of the basic concepts of linear algebra and probability that we will be using during this course, 
+we are now in a position to start our journey in the field of <em>learning algorithms</em>. </p>
+<p>Any learning algorithm, no matter its level of complexity, is composed of 4 key elements:</p>
 <p><strong>Dataset</strong>: a collection of many examples (sometimes referred to as samples of data points) that represents the experience
 we wish our machine learning algorithm to learn from. More speficically, the dataset is defined as:
 $$
@@ -539,7 +539,7 @@ $$
 J = \sum_{i=1}^{N_s}  \mathscr{L} (\mathbf{y}^{(i)}, f(\mathbf{x}^{(i)}))
 $$</p>
 <p>where <span class="arithmatex">\(\mathscr{L}\)</span> is the loss function for each input-output pair and <span class="arithmatex">\(J\)</span> is the overall cost function.</p>
-<p><strong>Optimization algorithm</strong>: mathematical method that modifies the aims to drive down (up) the cost function by modifying
+<p><strong>Optimization algorithm</strong>: mathematical method that aims to drive down (up) the cost function by modifying
 its free-parameters <span class="arithmatex">\(\theta\)</span>:
 $$
 \hat{\theta} = \underset{\theta} {\mathrm{argmin}} J
@@ -552,8 +552,8 @@ will be discussed in more details below.</p>
 this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
 mimimum/maximum as depicted in the figure below.</p>
 <p><img alt="GRADIENT OPTIMIZATION" src="../figs/opt_gradient.png" /></p>
-<p>More formally, given a functional <span class="arithmatex">\(f_\theta\)</span> and its gradient <span class="arithmatex">\(\nabla f = \frac{\delta f}{\delta \theta}\)</span>, 
-the (minimization) algorithm can be written as:</p>
+<p>More formally, given a functional <span class="arithmatex">\(f_\theta\)</span> (here used in spite of <span class="arithmatex">\(J\)</span>) and its gradient 
+<span class="arithmatex">\(\nabla f = \frac{\delta f}{\delta \theta}\)</span>, the (minimization) algorithm can be written as:</p>
 <p>Initialization: choose <span class="arithmatex">\(\theta \in \mathbb{R}\)</span></p>
 <p>For <span class="arithmatex">\(i=0,...N-1\)</span>;</p>
 <ol>
@@ -594,12 +594,10 @@ x_{i+1} = x_i - \frac{f(x)|_{x_i}}{f'(x)|_{x_i}}
 \]</div>
 <p>which can be easily derived from the Taylor expansion of <span class="arithmatex">\(f(x)\)</span> around <span class="arithmatex">\(x_{i+1}\)</span>.</p>
 <p>If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
-(<span class="arithmatex">\(x: min_x f(x) \leftrightarrow x: f'(x)=0\)</span>), the Netwon's method can
-be written as:</p>
+(<span class="arithmatex">\(x: min_x f(x) \leftrightarrow x: f'(x)=0\)</span>), the Netwon's method can be written as:</p>
 <div class="arithmatex">\[
 x_{i+1} = x_i - \frac{f'(x)|_{x_i}}{f''(x)|_{x_i}} 
 \]</div>
-<p>This is the so-called <strong>Gauss-Netwon method</strong>.</p>
 <p>In order to be able to discuss second-order optimization algorithms for the multi-dimensional case, let's first introduce the notion of <em>Jacobian</em>:</p>
 <div class="arithmatex">\[\mathbf{y} = f(\mathbf{x}) \rightarrow  \mathbf{J}  = \begin{bmatrix} 
                 \frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; ... &amp; \frac{\partial f_1}{\partial x_M} \\
@@ -616,7 +614,7 @@ x_{i+1} = x_i - \frac{f'(x)|_{x_i}}{f''(x)|_{x_i}}
 \]</div>
 <p>where we note that when <span class="arithmatex">\(f\)</span> is continuous, <span class="arithmatex">\(\partial / \partial x_i \partial x_j = \partial / \partial x_j \partial x_i\)</span>, and <span class="arithmatex">\(\mathbf{H}\)</span>
 is symmetric.</p>
-<p>The Gauss-Newton method can be written as:</p>
+<p>The Newton method for the multi-dimensional case becomes:</p>
 <div class="arithmatex">\[
 \mathbf{x}_{i+1} = \mathbf{x}_i - \mathbf{H}^{-1}\nabla f
 \]</div>
