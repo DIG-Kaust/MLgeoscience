@@ -349,9 +349,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#stochastic-gradient-descent" class="md-nav__link">
-    Stochastic-gradient descent
+  <a href="#stochastic-gradient-descent-sgd" class="md-nav__link">
+    Stochastic-gradient descent (SGD)
   </a>
+  
+    <nav class="md-nav" aria-label="Stochastic-gradient descent (SGD)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#batched-gradient-descent" class="md-nav__link">
+    Batched gradient descent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stochastic-gradient-descent" class="md-nav__link">
+    Stochastic gradient descent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mini-batched-gradient-descent" class="md-nav__link">
+    Mini-batched gradient descent
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -493,9 +520,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#stochastic-gradient-descent" class="md-nav__link">
-    Stochastic-gradient descent
+  <a href="#stochastic-gradient-descent-sgd" class="md-nav__link">
+    Stochastic-gradient descent (SGD)
   </a>
+  
+    <nav class="md-nav" aria-label="Stochastic-gradient descent (SGD)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#batched-gradient-descent" class="md-nav__link">
+    Batched gradient descent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stochastic-gradient-descent" class="md-nav__link">
+    Stochastic gradient descent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mini-batched-gradient-descent" class="md-nav__link">
+    Mini-batched gradient descent
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -536,13 +590,13 @@ $$</p>
 <p><strong>Loss (and cost) function</strong>: quantitative measure of the performance of the learning algorithm, which we wish to minimize 
 (or maximize) in order to make accurate predictions on unseen data. It is written as
 $$
-J = \sum_{i=1}^{N_s}  \mathscr{L} (\mathbf{y}^{(i)}, f(\mathbf{x}^{(i)}))
+J_\theta = \frac{1}{N_s} \sum_{j=1}^{N_s} \mathscr{L} (\mathbf{y}^{(j)}, f_\theta(\mathbf{x}^{(j)}))
 $$</p>
 <p>where <span class="arithmatex">\(\mathscr{L}\)</span> is the loss function for each input-output pair and <span class="arithmatex">\(J\)</span> is the overall cost function.</p>
 <p><strong>Optimization algorithm</strong>: mathematical method that aims to drive down (up) the cost function by modifying
 its free-parameters <span class="arithmatex">\(\theta\)</span>:
 $$
-\hat{\theta} = \underset{\theta} {\mathrm{argmin}} J
+\hat{\theta} = \underset{\theta} {\mathrm{argmin}} \; J_\theta
 $$</p>
 <p>Optimization algorithms are generally divided into two main families: gradient-based 
 (or local) and gradient-free (or global). Gradient-based optimization is by far the most popular way to train NNs and 
@@ -552,19 +606,19 @@ will be discussed in more details below.</p>
 this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
 mimimum/maximum as depicted in the figure below.</p>
 <p><img alt="GRADIENT OPTIMIZATION" src="../figs/opt_gradient.png" /></p>
-<p>More formally, given a functional <span class="arithmatex">\(f_\theta\)</span> (here used in spite of <span class="arithmatex">\(J\)</span>) and its gradient 
-<span class="arithmatex">\(\nabla f = \frac{\delta f}{\delta \theta}\)</span>, the (minimization) algorithm can be written as:</p>
+<p>More formally, given a functional <span class="arithmatex">\(J_\theta\)</span> and its gradient 
+<span class="arithmatex">\(\nabla J = \frac{\delta J}{\delta \theta}\)</span>, the (minimization) algorithm can be written as:</p>
 <p>Initialization: choose <span class="arithmatex">\(\theta \in \mathbb{R}\)</span></p>
 <p>For <span class="arithmatex">\(i=0,...N-1\)</span>;</p>
 <ol>
-<li>Compute update direction <span class="arithmatex">\(d_i = -\nabla f |_{\theta_i}\)</span></li>
+<li>Compute update direction <span class="arithmatex">\(d_i = -\nabla J |_{\theta_i}\)</span></li>
 <li>Estimate step-lenght <span class="arithmatex">\(\alpha_i\)</span></li>
 <li>Update <span class="arithmatex">\(\theta_{i+1} = \theta_{i} + \alpha_i d_i\)</span></li>
 </ol>
 <p>Note that the maximization version of this algorithm simply switches the sign in the update direction (first equation of the algorithm).
 Moreover, the proposed algorithm can be easily extended to N-dimensional model vectors <span class="arithmatex">\(\theta=[\theta_1, \theta_2, ..., \theta_N]\)</span> by
 defining the following gradient vector 
-<span class="arithmatex">\(\nabla f=[\delta f / \delta\theta_1, \delta f / \delta\theta_2, ..., \delta f/ \delta\theta_N]\)</span>.</p>
+<span class="arithmatex">\(\nabla J=[\delta J / \delta\theta_1, \delta J / \delta\theta_2, ..., \delta J/ \delta\theta_N]\)</span>.</p>
 <h3 id="step-lenght-selection">Step lenght selection</h3>
 <p>The choice of the step-lenght has tremendous impact on the performance of the algorithm and its ability to converge 
 fast (i.e., in a small number of iterations) to the optimal solution.</p>
@@ -573,50 +627,51 @@ fast (i.e., in a small number of iterations) to the optimal solution.</p>
 <li>Constant: the step size is fixed to a constant value <span class="arithmatex">\(\alpha_i=\hat{\alpha}\)</span>. This is the most common situation that we
   will encounter when training neural networks. In practice, some adaptive schemes based on the evolution of the train
   (or validation) norm are generally adopted, but we will still refer to this case as costant step size;</li>
-<li>Exact linesearch: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(f(\theta_{i} + \alpha_i d_i)\)</span>. This
+<li>Exact linesearch: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(J(\theta_{i} + \alpha_i d_i)\)</span>. This
   is the most commonly used approach when dealing with linear systems of equations.</li>
 <li>Backtracking  "Armijo" linesearch: at each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
-  and reduce it by a factor of 2 until the following condition is satisfied: <span class="arithmatex">\(f(\theta_i) - f(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla f^T d_i\)</span></li>
+  and reduce it by a factor of 2 until the following condition is satisfied: <span class="arithmatex">\(J(\theta_i) - J(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla J^T d_i\)</span></li>
 </ul>
 <h2 id="second-order-optimization">Second-order optimization</h2>
-<p>Up until now we have discussed first-order optimization techniques that rely on the ability to evaluate the function <span class="arithmatex">\(f\)</span> and 
-its gradient <span class="arithmatex">\(\nabla f\)</span>. Second-order optimization method go one step beyond in that they use information from both the 
-local slope and curvature of the function f. </p>
+<p>Up until now we have discussed first-order optimization techniques that rely on the ability to evaluate the function <span class="arithmatex">\(J\)</span> and 
+its gradient <span class="arithmatex">\(\nabla J\)</span>. Second-order optimization method go one step beyond in that they use information from both the 
+local slope and curvature of the function <span class="arithmatex">\(J\)</span>. </p>
 <p>When a function has small curvature, the function and its tangent line are very similar: 
-the gradient alone is therefore able to provide a good local approximation of the function (i.e., <span class="arithmatex">\(f(\theta+\delta \theta)\approx f(\theta) + \nabla f \delta \theta\)</span>).
+the gradient alone is therefore able to provide a good local approximation of the function (i.e., <span class="arithmatex">\(J(\theta+\delta \theta)\approx J(\theta) + \nabla J \delta \theta\)</span>).
 On the other hand, if the curvature of the function of large, the function and its tangent line start to differ very quickly away from
 the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
-(i.e., <span class="arithmatex">\(f(\theta+\delta \theta)\approx f(\theta) + \nabla f \delta \theta + \nabla^2 f \delta \theta^2\)</span>).</p>
+(i.e., <span class="arithmatex">\(J(\theta+\delta \theta)\approx J(\theta) + \nabla J \delta \theta + \nabla^2 J \delta \theta^2\)</span>).</p>
 <p>Let's start again from the one-dimensional case and the well-known <strong>Newton's method</strong>. This method is generally employed to find the zeros of a function:
-<span class="arithmatex">\(x: f(x)=0\)</span> and can be written as:</p>
+<span class="arithmatex">\(\theta: J(\theta)=0\)</span> and can be written as:</p>
 <div class="arithmatex">\[
-x_{i+1} = x_i - \frac{f(x)|_{x_i}}{f'(x)|_{x_i}} 
+\theta_{i+1} = \theta_i - \frac{J(\theta)|_{\theta_i}}{J'(\theta)|_{\theta_i}} 
 \]</div>
-<p>which can be easily derived from the Taylor expansion of <span class="arithmatex">\(f(x)\)</span> around <span class="arithmatex">\(x_{i+1}\)</span>.</p>
+<p>which can be easily derived from the Taylor expansion of <span class="arithmatex">\(f(\theta)\)</span> around <span class="arithmatex">\(\theta_{i+1}\)</span>.</p>
 <p>If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
-(<span class="arithmatex">\(x: min_x f(x) \leftrightarrow x: f'(x)=0\)</span>), the Netwon's method can be written as:</p>
+(<span class="arithmatex">\(\theta: min_\theta f(\theta) \leftrightarrow \theta: f'(\theta)=0\)</span>), the Netwon's method can be written as:</p>
 <div class="arithmatex">\[
-x_{i+1} = x_i - \frac{f'(x)|_{x_i}}{f''(x)|_{x_i}} 
+\theta_{i+1} = \theta_i - \frac{J'(\theta)|_{\theta_i}}{J''(\theta)|_{\theta_i}} 
 \]</div>
-<p>In order to be able to discuss second-order optimization algorithms for the multi-dimensional case, let's first introduce the notion of <em>Jacobian</em>:</p>
-<div class="arithmatex">\[\mathbf{y} = f(\mathbf{x}) \rightarrow  \mathbf{J}  = \begin{bmatrix} 
-                \frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; ... &amp; \frac{\partial f_1}{\partial x_M} \\
+<p>In order to be able to discuss second-order optimization algorithms for the multi-dimensional case, 
+let's first introduce the notion of <em>Jacobian</em>:</p>
+<div class="arithmatex">\[\mathbf{y} = J(\boldsymbol\theta) \rightarrow  \mathbf{J}  = \begin{bmatrix} 
+                \frac{\partial J_1}{\partial \theta_1} &amp; \frac{\partial J_1}{\partial \theta_2} &amp; ... &amp; \frac{\partial J_1}{\partial \theta_M} \\
                 ...     &amp; ...  &amp; ...   &amp; ... \\
-                \frac{\partial f_N}{\partial x_1} &amp; \frac{\partial f_N}{\partial x_2} &amp; ... &amp; \frac{\partial f_N}{\partial x_M} \\
+                \frac{\partial J_N}{\partial \theta_1} &amp; \frac{\partial J_N}{\partial \theta_2} &amp; ... &amp; \frac{\partial J_N}{\partial \theta_M} \\
   \end{bmatrix} \in \mathbb{R}^{[N \times M]}
 \]</div>
 <p>Through the notion of Jacobian, we can define the <strong>Hessian</strong> as the Jacobian of the gradient vector</p>
-<div class="arithmatex">\[\mathbf{H} = \nabla (\nabla f) = \begin{bmatrix} 
-                \frac{\partial f^2}{\partial x_1^2} &amp; \frac{\partial f^2}{\partial x_1 \partial x_2 } &amp; ... &amp; \frac{\partial f^2}{\partial x_1\partial x_M} \\
+<div class="arithmatex">\[\mathbf{H} = \nabla (\nabla J) = \begin{bmatrix} 
+                \frac{\partial J^2}{\partial \theta_1^2} &amp; \frac{\partial J^2}{\partial x_1 \partial \theta_2} &amp; ... &amp; \frac{\partial J^2}{\partial \theta_1\partial \theta_M} \\
                 ...     &amp; ...  &amp; ...   &amp; ... \\
-                \frac{\partial f^2}{\partial x_M \partial x_1} &amp; \frac{\partial f^2}{\partial x_M \partial x_2} &amp; ... &amp; \frac{\partial f^2}{\partial x_M^2} \\
+                \frac{\partial J^2}{\partial \theta_M \partial \theta_1} &amp; \frac{\partial J^2}{\partial \theta_M \partial \theta_2} &amp; ... &amp; \frac{\partial J^2}{\partial \theta_M^2} \\
   \end{bmatrix} \in \mathbb{R}^{[M \times M]}
 \]</div>
-<p>where we note that when <span class="arithmatex">\(f\)</span> is continuous, <span class="arithmatex">\(\partial / \partial x_i \partial x_j = \partial / \partial x_j \partial x_i\)</span>, and <span class="arithmatex">\(\mathbf{H}\)</span>
+<p>where we note that when <span class="arithmatex">\(J\)</span> is continuous, <span class="arithmatex">\(\partial / \partial \theta_i \partial \theta_j = \partial / \partial \theta_j \partial \theta_i\)</span>, and <span class="arithmatex">\(\mathbf{H}\)</span>
 is symmetric.</p>
 <p>The Newton method for the multi-dimensional case becomes:</p>
 <div class="arithmatex">\[
-\mathbf{x}_{i+1} = \mathbf{x}_i - \mathbf{H}^{-1}\nabla f
+\boldsymbol\theta_{i+1} = \boldsymbol\theta_i - \mathbf{H}^{-1}\nabla J
 \]</div>
 <p>Approximated version of the Gauss-Netwon method have been developed over the years, mostly based on the idea that inverting <span class="arithmatex">\(\mathbf{H}\)</span> is
 sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse)
@@ -624,11 +679,47 @@ using the gradient at the current iteration and that of a number of previous ite
 or its limited memory version <a href="https://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> are examples of such a kind. Due to their computational cost
 (as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the
 machine learning community to optimize the parameters of NNs in deep learning.</p>
-<h2 id="stochastic-gradient-descent">Stochastic-gradient descent</h2>
-<p>!!HERE!!</p>
+<h2 id="stochastic-gradient-descent-sgd">Stochastic-gradient descent (SGD)</h2>
+<p>To conclude, we look again and gradient-based iterative solvers and more specifically in the context of finite-sum functionals of the kind
+that we will encountering when training neural networks:</p>
+<div class="arithmatex">\[
+J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} \mathscr{L} (\mathbf{y}^{(i)}, f_\theta(\mathbf{x}^{(i)}))
+\]</div>
+<p>where the summation is here performed over training data.</p>
+<h3 id="batched-gradient-descent">Batched gradient descent</h3>
+<p>The solvers that we have considered so far are generally referred to as  methods as they update the
+model parameters <span class="arithmatex">\(\boldsymbol\theta\)</span> using the full gradient (i.e., over the entire batch of samples):</p>
+<div class="arithmatex">\[
+\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \alpha_i \nabla J = \boldsymbol\theta_{i} - \frac{\alpha_i}{N_s} \sum_{j=1}^{N_s} \nabla \mathscr{L}_j
+\]</div>
+<p>A limitation of such an approach is that, if we have a very large number of training samples, the computational cost of computing the
+full gradient is very high and when some of the samples are similar their gradient contribution is somehow redundant.</p>
+<h3 id="stochastic-gradient-descent">Stochastic gradient descent</h3>
+<p>In this case we take a completely opposite approach to computing the gradient. More specifically, a single
+training sample is considered at each iteration:</p>
+<div class="arithmatex">\[
+\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \alpha_i \nabla \mathscr{L}_j
+\]</div>
+<p>The choice of the training sample <span class="arithmatex">\(j\)</span> at each iteration is generally completely random and this is repeated once all training data have
+been used at least once (generally referred to as <em>epoch</em>). In this case, the gradient may be noisy because the gradient of a single
+sample is a very rough approximation of the total cost function <span class="arithmatex">\(J\)</span>: such a high variance of gradients requires lowering the 
+step-size <span class="arithmatex">\(\alpha\)</span> leading to slow convergence.</p>
+<h3 id="mini-batched-gradient-descent">Mini-batched gradient descent</h3>
+<p>A more commonly used strategy, that lies in between the batched and stochastic gradient descent algorithms 
+uses batches of training samples to compute the gradient at each iteration. More spefically given a batch of 
+<span class="arithmatex">\(N_b\)</span> samples, the update formula can be written as:</p>
+<div class="arithmatex">\[
+\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \frac{\alpha_i}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j
+\]</div>
+<p>and similarly to the stochastic gradient descent, the batches of data are chosen at random and this is repeated as soon as all 
+data are used once in the training loop. Whilst the choice of the size of the batch depends on many factors 
+(e.g., overall size of the dataset, variety of training samples), common batch sizes in training of NNs are from around 50 to 256 
+(unless memory requirements kick in leading to even small batch sizes).</p>
+<p><img alt="GD LOSSES" src="../figs/opt_losses.png" /></p>
 <p>Finally, I encourage everyone to read the following <a href="https://ruder.io/optimizing-gradient-descent/">blog post</a> for a more
-detailed overview of the optimization algorithms discussed here. Note that we will also look more into some of the recent 
-optimization algorithms that overcome some of the limitations of standard SGD in <a href="lectures/10_gradopt1.md">this lecture</a>.</p>
+detailed overview of the optimization algorithms discussed here. Note that in one of our future <a href="lectures/10_gradopt1.md">lectures</a> 
+we will also look again at optimization algorithms and more specifically discuss strategies that allow overcoming some of the 
+limitations of standard SGD in <a href="lectures/10_gradopt1.md">this lecture</a>.</p>
                 
               
               
