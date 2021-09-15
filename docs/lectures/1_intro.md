@@ -23,10 +23,10 @@ seismic interpretation). This subfield has grown exponentially in the last few y
 and will be subject of most of our course. In short, Deep learning is a particular kind of machine learning that
 represent the world as a nested hierarchy of increasingly complicated concepts the more we move away from the input and towards the
 output of the associated computational graph.  Whilst sharing the same underlying principle of *learning from experience in the form 
-of a training data*, different algorithms presents their own strenght and limitations and a machine learning practitioner 
+of a training data*, different algorithms presents their own strengths and limitations and a machine learning practitioner 
 must make a careful judgment at any time depending on the problem to be solved.
 
-![AI_ML_DL](figs/ai_ml_dl.png){: align=left }
+![AI_ML_DL](figs/ai_ml_dl.png)
 
 ## Terminology
 

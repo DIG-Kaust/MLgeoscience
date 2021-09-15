@@ -86,5 +86,5 @@ Popular norms are:
   N-d Euclidean space. Note that $||\mathbf{x}||_2^2 = \mathbf{x}^T \mathbf{x}$ and that $||\mathbf{x}||_2=1$ for a unit vector;
 - $L_1$ norm: $||\mathbf{x}||_1 = \sum_i |x_i|$
 - $L_0$ norm: number of non-zero elements in the vector $\mathbf{x}$
-- $L_\inf$ norm: $||\mathbf{x}||_2 = max |x_i|$
+- $L_\infty$ norm: $||\mathbf{x}||_2 = max |x_i|$
 - Frobenious norm (for matrices): $||\mathbf{A}||_F = \sqrt{\sum_{i,j} A_{i,j}^2}$,

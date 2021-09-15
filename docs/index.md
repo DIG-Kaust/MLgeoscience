@@ -5,7 +5,7 @@ it provides basic best practices for the rigorous development and evaluation of 
 The main focus of the course is on describing the fundamental theory of *linear regression*, *logistic regression*,
 *neural networks*, *convolutional neural networks*, *sequence modelling*, *dimensionality reduction*, 
 *generative modelling*, and *physics-inspired neural networks*. Students will also be introduced to 
-practical applications in geoscience for each of the presented method lab sessions will be held using the PyTorch
+practical applications in geoscience for each of the presented methods; lab sessions will be held using the PyTorch
 computational framework in the Python programming language.
 
 ## Lectures
