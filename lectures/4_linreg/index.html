@@ -255,6 +255,30 @@
   
   
     <li class="md-nav__item">
+      <a href="../11_vae/" class="md-nav__link">
+        VAE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_mdn/" class="md-nav__link">
+        Mixture-density networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../1_intro/" class="md-nav__link">
         Introduction to Machine Learning
       </a>
@@ -323,9 +347,45 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Linear and Logistic Regression
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Linear and Logistic Regression
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#linear-regression" class="md-nav__link">
+    Linear regression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logistic-regression" class="md-nav__link">
+    Logistic regression
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -403,6 +463,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#linear-regression" class="md-nav__link">
+    Linear regression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logistic-regression" class="md-nav__link">
+    Logistic regression
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -415,7 +497,48 @@
                 
                 
                 <h1 id="linear-and-logistic-regression">Linear and Logistic Regression</h1>
-<p>Lin regr:</p>
+<p>In the previous lecture we have learned how to optimize a generic loss function <span class="arithmatex">\(J_\theta\)</span> 
+by modifying its free parameters <span class="arithmatex">\(\theta\)</span>. Whilst this is a very generic framework that can be used for 
+various applications in different scientific field, from now on we will learn how to take advtange of
+similar algorithms in the context of Machine Learning.</p>
+<h2 id="linear-regression">Linear regression</h2>
+<p>In preparation to our lecture on Neural Networks, we consider here what is generally referred to as the simplest
+machine learning model for regression, <em>linear regression</em>. Its simplicity lies in the fact that we will only consider 
+a linear relationship between our inputs and targets:</p>
+<p><img alt="LIN REG" src="../figs/reg_model.png" /></p>
+<p>where <span class="arithmatex">\(\textbf{x}\)</span> is a training sample with <span class="arithmatex">\(N_f\)</span> features, <span class="arithmatex">\(\textbf{w}\)</span> is a vector of <span class="arithmatex">\(N_f\)</span> weights and <span class="arithmatex">\(b=w_0\)</span> is the
+so-called bias term. The set of trainable parameters is therefore the combination of the weights and bias 
+<span class="arithmatex">\(\boldsymbol\theta=[\textbf{w}, b] \in \mathbb{R}^{N_f+1}\)</span>. The prediction <span class="arithmatex">\(\hat{y}\)</span> is simply obtained by linearly 
+combining the different features of the input vector and adding the bias.</p>
+<p>Assuming availability of <span class="arithmatex">\(N_s\)</span> training samples, the <strong>model</strong> can be compactly written as:</p>
+<div class="arithmatex">\[
+\hat{\textbf{y}}_{train} = \textbf{X}_{train}^T \boldsymbol\theta
+\]</div>
+<p>where <span class="arithmatex">\(\textbf{X}_{train} \in \mathbb{R}^{N_f+1 \times N_s}\)</span> is the training matrix and <span class="arithmatex">\(\hat{\textbf{y}}_{train} \in \mathbb{R}^{1 \times N_s}\)</span> 
+is the predicted target vector. Note that each column of the training matrix contains the corresponding training sample followed by a 1 
+(i.e., <span class="arithmatex">\(\textbf{X}_{:,j}=[\textbf{x}^{(j)}, 1]\)</span>).</p>
+<p>Next, we need to define a metric (i.e., cost function) which we can use to optimize for the free parameters <span class="arithmatex">\(\boldsymbol\theta\)</span>.
+For regression problems, a common metric of goodness is the L2 norm or MSE (Mean Square Error):</p>
+<div class="arithmatex">\[
+J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = || \textbf{y}_{train} - \hat{\textbf{y}}_{train}||_2^2 = 
+\frac{1}{N_s} \sum_i^{N_s} (y_{train}^{(i)}-\hat{y}_{train}^{(i)})^2
+\]</div>
+<p>Based on our previous lecture on optimization, we need to find the best set of coefficients <span class="arithmatex">\(\theta\)</span> that minimize the MSE:</p>
+<div class="arithmatex">\[
+\hat{\theta} = min_\theta  J_\theta \rightarrow \theta_{i+1} = \theta_i - \alpha \nabla J_\theta
+\]</div>
+<p>However, since this is a linear inverse problem we can write the analytical solution of the minimization problem as:</p>
+<div class="arithmatex">\[
+\hat{\theta} = (\textbf{X}_{train}^T \textbf{X}_{train})^{-1} \textbf{X}_{train}^T \textbf{y}_{train}
+\]</div>
+<p>which can be obtained by inverting a <span class="arithmatex">\(N_f+1 \times N_f+1\)</span> matrix. </p>
+<p>An important observation, which lies at the core of most Machine Learning algorithms, is that once the model is trained 
+on the <span class="arithmatex">\(N_s\)</span> available input-target pairs, the estimated \hat{\theta} coefficients can be used to make <em>inference</em> on any new unseen data:</p>
+<div class="arithmatex">\[
+y_{test} = \textbf{x}^T_{test} \hat{\theta}
+\]</div>
+<h2 id="logistic-regression">Logistic regression</h2>
+<p>HERE!!!!</p>
 <p>Log regr: derivative derivation and implementation, look here https://towardsdatascience.com/logistic-regression-from-scratch-69db4f587e17</p>
 <p>Explain that analytic expression for gradient isnt always possible, nor the most efficient... we will show later a more general approach to it.</p>
 <p>Mention that in next class we will understand why we choose such cost functions</p>
