@@ -10,7 +10,7 @@ computational framework in the Python programming language.
 
 ## Lectures
 
-X, and X, XX:XXam - XX:XXam
+Tuesday, and Thursday, 10:15am - 11:45am
 
 ## Teaching Staff
 
