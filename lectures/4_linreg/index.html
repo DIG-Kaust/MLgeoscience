@@ -420,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../6_nn/" class="md-nav__link">
+      <a href="../5_nn/" class="md-nav__link">
         Basics of Neural Networks
       </a>
     </li>
@@ -630,11 +630,11 @@ a = \sigma(z), \quad \mathscr{L} = -(y log(a) + (1-y)log(1-a))
 \]</div>
 <p>The forward and backward passes (as described in software frameworks like PyTorch) can be visually displayed as follows:</p>
 <p><img alt="BACKPROP" src="../figs/backprop.png" /></p>
-<p>Let's start from <span class="arithmatex">\(\partial \mathscr{L} \ \partial a\)</span>:</p>
+<p>Let's start from <span class="arithmatex">\(\partial \mathscr{L} / \partial a\)</span>:</p>
 <div class="arithmatex">\[
 \frac{\partial \mathscr{L}}{\partial a} = -\frac{y}{a} + \frac{1-y}{1-a} = \frac{-y(1-a) + (1-y)a}{a (1-a)}
 \]</div>
-<p>and <span class="arithmatex">\(\partial a \ \partial \sigma\)</span>:</p>
+<p>and <span class="arithmatex">\(\partial a / \partial z\)</span>:</p>
 <div class="arithmatex">\[
 \frac{\partial a}{\partial z} = a(1-a)
 \]</div>
@@ -673,7 +673,31 @@ b \leftarrow b - \alpha \sum_{j=1}^{N_s} db^{(j)}
 classification model (or classifier). Note that these metrics can be used for the logistic regression model discussed here as well as for
 other more advanced models discussed later in the course. </p>
 <p>In general for binary classification we have two possible outcomes (positive/negative or true/false) for both the true labels <span class="arithmatex">\(y\)</span> and the 
-predicted labels <span class="arithmatex">\(\hat{y}\)</span>. We can therefore define 4 complementary metrics as shown in the figure below:</p>
+predicted labels <span class="arithmatex">\(\hat{y}\)</span>. We can therefore define 4 scenarios:</p>
+<p><img alt="CLASSMETRICS" src="../figs/classification_metrics.png" /></p>
+<p>and a number of complementary metrics (all bounded between 0 and 1) can be defined. Note that no metric is better than the others, the importance of one metric over another is context dependant.</p>
+<ol>
+<li><strong>Precision</strong>: <span class="arithmatex">\(Pr=\frac{TP}{TP+FP}\)</span>, percentage of correct positive predictions over the overall positive predictions. This measure is 
+   appropriate when minimizing false positives is the focus. In the geoscientific context, 
+   this may represent a meaningful metric for applications where the main interest is that of predicting the smallest possible number of false positives, 
+   whilst at the same time accepting to miss out on some of positives (false negatives). This could be the case when we want to predict hydrocarbon bearing reservoirs from 
+   seismic data, where we know already that we will not be able to drill wells into many of them. It is therefore important that even if we make very few
+   positive predictions these must be accurate, whilst the cost of missing other opportunities is not so high. On the other hand, this measure is blind to the
+   predictions of real positive cases to be chosen to be part of the negative class (false negative);</li>
+<li><strong>Recall</strong>: <span class="arithmatex">\(Rc=\frac{TP}{TP+FN} = \frac{TP}{P}\)</span>, percentage of correct positive predictions over the overall positive occurrences. This measure is
+   appropriate when minimizing false negatives is the focus. An opposite scenario to the one presented above is represented by the case of a classifier trained to predict pressure kicks whilst drilling a well. 
+   In this case, we are not really concerned with making a few mistakes where we predict a kick when this is not likely to happen (False Positive); 
+   of course, this may slow down the drilling process but it is nowhere near as dramatic as the case in which we do not predict a kick which is going to happen (False Negative); 
+   a high recall is therefore what we want, as this is an indication of the fact that the model does not miss out on many positive cases. 
+   Of course a model that always provides a positive prediction will have a recall of 1 (FN=0), indication of the fact that a high recall is not 
+   always an indication of a good model;</li>
+<li><strong>Accuracy</strong>: <span class="arithmatex">\(Ac=\frac{TP+TN}{TP+TN+FP+FN}=\frac{TP+TN}{P+N}\)</span>, percentage of correct predictions over the total number of cases. 
+   This measure combines both error types (in the denominator), it is therefore a more global measure of the quality of the model.</li>
+<li><strong>F1-Score</strong>: <span class="arithmatex">\(2 \frac{Pr \cdot Rc}{Pr+Rc}\)</span>, represents a way to combine precision and recall into a single measure that captures both properties.</li>
+</ol>
+<p>Finally, a more complete description of the performance of a model is given by the so-called <em>confusion matrix</em>, which for the case of binary classification
+is just the <span class="arithmatex">\(2 \times 2\)</span> table in the figure above. This table can be both unnormalized, where each cell simply contains the number of samples which satisfy
+the specific combination of real and predicted labels, or normalized over either rows or columns.</p>
                 
               
               

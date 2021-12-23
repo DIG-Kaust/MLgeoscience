@@ -1,0 +1,818 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Basics of Neural Networks - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#basics-of-neural-networks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Basics of Neural Networks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      
+      <label class="md-nav__link" for="nav-4">
+        Lectures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_vae/" class="md-nav__link">
+        VAE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_mdn/" class="md-nav__link">
+        Mixture-density networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_autoencoder/" class="md-nav__link">
+        Autoencoders
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_pca/" class="md-nav__link">
+        PCA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_bestpractice/" class="md-nav__link">
+        Best practice in Machine Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Basics of Neural Networks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Basics of Neural Networks
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#perceptron" class="md-nav__link">
+    Perceptron
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-layer-perceptron" class="md-nav__link">
+    Multi-layer Perceptron
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-functions" class="md-nav__link">
+    Activation functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-architecture" class="md-nav__link">
+    Network architecture
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_nn1/" class="md-nav__link">
+        More on Neural networks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#perceptron" class="md-nav__link">
+    Perceptron
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-layer-perceptron" class="md-nav__link">
+    Multi-layer Perceptron
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-functions" class="md-nav__link">
+    Activation functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-architecture" class="md-nav__link">
+    Network architecture
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="basics-of-neural-networks">Basics of Neural Networks</h1>
+<p>In this lecture we start our journey in the field of Deep Learning. In order to do so we must first introduce
+the most commonly used kind of Neural Networks, the so-called Multi-Layer Perceptron (MLP).</p>
+<p>A MLP is a class of <em>feedforward</em> artificial neural networks (ANNs), where the term feedforward refers to the 
+fact the the flow of information moves from left to right. On the other hand, a change in the direction 
+of the flow is introduced as part of the forward pass gives rise to a different family of NNs, so-called Recurrent 
+Neural Networks (they will be subject of future lectures):</p>
+<p><img alt="FFN" src="../figs/ffn_rnn.png" /></p>
+<h2 id="perceptron">Perceptron</h2>
+<p>To begin with, we focus on the core building block of a MLP, to so-called Perceptron or Unit. 
+This is nothing really new to us, as it is exactly the same structure that we used to create the logistic regression model, 
+a linear weighting of the element of the input vector followed by a nonlinear activation function. We prefer however
+to schematic represent it in a slighty different way as this will make it easier later on to drawn MLPs.</p>
+<p><img alt="PERCEPTRON" src="../figs/perceptron.png" /></p>
+<p>Mathematically, the action of a percepton can be written compactly as dot-product followed 
+by an element-wise nonlinear activation:</p>
+<div class="arithmatex">\[
+y = \sigma(\sum_i w_i x_i + b) = \sigma(\sum_i \textbf{w}^T \textbf{x} + b) 
+\]</div>
+<p>where <span class="arithmatex">\(\textbf{w} \in \mathbb{R}^{N_i}\)</span> is the vector of weights, <span class="arithmatex">\(b\)</span> is the bias, and <span class="arithmatex">\(\sigma\)</span> is a nonlinear 
+activation function. Note that whilst we used a sigmoid function in the logistic regression model, this can be 
+any differentiable function as we will discuss later in more details.</p>
+<h2 id="multi-layer-perceptron">Multi-layer Perceptron</h2>
+<p>Whilst the perceptron model shown above takes as input a vector  <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^{N_i}\)</span> and 
+returns a scalar <span class="arithmatex">\(y\)</span>, we are now ready to make a step forward where we simply combine multiple perceptrons together 
+to return a vector <span class="arithmatex">\(\textbf{y} \in \mathbb{R}^{N_o}\)</span></p>
+<p><img alt="MLP" src="../figs/mlp.png" /></p>
+<p>The MLP in figure presents <span class="arithmatex">\(N_i=3\)</span> inputs and <span class="arithmatex">\(N_o=2\)</span> outputs. By highlighting in green the original perceptron,
+we can easily observed that a MLP is simply a composition of <span class="arithmatex">\(N_o\)</span> perceptrons, which again we can 
+compactly write as a matrix-vector multiplication followed again by an element-wise nonlinear activation:</p>
+<div class="arithmatex">\[
+y_j = \sigma(\sum_i w_{ij} x_i + b), \quad \textbf{y} = \sigma(\textbf{W}^T \textbf{x} + \textbf{b}) 
+\]</div>
+<p>where <span class="arithmatex">\(\textbf{W} \in \mathbb{R}^{N_i \times N_o}\)</span> is the matrix of weights, <span class="arithmatex">\(\textbf{b} \in \mathbb{R}^{N_o}\)</span> 
+is a vector of biases.</p>
+<p>Finally, if we stack multiple MLPs together we obtained what is generally referred to as N-layer NN, where 
+the count of the number of layers does not include the input layer. For example, a 3-layer NN has the following structure</p>
+<p><img alt="3LAYERNN" src="../figs/3layernn.png" /></p>
+<p>where we omit for simplicity the bias terms in the schematic drawing. 
+This figure gives us the oppportunity to introduce some terminology commonly used in the DL community:</p>
+<ul>
+<li><em>Input layer</em>: first layer taking the input vector <span class="arithmatex">\(\textbf{x}\)</span> as input and returning an intermediate representation
+  <span class="arithmatex">\(\textbf{z}^{[1]}\)</span>;</li>
+<li><em>Hidden layers</em>: second to penultimate layers taking as input the previous representation <span class="arithmatex">\(\textbf{z}^{[i-1]}\)</span> and 
+  returning a new representation <span class="arithmatex">\(\textbf{z}^{[i]}\)</span>;</li>
+<li><em>Ouput layer</em>: last layer producing the output of the network <span class="arithmatex">\(\textbf{y}\)</span>;</li>
+<li><em>Depth</em>: number of hidden layers (plus output layer);</li>
+<li><em>Width</em>: number of units in each hidden layer.</li>
+</ul>
+<p>Note that we will always use the following notation <span class="arithmatex">\(\cdot^{(i)[j]}\)</span> where round brackets are used to refer to a
+specific training sample and square brackets are used to refer to a specific layer.</p>
+<h2 id="activation-functions">Activation functions</h2>
+<p>We have just started to appreciate the simplicity of NNs. A Neural Network is nothing more than a stack of linear 
+transformations and nonlinear element-wise activation functions. If such activation functions where omitted,
+we could combine the various linear transformations together in a single matrix, as the product of N matrices is
+equivalent to a matrix. Assuming that sigma acts as an identity matrix <span class="arithmatex">\(\sigma(\textbf{x})=\textbf{Ix}=\textbf{x}\)</span>,
+(and omitting biases for simplicity) we get:</p>
+<p>$$
+\textbf{y} = \sigma(\textbf{W}_3^T\sigma(\textbf{W}_2^T\sigma(\textbf{W}_1^T \textbf{x}))) = 
+\textbf{W}_3^T\textbf{W}_2^T\textbf{W}_1^T\textbf{x} = \textbf{W}^T \textbf{x}
+$$
+so no matter how deep is the network, we can always reconduct it to a linear model. 
+Depending on the final activation and loss function, we will therefore have a linear regression or a logistic
+regression model.</p>
+<p>We consider here a very simple example to show the importance of nonlinear activations before delving into the details.
+Let's assume that we wish the learn the XOR (eXclusive OR) boolean logic operator from the 
+following four training samples:</p>
+<div class="arithmatex">\[
+\textbf{x}^{(1)} = [0, 0] \rightarrow y^{(1)}=0
+\]</div>
+<div class="arithmatex">\[
+\textbf{x}^{(2)} = [0, 1] \rightarrow y^{(2)}=1
+\]</div>
+<div class="arithmatex">\[
+\textbf{x}^{(3)} = [1, 0] \rightarrow y^{(3)}=1
+\]</div>
+<div class="arithmatex">\[
+\textbf{x}^{(4)} = [1, 1] \rightarrow y^{(4)}=0
+\]</div>
+<p>Starting from the linear regression model, we can define a matrix 
+<span class="arithmatex">\(\textbf{X}_{train} = [\textbf{x}^{(1)}, \textbf{x}^{(2)}, \textbf{x}^{(3)}, \textbf{x}^{(4)}]\)</span> and a vector
+<span class="arithmatex">\(\textbf{y}_{train} = [y^{(1)}, y^{(2)}, y^{(3)}, y^{(4)}]\)</span>. The linear model becomes:</p>
+<div class="arithmatex">\[
+\textbf{y}_{train} = \textbf{X}_{train}^T  \boldsymbol \theta
+\]</div>
+<p>where the weights <span class="arithmatex">\(\boldsymbol \theta\)</span> are obtained as detailed in the previous section. It can be easily proven that
+the solution is <span class="arithmatex">\(\boldsymbol \theta=[0,0,0.5]\)</span>, where <span class="arithmatex">\(\textbf{w}=[0,0]\)</span> and <span class="arithmatex">\(b=0.5\)</span>. This means that, no matter the input
+the output of the linear model will always be equal to <span class="arithmatex">\(0.5\)</span>; in other words, the model is unable to distinguish
+between the true or false outcomes. If instead we introduce a nonlinearity between two weight matrices (i.e., a 2-layer NN),
+the following combination of weights and biases (taken from the Goodfellow book) will lead to a correct prediction:</p>
+<div class="arithmatex">\[
+\textbf{W}^{[1]} = \begin{bmatrix} 
+                1 &amp; 1 \\
+                1 &amp; 1\end{bmatrix},
+\textbf{W}^{[2]} = \begin{bmatrix} 
+                1  \\
+                -2 \end{bmatrix},
+\textbf{b}^{[1]} = \begin{bmatrix} 
+                0  \\
+                -1 \end{bmatrix},
+b^{[2]} = 0
+\]</div>
+<p>Note that in this case the <span class="arithmatex">\(\sigma=ReLU\)</span> activation function, which we will introduce in the next section, must be used. 
+Of course, there may be many more combinations of weights and biases that lead to a satisfactory prediction. You can prove this to yourself by 
+initializing the weights and biases randomly and optimizing them by means of a stochastic gradient descent algorith.</p>
+<p>Having introduced nonlinearites every time after we apply the weight matrices to the vector 
+flowing through the computational graph, the overall set of operations cannot be simply reconducted to a matrix-vector
+multiplication and allows us to learn highly complex nonlinear mappings between input features and targets. The role of activation functions is however not always straighforward and easy to grasp. Whilst we can say that
+they help in the learning process, not every function is suitable to this task and in fact some functions may prevent
+the network from learning at all.</p>
+<p>In the following we look at the most commonly used activation functions and discuss their origin and why 
+they became popular and useful in Deep Learning:</p>
+<ul>
+<li>
+<p><strong>Sigmoid</strong> and <em>Tanh</em>: historically these were the most popular activation functions as they are 
+  differentiable across the entire domain. In the past, there was in fact a strong belief that
+  gradient descent cannot operate on functions that have singularities; although this is correct from 
+  a theoretical point of view it was later proved to be wrong in practice. They are mathematically
+  defined as: 
+  $$\sigma_s(x) = \frac{1}{1-e^{-x}}
+  $$
+  and 
+  $$\sigma_t(x) = 2 \sigma_s(2x) - 1 
+  $$
+  Whilst still used in various contexts, these activation functions saturate very quickly (i.e., large values are clipped to to 1 
+  and small values are clipped to -1 for tanh or 0 for sigmoid). This leads to the so-called <em>vanishing 
+  gradient problem</em> that we will discuss in more details in following lectures; simply put, if we look at the 
+  the gradient of both of these functions, it is non-zero only when x is near zero and becomes zero away 
+  from it, meaning that if the output of a linear layer is large the gradient of the activation function
+  will be zero and therefore the gradient will stop flowing through backpropagation. This is particularly
+  problematic for deep network as the training of the early layers becomes very slow.</p>
+</li>
+<li>
+<p><strong>ReLU</strong> (Rectified Linear Unit): this activation function became very popular in the start of the 21st 
+  century and since then
+  it is the mostly commonly used activation function for NN training. It is much closer to a linear activation
+  than the previous two, but introduces a nonlinearity by putting negative inputs to zero, By doing so, the
+  ReLU activation function is a piecewise linear function. This shows that
+  non-differentiable functions can be used in gradient based optimization, mostly because numerically we will hardly
+  (if not never) have an output of a NN layer that is exactly zero when fed as input to the activation. 
+  Mathematically speaking, we can write it as:
+  $$
+  \sigma_r(x) = max ( 0,x ) = 
+  \begin{cases}
+      x &amp; x\ge 0, \quad
+      0 &amp; x&lt;0
+    \end{cases}     <br />
+  $$
+  whilst its derivative is:
+  $$
+  \sigma'_{relu}(x) = 
+  \begin{cases}
+      1 &amp; x\ge 0, \quad
+      0 &amp; x&lt;0
+    \end{cases}  <br />
+  $$
+  We can observe that this activation function never saturates, for every value in the positive axis the derivative
+  is always 1. Such a property makes ReLU suitable for large networks as the risk of vanishing gradients is
+  greatly reduced. A downside of ReLU is that the entire negative axis acts as an annhilator preventing information
+  to flow. A strategy to prevent or reduce the occurrences of negative inputs is represented by the initialization
+  of biases to a value slightly greater than zero (e.g., b=0.1).</p>
+</li>
+<li>
+<p><strong>Leaky ReLU</strong> (Leaky Rectified Linear Unit): a modified version of the ReLU activation function
+  aimed once again at avoiding zeroing of inputs in the negative axis. This function is identical to the ReLU
+  in the positive axis, whilst another straight line with smaller slope is used in the negative axis:
+  $$
+  \sigma'_{l-relu}(x) = max ( 0,x ) + \alpha min ( 0,x ) = 
+  \begin{cases}
+      x &amp; x\ge 0, \quad
+      \alpha x &amp; x&lt;0
+    \end{cases}   <br />
+  $$
+  By doing so, also negative inputs can flow through the computational graph. A variant of L-ReLU, called
+  P-ReLU, allows for the <span class="arithmatex">\(\alpha\)</span> parameter to be learned instead of being fixed.</p>
+</li>
+<li>
+<p><strong>Absolute ReLU</strong> (Absolute Rectified Linear Unit): a modified version of the ReLU activation function
+  that is symmetric with respect to the <span class="arithmatex">\(x=0\)</span> axis:
+  $$
+  \sigma'_{l-relu}(x) = |x| = 
+  \begin{cases}
+      x &amp; x\ge 0, \quad
+      -x &amp; x&lt;0
+    \end{cases}   <br />
+  $$
+  Whilst this is not a popular choice in the DL literature, it has been succesfully used in object detection
+  tasks where the features that we wish the NN to extract from the training process are polarity invariant.</p>
+</li>
+<li>
+<p><strong>Cosine, Sine, ...</strong>: the use of period functions have recently started to appear in the literature
+  especially in the context of scientific DL (e.g., Physics-informed neural networks).</p>
+</li>
+<li>
+<p><strong>Softmax</strong>: this activation function is commony used at the end of the last layer in the context of 
+  multi-label classification. However as it takes an input vector of N numbers and converts it into an 
+  output vector of probabilities (i.e., N numbers summing to 1), it may also be used as a sort of switch in 
+  the internal layers.</p>
+</li>
+</ul>
+<p>The following two figures show the different activation functions discussed above and their gradients.</p>
+<p><img alt="3LAYERNN" src="../figs/Activations.png" /></p>
+<p><img alt="3LAYERNN" src="../figs/Activations_deriv.png" /></p>
+<h2 id="network-architecture">Network architecture</h2>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../5_bestpractice/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Best practice in Machine Learning
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../7_nn1/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                More on Neural networks
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
