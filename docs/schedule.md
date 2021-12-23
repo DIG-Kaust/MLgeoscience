@@ -6,8 +6,8 @@
 | 2       | XX   | [Linear algebra refresher](lectures/2_linalg.md)                                | -        |
 | 2       | XX   | [Probability refresher](lectures/2_prob.md)                                     | -        | 
 | 3       | XX   | [Gradient-based optimization](lectures/3_gradopt.md)                            | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/VisualOptimization/1_VisualOptimization.ipynb) |
-| 4       | XX   | [Linear and Logitic regression](lectures/4_linreg.md)                           | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/BasicTorch/2_BasicPytorch.ipynb) |
-| 5       | XX   | [Neural Networks: perceptron, activation functions](lectures/XX.md)             | -        | 
+| 4       | XX   | [Linear and Logistic regression](lectures/4_linreg.md)                           | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/BasicTorch/2_BasicPytorch.ipynb) |
+| 5       | XX   | [Neural Networks: perceptron, activation functions](lectures/5_nn.md)             | -        | 
 | 6       | XX   | [Neural Networks: multiple layers, backpropagation, initialization](lectures/XX.md)                                       | -        | 
 | 7       | XX   | [Best practices in training Machine Learning models](lectures/X.md)             | -        | 
 | 8       | XX   | [Advanced solvers: momentum, RMSProp, Adam, greedy training](lectures/4_autoencoder.md)                                       | -        | 

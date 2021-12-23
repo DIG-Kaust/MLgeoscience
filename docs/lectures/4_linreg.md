@@ -178,13 +178,13 @@ The forward and backward passes (as described in software frameworks like PyTorc
 
 ![BACKPROP](figs/backprop.png)
 
-Let's start from $\partial \mathscr{L} \ \partial a$:
+Let's start from $\partial \mathscr{L} / \partial a$:
 
 $$
 \frac{\partial \mathscr{L}}{\partial a} = -\frac{y}{a} + \frac{1-y}{1-a} = \frac{-y(1-a) + (1-y)a}{a (1-a)}
 $$
 
-and $\partial a \ \partial \sigma$:
+and $\partial a / \partial z$:
 
 $$
 \frac{\partial a}{\partial z} = a(1-a)
@@ -244,6 +244,31 @@ classification model (or classifier). Note that these metrics can be used for th
 other more advanced models discussed later in the course. 
 
 In general for binary classification we have two possible outcomes (positive/negative or true/false) for both the true labels $y$ and the 
-predicted labels $\hat{y}$. We can therefore define 4 complementary metrics as shown in the figure below:
+predicted labels $\hat{y}$. We can therefore define 4 scenarios:
 
+![CLASSMETRICS](figs/classification_metrics.png)
+
+and a number of complementary metrics (all bounded between 0 and 1) can be defined. Note that no metric is better than the others, the importance of one metric over another is context dependant.
+
+1. **Precision**: $Pr=\frac{TP}{TP+FP}$, percentage of correct positive predictions over the overall positive predictions. This measure is 
+   appropriate when minimizing false positives is the focus. In the geoscientific context, 
+   this may represent a meaningful metric for applications where the main interest is that of predicting the smallest possible number of false positives, 
+   whilst at the same time accepting to miss out on some of positives (false negatives). This could be the case when we want to predict hydrocarbon bearing reservoirs from 
+   seismic data, where we know already that we will not be able to drill wells into many of them. It is therefore important that even if we make very few
+   positive predictions these must be accurate, whilst the cost of missing other opportunities is not so high. On the other hand, this measure is blind to the
+   predictions of real positive cases to be chosen to be part of the negative class (false negative);
+2. **Recall**: $Rc=\frac{TP}{TP+FN} = \frac{TP}{P}$, percentage of correct positive predictions over the overall positive occurrences. This measure is
+   appropriate when minimizing false negatives is the focus. An opposite scenario to the one presented above is represented by the case of a classifier trained to predict pressure kicks whilst drilling a well. 
+   In this case, we are not really concerned with making a few mistakes where we predict a kick when this is not likely to happen (False Positive); 
+   of course, this may slow down the drilling process but it is nowhere near as dramatic as the case in which we do not predict a kick which is going to happen (False Negative); 
+   a high recall is therefore what we want, as this is an indication of the fact that the model does not miss out on many positive cases. 
+   Of course a model that always provides a positive prediction will have a recall of 1 (FN=0), indication of the fact that a high recall is not 
+   always an indication of a good model;
+3. **Accuracy**: $Ac=\frac{TP+TN}{TP+TN+FP+FN}=\frac{TP+TN}{P+N}$, percentage of correct predictions over the total number of cases. 
+   This measure combines both error types (in the denominator), it is therefore a more global measure of the quality of the model.
+4. **F1-Score**: $2 \frac{Pr \cdot Rc}{Pr+Rc}$, represents a way to combine precision and recall into a single measure that captures both properties.
+
+Finally, a more complete description of the performance of a model is given by the so-called *confusion matrix*, which for the case of binary classification
+is just the $2 \times 2$ table in the figure above. This table can be both unnormalized, where each cell simply contains the number of samples which satisfy
+the specific combination of real and predicted labels, or normalized over either rows or columns.
 
