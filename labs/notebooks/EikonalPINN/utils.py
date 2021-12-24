@@ -47,12 +47,13 @@ def eikonal_constant(ox, dx, nx, oz, dz, nz, xs, zs, v):
     nx, nz = len(x), len(z)
 
     # Analytical solution
-    tana = np.sqrt((X - xs) ** 2 + (Z - zs) ** 2) / v
+    dana = np.sqrt((X - xs) ** 2 + (Z - zs) ** 2)
+    tana = dana / v
     tana = tana.reshape(nx, nz)
 
     # Derivatives of analytical solution
-    tana_dx = (X - xs) / (tana.ravel() * v)
-    tana_dz = (Z - zs) / (tana.ravel() * v)
+    tana_dx = (X - xs) / (dana.ravel() * v)
+    tana_dz = (Z - zs) / (dana.ravel() * v)
     tana_dx = tana_dx.reshape(nx, nz)
     tana_dz = tana_dz.reshape(nx, nz)
 

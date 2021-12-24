@@ -4,6 +4,39 @@ import torch
 import torch.nn as nn
 
 
+class Swish(nn.Module):
+    r"""Applies the element-wise function:
+    .. math::
+        \text{Sigmoid}(x) = \sigma(x) = \frac{1}{1 + \exp(-x)}
+    Shape:
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
+    """
+
+    def forward(self, input):
+        return torch.sigmoid(input) * input
+
+
+def activation(act_fun='LeakyReLU'):
+    """Easy selection of activation function by passing string or
+    module (e.g. nn.ReLU)
+    """
+    if isinstance(act_fun, str):
+        if act_fun == 'LeakyReLU':
+            return nn.LeakyReLU(0.2, inplace=True)
+        elif act_fun == 'ELU':
+            return nn.ELU()
+        elif act_fun == 'ReLU':
+            return nn.ReLU()
+        elif act_fun == 'Tanh':
+            return nn.Tanh()
+        elif act_fun == 'Swish':
+            return Swish()
+        else:
+            raise ValueError(f'{act_fun} is not an activation function...')
+    else:
+        return act_fun()
 class AdaptiveLinear(nn.Linear):
     r"""Applies a linear transformation to the input data as follows
     :math:`y = naxA^T + b`.
@@ -53,25 +86,6 @@ class AdaptiveLinear(nn.Linear):
             f'in_features={self.in_features}, out_features={self.out_features}, bias={self.bias is not None}, '
             f'adaptive_rate={self.adaptive_rate is not None}, adaptive_rate_scaler={self.adaptive_rate_scaler is not None}'
         )
-
-
-def activation(act_fun='LeakyReLU'):
-    """Easy selection of activation function by passing string or
-    module (e.g. nn.ReLU)
-    """
-    if isinstance(act_fun, str):
-        if act_fun == 'LeakyReLU':
-            return nn.LeakyReLU(0.2, inplace=True)
-        elif act_fun == 'ELU':
-            return nn.ELU()
-        elif act_fun == 'ReLU':
-            return nn.ReLU()
-        elif act_fun == 'Tanh':
-            return nn.Tanh()
-        else:
-            raise ValueError(f'{act_fun} is not an activation function...')
-    else:
-        return act_fun()
 
 
 def layer(lay='linear'):

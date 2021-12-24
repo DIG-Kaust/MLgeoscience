@@ -7,7 +7,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 
 def create_dataloader(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
-                      batch_size=None, perc=0.25, device='cpu'):
+                      batch_size=None, perc=0.25, shuffle=True, device='cpu'):
     XZ = torch.from_numpy(np.vstack((X, Z)).T).float().to(device)
     v = torch.from_numpy(v).float().to(device)
     tana = torch.from_numpy(tana).float().to(device)
@@ -19,13 +19,13 @@ def create_dataloader(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
     npoints = int(nxz * perc)
     if batch_size is None:
         batch_size = npoints
-    if perc == 1:
+    if perc == 1.:
         ipermute = np.arange(nxz)
     else:
         ipermute = np.random.permutation(np.arange(nxz))[:npoints]
     dataset = TensorDataset(XZ[ipermute], v[ipermute],
                             tana[ipermute], tana_dx[ipermute], tana_dz[ipermute])
-    data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
     # initial condition
     ic = torch.tensor([xs, zs], dtype=torch.float, requires_grad=True)
@@ -40,8 +40,10 @@ def create_gridloader(X, Z, device='cpu'):
     return grid_loader
 
 
-def train(model, optimizer, data_loader, ic, lossweights=(1, 1)):
+def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1.):
     model.train()
+    loss_pde = []
+    loss_ic = []
     loss = []
     for xz, v, t0, t0_dx, t0_dz in data_loader:
         def closure():
@@ -60,14 +62,14 @@ def train(model, optimizer, data_loader, ic, lossweights=(1, 1)):
             tau_dz = gradient[:-1, 1]
 
             # pde loss
-            pde = (t0 ** 2) * (tau_dx ** 2 + tau_dz ** 2) + \
-                  (tau[:-1] ** 2) * (t0_dx ** 2 + t0_dz ** 2) + \
-                  2 * t0 * tau[:-1] * (tau_dx * t0_dx + tau_dz * t0_dz) - 1. / (
-                              v ** 2)
-            loss_pde = torch.mean(pde ** 2)
+            pde1 = (t0 ** 2) * (tau_dx ** 2 + tau_dz ** 2)
+            pde2 = (tau[:-1] ** 2) * (t0_dx ** 2 + t0_dz ** 2)
+            pde3 = 2 * t0 * tau[:-1] * (tau_dx * t0_dx + tau_dz * t0_dz)
+            pde = (pde1 + pde2 + pde3) * vscaler - vscaler / (v ** 2)
+            ls_pde = torch.mean(pde ** 2)
 
             # initial condition loss
-            loss_ic = torch.mean((tau[-1] - 1) ** 2)
+            ls_ic = torch.mean((tau[-1] - 1) ** 2)
 
             # total Loss function:
             if model.lay == 'adaptive':
@@ -75,18 +77,22 @@ def train(model, optimizer, data_loader, ic, lossweights=(1, 1)):
                     [torch.mean(model.model[layer][0].A.data) for layer in
                      range(len(model.model) - 1)])
                 slope_recovery_term = 1. / torch.mean(torch.exp(local_recovery_terms))
-                ls = lossweights[0] * loss_pde + lossweights[1] * loss_ic + \
+                ls = lossweights[0] * ls_pde + lossweights[1] * ls_ic + \
                      slope_recovery_term
             else:
-                ls = lossweights[0] * loss_pde + lossweights[1] * loss_ic
+                ls = lossweights[0] * ls_pde + lossweights[1] * ls_ic
+            loss_pde.append(ls_pde.item())
+            loss_ic.append(ls_ic.item())
             loss.append(ls.item())
             # ls.backward(retain_graph = True)
             ls.backward()
             return ls
         optimizer.step(closure)
 
+    loss_pde = np.sum(loss_pde) / len(data_loader)
+    loss_ic = np.sum(loss_ic) / len(data_loader)
     loss = np.sum(loss) / len(data_loader)
-    return loss
+    return loss, loss_pde, loss_ic
 
 
 def evaluate(model, grid_loader):
@@ -98,7 +104,7 @@ def evaluate(model, grid_loader):
     return tau
 
 
-def evaluate_pde(model, grid_loader):
+def evaluate_pde(model, grid_loader, vscaler=1.):
     model.train()
     xz, v, t0, t0_dx, t0_dz = iter(grid_loader).next()
     xz.requires_grad = True
@@ -112,17 +118,20 @@ def evaluate_pde(model, grid_loader):
     tau_dz = gradient[:, 1]
 
     # pde
-    pde = (t0 ** 2) * (tau_dx ** 2 + tau_dz ** 2) + \
-          (tau ** 2) * (t0_dx ** 2 + t0_dz ** 2) + \
-          2 * t0 * tau * (tau_dx * t0_dx + tau_dz * t0_dz) - 1. / (v ** 2)
-    return pde
+    pde1 = (t0 ** 2) * (tau_dx ** 2 + tau_dz ** 2)
+    pde2 = (tau ** 2) * (t0_dx ** 2 + t0_dz ** 2)
+    pde3 = 2 * t0 * tau * (tau_dx * t0_dx + tau_dz * t0_dz)
+    pde_lhs = (pde1 + pde2 + pde3) * vscaler
+    pde = pde_lhs - vscaler / (v ** 2)
+    vpred = torch.sqrt(vscaler / pde_lhs)
+    return pde, vpred
 
 
 def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
                   model, optimizer, epochs,
                   randompoints=False, Xgrid=None, Zgrid=None,
                   batch_size=None, perc=0.25, lossweights=(1., 1.),
-                  device='cpu'):
+                  vscaler= 1., device='cpu'):
     if Xgrid is not None and Zgrid is not None:
         # Create gridloader
         grid_loader = create_gridloader(Xgrid, Zgrid, device)
@@ -130,8 +139,11 @@ def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
     # Create dataloader
     data_loader, ic = create_dataloader(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
                                         batch_size=batch_size, perc=perc, device=device)
+    print('Number of points used per epoch:%d' % int(perc * len(X)))
 
     tau_history = []
+    loss_pde_history = []
+    loss_ic_history = []
     loss_history = []
 
     # Evaluate grid with randomly initialized network
@@ -139,14 +151,21 @@ def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
         tau_history.append(evaluate(model, grid_loader))
 
     for i in range(epochs):
-        if randompoints:
+        if randompoints and i > 0:
             # Recreate a new dataloader
+
             data_loader, ic = create_dataloader(X, Z, xs, zs, v, tana, tana_dx,
                                                 tana_dz, batch_size=batch_size,
                                                 perc=perc, device=device)
+            if i == 1:
+                print('Recreate dataloader...')
+                print('Number of points used per epoch:%d' % int(perc * len(X)))
+
         # Train step
-        loss = train(model, optimizer, data_loader, ic,
-                     lossweights=lossweights)
+        loss, loss_pde, loss_ic = train(model, optimizer, data_loader, ic,
+                                        lossweights=lossweights, vscaler=vscaler)
+        loss_pde_history.append(loss_pde)
+        loss_ic_history.append(loss_ic)
         loss_history.append(loss)
 
         # Store train loss in wandb logger
@@ -161,4 +180,4 @@ def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
                 tau_history.append(evaluate(model, grid_loader))
             print(f'Epoch {i}, Loss {loss:.7f}')
 
-    return loss_history, tau_history
+    return loss_history, loss_pde_history, loss_ic_history, tau_history
