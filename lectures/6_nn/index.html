@@ -14,7 +14,7 @@
     
     
       
-        <title>More on Neural networks - ErSE 222 - Machine Learning in Geoscience</title>
+        <title>More on Neural Networks - ErSE 222 - Machine Learning in Geoscience</title>
       
     
     
@@ -94,7 +94,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              More on Neural networks
+              More on Neural Networks
             
           </span>
         </div>
@@ -396,12 +396,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          More on Neural networks
+          More on Neural Networks
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        More on Neural networks
+        More on Neural Networks
       </a>
       
         
@@ -418,23 +418,36 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    ARCHITECTURE
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backprop" class="md-nav__link">
-    BACKPROP
+  <a href="#backpropagation" class="md-nav__link">
+    Backpropagation
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#initialization" class="md-nav__link">
-    INITIALIZATION
+    Initialization
   </a>
+  
+    <nav class="md-nav" aria-label="Initialization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zero-initialization" class="md-nav__link">
+    Zero initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#random-initialization" class="md-nav__link">
+    Random initialization
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -484,23 +497,36 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    ARCHITECTURE
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backprop" class="md-nav__link">
-    BACKPROP
+  <a href="#backpropagation" class="md-nav__link">
+    Backpropagation
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#initialization" class="md-nav__link">
-    INITIALIZATION
+    Initialization
   </a>
+  
+    <nav class="md-nav" aria-label="Initialization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zero-initialization" class="md-nav__link">
+    Zero initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#random-initialization" class="md-nav__link">
+    Random initialization
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -524,28 +550,161 @@
               
                 
                 
-                <h1 id="more-on-neural-networks">More on Neural networks</h1>
-<h2 id="architecture">ARCHITECTURE</h2>
-<p>MLP : Architecture design section 6.4</p>
-<p>Universal approx theorem and trade-off between shallow with many units in the layers and deep with fewer units. section 6.5</p>
-<p>""The universal approximation theorem means that regardless of what functionwe are trying to learn, 
-we know that a large MLP will be able to represent thisfunction. We are not guaranteed, however, 
-that the training algorithm will beable to learn that function. Even if the MLP is able to represent the function,
-learning can fail for two diﬀerent reasons. First, the optimization algorithm usedfor training may not be able to ﬁnd
-the value of the parameters that correspondsto the desired function. Second, the training algorithm might choose the wrong
-function as a result of overﬁtting.</p>
-<p>...</p>
-<p>In summary, a feedforward network with a single layer is suﬃcient to representany function, but the layer may be infeasibly 
-large and may fail to learn andgeneralize correctly. In many circumstances, using deeper models can reduce thenumber of units 
-required to represent the desired function and can reduce theamount of generalization error"</p>
-<h2 id="backprop">BACKPROP</h2>
-<p>Back-prop section 6.5... mention that this is not just ML, can be used to derive derivative of any function thruough 
-its computation graph and it is part of more general field called AD Automatic differentiation (6.5.9)</p>
-<p>General idea plus example for fully-connected MLP (see coursera videos... simpler)</p>
-<p>More details on back-prop (optional): read 6.5.6</p>
-<h2 id="initialization">INITIALIZATION</h2>
-<p>Good link https://medium.com/@safrin1128/weight-initialization-in-neural-network-inspired-by-andrew-ng-e0066dc4a566
-https://www.deeplearning.ai/ai-notes/initialization/</p>
+                <h1 id="more-on-neural-networks">More on Neural Networks</h1>
+<p>In this lecture, we will delve into some more advanced topics associated to the creation and training of deep 
+neural networks.</p>
+<h2 id="backpropagation">Backpropagation</h2>
+<p>First of all, once a neural network architecture has been defined for the problem at and, we need a method
+that can learn the best set of free parameters of such nonlinear function represented as <span class="arithmatex">\(f_\theta\)</span>.</p>
+<p>More specifically, we want to initialize the network with some random weights and biases (we will soon discuss how
+such initialization can be performed) and use the training data at hand to improve our weights and biases in order
+to minimize a certain loss function. Whilst this can be easily done by means of gradient based optimizers like those
+presented in Lecture 3, a key ingredient that we need to provide to such algorithms is represented by the gradient
+of the loss function with respect to each and every weight and bias paramtets. </p>
+<p>We have already alluded at a technique that can do so whilst discussing a simple logistic regression model. This
+is generally referred to by the ML community as <em>back-propagation</em> and more broadly by the mathematical community
+as <em>Reverse Automatic Differentiation</em>. Let's start by taking the same schematic diagram used for the logistic regression
+example and generalize it to a N-layer NN:</p>
+<p><img alt="BACKPROP_NN" src="../figs/backprop_nn.png" /></p>
+<p>The main change here, which we will need to discuss in details, is the fact that in the forward pass 
+we feed the input into a stack of linear layers prior to computing the loss function. The backpropagation
+does need to be able to keep track of the chain of operations (i.e., computational graph) and traverse it
+back. However, as already done for the logistic regression model, all we need to do is to write the entire
+chain of operations as a chain of atomic ones that we can then easily traverse back. Let's do this for
+the network above and a single training sample <span class="arithmatex">\(\textbf{x}\)</span>:</p>
+<div class="arithmatex">\[
+\textbf{z}^{[1]} = \textbf{W}^{[1]}\textbf{x} + \textbf{b}^{[1]}, \quad
+\textbf{a}^{[1]} = \sigma(z^{[1]}),
+\]</div>
+<div class="arithmatex">\[
+\textbf{z}^{[2]} = \textbf{W}^{[2]}\textbf{a}^{[1]} + \textbf{b}^{[2]}, \quad
+\textbf{a}^{[2]} = \sigma(z^{[2]}),
+\]</div>
+<div class="arithmatex">\[
+\textbf{z}^{[3]} = \textbf{W}^{[3]}\textbf{a}^{[2]} + \textbf{b}^{[3]}, \quad
+a^{[3]} = \sigma(z^{[3]}),
+\]</div>
+<div class="arithmatex">\[
+l = \mathscr{L}(y,a^{[3]}).
+\]</div>
+<p>Given such a chain of operations, we are now able to find the derivatives of the loss function with
+respect to any of the weights or biases. As an example we consider here <span class="arithmatex">\(\partial l / \partial \textbf{W}^{[2]}\)</span>:</p>
+<div class="arithmatex">\[
+\frac{\partial l}{\partial \textbf{W}^{[2]}} = \frac{\partial l}{\partial a^{[3]}} \frac{\partial a^{[3]}}{\partial \textbf{z}^{[3]}}
+\frac{\partial \textbf{z}^{[3]}}{\partial \textbf{a}^{[2]}} \frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} 
+\frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}}
+\]</div>
+<p>Assuming for simplicity that the binary cross-entropy and sigmoid functions are used here as loss and activation functions, respectively:</p>
+<div class="arithmatex">\[
+\frac{\partial l}{\partial a^{[3]}} \frac{\partial a^{[3]}}{\partial z^{[3]}} = a^{[3]} - y
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial z^{[3]}}{\partial \textbf{a}^{[2]}} = \textbf{W}^{[3]}
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} = \textbf{a}^{[2]}(1-\textbf{a}^{[2]})
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}} = \textbf{a}^{[1]}
+\]</div>
+<p>which put together:</p>
+<div class="arithmatex">\[
+\frac{\partial l}{\partial \textbf{W}^{[2]}} = [(\textbf{a}^{[2]}(1-\textbf{a}^{[2]})) \cdot \textbf{W}^{[3]T}(a^{[3]} - y)] \textbf{a}^{[1]T}
+\]</div>
+<p>where <span class="arithmatex">\(\cdot\)</span> is used to refer to element-wise products. Similar results can be obtained for the bias vector
+and for both weights and biases in the other layers as depicted in the figure below for a 2-layer NN:</p>
+<p><img alt="BACKPROP_NN1" src="../figs/backprop_nn1.png" /></p>
+<p>To conclude, the backpropagation equations in the diagram above are now generalized for the case 
+of <span class="arithmatex">\(N_s\)</span> training samples <span class="arithmatex">\(\textbf{X} \in \mathbb{R}^{N \times N_s}\)</span> and a generic activation function
+<span class="arithmatex">\(\sigma\)</span> whose derivative is denoted as <span class="arithmatex">\(\sigma'\)</span>. Here we still assume an output
+of dimensionality one -- <span class="arithmatex">\(\textbf{Y} \in \mathbb{R}^{1 \times N_s}\)</span>:</p>
+<div class="arithmatex">\[
+\textbf{dZ}^{[2]}=\textbf{A}^{[2]}-\textbf{Y} \qquad (\textbf{A}^{[2]},\textbf{dZ}^{[2]} \in \mathbb{R}^{1 \times N_s})
+\]</div>
+<div class="arithmatex">\[
+\textbf{dW}^{[2]}= \frac{1}{N_s} \textbf{dZ}^{[2]}\textbf{A}^{[1]T} \qquad (\textbf{A}^{[1]} \in \mathbb{R}^{N^{[1]} \times N_s})
+\]</div>
+<div class="arithmatex">\[
+db^{[2]}= \frac{1}{N_s} \sum_i \textbf{dZ}_{:,i}^{[2]}
+\]</div>
+<div class="arithmatex">\[
+\textbf{dZ}^{[1]}=\textbf{W}^{[2]^T}\textbf{dZ}^{[2]} \cdot \sigma'(\textbf{Z}^{[1]})  \qquad (\textbf{dZ}^{[1]} \in \mathbb{R}^{N^{[1]} \times N_s})
+\]</div>
+<div class="arithmatex">\[
+\textbf{dW}^{[1]}= \frac{1}{N_s} \textbf{dZ}^{[1]}\textbf{X}^T
+\]</div>
+<div class="arithmatex">\[
+\textbf{db}^{[1]}= \frac{1}{N_s} \sum_i \textbf{dZ}_{:,i}^{[1]}
+\]</div>
+<h2 id="initialization">Initialization</h2>
+<p>Neural networks are hihgly nonlinear functions. The associated cost function used in the training
+process in order to optimize the network weights and biases is therefore non-convex and contains
+several local minima and saddle points.</p>
+<p>A key component in non-convex optimization is represented by the starting guess of the parameters
+to optimize, which in the context of deep learning is identified by initialization of weights and biases.
+Whilst a proper initialization has been shown to be key to a succesful training of deep train NNs, 
+this is a very active area of research as initialization strategies are so far mostly based on heuristic 
+arguments and experience.</p>
+<h3 id="zero-initialization">Zero initialization</h3>
+<p>First of all, let's highlight a bad initialization choice that can compromise the training no matter the 
+architecture of the network and other hyperparamters. A common choice in standard optimization in the absence
+of any strong prior information is to initalize all the paramters to zero: if we decide to follow such a strategy
+when training a NN, we will soon realize that training is stagnant due to the so called <em>symmetry problem</em>
+(also referred to as <em>symmetric gradients</em>). Note that a similar situation arises also if we 
+choose a constant values for weights and biases (e.g., <span class="arithmatex">\(c^{[1]}\)</span> for all the weights and biases in the first layer and 
+<span class="arithmatex">\(c^{[2]}\)</span> for all the weights and biases in the second layer):</p>
+<p>Let's take a look at this with an example:</p>
+<p><img alt="ZEROINIT" src="../figs/zeroinit.png" /></p>
+<p>Since the activations are constant vectors, back-propagation produces constant updates for the weights (and biases),
+leading to weights and biases to never lose the initial symmetry.</p>
+<h3 id="random-initialization">Random initialization</h3>
+<p>A more appropriate way to initialize the weights of a neural network is to sample their
+values from random distributions, for example:
+$$
+w_{ij}^{[.]} \sim \mathcal{N}(0, 0.01)
+$$
+where the choice of the variance is based on the following trade-off: too small variance leads to the 
+vanishing gradient problem (i.e., slow training), whilst too high variance leads to the 
+exploding gradient problem (i.e., unstable training). On the other hand, for the biases we can use zero or a constant value. If you remember, we have already
+mentioned this when discussing the ReLU activation function: a good strategy to limit the amount of
+negative values as input to this activation function is to choose a small constant bias (e.g., <span class="arithmatex">\(b=0.1\)</span>).</p>
+<p>Whilst this approach provides a good starting point for stable training of neural networks, more advanced
+initialization strategies have been proposed in the literature:</p>
+<ul>
+<li>
+<p><strong>Uniform</strong>: the weights are initialized with uniform distributions whose variance depend on the
+  number of units in the layer:
+  $$
+  w_{ij}^{[k]} \sim \mathcal{U}(-1/\sqrt{N^{[k]}}, 1/\sqrt{N^{[k]}})
+  $$
+  or
+  $$
+  w_{ij}^{[k]} \sim \mathcal{U}(-\sqrt{6/(N^{[k-1]}+N^{[k]})}, \sqrt{6/(N^{[k-1]}+N^{[k]})})
+  $$
+  This strategy is commonly used with FC layers.</p>
+</li>
+<li>
+<p><strong>Xavier</strong>: the weights are initialized with normal distributions whose variance depend on the
+  number of units in the layer:
+  $$
+  w_{ij}^{[k]} \sim \mathcal{N}(0, 1/N^{[k]})
+  $$
+  This strategy ensures that the variance remains the same across the layers. Xavier initialization
+  is very popular especially in layers using Tanh activations.</p>
+</li>
+<li>
+<p><strong>He</strong>: the weights are initialized with normal distributions whose variance depend on the
+  number of units in the layer:
+  $$
+  w_{ij}^{[k]} \sim \mathcal{N}(0, 2/N^{[k]})
+  $$
+  This strategy ensures that the variance remains the same across the layers. Xavier initialization
+  is very popular especially in layers using ReLU activations.</p>
+</li>
+</ul>
+<p>Finally, if you are interest to learn more about initialization I reccomend reading (and reproducing)
+the following blog posts: <a href="https://medium.com/@safrin1128/weight-initialization-in-neural-network-inspired-by-andrew-ng-e0066dc4a566">1</a>
+and <a href="https://www.deeplearning.ai/ai-notes/initialization/">2</a>.</p>
 <h2 id="why-nndeep-learning-took-off">WHY NN/DEEP LEARNING TOOK OFF</h2>
 <p>Finally lets remark why theories are all from '80 but until early 2000 NN were not popular (niche field)</p>
 <p>"The core ideas behind modern feedforward networks have not changed sub-stantially since the 1980s. 
