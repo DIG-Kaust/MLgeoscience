@@ -1,7 +1,8 @@
 # Basics of Neural Networks 
 
 In this lecture we start our journey in the field of Deep Learning. In order to do so we must first introduce
-the most commonly used kind of Neural Networks, the so-called Multi-Layer Perceptron (MLP).
+the most commonly used kind of Neural Networks, the so-called Multi-Layer Perceptron (MLP) (also commonly referred
+to as fully connected (FC) layer).
 
 A MLP is a class of *feedforward* artificial neural networks (ANNs), where the term feedforward refers to the 
 fact the the flow of information moves from left to right. On the other hand, a change in the direction 
@@ -43,10 +44,10 @@ we can easily observed that a MLP is simply a composition of $N_o$ perceptrons, 
 compactly write as a matrix-vector multiplication followed again by an element-wise nonlinear activation:
 
 $$
-y_j = \sigma(\sum_i w_{ij} x_i + b), \quad \textbf{y} = \sigma(\textbf{W}^T \textbf{x} + \textbf{b}) 
+y_j = \sigma(\sum_i w_{ji} x_i + b), \quad \textbf{y} = \sigma(\textbf{W} \textbf{x} + \textbf{b}) 
 $$
 
-where $\textbf{W} \in \mathbb{R}^{N_i \times N_o}$ is the matrix of weights, $\textbf{b} \in \mathbb{R}^{N_o}$ 
+where $\textbf{W} \in \mathbb{R}^{N_o \times N_i}$ is the matrix of weights, $\textbf{b} \in \mathbb{R}^{N_o}$ 
 is a vector of biases.
 
 Finally, if we stack multiple MLPs together we obtained what is generally referred to as N-layer NN, where 
@@ -77,8 +78,8 @@ equivalent to a matrix. Assuming that sigma acts as an identity matrix $\sigma(\
 (and omitting biases for simplicity) we get:
 
 $$
-\textbf{y} = \sigma(\textbf{W}_3^T\sigma(\textbf{W}_2^T\sigma(\textbf{W}_1^T \textbf{x}))) = 
-\textbf{W}_3^T\textbf{W}_2^T\textbf{W}_1^T\textbf{x} = \textbf{W}^T \textbf{x}
+\textbf{y} = \sigma(\textbf{W}^{[3]}\sigma(\textbf{W}^{[2]}\sigma(\textbf{W}^{[1]} \textbf{x}))) = 
+\textbf{W}^{[3]}\textbf{W}^{[2]}\textbf{W}^{[1]}\textbf{x} = \textbf{W} \textbf{x}
 $$
 so no matter how deep is the network, we can always reconduct it to a linear model. 
 Depending on the final activation and loss function, we will therefore have a linear regression or a logistic
@@ -124,7 +125,7 @@ $$
                 1 & 1\end{bmatrix},
 \textbf{W}^{[2]} = \begin{bmatrix} 
                 1  \\
-                -2 \end{bmatrix},
+                -2 \end{bmatrix}^T,
 \textbf{b}^{[1]} = \begin{bmatrix} 
                 0  \\
                 -1 \end{bmatrix},
@@ -231,3 +232,39 @@ The following two figures show the different activation functions discussed abov
 ![3LAYERNN](figs/Activations_deriv.png)
 
 ## Network architecture
+Up until now we have discussed the key components of a Feedforward Neural Network, the Multi-layer Perceptron.
+It was mentioned a few times that a NN can be composed of multiple MLPs connected with each other, giving rise
+to a so-called Deep Neural Network (DNN). The depth and width of the network has been also defined, and
+we have introduced the convention that a N-layer NN is a network with N-1 hidden layers. 
+
+A crucial point in the design of a neural network architecture is represented by the choice of such parameters. 
+Whilst no hard rules exist and the creation
+of a NN architecture is to these days still closer to an art than a systematic science, in the following
+we provide a number of guidelines that should be followed when approaching the problem of designing a 
+network. For example, as previously discussed, connecting two or more layers without adding a nonlinear
+activation function in between should be avoided as this part of the network simply behaves as a single 
+linear layer.
+
+An important theorem that provide insights into the design of neural networks is the so-called
+**Universal Approximation theorem**. This theorem states that:
+
+*"...regardless of the function that we are trying to learn, we know that a single MLP with infinite number
+of units can represent this function. We are however not guaranteed that we can train such a network..."*
+
+More specifically, learning can fail for two diﬀerent reasons: i) the optimization algorithm used for training 
+may not be able to find the value of the parameters that correspond to the desired function; ii) the training 
+algorithm might choose the wrong function as a result of overﬁtting.
+
+In practice, experience has shown that deeper networks with fewer units per layer are better both in
+terms of *generalization* and *robustness to training*. This leads us with a trade-off between 
+shallow networks with many units in each layer and deep networks with fewer units in each layer. 
+An empirical trend has been observed between  the depth of a network and its accuracy on test data:
+
+![DEPTHACC](figs/depth_vs_accuracy.png)
+
+To summarize, whilst theoretically 1-layer shallow networks can learn any function, it is advisable these
+days to trade network width with network depth as training deep networks is nowadays feasible both from a 
+theoretical and computational point of view. It is however always best to start small and grow the network in width and
+depth as the problem requires. We will see in the following lectures that a large network requires a large
+training data to avoid overfitting; therefore, when working with small to medium size training data it is
+always best to avoid using very large networks in the first place.

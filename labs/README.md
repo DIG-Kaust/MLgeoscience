@@ -11,11 +11,14 @@ The repository is organized as follows:
 
 - **Notebooks**: input data used in the practical sessions:
 
-   - **1_VisualOptimization**: Gradient-based optimization of a 2D cost function with visualization of model trajectories.
-   - **2_BasicPytorch**: Introduction to PyTorch, Linear and Logistic Regression.
-   - **3_LearningFunction**: A practical look at the Universal Approximation Theorem and its implications for learning functions with NNs.
-   - **4_WellLogFaciesPrediction**: Well Log facies prediction based on Force2020 Challange
-   - **5_SaltNet**: Salt Segmentation based on TGS Kaggle Challange
+   - **VisualOptimization**: Gradient-based optimization of a 2D cost function with visualization of model trajectories.
+   - **BasicPytorch**: Introduction to PyTorch, Linear and Logistic Regression.
+   - **LearningFunction**: A practical look at the Universal Approximation Theorem and its implications for learning functions with NNs.
+   - **MixtureDensityNetwork**: Mixture Density Networks for multi-modal probabilistic predictions
+   - **WellLogFaciesPrediction**: Well Log facies prediction based on Force2020 Challange
+   - **EventDetection**: Seismic event detection with Recurrent NNs
+   - **SaltNet**: U-Net Salt Segmentation based on TGS Kaggle Challange
+   - **EikonalPINN**: Physics-informed NN solution of Eikonal equation
 
 - **Wandb**: example usage of [Wandb](https://wandb.ai/site) with Logistic Regression for efficient ML experimentation
 
