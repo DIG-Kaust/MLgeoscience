@@ -408,18 +408,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../5_bestpractice/" class="md-nav__link">
-        Best practice in Machine Learning
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../5_nn/" class="md-nav__link">
         Basics of Neural Networks
       </a>
@@ -434,6 +422,18 @@
     <li class="md-nav__item">
       <a href="../6_nn/" class="md-nav__link">
         More on Neural Networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_bestpractice/" class="md-nav__link">
+        Best practices in the training of Machine Learning models
       </a>
     </li>
   
@@ -541,7 +541,7 @@ model is written as:</p>
 <p>Next, we need to define a metric (i.e., cost function) which we can use to optimize for the free parameters <span class="arithmatex">\(\boldsymbol\theta\)</span>.
 For regression problems, a common metric of goodness is the L2 norm or MSE (Mean Square Error):</p>
 <div class="arithmatex">\[
-J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = || \textbf{y}_{train} - \hat{\textbf{y}}_{train}||_2^2 = 
+J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = \frac{1}{N_s} || \textbf{y}_{train} - \hat{\textbf{y}}_{train}||_2^2 = 
 \frac{1}{N_s} \sum_i^{N_s} (y_{train}^{(i)}-\hat{y}_{train}^{(i)})^2
 \]</div>
 <p>Based on our previous lecture on optimization, we need to find the best set of coefficients <span class="arithmatex">\(\theta\)</span> that minimize the MSE:</p>
