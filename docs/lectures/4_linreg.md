@@ -49,7 +49,7 @@ Next, we need to define a metric (i.e., cost function) which we can use to optim
 For regression problems, a common metric of goodness is the L2 norm or MSE (Mean Square Error):
 
 $$
-J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = || \textbf{y}_{train} - \hat{\textbf{y}}_{train}||_2^2 = 
+J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = \frac{1}{N_s} || \textbf{y}_{train} - \hat{\textbf{y}}_{train}||_2^2 = 
 \frac{1}{N_s} \sum_i^{N_s} (y_{train}^{(i)}-\hat{y}_{train}^{(i)})^2
 $$
 

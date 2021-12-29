@@ -138,8 +138,9 @@ $$
 with probability:
 
 $$
-P(x)=\phi^x(1-\phi)^{1-x}
+P(x)=\phi^x(1-\phi)^{1-x} = \phi x + (1-\phi)(1-x)
 $$
+
 
 and momentums equal to:
 
