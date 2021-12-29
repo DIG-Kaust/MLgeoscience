@@ -184,37 +184,255 @@ initialization strategies have been proposed in the literature:
   This strategy ensures that the variance remains the same across the layers. Xavier initialization
   is very popular especially in layers using ReLU activations.
   
-  
 Finally, if you are interest to learn more about initialization I reccomend reading (and reproducing)
 the following blog posts: [1](https://medium.com/@safrin1128/weight-initialization-in-neural-network-inspired-by-andrew-ng-e0066dc4a566)
 and [2](https://www.deeplearning.ai/ai-notes/initialization/).
 
+## Why Deep Learning took off in the last century
 
-WHY NN/DEEP LEARNING TOOK OFF
------------------------------
+Before moving onto the last topic of this lecture, a unified statistical view of loss functions in deep learning, 
+let's try to answer a question that many of you may ask: *what makes NNs so popular these days and why deep learning took off in the 
+last decade?*
 
-Finally lets remark why theories are all from '80 but until early 2000 NN were not popular (niche field)
+By now, we have made ourself familar with the concept of neural networks, learned about its basic building block (the so-called perceptron) and
+how by simply horizontally and vertically stacking multiple percetrons we can create universal function approximators that can be trained to learn
+very complex nonlinear relationships between inputs and targets (provided availability of a large enough amount of training data). The process
+of creating and training NNs relies on the following four key ingredients:
 
-"The core ideas behind modern feedforward networks have not changed sub-stantially since the 1980s. 
-The same back-propagation algorithm and the same approaches to gradient descent are still in use. Most of 
-the improvement in neuralnetwork performance from 1986 to 2015 can be attributed to two factors. First,larger 
-datasets have reduced the degree to which statistical generalization is achallenge for neural networks. Second, neural 
-networks have become much larger,because of more powerful computers and better software infrastructure"
+- *linear algebra operations*: matrix-vector and matrix-matrix multiplications (at least withint the context of FC networks);
+- *activations*: nonlinear functions that enable the learning of complex nonlinear mappings;
+- *loss functions*: functions that can be used to evaluate the goodness of the model in terms of predicting targets from inputs; 
+- *learning algorithms*: optimization methods that can produce the best weights and biases using gradient information;
 
-Plus a few algorithmic changes:
-- "One of these algorithmic changes was the replacement of mean squared errorwith the cross-entropy family of loss functions. 
-Mean squared error was popular inthe 1980s and 1990s but was gradually replaced by cross-entropy losses and the principle 
-of maximum likelihood as ideas spread between the statistics community and the machine learning community. 
-The use of cross-entropy losses greatly improved the performance of models with sigmoid and softmax outputs, whichhad previously 
-Suﬀered from saturation and slow learning when using the meansquared error loss" --> NOTE for regression ML with gaussianity assumption
-on p(y|x) is still MSE, but only for this edge case!
+Eventually, most of the underlying theory of NNs was already fairly mature in to 
+70s and 80s; nevertheless, until the early 2000, research in the field of artificial neural networks was still considered a 
+niche domain mostly theoretical and with little practical implications. So, what did lead to the reinassance of Deep Learning?
 
-- "change that has greatly improved the performanceof feedforward networks was the replacement of sigmoid hidden units 
-  with piecewiselinear hidden units, such as rectiﬁed linear units. Rectiﬁcation using themax{0, z}function was 
-  introduced in early neural network models and dates back at least as faras the cognitron and neocognitron (Fukushima, 1975, 1980)...
-  This began to change in about 2009. Jarrett et al. (2009)observed that “using a rectifying nonlinearity is the single most 
-  important factorin improving the performance of a recognition system,” --> LEARN TO CHALLANGE STATUS QUO, SOMETIMES UNDERSTANDING OF
-  PROBLEMS CAN CHANGE OR NEW EXTERNAL FACTORS (EG MORE DATA) MAKE SOMETHING THAT WAS WORSE BECOME BETTER... SIMILAR STORY IN FWI FOR GEOPHYSCISTS
+Two key factors in the growth in popularity and success of Neural Networks are undoubtedly:
+
+- *larger datasets*: with the growth of the internet and social media, a digital revolution has started since the beginning of the
+  new century, where datasets of ever increasing size can be easily sourced. This applies both to images and text as well as audio 
+  and video content.
+- *larger networks*: with the emergence of new hardware technology such as GPUs, training large deep networks is nowadays possible,
+  not only for large corporations like Google or Microsoft but also in Academia or for small- and medium-size enterprises that 
+  want to leverage their data to make data-driven business decisions.
+
+Alongside the data and harwdare revolution, a number of important algorithmic discoveries have also led to faster, more robust 
+training of NNs making this process easier and more accessible to domain scientists in a variety of scientific fields. Some of them
+have been already discussed, but we wish here to put more emphasis on them:
+
+- *MSE --> Cross-entropy*: whilst in the past the mean square error (MSE) loss was used for pretty much every task, nowadays classification
+  or semantic segmentation tasks are more commonly solved by means of Cross-entropy loss functions. This shift in training strategy is mostly
+  due to the fact that the ML community and the statistical community got closer to each other in the last two decades, which lead to 
+  the development of strong statistical foundations in the theory of deep learning;
+- *Sigmoid --> ReLU*: whilst continuous, differentiable activation functions used to be a must in the past mostly due to the belief that
+  gradient descent algorithms (and back-propagation) needs these kind of functions to behave correctly, it is now clear that this constraint
+  can be greatly related. Piece-wise linear activation functions like ReLU are nowadays not only used but pretty much the de-facto standard
+  for hidden layers in deep neural networks. Jarrett et al. (2009) observed that *"using a rectifying nonlinearity is the single most 
+  important factor in improving the performance of a recognition system"*.
   
 
-Also add mixture density 'network' (example of petroelastic with facies - Andrews paper) - https://towardsdatascience.com/a-hitchhikers-guide-to-mixture-density-networks-76b435826cca
+## Maximum likelihood estimators
+
+To conclude, we would like to revisit the loss functions already introduced in the context of linear and logistic 
+regression models and introduce some other loss functions that are commonly employed to train neural networks.
+
+However, whilst so far we have chosen different loss functions for each task (regression vs. classification) without really
+providing a statistical motivation of such choices, in this section we will instead try to define a common framework based on the concept of
+Maximum Likelihood Estimations (MLE).
+
+Let's start by considering a set of samples drawn from the true (but unknown) distribution:
+
+$$
+\mathbf{X} = \{ \mathbf{x}^{(1)}, \mathbf{x}^{(2)}, ..., \mathbf{x}^{(N_s)} \} \sim p_{data}(\mathbf{X}) 
+$$
+
+Second, a parametric family of probability distribution is defined:
+
+$$
+p_{model}(\mathbf{X}; \theta) 
+$$
+
+This distribution maps any vector $\mathbf{x}$ to a real number and is generally referred to as the 
+likelihood function. Its free parameters $\theta$ must be chosen
+such that this probability distribution is as close as possible to the true one.
+
+As an example, if we consider a multi-variate gaussian distribution with uncorrelated members, the
+free parameters become $\theta = \{ \boldsymbol \mu, \sigma\}$ and the probability density function
+becomes:
+
+$$
+p_{model}(\mathbf{x}; \{ \boldsymbol \mu, \sigma\}) = 
+\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{||\mathbf{x} - \boldsymbol \mu||_2^2}{2 \sigma^2}}
+$$
+
+We can now define the MLE as follows:
+
+$$
+\theta_{ML} = \underset{\theta} {\mathrm{argmax}} \; p_{model}(\mathbf{X}; \theta) 
+$$
+
+Assuming now statistical independence between the samples $\mathbf{x}^{(i)}$, the equation above can
+be rewritten as:
+
+$$
+\begin{aligned}
+\theta_{ML} &= \underset{\theta} {\mathrm{argmax}} \; \prod_{i=1}^{N_s} p_{model}(\mathbf{x}^{(i)}; \theta) \\
+&= \underset{\theta} {\mathrm{argmax}} \; \sum_{i=1}^{N_s} log(p_{model}(\mathbf{x}^{(i)}; \theta)) \\
+&\approx \underset{\theta} {\mathrm{argmax}} \; E_{\mathbf{x} \sim p_{data}} [ log(p_{model}(\mathbf{x}; \theta))] \\
+&= \underset{\theta} {\mathrm{argmin}} \; - E_{\mathbf{x} \sim p_{data}} [ log(p_{model}(\mathbf{x}; \theta))]
+\end{aligned}
+$$
+
+Simply put, maximizing the parametric probability density 
+function is shown to be equivalent to *minimizing the negative log likelihood* of the same distribution.
+An optimization problem must be therefore solved to find the most suitable free parameters. Going back
+to the multi-variate gaussian example, let's assume we are interested to estimate the mean (whilst we keep the
+variance fixed):
+
+$$
+\begin{aligned}
+\boldsymbol \mu_{ML} &= \underset{\boldsymbol \mu} {\mathrm{argmin}} \; 
+- \sum_{i=1}^{N_s} log \Big( \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{||\mathbf{x}^{(i)} - \boldsymbol \mu||_2^2}{2 \sigma^2}} \Big) \\
+&= \underset{\boldsymbol \mu} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} \frac{||\mathbf{x}^{(i)} - \boldsymbol \mu||_2^2}{2 \sigma^2}
+\end{aligned}
+$$
+
+Computing the gradient and imposing it to be zero gives us the point estimate of $\boldsymbol \mu_{ML}$:
+
+$$ \frac{\partial -\sum_i log p}{\partial \boldsymbol \mu} = 0 \rightarrow \sum_{i=1}^{N_s} (\mathbf{x}^{(i)} - \boldsymbol \mu) = 0 
+\rightarrow \boldsymbol \mu_{ML} = \frac{1}{N_s} \sum_{i=1}^{N_s} \mathbf{x}^{(i)}
+$$
+
+which is nothing more than the well-known *sample mean* of the distribution.
+
+In order to apply the same framework to learning problems like thoose arising in DL, the ML estimation is now 
+extended to the case of conditional probabilities where we are given a set of training pairs $(\mathbf{x}, y)^{(i)}$:
+
+$$
+\begin{aligned}
+\theta_{ML} &= \underset{\theta} {\mathrm{argmax}} \; p_{model}(Y | \mathbf{X}; \theta) \\
+&= ... \\
+&= \underset{\theta} {\mathrm{argmin}} \; - E_{\mathbf{x},y \sim p_{data}} [ log(p_{model}(y|\mathbf{x}; \theta))]
+\end{aligned}
+$$
+
+### Regression
+
+#### Linear regression 
+Let's first apply this framework to a simple linear regression problem. Here, under the assumption 
+of gaussian noise, the likelihood can be written as a multi-variate gaussian distribution:
+
+$$
+y = \tilde{\mathbf{x}}^T \boldsymbol \theta + \mathbf{n}  \sim \mathcal{N}(\hat{y} = \tilde{\mathbf{x}}^T \boldsymbol \theta, \sigma)
+$$
+
+Plugging this distribution into the negative log likelihood expression, we obtain:
+
+$$
+\theta_{ML} = \underset{\theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} 
+\frac{||\hat{y}^{(i)} - y^{(i)}||_2^2}{2\sigma^2} = \frac{N_s}{2\sigma^2} MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train})\\
+$$
+
+This cost function can be seen to be a rescaled version of the MSE function previously introduced 
+as the loss function for the linear regression model. Note however, that this model is not only more rigorous from
+a statistical point of view but provides also a natural way to handle training samples with different confidence. By using
+sample-dependant scaling factors ($\sigma^{(i)}$), different samples can be chosen to contribute more or less to the
+training process.
+
+#### Multi-layer perceptron regression
+A very similar derivation can be performed for a neural network composed by one or more MLPs. Eventually we simply need
+to swap the previously linearly predicted output $\hat{y}=\tilde{\mathbf{x}}^T \boldsymbol \theta$ with a new
+output produced by the chosen nonlinear functional $\hat{y}=f_\theta(\mathbf{x})$. 
+
+In conclusion, we must remember that the MSE loss function, commonly used for regression 
+tasks in ML and DL, is a MLE in disguise.
+
+
+### Classification
+
+#### Binary classification
+
+In statistical learning, a Bernoulli distribution is commonly used for the task of binary (i.e., 2 label) 
+classification:
+
+$$
+P(y)= \phi y + (1-\phi)(1-y)
+$$
+
+where $y$ is the outcome and $\phi$ is its probability that we wish to learn by means of a model 
+(i.e., logistic regression or MLP). Moreover, as we wish to learn a probability this value must be bound between
+0 and 1; this can be easily achieved by feeding the output of the model into a sigmoid function $\sigma$:
+
+$$
+\hat{y} = \sigma (f_\theta(\mathbf{x}))
+$$
+
+Put together:
+
+$$
+\begin{aligned}
+\theta_{ML} &= \underset{\theta} {\mathrm{argmin}} \; -\sum_{i=1}^{N_s} log(p_{model}(y^{(i)}|\mathbf{x}^{(i)}; \theta) \\
+&= -\sum_{i=1}^{N_s} y^{(i)} log \hat{y}^{(i)} + (1-y^{(i)}) log (1-\hat{y}^{(i)})
+\end{aligned}
+$$
+
+which is the same loss function that we have introduced and discussed in details in the context of logistic
+regression. 
+
+Once again, we note how we have here simply defined a MLE for a classification task and obtained
+the well-know binary cross-entropy loss function.
+
+
+#### Multi-label classification
+
+An extension of binary classification, multi-label classification aims at producing an estimate of the most likely class
+within a set of $N_c$ classes. 
+
+The combination of a Bernoulli distribution and sigmoid activation used for the binary classifier 
+is here replaced by a Multinoulli distribution and softmax activation, where the latter is defined as follows:
+
+$$
+\hat{\mathbf{y}} = \sigma(\mathbf{x}) =\frac{e^\mathbf{x}}{\sum_{i=1}^{N_c} e^{x_i}}
+$$
+
+A property of such activation function is that it takes as input a vector of numbers (sometimes called *logits*)) and 
+produces as output a vector of probabilities (i.e., $y_i>0$ and $\sum_{i=1}^{N_c} y_i=1$).
+
+Put together:
+
+$$
+\begin{aligned}
+\theta_{ML} &= \underset{\theta} {\mathrm{argmin}} \; -\sum_{i=1}^{N_s} log(p_{model}(y^{(i)}|\mathbf{x}^{(i)}; \theta) \\
+&= -\sum_{i=1}^{N_s} \sum_{j=1}^{N_c} y_j^{(i)} log \hat{y}_j^{(i)}
+\end{aligned}
+$$
+
+where the true labels $\mathbf{y}^{(i)}$ are one-hot encoded vectors (i.e., $y_{j=j_{true}}^{(i)}=1$ and 
+$y_{j \neq j_{true}}^{(i)}=0$).
+
+To conclude, let's try to get more insights into why ML estimators work so succesfully. In order to do so, we start
+by defining a measure of similarity between the two distributions of interest:
+
+- empirical distribution of the data: $p_{data}(\mathbf{X})$
+- parametric model distribution: $p_{model}(\mathbf{X}; \theta)$
+
+This can be achieved by means of the previously introduced Kullback-Leibler divergence, which we can write as follows:
+
+$$
+D_{KL}(p_{data}||p_{model})  = E_{x \sim p_{data}} [log p_{data}(\mathbf{x}) - p_{model}(\mathbf{x})]  
+$$
+
+Since we are interested to estimate the free-parameters $\theta$ such that the model distribution matches that of the data,
+an equivalent optimization problem can be written with the help of the KL divergence:
+
+$$
+\begin{aligned}
+\theta_{KL} &= \underset{\theta} {\mathrm{argmin}} \; D_{KL}(p_{data}||p_{model}) \\
+&= \underset{\theta} {\mathrm{argmin}} \; - E_{\mathbf{x} \sim p_{data}} [ log(p_{model}(\mathbf{x}; \theta))]
+\end{aligned}
+$$
+
+where the data probability has been removed in the second term since it is independent of $\theta$. We can conclude
+that $\theta_{KL}=\theta_{ML}$ and therefore minimizing the KL divergence between the model and data distributions
+is the same as maximizing their cross-entropy (as done by the ML estimator).
