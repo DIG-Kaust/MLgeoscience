@@ -6,17 +6,24 @@
 #SBATCH --time=01:00:00 
 #SBATCH --partition=batch 
 
+########################################################
+# IBEX SLURM SCRIPT TO INSTANTIATE A JUPYTER-NOTEBOOK  #
+# FOR 1H WITH SINGLE GPU. CHECK STDOUT FILE FOR        #
+# INSTRUCTIONS ON HOW TO CONNECT TO THE NOTEBOOK FROM  #
+# LOCAL WEB BROWSER                                    #
+########################################################
+
 # Load conda environment which has Jupyter installed.
 source activate pytorch_gpu 
 
-# get tunneling info 
+# Get tunneling info
 export XDG_RUNTIME_DIR="" node=$(hostname -s) 
 user=$(whoami) 
 submit_host=${SLURM_SUBMIT_HOST} 
 port=10000
 echo $node pinned to port $port 
-# print tunneling instructions 
 
+# Print tunneling instructions
 echo -e " 
 To connect to the compute node ${node} on IBEX running your jupyter notebook server, you need to run following two commands in a terminal 1. 
 Command to create ssh tunnel from you workstation/laptop to glogin: 
