@@ -418,15 +418,43 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#capacity-overfitting-and-underfitting" class="md-nav__link">
-    Capacity, overfitting and underfitting
+  <a href="#capacity" class="md-nav__link">
+    Capacity
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#-" class="md-nav__link">
-    -
+  <a href="#other-hyperparameters" class="md-nav__link">
+    Other hyperparameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regularization" class="md-nav__link">
+    Regularization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-augumentation" class="md-nav__link">
+    Data augumentation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dropout" class="md-nav__link">
+    Dropout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transfer-learning" class="md-nav__link">
+    Transfer learning
   </a>
   
 </li>
@@ -470,15 +498,43 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#capacity-overfitting-and-underfitting" class="md-nav__link">
-    Capacity, overfitting and underfitting
+  <a href="#capacity" class="md-nav__link">
+    Capacity
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#-" class="md-nav__link">
-    -
+  <a href="#other-hyperparameters" class="md-nav__link">
+    Other hyperparameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regularization" class="md-nav__link">
+    Regularization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-augumentation" class="md-nav__link">
+    Data augumentation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dropout" class="md-nav__link">
+    Dropout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transfer-learning" class="md-nav__link">
+    Transfer learning
   </a>
   
 </li>
@@ -501,14 +557,199 @@
 representing a subclass of the entire set of models commonly used to learn mappings between some
 features and targets. As we will see in the following, a number of <code>best practices</code> are in fact 
 indipedent on the model used.</p>
-<h2 id="capacity-overfitting-and-underfitting">Capacity, overfitting and underfitting</h2>
 <p>Let's begin by re-stating here the overall aim of a ML model: a model is useful if it can perform
 well on new, previously not seen data. This property of a model is also generally referred to as
 <em>generalization</em>.</p>
 <p>In order to be able to assess the generalization capabilities of a model, the dataset available for
 training must be divided into 3 distinct sets:</p>
-<h2 id="-">-</h2>
-<p>-</p>
+<ul>
+<li>Training dataset: <span class="arithmatex">\(\{ \mathbf{X}_{train}, \mathbf{Y}_{train} \}\)</span>, used to train the model 
+  (e.g., learn the free-parameters <span class="arithmatex">\(\boldsymbol \theta\)</span> of a NN);</li>
+<li>Validation dataset: <span class="arithmatex">\(\{ \mathbf{X}_{valid}, \mathbf{Y}_{valid} \}\)</span>, used to select the hyperparamters of
+  the model;</li>
+<li>Testing dataset:<span class="arithmatex">\(\{ \mathbf{X}_{test}, \mathbf{Y}_{test} \}\)</span>, used only once a model is finalized
+  (trained and optimized) to produce an <em>unbiased</em> estimate of model performance.</li>
+</ul>
+<p>Note that a number of assumptions are usually made on the training samples, namely each sample is
+indipendent from the others, samples must come from the same distributions. The first assumption
+is however seldom satisfied as a different training samples are related to each other to some degree (this is for example
+the case when samples are taken from well logs at consecutive depth levels or from 2D slices of 3D seismic
+cubes). On the other hand, the second assumption must be satisfied for a succesfull training. For example, if well logs
+from the North Sea are used in the training data and well logs from Onshore US are used in the testing data,
+any estimate of model performance will be biased as the two sets are likely to belong to different distributions.</p>
+<p>Historically, the overall dataset is split into training/validation/testing data with the following proportions: 
+60%/20%/20%. This is the case for small datasets in the order of hundreds or thousands samples to be able to
+retain a large enough set to produce reliable statistics. In recent years, when training neural networks with 
+large datasets (in the order of millions or more samples), the split is more commonly chosen as
+98%/1%/1%. As the size of datasets in geoscientific applications is usually in between what we referred to as small
+and large datasets, choosing validation and training sets that are 5%/10% of the overall dataset is
+usually a good choice.</p>
+<p>A measure must be then chosen to evaluate the performance of such a model in terms of the
+estimation error after training. This can be for example the MSE for regression tasks, or cross-entropy for classification tasks. 
+Two quantities are generally computed:</p>
+<ul>
+<li><strong>Training error</strong> (or performance): overall error (or performance) computed over the training dataset;</li>
+<li><strong>Test/Generalization error</strong> (or performance): overall error (or performance) computed over the testing dataset.</li>
+</ul>
+<p>The goodness of machine learning model is usually evaluated based on the following two criteria:</p>
+<ul>
+<li><strong>Bias</strong>: ability to produce a small training error. When the error is small, we say that we have a model with low bias. 
+  Viceversa, when the error is large, the model have high bias. In this case, the model is said to be <em>underfitting</em> the data;</li>
+<li><strong>Variance</strong>: ability to produce comparable training and testing error. In other words, if we define 
+  <em>gap</em> to be the difference between the testing and training errors, this is also the ability to produce a 
+  small gap. When the gap is large, the model is said to be <em>overfitting</em> the data.</li>
+</ul>
+<p>Finally, no matter how large the training dataset and the model capacity are, the bias and variance are likely to be always 
+present. So, an important question to ask ourselves when working on a ML project is 'how far can the performance of the model be pushed further?'. 
+Or, in other words, can we expect further hyperparameter tuning to be successfully improving the model significantly or the model has 
+reached a plateau in terms of learning capabilities. </p>
+<p>To answer the above question, we need to first consider two distinct scenarios:</p>
+<ul>
+<li>the network is designed to solve a task that a human can also solve (e.g., interpreting faults and horizons in seismic volumes)</li>
+<li>the network is performing a task that a human is not able to perform (e.g., denoising a seismic volume).</li>
+</ul>
+<p>In the former case, it is possible to define the so-called <em>human-level performance</em> (i.e., error that a human is
+likely to make on the task at hand). Experience in the field deep learning has shown that the performance of a model (e.g., accuracy in
+classification tasks) depends on the development time of a ML model in such a way that a well-designed model will 
+very quickly reach human-level performance, whilst a much more significant effort is required to obtain further improvements
+and approach the theoretical limit of the model. Such a limit, called the Bayesian optimal error, is the error of
+an oracle making predictions. In practical applications this may however be unknown, unless the training data has been generated in such
+a way that true, exact labels are available.</p>
+<p><img alt="MLPERFORMANCE" src="../figs/mlperformance.png" /></p>
+<p>In a range of geoscientific applications, human-level performance may be replaced by that of a state-of-the-art algorithm that is
+commonly used to perform a certain task. For example, going back to the denoising example, this may be represented by FX prediction
+filters or SVD-based denoising. Such an algorithm can represent the human performance in the above figure and represent a 
+baseline that we would like our model to outperform. At the same time, as no human labels are available, the use of synthetic data with true
+labels does usually represent the only viable solution to creating a training dataset in this scenario. The theoretical limit, this time represented by
+the true labels can again guide us into how much effort we should put to improve the hyperparameters of the model.</p>
+<p>To conclude, let's consider two examples of ML classifiers. In the first, after some development time, 
+our ML model performs as follows:</p>
+<ul>
+<li>human-level percentage error: 2%</li>
+<li>training percentage error: 10%</li>
+<li>validation percentage error: 12%</li>
+</ul>
+<p>In this scenario, we clearly observe a large bias and a much smaller variance. This bias, usually referred to as
+<em>avoidable bias</em> is what we should focus next in our ML development time.</p>
+<p>On the other hand, if we observe the following:</p>
+<ul>
+<li>human-level percentage error: 2%</li>
+<li>training percentage error: 4%</li>
+<li>validation percentage error: 20%</li>
+</ul>
+<p>This model shows a small bias and a large variance. Our ML development time should be therefore devoted to reduce the generalization gap.
+On the other hand, since the difference between human-level and training error is minimal, we refer to this error as
+<em>unavoidable bias</em> that may be very difficult to further reduce.</p>
+<p>In the following we discuss a number of strategies that are commonly used in the process of improving the model 
+and reducing both bias and variance.</p>
+<h2 id="capacity">Capacity</h2>
+<p>A key aspect in the process of designing a ML model that can both fit the available data and generalize to
+new, unseen data is represented by the size, or more formally speaking the <em>capacity</em> of the model. Simply put, this is the 
+number of free parameters <span class="arithmatex">\(\theta\)</span> that the model is allowed to optimize in the training process. </p>
+<p>Let's begin with an example of linear regression, where the model is defined as follows:</p>
+<div class="arithmatex">\[
+y_i = f_{\boldsymbol \theta}(x_i) = \sum_{j=0}^{N_f} x_i^j \theta_j \qquad \forall i=1,2,...,N_s
+\]</div>
+<p>where <span class="arithmatex">\(N_f+1\)</span> is the capacity of the model. The simplest model that we can fit to the available data
+is straigh line parametrized by <span class="arithmatex">\(\boldsymbol \theta = {\theta_1, \theta_2}\)</span>. More complex model fit a
+polynomial function of order <span class="arithmatex">\(N_f+1\)</span>. As shown in the figure below, a too simple model does lead to underfitting, 
+whilst a too complex model leads to overfitting. The key is therefore to make a model that is as simple as possible
+but not too simple, somethign usually referred to as the Occam's razor principle in inverse problem theory.</p>
+<p><img alt="CAPACITY" src="../figs/capacity.png" /></p>
+<p>Similar principles apply to the design of a neural network. In this case however, the risk of overfitting is
+much higher to due to ability of NNs to learn very complex nonlinear functions. The size of the training dataset
+plays a key role in choosing the capacity of the network: large networks with thousands (or millions) of free-parameters
+require large training dataset to avoid the arising of overfitting. Moreover, as shown in the figure below,
+training and testing errors are usually similar for small networks in the underfitting regimes and tend to reduce
+together as the network size increases. However, when the capacity of the network grows into the overfitting
+regime, the training error keeps decreasing whilst the testing error starts to increase. Note that the
+training error should always reduce when increasing the size of the network, therefore it cannot be used 
+to choose the ideal network capacity. This shows the importance of holding some of the available data for validation
+purposes. i.e., hyperparameter optimization.</p>
+<p><img alt="GENERALIZATION" src="../figs/generalization.png" /></p>
+<h2 id="other-hyperparameters">Other hyperparameters</h2>
+<p>Whilst the size of the network largely drives the ability of a model to learn as well as its tendency to overfit, this does unfortunately 
+(or fortunately, depending of the point of view of the reader), when designing a ML model you will likely need to 
+make decisions on a number of additional hyperparameters. Here we report some of the most important ones:</p>
+<ul>
+<li>activation function type; </li>
+<li>optimizer, </li>
+<li>learning rate </li>
+<li>additional optimizer hyperparameters, </li>
+<li>batch size...</li>
+</ul>
+<p>As already mentioned, we need to devote a portion of the overall dataset that we will not be using to evaluate the final performance of the model
+for the task of <em>hyperparameter tuning</em>. This is indeed the role of the validation dataset (note that using this dataset at testing stage will
+result in underestimating the generalization error of the model because the model is partially optimized on this dataset).</p>
+<p>Finally, whilst not very commonly used in the context of deep learning because of the extremely high cost of training neural networks, a more powerful
+approach to optimizing hyper-parameter is the so-called <em>cross-validations</em> strategy. Similar to validation, a portion of the dataset
+is hold out from the training process and used for hyperparameter tuning. However, the portion selected for this task is not fixed, rather the entire 
+training dataset is split into K groups, where each group is used once as the validation set and the remaining number of times as part of the training dataset.</p>
+<p>This approach, usually referred to a <em>K-fold cross-validation</em> is of great help when the training dataset is of limited size as it helps averaging out fluctuations on the validation error
+over multiple realizations. The obvious downside of this strategy is of course that the training process must be repeated N times.</p>
+<p>Note that other strategies can be used to split the dataset into training and validation. For example, in the context of classification, a class-aware division is usually reccomended
+where inter-class proportions are the same between the validation and training datasets.</p>
+<h2 id="regularization">Regularization</h2>
+<p>Whilst both under- and overfitting commonly affect the development of a succesfull ML model, reducing variance without affecting
+bias is notoriously difficult. A strategy that is usually succesfull in achieving such a task is called Regularization. 
+Regularization acts directly on the loss function by adding prior knowledge to the training process. By informing the network
+about something that we know (or wish the model to know), the network is less prone to just learn from the training data and improve its
+generalization capabilities.</p>
+<p>In the context of inverse problem theory, where our aim is that of fitting some observations <span class="arithmatex">\(\mathbf{y}\)</span> given knowledge of
+the underlying physical process (<span class="arithmatex">\(g\)</span>), </p>
+<div class="arithmatex">\[
+J = ||\mathbf{y} - g(\mathbf{x})||_2^2 + \lambda R(\mathbf{x})
+\]</div>
+<p>regularization can come in different flavours, more specifically:</p>
+<ul>
+<li><em>Tikhonov (or L2) regularization</em>: <span class="arithmatex">\(||\mathbf{x}||_2^2\)</span>. Ensures that a model with small norm is favoured over other models
+  equally fitting the data. This promotes simplicity (or parsimony) in the solution</li>
+<li><em>Generalized Tikhonov regularization</em>: e.g., <span class="arithmatex">\(||\nabla \mathbf{x}||_2^2\)</span>, where <span class="arithmatex">\(\nabla\)</span> is the laplacian operator. Ensures that a smooth model is favoured over a rough one by
+  second derivative of the model (i.e., curvature).</li>
+<li><em>L1 regularization or sparsity</em>: <span class="arithmatex">\(||\mathbf{x}||_p \; p \le 1\)</span>. Promotes solutions that are sparse (i.e., few non-zero elements)</li>
+</ul>
+<p>A similar approach can be adopted in the context of machine learning by augumenting the data-fitting loss function with a regularization term:</p>
+<div class="arithmatex">\[
+J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} ||y^{(i)} - f_\theta(\mathbf{x}^{(i)})||_2^2 + \lambda R(\theta)
+\]</div>
+<p>where: </p>
+<ul>
+<li>
+<p><em>L2 regularization or weight decay</em>: <span class="arithmatex">\(||\boldsymbol \theta||_2^2= \boldsymbol \theta^T \boldsymbol \theta\)</span>. Ensures small Euclidean norm for the free-parameters;</p>
+</li>
+<li>
+<p><em>L1 regularization</em>: <span class="arithmatex">\(||\boldsymbol \theta||_1\)</span>. Ensures small L1 norm for the free-parameters. 
+  By favouring sparsity in the parameters of the model, this regularization can allow compressing the 
+  trained model by storing only the non-negative paramters and their indices.</p>
+</li>
+</ul>
+<p>Note that in the statistical community, regression models with one of the two regularizations discussed above 
+is called Ridge and Lasso regression models, respectively.</p>
+<p>Finally, in the special case of deep learning and training by back-propagation the regularization terms and their gradients
+can be simply expressed as:</p>
+<ul>
+<li>
+<p><em>L2 regularization or weight decay</em>:
+  $$
+  \frac{1}{2 N_s} \sum_{l=1}^{L} ||\mathbf{W}^{[l]}||_2^2 \rightarrow \mathbf{W}^{[l]} = 
+  \mathbf{W}^{[l]} \big[ 1 - \alpha \frac{\lambda}{N_s} \big] - \alpha \mathbf{dW}^{[l]}
+  $$
+  where the term weigh decay comes from the fact that the strenght of the current weights is reduced by a factor
+  of <span class="arithmatex">\(\alpha \lambda / N_s\)</span> at every gradient step of the regularized loss function</p>
+</li>
+<li>
+<p><em>L1 regularization</em>: 
+  $$
+  \sum_{l=1}^{L} ||\mathbf{W}^{[l]}||_2^2 \rightarrow \mathbf{W}^{[l]} = \mathbf{W}^{[l]} - \alpha \mathbf{dW}^{[l]} - \mathbf{W}^{[l]}
+  $$</p>
+</li>
+</ul>
+<p>In both cases <span class="arithmatex">\(L\)</span> represents the number of layers in the network. Note that it is common to apply regularization to the weights only (no bias terms).</p>
+<h2 id="data-augumentation">Data augumentation</h2>
+<h2 id="dropout">Dropout</h2>
+<h2 id="transfer-learning">Transfer learning</h2>
+<p>To conclude, let's visually summarize the stategies that we should keep in mind when interested to reduce bias or variance. </p>
+<p><img alt="BIASVARIANCE" src="../figs/biasvariance.png" /></p>
 <p>.....</p>
 <p>Generalize the loss functions from LinReg/LogReg, Linreg/Reg:MSE, Logreg/Class:softmax, Class multi see 5.5.1 and 6.2.2.1 and 6.2.2.2, 6.2.2.3 - DONE!!</p>
 <p>Pretty much all from Generalization. Follow chapter 5.2 for capacity, over-underfitting, Regularization, hyperparams etc. and also the course</p>
