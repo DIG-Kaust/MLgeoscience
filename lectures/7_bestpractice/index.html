@@ -439,15 +439,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#data-augumentation" class="md-nav__link">
-    Data augumentation
+  <a href="#dropout" class="md-nav__link">
+    Dropout
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#dropout" class="md-nav__link">
-    Dropout
+  <a href="#data-augumentation" class="md-nav__link">
+    Data augumentation
   </a>
   
 </li>
@@ -519,15 +519,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#data-augumentation" class="md-nav__link">
-    Data augumentation
+  <a href="#dropout" class="md-nav__link">
+    Dropout
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#dropout" class="md-nav__link">
-    Dropout
+  <a href="#data-augumentation" class="md-nav__link">
+    Data augumentation
   </a>
   
 </li>
@@ -745,16 +745,80 @@ can be simply expressed as:</p>
 </li>
 </ul>
 <p>In both cases <span class="arithmatex">\(L\)</span> represents the number of layers in the network. Note that it is common to apply regularization to the weights only (no bias terms).</p>
-<h2 id="data-augumentation">Data augumentation</h2>
 <h2 id="dropout">Dropout</h2>
+<p>Dropout represents a special kind of regularization strategy to prevent overfitting, which is specific to Neural Network architectures. Contrarily to other regularization
+techniques that act directly on the objective function to optimize, dropout modifies the network in such a way that a portion 
+of the neurons are randomly inactivated (i.e., set to zero) during the training process. </p>
+<p>A strategy to mitigate overfitting is in fact to to reduce the size of the network (i.e., its degrees of freedom) used to match the
+training data; however, instead of applying such a drastic approach, dropout allows the overall network size to remain
+unchanged whilst making the network effectively smaller during training. By doing so, the network learns not to rely 
+on any neuron (or set of neurons) in particular, which leads to better generalization in validation and testing phases.</p>
+<p>Considering a simple 3-layers NN, the nodes at each layer are inactivated with probability <span class="arithmatex">\(p_{drop}\)</span>. In the figure below, 
+<span class="arithmatex">\(p_{drop}=0.3\)</span> for the input and first hidden layer, <span class="arithmatex">\(p_{drop}=0.5\)</span> for the second hidden layer (and <span class="arithmatex">\(p_{drop}=0\)</span> for the 
+output layer):</p>
+<p><img alt="DROPOUT" src="../figs/dropout.png" /></p>
+<p>Mathematically speaking, if we consider a single node in the figure above, its output can be written as:</p>
+<div class="arithmatex">\[
+z_2^{[1]} = \frac{W_{21}^{[1]} x_1 + \cancel{W_{22}^{[1]} x_2} + W_{32}^{[1]} x_3 + b_{2}^{[1]}}{1-p_{drop}}
+\]</div>
+<p>where the second term is removed because <span class="arithmatex">\(W_{22}^{[1]\)</span> is set to zero. Moreover note that a denominator is added to 
+compensate for the fact the output is smaller than the one that we would obtain without dropout.</p>
+<p>In practice, a more convenient way to implement dropout is to act directly on the input vector at the i-th layer <span class="arithmatex">\(\mathbf{a}^{[i-1]}\)</span> instead
+of deactivating the weights. This approach is called <em>inverted dropout</em> and simply achieved by using a mask <span class="arithmatex">\(\mathbf{m}\)</span> where each element
+is randomly set to 0 or 1 based on <span class="arithmatex">\(p_{drop}\)</span>:</p>
+<div class="arithmatex">\[
+\mathbf{a}^{[i-1]} \rightarrow \tilde{\mathbf{a}}^{[i-1]} = 
+\mathbf{a}^{[i-1]} \cdot \mathbf{m} \rightarrow \mathbf{z}^{[i]} = (\mathbf{W}^{[i]} \tilde{\mathbf{a}}^{[i-1]})/(1-p_{drop})
+\]</div>
+<p>Finally, at testing time, dropout is usually inactivated. Recent research in the area of uncertainty quantification (UQ) for deep learning
+has however suggested that by using dropout also at testing time, multiple equi-probable realizations of the output can be produced and statistics
+(e.g., mean, variance, marginal probability...) can be computed. This strategy will be implemented and compared to other strategies for UQ in
+in this <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/LearningFunction/LearningFunction.ipynb">lab</a>.</p>
+<h2 id="data-augumentation">Data augumentation</h2>
+<p>One of the key elements to a successfull generalization (i.e., low variance) is represented by the 
+availability of a large training dataset. When this is not the case and it is not feasible to acquire additional 
+data, an alternative solution is represented by so-called <em>data augumentation</em>. Data augumentation simply refers to
+the set of procedures that can be employed to create new artificial data samples by manipulating or combining some of the
+original data samples. Whilst this is very data and problem dependant, in the following we will mention a number of strategies 
+that are commonly used in computer vision when working with natural images. More specifically:</p>
+<ul>
+<li>cropping,</li>
+<li>flipping,</li>
+<li>rotating,</li>
+<li>shearing,</li>
+<li>averaging,</li>
+<li>color shifting</li>
+</ul>
+<p>are all strategies that can be used or adapted to geoscientific multi-dimensional datasets. 
+Nevertheless, special attention may be required when implementing some of the above mentioned strategies. Just to give an example, stretching or squeezing time series data such as
+seismic traces does introduce a shift in the frequency content that may not be desirable. Similarly, applying <code>color shifting</code> to seismic
+data will lead to a signal whose average is not zero anymore. Alternatively, polarity reversal represents a better alternative that can be seen as
+a special type of color shifting when dealing with seismic data.</p>
+<p>Finally, we observe that although this does not stricly speaking fall within the realm of data augumentation, using basic physics 
+principles to create synthetic datasets for training is another commonly employed strategy in geoscience when accessing high-quality labelled
+datasets is feasible from either a technical or intellectual property point of view. We will see example of a ML workflow that relies on synthetic
+data when dealing with <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb">microseismic event detection</a>.</p>
 <h2 id="transfer-learning">Transfer learning</h2>
-<p>To conclude, let's visually summarize the stategies that we should keep in mind when interested to reduce bias or variance. </p>
+<p>An edge case of data augumentation is represented by transfer learning. Transfer learning is a procedure employed to circument the issue
+or scarse labelled data when <em>similar</em> datasets are available and have been previously used to train a neural network for a similar (or sometimes
+different task). Under these conditions, one may think to use the pre-trained network and use the available training data to fine-tune such a network
+for the task at hand. Once again, based on the dataset and problem, the entire pre-trained network may be used as starting point or just a portion of it 
+(generally chosen to be the initial portion of the network where some of the final layers are removed, and referred to as backbone).</p>
+<p>To make things a bit more concrete, let's consider here an example. A NN model has been created to interpret faults in seismic data. Training has been performed
+using data from an area of the world where both seismic data and fault interpratations are abundant. When a new dataset from the same area becomes available,
+the pre-trained model can be used as-is or fine-tuned using a much smaller training dataset (i.e., requiring limited manual labelling of faults). A similar strategy could also be used if a new dataset from another area of the world is ready for fault interpretation. In this second case, however, a user needs to 
+be aware that the model may not generalize well if key features in the data (e.g., frequency content) or interpretation (e.g., presence of reverse faults) 
+are different from those in the original dataset used for training.</p>
+<p>A different case where transfer learning can be also used is when the output that we are interested is slightly different from the one the network was trained on
+but the input is the same (and therefore the low- and medium-level features learned by the network). In this case, one may freeze the first few layers (i.e., make those
+parameters non-learnable) and fine-tune only the last few layers of the network on the new task. As an example, let's consider again a network
+trained for fault interpretation. Imagine now that we are interest to estimate a seismic attribute such as the relative geological time and we have very limited 
+access to labelled data. In this case the backbone of the network is likely to already contain useful features, and the problem arising from
+lack of a large training dataset is here mitigated by limiting the number of free-parameters to learn to those of the last few layers.</p>
+<p><img alt="TRANSFER" src="../figs/transferlearning.png" /></p>
+<p>To conclude, let's visually summarize the stategies that we should keep in mind when interested to reduce 
+bias or variance. </p>
 <p><img alt="BIASVARIANCE" src="../figs/biasvariance.png" /></p>
-<p>.....</p>
-<p>Generalize the loss functions from LinReg/LogReg, Linreg/Reg:MSE, Logreg/Class:softmax, Class multi see 5.5.1 and 6.2.2.1 and 6.2.2.2, 6.2.2.3 - DONE!!</p>
-<p>Pretty much all from Generalization. Follow chapter 5.2 for capacity, over-underfitting, Regularization, hyperparams etc. and also the course</p>
-<p>Also need to talk about Performance meausure, TP, FP, Accuracy, Precision etc... look at chapter 5 performance section and nice blog post
-https://yanndubs.github.io/machine-learning-glossary/</p>
                 
               
               
