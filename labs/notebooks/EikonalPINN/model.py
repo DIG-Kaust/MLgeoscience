@@ -112,23 +112,12 @@ class Network(nn.Module):
         self.act = act
         act = activation(act)
         lay = layer(lay)
-        """
-        self.input = nn.Sequential(lay(n_input, n_hidden[0]),
-                                   act)
-        self.hidden = nn.Sequential(
-            *[nn.Sequential(lay(n_hidden[i], n_hidden[i + 1]),
-                            act) for i in range(len(n_hidden) - 1)])
-        self.output = lay(n_hidden[-1], n_output)
-        """
         self.model = nn.Sequential(nn.Sequential(lay(n_input, n_hidden[0]), act),
                                    *[nn.Sequential(lay(n_hidden[i], n_hidden[i + 1]),
                                      act) for i in range(len(n_hidden) - 1)],
                                    lay(n_hidden[-1], n_output))
 
     def forward(self, x):
-        #x = self.input(x)
-        #x = self.hidden(x)
-        #x = self.output(x)
         x = self.model(x)
         return x
 
@@ -136,5 +125,4 @@ class Network(nn.Module):
     def init_weights(m):
         if isinstance(m, nn.Linear):
             torch.nn.init.xavier_uniform_(m.weight)
-            # torch.nn.init.xavier_normal_(m.weight)
             m.bias.data.fill_(0.01)
