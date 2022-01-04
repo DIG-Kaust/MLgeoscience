@@ -241,7 +241,7 @@ $$
 z_2^{[1]} = \frac{W_{21}^{[1]} x_1 + \cancel{W_{22}^{[1]} x_2} + W_{32}^{[1]} x_3 + b_{2}^{[1]}}{1-p_{drop}}
 $$
 
-where the second term is removed because $W_{22}^{[1]$ is set to zero. Moreover note that a denominator is added to 
+where the second term is removed because $W_{22}^{[1]}$ is set to zero. Moreover note that a denominator is added to 
 compensate for the fact the output is smaller than the one that we would obtain without dropout.
 
 In practice, a more convenient way to implement dropout is to act directly on the input vector at the i-th layer $\mathbf{a}^{[i-1]}$ instead
