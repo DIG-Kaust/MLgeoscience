@@ -15,7 +15,7 @@ dependencies:
   - pylops
   - ipython
   - jupyter
-  - pytorch
+  - pytorch=1.8.1
   - torchvision
   - torchaudio
   - lightgbm

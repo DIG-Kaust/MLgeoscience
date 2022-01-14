@@ -193,7 +193,10 @@ data are used once in the training loop. Whilst the choice of the size of the ba
 
 ![GD LOSSES](figs/opt_losses.png)
 
-Finally, I encourage everyone to read the following [blog post](https://ruder.io/optimizing-gradient-descent/) for a more
+
+## Additional readings
+
+- the following [blog post](https://ruder.io/optimizing-gradient-descent/) for a more
 detailed overview of the optimization algorithms discussed here. Note that in one of our future [lectures](lectures/08_gradopt1.md) 
 we will also look again at optimization algorithms and more specifically discuss strategies that allow overcoming some of the 
 limitations of standard SGD in [this lecture](lectures/10_gradopt1.md).

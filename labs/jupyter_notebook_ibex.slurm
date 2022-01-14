@@ -14,7 +14,7 @@
 ########################################################
 
 # Load conda environment which has Jupyter installed.
-source activate pytorch_gpu 
+source activate mlcoursegpu
 
 # Get tunneling info
 export XDG_RUNTIME_DIR="" node=$(hostname -s) 

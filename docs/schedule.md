@@ -11,9 +11,9 @@
 | 6       | XX   | [Neural Networks: backpropagation, initialization, and loss functions](lectures/06_nn.md) | -        | 
 | 7       | XX   | [Best practices in training of Machine Learning models](lectures/07_bestpractice.md)             | -        | 
 | 8       | XX   | [Advanced solvers: momentum, RMSProp, Adam, greedy training](lectures/08_gradopt1.md)                                       | -        | 
-| 9       | XX   | [Mixture Density Networks](lectures/XX.md)                  | -        | 
-| 10      | XX   | [Autoencoders](lectures/4_autoencoder.md)                                       | -        | 
-| 11      | XX   | [More on gradient-based optimization](lectures/08_gradopt1.md)                  | -        | 
-| 12      | XX   | [Autoencoders](lectures/4_autoencoder.md)                                       | -        | 
-| 13      | XX   | [More on gradient-based optimization](lectures/08_gradopt1.md)                  | -        | 
-| 14      | XX   | [Autoencoders](lectures/4_autoencoder.md)                                       | -        | 
+| 9       | XX   | [UQ in Neural Networks and Mixture Density Networks](lectures/09_mdn.md)                  | -        | 
+| 10      | XX   | [XX](lectures/XX.md)                                       | -        | 
+| 11      | XX   | [XX](lectures/XX.md)                                       | -        | 
+| 12      | XX   | [XX](lectures/XX.md)                                       | -        | 
+| 13      | XX   | [XX](lectures/XX.md)                                       | -        | 
+| 14      | XX   | [XX](lectures/XX.md)                                       | -        | 
