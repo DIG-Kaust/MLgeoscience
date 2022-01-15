@@ -322,12 +322,11 @@ The algorithm can be written as follows:
 $$
 \begin{aligned}
 &\mathbf{g}_{i+1} = \frac{1}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j\\
-&t=t+1\\
-&\mathbf{s}_{i+1} = \rho_1 \mathbf{r}_i + (1-\rho_1)\mathbf{g}_{i+1} \leftarrow velocity \; term \\
-&\mathbf{r}_{i+1} = \rho_2 \mathbf{r}_i + (1-\rho_2)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1}  \leftarrow scaling \; term \\
-&\hat{\mathbf{s}}_{i+1} = \frac{\mathbf{s}_{i+1}}{1-\rho_1^t} \leftarrow bias \; correction \\
-&\hat{\mathbf{r}}_{i+1} = \frac{\mathbf{r}_{i+1}}{1-\rho_2^t} \leftarrow bias \; correction \\
-&\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\hat{\mathbf{r}}_{i+1}}} \cdot \hat{\mathbf{s}}_{i+1}\\
+&\mathbf{m}_{i+1} = \rho_1 \mathbf{m}_i + (1-\rho_1)\mathbf{g}_{i+1} \leftarrow velocity \; term \\
+&\mathbf{v}_{i+1} = \rho_2 \mathbf{v}_i + (1-\rho_2)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1}  \leftarrow scaling \; term \\
+&\hat{\mathbf{m}}_{i+1} = \frac{\mathbf{m}_{i+1}}{1-\rho_1^{i+1}} \leftarrow bias \; correction \\
+&\hat{\mathbf{v}}_{i+1} = \frac{\mathbf{v}_{i+1}}{1-\rho_2^{i+1}} \leftarrow bias \; correction \\
+&\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\hat{\mathbf{v}}_{i+1}}} \cdot \hat{\mathbf{m}}_{i+1}\\
 &\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \Delta \boldsymbol\theta_{i+1}
 \end{aligned}
 $$

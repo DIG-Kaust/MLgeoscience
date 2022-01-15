@@ -310,7 +310,6 @@ lack of a large training dataset is here mitigated by limiting the number of fre
 
 ![TRANSFER](figs/transferlearning.png)
 
-
 To conclude, let's visually summarize the stategies that we should keep in mind when interested to reduce 
 bias or variance. 
 
