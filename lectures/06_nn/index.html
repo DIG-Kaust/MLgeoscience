@@ -963,7 +963,7 @@ y = \tilde{\mathbf{x}}^T \boldsymbol \theta + \mathbf{n}  \sim \mathcal{N}(\hat{
 \]</div>
 <p>Plugging this distribution into the negative log likelihood expression, we obtain:</p>
 <div class="arithmatex">\[
-\theta_{ML} = \underset{\theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} 
+\boldsymbol \theta_{ML} = \underset{\boldsymbol \theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} 
 \frac{||\hat{y}^{(i)} - y^{(i)}||_2^2}{2\sigma^2} = \frac{N_s}{2\sigma^2} MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train})\\
 \]</div>
 <p>This cost function can be seen to be a rescaled version of the MSE function previously introduced 
@@ -993,7 +993,7 @@ P(y)= \phi y + (1-\phi)(1-y)
 <p>Put together:</p>
 <div class="arithmatex">\[
 \begin{aligned}
-\theta_{ML} &amp;= \underset{\theta} {\mathrm{argmin}} \; -\sum_{i=1}^{N_s} log(p_{model}(y^{(i)}|\mathbf{x}^{(i)}; \theta) \\
+\boldsymbol \theta_{ML} &amp;= \underset{\boldsymbol \theta} {\mathrm{argmin}} \; -\sum_{i=1}^{N_s} log(p_{model}(y^{(i)}|\mathbf{x}^{(i)}; \theta) \\
 &amp;= -\sum_{i=1}^{N_s} y^{(i)} log \hat{y}^{(i)} + (1-y^{(i)}) log (1-\hat{y}^{(i)})
 \end{aligned}
 \]</div>
@@ -1014,7 +1014,7 @@ produces as output a vector of probabilities (i.e., <span class="arithmatex">\(y
 <p>Put together:</p>
 <div class="arithmatex">\[
 \begin{aligned}
-\theta_{ML} &amp;= \underset{\theta} {\mathrm{argmin}} \; -\sum_{i=1}^{N_s} log(p_{model}(y^{(i)}|\mathbf{x}^{(i)}; \theta) \\
+\boldsymbol \theta_{ML} &amp;= \underset{\boldsymbol \theta} {\mathrm{argmin}} \; -\sum_{i=1}^{N_s} log(p_{model}(y^{(i)}|\mathbf{x}^{(i)}; \theta)) \\
 &amp;= -\sum_{i=1}^{N_s} \sum_{j=1}^{N_c} y_j^{(i)} log \hat{y}_j^{(i)}
 \end{aligned}
 \]</div>
