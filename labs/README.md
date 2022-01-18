@@ -1,9 +1,8 @@
 The repository is organized as follows:
 
 - **Data**: input data used in the practical sessions:
-- All of the other folders in this repository contains Python codes and Jupyter Notebooks used in the practical sessions:
 
-- **Notebooks**: input data used in the practical sessions:
+- **Notebooks**: Python codes and Jupyter Notebooks used in the practical sessions. More specifically,
 
    - **VisualOptimization**: Gradient-based optimization of a 2D cost function with visualization of model trajectories.
    - **BasicPytorch**: Introduction to PyTorch, Linear and Logistic Regression.
@@ -14,7 +13,7 @@ The repository is organized as follows:
    - **SaltNet**: U-Net Salt Segmentation based on TGS Kaggle Challange
    - **EikonalPINN**: Physics-informed NN solution of Eikonal equation
 
-- **Wandb**: example usage of [Wandb](https://wandb.ai/site) with Logistic Regression for efficient ML experimentation
+- **Wandb**: Example usage of [Wandb](https://wandb.ai/site) with Logistic Regression for efficient ML experimentation
 
 ## Environment
 
