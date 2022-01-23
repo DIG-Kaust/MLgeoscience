@@ -24,3 +24,9 @@ After that simply run:
 ./install_env.sh
 ```
 It will take some time, if at the end you see the work `Done!` on your terminal you are ready to go!
+
+Later in the course, it may be useful to have access to a workstation with GPU capabilities (it will speed up your training time).
+A modified version of the environment and installation files for GPU-powered environment are also provided here.
+
+Finally, if you do not have access to a GPU directly, you could use the [KAUST Ibex](https://www.hpc.kaust.edu.sa/ibex). A sample SLURM file is provided
+`jupyter_notebook_ibex.slurm` that allows setting up a Jupyter notebook with GPU capabilities.
