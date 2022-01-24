@@ -726,19 +726,19 @@
 <p>In this lecture, we will delve into some more advanced topics associated to the creation and training of deep 
 neural networks.</p>
 <h2 id="backpropagation">Backpropagation</h2>
-<p>First of all, once a neural network architecture has been defined for the problem at and, we need a method
+<p>First of all, once a neural network architecture has been defined for the problem at hand, we need a method
 that can learn the best set of free parameters of such nonlinear function represented as <span class="arithmatex">\(f_\theta\)</span>.</p>
 <p>More specifically, we want to initialize the network with some random weights and biases (we will soon discuss how
 such initialization can be performed) and use the training data at hand to improve our weights and biases in order
 to minimize a certain loss function. Whilst this can be easily done by means of gradient based optimizers like those
 presented in Lecture 3, a key ingredient that we need to provide to such algorithms is represented by the gradient
-of the loss function with respect to each and every weight and bias paramtets. </p>
+of the loss function with respect to each and every weight and bias parameters. </p>
 <p>We have already alluded at a technique that can do so whilst discussing a simple logistic regression model. This
 is generally referred to by the ML community as <em>back-propagation</em> and more broadly by the mathematical community
 as <em>Reverse Automatic Differentiation</em>. Let's start by taking the same schematic diagram used for the logistic regression
 example and generalize it to a N-layer NN:</p>
 <p><img alt="BACKPROP_NN" src="../figs/backprop_nn.png" /></p>
-<p>The main change here, which we will need to discuss in details, is the fact that in the forward pass 
+<p>The main difference here, which we will need to discuss in details, is the fact that in the forward pass 
 we feed the input into a stack of linear layers prior to computing the loss function. The backpropagation
 does need to be able to keep track of the chain of operations (i.e., computational graph) and traverse it
 back. However, as already done for the logistic regression model, all we need to do is to write the entire
@@ -766,7 +766,7 @@ respect to any of the weights or biases. As an example we consider here <span cl
 \frac{\partial \textbf{z}^{[3]}}{\partial \textbf{a}^{[2]}} \frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} 
 \frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}}
 \]</div>
-<p>Assuming for simplicity that the binary cross-entropy and sigmoid functions are used here as loss and activation functions, respectively:</p>
+<p>Assuming for simplicity that the binary cross-entropy and sigmoid functions are used here as the loss and activation functions, respectively:</p>
 <div class="arithmatex">\[
 \frac{\partial l}{\partial a^{[3]}} \frac{\partial a^{[3]}}{\partial z^{[3]}} = a^{[3]} - y
 \]</div>
@@ -809,7 +809,7 @@ db^{[2]}= \frac{1}{N_s} \sum_i \textbf{dZ}_{:,i}^{[2]}
 \textbf{db}^{[1]}= \frac{1}{N_s} \sum_i \textbf{dZ}_{:,i}^{[1]}
 \]</div>
 <h2 id="initialization">Initialization</h2>
-<p>Neural networks are hihgly nonlinear functions. The associated cost function used in the training
+<p>Neural networks are highly nonlinear functions. The associated cost function used in the training
 process in order to optimize the network weights and biases is therefore non-convex and contains
 several local minima and saddle points.</p>
 <p>A key component in non-convex optimization is represented by the starting guess of the parameters
@@ -818,7 +818,7 @@ Whilst a proper initialization has been shown to be key to a succesful training 
 this is a very active area of research as initialization strategies are so far mostly based on heuristic 
 arguments and experience.</p>
 <h3 id="zero-initialization">Zero initialization</h3>
-<p>First of all, let's highlight a bad initialization choice that can compromise the training no matter the 
+<p>First of all, let's highlight a bad choice of initialization that can compromise the training no matter the 
 architecture of the network and other hyperparamters. A common choice in standard optimization in the absence
 of any strong prior information is to initalize all the paramters to zero: if we decide to follow such a strategy
 when training a NN, we will soon realize that training is stagnant due to the so called <em>symmetry problem</em>
@@ -870,7 +870,7 @@ initialization strategies have been proposed in the literature:</p>
   $$
   w_{ij}^{[k]} \sim \mathcal{N}(0, 2/N^{[k]})
   $$
-  This strategy ensures that the variance remains the same across the layers. Xavier initialization
+  This strategy ensures that the variance remains the same across the layers. He initialization
   is very popular especially in layers using ReLU activations.</p>
 </li>
 </ul>
@@ -883,15 +883,15 @@ how by simply horizontally and vertically stacking multiple percetrons we can cr
 very complex nonlinear relationships between inputs and targets (provided availability of a large enough amount of training data). The process
 of creating and training NNs relies on the following four key ingredients:</p>
 <ul>
-<li><em>linear algebra operations</em>: matrix-vector and matrix-matrix multiplications (at least withint the context of FC networks);</li>
+<li><em>linear algebra operations</em>: matrix-vector and matrix-matrix multiplications (at least within the context of FC networks);</li>
 <li><em>activations</em>: nonlinear functions that enable the learning of complex nonlinear mappings;</li>
 <li><em>loss functions</em>: functions that can be used to evaluate the goodness of the model in terms of predicting targets from inputs; </li>
 <li><em>learning algorithms</em>: optimization methods that can produce the best weights and biases using gradient information;</li>
 </ul>
-<p>Eventually, most of the underlying theory of NNs was already fairly mature in to 
+<p>Eventually, most of the underlying theory of NNs was already fairly mature in 
 70s and 80s; nevertheless, until the early 2000, research in the field of artificial neural networks was still considered a 
-niche domain mostly theoretical and with little practical implications. So, what did lead to the reinassance of Deep Learning?</p>
-<p>Two key factors in the growth in popularity and success of Neural Networks are undoubtedly:</p>
+niche domain mostly theoretical and with little practical implications. So, what did lead to the renaissance of Deep Learning?</p>
+<p>Two key factors in the popularity and success of Neural Networks growth are undoubtedly:</p>
 <ul>
 <li><em>larger datasets</em>: with the growth of the internet and social media, a digital revolution has started since the beginning of the
   new century, where datasets of ever increasing size can be easily sourced. This applies both to images and text as well as audio 
@@ -1067,7 +1067,7 @@ that <span class="arithmatex">\(\theta_{KL}=\theta_{ML}\)</span> and therefore m
 is the same as maximizing their cross-entropy (as done by the ML estimator).</p>
 <h2 id="additional-readings">Additional readings</h2>
 <ul>
-<li>If you are interest to learn more about initialization I reccomend reading (and reproducing)
+<li>If you are interested to learn more about network initialization, I recommend reading (and reproducing)
 the following blog posts: <a href="https://medium.com/@safrin1128/weight-initialization-in-neural-network-inspired-by-andrew-ng-e0066dc4a566">1</a>
 and <a href="https://www.deeplearning.ai/ai-notes/initialization/">2</a>.</li>
 </ul>

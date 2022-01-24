@@ -580,9 +580,9 @@
 <p>This lecture is devoted to the training of Machine Learning models in general, with Neural Networks 
 representing a subclass of the entire set of models commonly used to learn mappings between some
 features and targets. As we will see in the following, a number of <code>best practices</code> are in fact 
-indipedent on the model used.</p>
+indepedent on the model used.</p>
 <p>Let's begin by re-stating here the overall aim of a ML model: a model is useful if it can perform
-well on new, previously not seen data. This property of a model is also generally referred to as
+well on new, previously unseen data. This property of a model is also generally referred to as
 <em>generalization</em>.</p>
 <p>In order to be able to assess the generalization capabilities of a model, the dataset available for
 training must be divided into 3 distinct sets:</p>
@@ -595,7 +595,7 @@ training must be divided into 3 distinct sets:</p>
   (trained and optimized) to produce an <em>unbiased</em> estimate of model performance.</li>
 </ul>
 <p>Note that a number of assumptions are usually made on the training samples, namely each sample is
-indipendent from the others, samples must come from the same distributions. The first assumption
+independent from the others, samples must come from the same distributions. The first assumption
 is however seldom satisfied as a different training samples are related to each other to some degree (this is for example
 the case when samples are taken from well logs at consecutive depth levels or from 2D slices of 3D seismic
 cubes). On the other hand, the second assumption must be satisfied for a succesfull training. For example, if well logs
@@ -618,7 +618,7 @@ Two quantities are generally computed:</p>
 <p>The goodness of machine learning model is usually evaluated based on the following two criteria:</p>
 <ul>
 <li><strong>Bias</strong>: ability to produce a small training error. When the error is small, we say that we have a model with low bias. 
-  Viceversa, when the error is large, the model have high bias. In this case, the model is said to be <em>underfitting</em> the data;</li>
+  Vice versa, when the error is large, the model have high bias. In this case, the model is said to be <em>underfitting</em> the data;</li>
 <li><strong>Variance</strong>: ability to produce comparable training and testing error. In other words, if we define 
   <em>gap</em> to be the difference between the testing and training errors, this is also the ability to produce a 
   small gap. When the gap is large, the model is said to be <em>overfitting</em> the data.</li>
@@ -633,19 +633,17 @@ reached a plateau in terms of learning capabilities. </p>
 <li>the network is performing a task that a human is not able to perform (e.g., denoising a seismic volume).</li>
 </ul>
 <p>In the former case, it is possible to define the so-called <em>human-level performance</em> (i.e., error that a human is
-likely to make on the task at hand). Experience in the field deep learning has shown that the performance of a model (e.g., accuracy in
+likely to make on the task at hand). Experience in the field of deep learning has shown that the performance of a model (e.g., accuracy in
 classification tasks) depends on the development time of a ML model in such a way that a well-designed model will 
 very quickly reach human-level performance, whilst a much more significant effort is required to obtain further improvements
 and approach the theoretical limit of the model. Such a limit, called the Bayesian optimal error, is the error of
 an oracle making predictions. In practical applications this may however be unknown, unless the training data has been generated in such
-a way that true, exact labels are available.</p>
+a way that true exact labels are available.</p>
 <p><img alt="MLPERFORMANCE" src="../figs/mlperformance.png" /></p>
-<p>In a range of geoscientific applications, human-level performance may be replaced by that of a state-of-the-art algorithm that is
+<p>In a range of geoscientific applications, human-level performance may be replaced by the state-of-the-art algorithm that is
 commonly used to perform a certain task. For example, going back to the denoising example, this may be represented by FX prediction
 filters or SVD-based denoising. Such an algorithm can represent the human performance in the above figure and represent a 
-baseline that we would like our model to outperform. At the same time, as no human labels are available, the use of synthetic data with true
-labels does usually represent the only viable solution to creating a training dataset in this scenario. The theoretical limit, this time represented by
-the true labels can again guide us into how much effort we should put to improve the hyperparameters of the model.</p>
+baseline that we would like our model to outperform. At the same time, as no human labels are available, the use of synthetic data with true labels usually represent the only viable solution to creating a training dataset in this scenario. This time, the theoretical limit represented by the true labels can again guide us into how much effort we should put to improve the hyperparameters of the model.</p>
 <p>To conclude, let's consider two examples of ML classifiers. In the first, after some development time, 
 our ML model performs as follows:</p>
 <ul>
@@ -661,9 +659,7 @@ our ML model performs as follows:</p>
 <li>training percentage error: 4%</li>
 <li>validation percentage error: 20%</li>
 </ul>
-<p>This model shows a small bias and a large variance. Our ML development time should be therefore devoted to reduce the generalization gap.
-On the other hand, since the difference between human-level and training error is minimal, we refer to this error as
-<em>unavoidable bias</em> that may be very difficult to further reduce.</p>
+<p>This model shows a small bias and a large variance. Our ML development time should be therefore devoted to reduce the generalization gap. On the other hand, since the difference between human-level and training error is minimal, we refer to this error as <em>unavoidable bias</em> that may be very difficult to further reduce.</p>
 <p>In the following we discuss a number of strategies that are commonly used in the process of improving the model 
 and reducing both bias and variance.</p>
 <h2 id="capacity">Capacity</h2>
@@ -678,10 +674,10 @@ y_i = f_{\boldsymbol \theta}(x_i) = \sum_{j=0}^{N_f} x_i^j \theta_j \qquad \fora
 is straigh line parametrized by <span class="arithmatex">\(\boldsymbol \theta = {\theta_1, \theta_2}\)</span>. More complex model fit a
 polynomial function of order <span class="arithmatex">\(N_f+1\)</span>. As shown in the figure below, a too simple model does lead to underfitting, 
 whilst a too complex model leads to overfitting. The key is therefore to make a model that is as simple as possible
-but not too simple, somethign usually referred to as the Occam's razor principle in inverse problem theory.</p>
+but not too simple, something usually referred to as the Occam's razor principle in inverse problem theory.</p>
 <p><img alt="CAPACITY" src="../figs/capacity.png" /></p>
 <p>Similar principles apply to the design of a neural network. In this case however, the risk of overfitting is
-much higher to due to ability of NNs to learn very complex nonlinear functions. The size of the training dataset
+much higher due to ability of NNs to learn very complex nonlinear functions. The size of the training dataset
 plays a key role in choosing the capacity of the network: large networks with thousands (or millions) of free-parameters
 require large training dataset to avoid the arising of overfitting. Moreover, as shown in the figure below,
 training and testing errors are usually similar for small networks in the underfitting regimes and tend to reduce
@@ -692,34 +688,25 @@ to choose the ideal network capacity. This shows the importance of holding some 
 purposes. i.e., hyperparameter optimization.</p>
 <p><img alt="GENERALIZATION" src="../figs/generalization.png" /></p>
 <h2 id="other-hyperparameters">Other hyperparameters</h2>
-<p>Whilst the size of the network largely drives the ability of a model to learn as well as its tendency to overfit, this does unfortunately 
-(or fortunately, depending of the point of view of the reader), when designing a ML model you will likely need to 
-make decisions on a number of additional hyperparameters. Here we report some of the most important ones:</p>
+<p>Whilst the size of the network largely drives the ability of a model to learn as well as its tendency to overfit, unfortunately 
+(or fortunately, depending of the point of view of the reader), when designing a ML model you will likely need to make decisions on a number of additional hyperparameters. Here we report some of the most important ones:</p>
 <ul>
-<li>activation function type; </li>
+<li>activation function; </li>
 <li>optimizer, </li>
 <li>learning rate </li>
 <li>additional optimizer hyperparameters, </li>
 <li>batch size...</li>
 </ul>
-<p>As already mentioned, we need to devote a portion of the overall dataset that we will not be using to evaluate the final performance of the model
-for the task of <em>hyperparameter tuning</em>. This is indeed the role of the validation dataset (note that using this dataset at testing stage will
-result in underestimating the generalization error of the model because the model is partially optimized on this dataset).</p>
-<p>Finally, whilst not very commonly used in the context of deep learning because of the extremely high cost of training neural networks, a more powerful
-approach to optimizing hyper-parameter is the so-called <em>cross-validations</em> strategy. Similar to validation, a portion of the dataset
-is hold out from the training process and used for hyperparameter tuning. However, the portion selected for this task is not fixed, rather the entire 
-training dataset is split into K groups, where each group is used once as the validation set and the remaining number of times as part of the training dataset.</p>
-<p>This approach, usually referred to a <em>K-fold cross-validation</em> is of great help when the training dataset is of limited size as it helps averaging out fluctuations on the validation error
-over multiple realizations. The obvious downside of this strategy is of course that the training process must be repeated N times.</p>
-<p>Note that other strategies can be used to split the dataset into training and validation. For example, in the context of classification, a class-aware division is usually reccomended
-where inter-class proportions are the same between the validation and training datasets.</p>
+<p>As already mentioned, we need to devote a portion of the overall dataset that we will not be using to evaluate the final performance of the model for the task of <em>hyperparameter tuning</em>. This is indeed the role of the validation dataset (note that using this dataset at testing stage will result in underestimating the generalization error of the model because the model is partially optimized on this dataset).</p>
+<p>Finally, whilst not very commonly used in the context of deep learning because of the extremely high cost of training neural networks, a more powerful approach in optimizing hyper-parameter is the so-called <em>cross-validations</em> strategy. Similar to validation, a portion of the dataset is hold out from the training process and used for hyperparameter tuning. However, the portion selected for this task is not fixed, rather the entire training dataset is split into K groups, where each group is used once as the validation set and the remaining number of times as part of the training dataset.</p>
+<p>This approach, usually referred to a <em>K-fold cross-validation</em>. It is a great help when the training dataset is of limited size as it helps averaging out fluctuations on the validation error over multiple realizations. The obvious downside of this strategy is of course that the training process must be repeated N times.</p>
+<p>Note that other strategies can be used to split the dataset into training and validation. For example, in the context of classification, a class-aware division is usually reccomended where inter-class proportions are the same between the validation and training datasets.</p>
 <h2 id="regularization">Regularization</h2>
 <p>Whilst both under- and overfitting commonly affect the development of a succesfull ML model, reducing variance without affecting
 bias is notoriously difficult. A strategy that is usually succesfull in achieving such a task is called Regularization. 
 Regularization acts directly on the loss function by adding prior knowledge to the training process. By informing the network
-about something that we know (or wish the model to know), the network is less prone to just learn from the training data and improve its
-generalization capabilities.</p>
-<p>In the context of inverse problem theory, where our aim is that of fitting some observations <span class="arithmatex">\(\mathbf{y}\)</span> given knowledge of
+about something that we know (or wish the model to know), the network is less prone to just learn from the training data and improve its generalization capabilities.</p>
+<p>In the context of inverse problem theory, where our aim is to fit some observations <span class="arithmatex">\(\mathbf{y}\)</span> given knowledge of
 the underlying physical process (<span class="arithmatex">\(g\)</span>), </p>
 <div class="arithmatex">\[
 J = ||\mathbf{y} - g(\mathbf{x})||_2^2 + \lambda R(\mathbf{x})
@@ -758,7 +745,7 @@ can be simply expressed as:</p>
   \frac{1}{2 N_s} \sum_{l=1}^{L} ||\mathbf{W}^{[l]}||_2^2 \rightarrow \mathbf{W}^{[l]} = 
   \mathbf{W}^{[l]} \big[ 1 - \alpha \frac{\lambda}{N_s} \big] - \alpha \mathbf{dW}^{[l]}
   $$
-  where the term weigh decay comes from the fact that the strenght of the current weights is reduced by a factor
+  where the term weight decay comes from the fact that the strength of the current weights is reduced by a factor
   of <span class="arithmatex">\(\alpha \lambda / N_s\)</span> at every gradient step of the regularized loss function</p>
 </li>
 <li>
@@ -770,12 +757,9 @@ can be simply expressed as:</p>
 </ul>
 <p>In both cases <span class="arithmatex">\(L\)</span> represents the number of layers in the network. Note that it is common to apply regularization to the weights only (no bias terms).</p>
 <h2 id="dropout">Dropout</h2>
-<p>Dropout represents a special kind of regularization strategy to prevent overfitting, which is specific to Neural Network architectures. Contrarily to other regularization
-techniques that act directly on the objective function to optimize, dropout modifies the network in such a way that a portion 
-of the neurons are randomly inactivated (i.e., set to zero) during the training process. </p>
-<p>A strategy to mitigate overfitting is in fact to to reduce the size of the network (i.e., its degrees of freedom) used to match the
-training data; however, instead of applying such a drastic approach, dropout allows the overall network size to remain
-unchanged whilst making the network effectively smaller during training. By doing so, the network learns not to rely 
+<p>Dropout represents a special kind of regularization strategy to prevent overfitting, which is specific to Neural Network architectures. Contrarily to other regularization techniques that act directly on the objective function to optimize, dropout modifies the network in such a way that a portion of the neurons are randomly inactivated (i.e., set to zero) during the training process. </p>
+<p>A strategy to mitigate overfitting is in fact to reduce the size of the network (i.e., its degrees of freedom) used to match the
+training data; however, instead of applying such a drastic approach, dropout allows the overall network size to remain unchanged whilst making the network effectively smaller during training. By doing so, the network learns not to rely 
 on any neuron (or set of neurons) in particular, which leads to better generalization in validation and testing phases.</p>
 <p>Considering a simple 3-layers NN, the nodes at each layer are inactivated with probability <span class="arithmatex">\(p_{drop}\)</span>. In the figure below, 
 <span class="arithmatex">\(p_{drop}=0.3\)</span> for the input and first hidden layer, <span class="arithmatex">\(p_{drop}=0.5\)</span> for the second hidden layer (and <span class="arithmatex">\(p_{drop}=0\)</span> for the 
@@ -786,18 +770,13 @@ output layer):</p>
 z_2^{[1]} = \frac{W_{21}^{[1]} x_1 + \cancel{W_{22}^{[1]} x_2} + W_{32}^{[1]} x_3 + b_{2}^{[1]}}{1-p_{drop}}
 \]</div>
 <p>where the second term is removed because <span class="arithmatex">\(W_{22}^{[1]}\)</span> is set to zero. Moreover note that a denominator is added to 
-compensate for the fact the output is smaller than the one that we would obtain without dropout.</p>
-<p>In practice, a more convenient way to implement dropout is to act directly on the input vector at the i-th layer <span class="arithmatex">\(\mathbf{a}^{[i-1]}\)</span> instead
-of deactivating the weights. This approach is called <em>inverted dropout</em> and simply achieved by using a mask <span class="arithmatex">\(\mathbf{m}\)</span> where each element
-is randomly set to 0 or 1 based on <span class="arithmatex">\(p_{drop}\)</span>:</p>
+compensate for the fact that the output is smaller than the one that we would obtain without dropout.</p>
+<p>In practice, a more convenient way to implement dropout is to act directly on the input vector at the i-th layer <span class="arithmatex">\(\mathbf{a}^{[i-1]}\)</span> instead of deactivating the weights. This approach is called <em>inverted dropout</em> and simply achieved by using a mask <span class="arithmatex">\(\mathbf{m}\)</span> where each element is randomly set to 0 or 1 based on <span class="arithmatex">\(p_{drop}\)</span>:</p>
 <div class="arithmatex">\[
 \mathbf{a}^{[i-1]} \rightarrow \tilde{\mathbf{a}}^{[i-1]} = 
 \mathbf{a}^{[i-1]} \cdot \mathbf{m} \rightarrow \mathbf{z}^{[i]} = (\mathbf{W}^{[i]} \tilde{\mathbf{a}}^{[i-1]})/(1-p_{drop})
 \]</div>
-<p>Finally, at testing time, dropout is usually inactivated. Recent research in the area of uncertainty quantification (UQ) for deep learning
-has however suggested that by using dropout also at testing time, multiple equi-probable realizations of the output can be produced and statistics
-(e.g., mean, variance, marginal probability...) can be computed. This strategy will be implemented and compared to other strategies for UQ in
-in this <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/LearningFunction/LearningFunction.ipynb">lab</a>.</p>
+<p>Finally, at testing time, dropout is usually inactivated. Recent research in the area of uncertainty quantification (UQ) for deep learning has however suggested that by using dropout also at testing time, multiple equi-probable realizations of the output can be produced and statistics (e.g., mean, variance, marginal probability...) can be computed. This strategy will be implemented and compared to other strategies for UQ in in this <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/LearningFunction/LearningFunction.ipynb">lab</a>.</p>
 <h2 id="data-augumentation">Data augumentation</h2>
 <p>One of the key elements to a successfull generalization (i.e., low variance) is represented by the 
 availability of a large training dataset. When this is not the case and it is not feasible to acquire additional 
@@ -814,31 +793,14 @@ that are commonly used in computer vision when working with natural images. More
 <li>color shifting</li>
 </ul>
 <p>are all strategies that can be used or adapted to geoscientific multi-dimensional datasets. 
-Nevertheless, special attention may be required when implementing some of the above mentioned strategies. Just to give an example, stretching or squeezing time series data such as
-seismic traces does introduce a shift in the frequency content that may not be desirable. Similarly, applying <code>color shifting</code> to seismic
-data will lead to a signal whose average is not zero anymore. Alternatively, polarity reversal represents a better alternative that can be seen as
-a special type of color shifting when dealing with seismic data.</p>
-<p>Finally, we observe that although this does not stricly speaking fall within the realm of data augumentation, using basic physics 
-principles to create synthetic datasets for training is another commonly employed strategy in geoscience when accessing high-quality labelled
-datasets is feasible from either a technical or intellectual property point of view. We will see example of a ML workflow that relies on synthetic
-data when dealing with <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb">microseismic event detection</a>.</p>
+Nevertheless, special attention may be required when implementing some of the above mentioned strategies. Just to give an example, stretching or squeezing time series data such as seismic traces does introduce a shift in the frequency content that may not be desirable. Similarly, applying <code>color shifting</code> to seismic data will lead to a signal whose average is not zero anymore. Alternatively, polarity reversal represents a better alternative that can be seen as a special type of color shifting when dealing with seismic data.</p>
+<p>Finally, we observe that although this does not, stricly speaking, fall within the realm of data augumentation, using basic physics principles to create synthetic datasets for training is another commonly employed strategy in geoscience when accessing high-quality labelled datasets is feasible from either a technical or intellectual property point of view. We will see example of a ML workflow that relies on synthetic data when dealing with <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb">microseismic event detection</a>.</p>
 <h2 id="transfer-learning">Transfer learning</h2>
-<p>An edge case of data augumentation is represented by transfer learning. Transfer learning is a procedure employed to circument the issue
-or scarse labelled data when <em>similar</em> datasets are available and have been previously used to train a neural network for a similar (or sometimes
-different task). Under these conditions, one may think to use the pre-trained network and use the available training data to fine-tune such a network
-for the task at hand. Once again, based on the dataset and problem, the entire pre-trained network may be used as starting point or just a portion of it 
-(generally chosen to be the initial portion of the network where some of the final layers are removed, and referred to as backbone).</p>
-<p>To make things a bit more concrete, let's consider here an example. A NN model has been created to interpret faults in seismic data. Training has been performed
-using data from an area of the world where both seismic data and fault interpratations are abundant. When a new dataset from the same area becomes available,
-the pre-trained model can be used as-is or fine-tuned using a much smaller training dataset (i.e., requiring limited manual labelling of faults). A similar strategy could also be used if a new dataset from another area of the world is ready for fault interpretation. In this second case, however, a user needs to 
-be aware that the model may not generalize well if key features in the data (e.g., frequency content) or interpretation (e.g., presence of reverse faults) 
-are different from those in the original dataset used for training.</p>
-<p>A different case where transfer learning can be also used is when the output that we are interested is slightly different from the one the network was trained on
-but the input is the same (and therefore the low- and medium-level features learned by the network). In this case, one may freeze the first few layers (i.e., make those
-parameters non-learnable) and fine-tune only the last few layers of the network on the new task. As an example, let's consider again a network
-trained for fault interpretation. Imagine now that we are interest to estimate a seismic attribute such as the relative geological time and we have very limited 
-access to labelled data. In this case the backbone of the network is likely to already contain useful features, and the problem arising from
-lack of a large training dataset is here mitigated by limiting the number of free-parameters to learn to those of the last few layers.</p>
+<p>An edge case of data augumentation is represented by transfer learning. Transfer learning is a procedure employed to circumvent the issue or scarce labelled data when <em>similar</em> datasets are available and have been previously used to train a neural network for a similar (or sometimes different task). Under these conditions, one may think to use the pre-trained network and use the available training data to fine-tune such a network for the task at hand. Once again, based on the dataset and problem, the entire pre-trained network may be used as starting point or just a portion of it (generally chosen to be the initial portion of the network where some of the final layers are removed, and referred to as backbone).</p>
+<p>To make things a bit more concrete, let's consider here an example. A NN model has been created to interpret faults in seismic data. Training has been performed using data from an area of the world where both seismic data and fault interpratations are abundant. When a new dataset from the same area becomes available, the pre-trained model can be used as-is or fine-tuned using a much smaller training dataset (i.e., requiring limited manual labelling of faults). A similar strategy could also be used if a new dataset from another area of the world is ready for fault interpretation. In this second case, however, a user needs to 
+be aware that the model may not generalize well if key features in the data (e.g., frequency content) or interpretation (e.g., presence of reverse faults) are different from those in the original dataset used for training.</p>
+<p>A different case where transfer learning can be also used is when the output that we are interested is slightly different from the one the network was trained on but the input is the same (and therefore the low- and medium-level features learned by the network). In this case, one may freeze the first few layers (i.e., make those parameters non-learnable) and fine-tune only the last few layers of the network on the new task. As an example, let's consider again a network trained for fault interpretation. Imagine now that we are interest to estimate a seismic attribute such as the relative geological time and we have very limited 
+access to labelled data. In this case the backbone of the network is likely to already contain useful features, and the problem arising from a lack of large training dataset is mitigated by limiting the number of free-parameters to learn to those of the last few layers.</p>
 <p><img alt="TRANSFER" src="../figs/transferlearning.png" /></p>
 <p>To conclude, let's visually summarize the stategies that we should keep in mind when interested to reduce 
 bias or variance. </p>

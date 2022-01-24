@@ -526,13 +526,11 @@ by modifying its free parameters <span class="arithmatex">\(\theta\)</span>. Whi
 various applications in different scientific field, from now on we will learn how to take advtange of
 similar algorithms in the context of Machine Learning.</p>
 <h2 id="linear-regression">Linear regression</h2>
-<p>In preparation to our lecture on Neural Networks, we consider here what is generally referred to as the simplest
-machine learning model for regression, <em>linear regression</em>. Its simplicity lies in the fact that we will only consider 
-a linear relationship between our inputs and targets:</p>
+<p>In preparation to our lecture on Neural Networks, here we consider the simplest machine learning model for regression, <em>linear regression</em>. Its simplicity lies in the fact that we will only consider a linear relationship between our inputs and targets:</p>
 <p><img alt="LIN REG" src="../figs/reg_model.png" /></p>
 <p>where <span class="arithmatex">\(\textbf{x}\)</span> is a training sample with <span class="arithmatex">\(N_f\)</span> features, <span class="arithmatex">\(\textbf{w}\)</span> is a vector of <span class="arithmatex">\(N_f\)</span> weights and <span class="arithmatex">\(b=w_0\)</span> is the
 so-called bias term. The set of trainable parameters is therefore the combination of the weights and bias 
-<span class="arithmatex">\(\boldsymbol\theta=[\textbf{w}, b] \in \mathbb{R}^{N_f+1}\)</span>. Similarly the combination of the training sample and a 1-scalar is defined as 
+<span class="arithmatex">\(\boldsymbol\theta=[\textbf{w}, b] \in \mathbb{R}^{N_f+1}\)</span>. Similarly, the combination of the training sample and a 1-scalar is defined as 
 <span class="arithmatex">\(\tilde{\textbf{x}}=[\textbf{x}, 1] \in \mathbb{R}^{N_f+1}\)</span>
 The prediction <span class="arithmatex">\(\hat{y}\)</span> is simply obtained by linearly 
 combining the different features of the input vector and adding the bias.</p>
@@ -568,7 +566,7 @@ For regression problems, a common metric of goodness is the L2 norm or MSE (Mean
 J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = \frac{1}{N_s} || \textbf{y}_{train} - \hat{\textbf{y}}_{train}||_2^2 = 
 \frac{1}{N_s} \sum_i^{N_s} (y_{train}^{(i)}-\hat{y}_{train}^{(i)})^2
 \]</div>
-<p>Based on our previous lecture on optimization, we need to find the best set of coefficients <span class="arithmatex">\(\theta\)</span> that minimize the MSE:</p>
+<p>Based on our previous lecture on optimization, we need to find the best set of coefficients <span class="arithmatex">\(\theta\)</span> that minimizes the MSE:</p>
 <div class="arithmatex">\[
 \hat{\theta} = min_\theta  J_\theta \rightarrow \theta_{i+1} = \theta_i - \alpha \nabla J_\theta
 \]</div>
@@ -584,7 +582,7 @@ y_{test} = \tilde{\textbf{x}}^T_{test} \hat{\theta}
 \]</div>
 <p>To conclude, once a linear regression model has been trained, a variety of measures exist to assess the goodness of the model. Whilst the same 
 metric used for training, the mean-square error, can be used to assess the model performance, other metrics are represented by the Pearson coefficient 
-(<span class="arithmatex">\(R^2\)</span>) and the mean-absolute erorr (MAE).</p>
+(<span class="arithmatex">\(R^2\)</span>) and the mean-absolute error (MAE).</p>
 <h2 id="logistic-regression">Logistic regression</h2>
 <p>Simply put, logistic regression is an extension of linear regression to the problem of binary classification. Whilst the model used
 by logistic regression is the same linear model described above, this will be coupled with a nonlinear 'activation' function that enforces the
@@ -633,16 +631,13 @@ regression model.</p>
 <p>The good news here is that there exist a systematic approach to computing the derivative of a composite function (i.e., <span class="arithmatex">\(f(x)=f_N(...f_2(f_1(x)))\)</span>), which
 simply relies on the well-known <em>chain rule</em> of functional analysis. This method is referred to in the mathematical community as Automatic Differentiation (AD),
 and more likely so as Back-propagation in the ML community. As this lies as the foundation of the training process for neural networks, we will get into details 
-later in the text. At this point suffices to say that if we have a composite function like the one above, its derivative with respect to <span class="arithmatex">\(x\)</span> can be written as:</p>
+later in the text. At this point, it suffices to say that if we have a composite function like the one above, its derivative with respect to <span class="arithmatex">\(x\)</span> can be written as:</p>
 <div class="arithmatex">\[
 \frac{\partial f}{\partial x} = \frac{\partial f_N}{\partial f_{N-1}} ... \frac{\partial f_2}{\partial f_1} \frac{\partial f_1}{\partial x}
 \]</div>
-<p>where the derivative is simply the product of a number of derivatives over the chain of operations of the composite function.
+<p>where the derivative is simply the product of all derivatives over the chain of operations of the composite function.
 Note that in practice it is more common to compute this chain rule in reverse order, from left to right in the equation above.</p>
-<p>Whilst we generally rely on the built-in functionalities of deep learning libraries such as Tensorflow or PyTorch to compute such derivaties, we will
-perform here a full derivation for the simple case of logistic regression. In order to do so, we introduce a very useful mathamatical tool that we use to 
-keep track of a chain of operations and later know how to evaluate the associated gradient. This tool is usually known as <em>computational graph</em>. More specifically,
-instead of writing the entire logistic regression model compactely in a single equation, we divide it here into its atomic components:</p>
+<p>We generally rely on the built-in functionalities of deep learning libraries such as Tensorflow or PyTorch to compute such derivaties, we will perform here a full derivation for the simple case of logistic regression. In order to do so, we introduce a very useful mathamatical tool that we use to keep track of a chain of operations and later, we know how to evaluate the associated gradient. This tool is usually known as <em>computational graph</em>. More specifically, instead of writing the entire logistic regression model compactly in a single equation, we divide it here into its atomic components:</p>
 <div class="arithmatex">\[
 z = \textbf{x}^T \boldsymbol\theta, \quad
 a = \sigma(z), \quad \mathscr{L} = -(y log(a) + (1-y)log(1-a))
@@ -713,7 +708,7 @@ predicted labels <span class="arithmatex">\(\hat{y}\)</span>. We can therefore d
    In this case, we are not really concerned with making a few mistakes where we predict a kick when this is not likely to happen (False Positive); 
    of course, this may slow down the drilling process but it is nowhere near as dramatic as the case in which we do not predict a kick which is going to happen (False Negative); 
    a high recall is therefore what we want, as this is an indication of the fact that the model does not miss out on many positive cases. 
-   Of course a model that always provides a positive prediction will have a recall of 1 (FN=0), indication of the fact that a high recall is not 
+   Of course, a model that always provides a positive prediction will have a recall of 1 (FN=0), indication of the fact that a high recall is not 
    always an indication of a good model;</li>
 <li><strong>Accuracy</strong>: <span class="arithmatex">\(Ac=\frac{TP+TN}{TP+TN+FP+FN}=\frac{TP+TN}{P+N}\)</span>, percentage of correct predictions over the total number of cases. 
    This measure combines both error types (in the denominator), it is therefore a more global measure of the quality of the model.</li>

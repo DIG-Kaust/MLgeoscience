@@ -563,7 +563,7 @@
                 
                 
                 <h1 id="basics-of-neural-networks">Basics of Neural Networks</h1>
-<p>In this lecture we start our journey in the field of Deep Learning. In order to do so we must first introduce
+<p>In this lecture, we start our journey in the field of Deep Learning. In order to do so, we must first introduce
 the most commonly used kind of Neural Networks, the so-called Multi-Layer Perceptron (MLP) (also commonly referred
 to as fully connected (FC) layer).</p>
 <p>A MLP is a class of <em>feedforward</em> artificial neural networks (ANNs), where the term feedforward refers to the 
@@ -572,7 +572,7 @@ of the flow is introduced as part of the forward pass gives rise to a different 
 Neural Networks (they will be subject of future lectures):</p>
 <p><img alt="FFN" src="../figs/ffn_rnn.png" /></p>
 <h2 id="perceptron">Perceptron</h2>
-<p>To begin with, we focus on the core building block of a MLP, to so-called Perceptron or Unit. 
+<p>To begin with, we focus on the core building block of a MLP, so-called Perceptron or Unit. 
 This is nothing really new to us, as it is exactly the same structure that we used to create the logistic regression model, 
 a linear weighting of the element of the input vector followed by a nonlinear activation function. We prefer however
 to schematic represent it in a slighty different way as this will make it easier later on to drawn MLPs.</p>
@@ -584,15 +584,15 @@ y = \sigma(\sum_i w_i x_i + b) = \sigma(\sum_i \textbf{w}^T \textbf{x} + b)
 \]</div>
 <p>where <span class="arithmatex">\(\textbf{w} \in \mathbb{R}^{N_i}\)</span> is the vector of weights, <span class="arithmatex">\(b\)</span> is the bias, and <span class="arithmatex">\(\sigma\)</span> is a nonlinear 
 activation function. Note that whilst we used a sigmoid function in the logistic regression model, this can be 
-any differentiable function as we will discuss later in more details.</p>
+any differentiable function as later we will discuss in more details.</p>
 <h2 id="multi-layer-perceptron">Multi-layer Perceptron</h2>
-<p>Whilst the perceptron model shown above takes as input a vector  <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^{N_i}\)</span> and 
+<p>The perceptron model shown above takes as input a vector  <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^{N_i}\)</span> and 
 returns a scalar <span class="arithmatex">\(y\)</span>, we are now ready to make a step forward where we simply combine multiple perceptrons together 
 to return a vector <span class="arithmatex">\(\textbf{y} \in \mathbb{R}^{N_o}\)</span></p>
 <p><img alt="MLP" src="../figs/mlp.png" /></p>
-<p>The MLP in figure presents <span class="arithmatex">\(N_i=3\)</span> inputs and <span class="arithmatex">\(N_o=2\)</span> outputs. By highlighting in green the original perceptron,
+<p>The MLP in the figure above presents <span class="arithmatex">\(N_i=3\)</span> inputs and <span class="arithmatex">\(N_o=2\)</span> outputs. By highlighting the original perceptron in green,
 we can easily observed that a MLP is simply a composition of <span class="arithmatex">\(N_o\)</span> perceptrons, which again we can 
-compactly write as a matrix-vector multiplication followed again by an element-wise nonlinear activation:</p>
+compactly write as a matrix-vector multiplication followed by an element-wise nonlinear activation:</p>
 <div class="arithmatex">\[
 y_j = \sigma(\sum_i w_{ji} x_i + b), \quad \textbf{y} = \sigma(\textbf{W} \textbf{x} + \textbf{b}) 
 \]</div>
@@ -617,15 +617,14 @@ specific training sample and square brackets are used to refer to a specific lay
 <h2 id="activation-functions">Activation functions</h2>
 <p>We have just started to appreciate the simplicity of NNs. A Neural Network is nothing more than a stack of linear 
 transformations and nonlinear element-wise activation functions. If such activation functions where omitted,
-we could combine the various linear transformations together in a single matrix, as the product of N matrices is
-equivalent to a matrix. Assuming that sigma acts as an identity matrix <span class="arithmatex">\(\sigma(\textbf{x})=\textbf{Ix}=\textbf{x}\)</span>,
+we could combine the various linear transformations together in a single matrix, as the product of N matrices. Assuming that sigma acts as an identity matrix <span class="arithmatex">\(\sigma(\textbf{x})=\textbf{Ix}=\textbf{x}\)</span>,
 (and omitting biases for simplicity) we get:</p>
 <p>$$
 \textbf{y} = \sigma(\textbf{W}^{[3]}\sigma(\textbf{W}^{[2]}\sigma(\textbf{W}^{[1]} \textbf{x}))) = 
 \textbf{W}^{[3]}\textbf{W}^{[2]}\textbf{W}^{[1]}\textbf{x} = \textbf{W} \textbf{x}
 $$
-so no matter how deep is the network, we can always reconduct it to a linear model. 
-Depending on the final activation and loss function, we will therefore have a linear regression or a logistic
+so no matter how deep the network is, we can always reconduct it to a linear model. 
+Depending on the final activation and loss function, therefore we will have a linear regression or a logistic
 regression model.</p>
 <p>We consider here a very simple example to show the importance of nonlinear activations before delving into the details.
 Let's assume that we wish the learn the XOR (eXclusive OR) boolean logic operator from the 
@@ -667,39 +666,37 @@ b^{[2]} = 0
 \]</div>
 <p>Note that in this case the <span class="arithmatex">\(\sigma=ReLU\)</span> activation function, which we will introduce in the next section, must be used. 
 Of course, there may be many more combinations of weights and biases that lead to a satisfactory prediction. You can prove this to yourself by 
-initializing the weights and biases randomly and optimizing them by means of a stochastic gradient descent algorith.</p>
+initializing the weights and biases randomly and optimizing them by means of a stochastic gradient-descent algorithm.</p>
 <p>Having introduced nonlinearites every time after we apply the weight matrices to the vector 
 flowing through the computational graph, the overall set of operations cannot be simply reconducted to a matrix-vector
 multiplication and allows us to learn highly complex nonlinear mappings between input features and targets. The role of activation functions is however not always straighforward and easy to grasp. Whilst we can say that
-they help in the learning process, not every function is suitable to this task and in fact some functions may prevent
+they help in the learning process, not every function is suitable for this task and in fact, some functions may prevent
 the network from learning at all.</p>
 <p>In the following we look at the most commonly used activation functions and discuss their origin and why 
 they became popular and useful in Deep Learning:</p>
 <ul>
-<li>
-<p><strong>Sigmoid</strong> and <em>Tanh</em>: historically these were the most popular activation functions as they are 
+<li><strong>Sigmoid</strong> and <strong>Tanh</strong>: historically these were the most popular activation functions as they are 
   differentiable across the entire domain. In the past, there was in fact a strong belief that
-  gradient descent cannot operate on functions that have singularities; although this is correct from 
+  gradient-descent cannot operate on functions that have singularities; although this is correct from 
   a theoretical point of view it was later proved to be wrong in practice. They are mathematically
-  defined as: 
-  $$\sigma_s(x) = \frac{1}{1-e^{-x}}
-  $$
-  and 
-  $$\sigma_t(x) = 2 \sigma_s(2x) - 1 
-  $$
-  Whilst still used in various contexts, these activation functions saturate very quickly (i.e., large values are clipped to to 1 
+  defined as:</li>
+</ul>
+<p>$$ \sigma_s(x) = \frac{1}{1-e^{-x}} $$</p>
+<p>and</p>
+<p>$$ \sigma_t(x) = 2 \sigma_s(2x) - 1 $$</p>
+<p>Whilst still used in various contexts, these activation functions saturate very quickly (i.e., large values are clipped to 1 
   and small values are clipped to -1 for tanh or 0 for sigmoid). This leads to the so-called <em>vanishing 
   gradient problem</em> that we will discuss in more details in following lectures; simply put, if we look at the 
   the gradient of both of these functions, it is non-zero only when x is near zero and becomes zero away 
   from it, meaning that if the output of a linear layer is large the gradient of the activation function
   will be zero and therefore the gradient will stop flowing through backpropagation. This is particularly
   problematic for deep network as the training of the early layers becomes very slow.</p>
-</li>
+<ul>
 <li>
 <p><strong>ReLU</strong> (Rectified Linear Unit): this activation function became very popular in the start of the 21st 
   century and since then
-  it is the mostly commonly used activation function for NN training. It is much closer to a linear activation
-  than the previous two, but introduces a nonlinearity by putting negative inputs to zero, By doing so, the
+  it is the most commonly used activation function for NN training. It is much closer to a linear activation
+  than the previous two, but introduces a nonlinearity by putting negative inputs to zero. By doing so, the
   ReLU activation function is a piecewise linear function. This shows that
   non-differentiable functions can be used in gradient based optimization, mostly because numerically we will hardly
   (if not never) have an output of a NN layer that is exactly zero when fed as input to the activation. 
@@ -753,7 +750,7 @@ they became popular and useful in Deep Learning:</p>
   tasks where the features that we wish the NN to extract from the training process are polarity invariant.</p>
 </li>
 <li>
-<p><strong>Cosine, Sine, ...</strong>: the use of period functions have recently started to appear in the literature
+<p><strong>Cosine, Sine, ...</strong>: the use of periodic functions have recently started to appear in the literature
   especially in the context of scientific DL (e.g., Physics-informed neural networks).</p>
 </li>
 <li>
@@ -782,13 +779,13 @@ linear layer.</p>
 <strong>Universal Approximation theorem</strong>. This theorem states that:</p>
 <p><em>"...regardless of the function that we are trying to learn, we know that a single MLP with infinite number
 of units can represent this function. We are however not guaranteed that we can train such a network..."</em></p>
-<p>More specifically, learning can fail for two diﬀerent reasons: i) the optimization algorithm used for training 
+<p>More specifically, learning can fail for two different reasons: i) the optimization algorithm used for training 
 may not be able to find the value of the parameters that correspond to the desired function; ii) the training 
 algorithm might choose the wrong function as a result of overﬁtting.</p>
 <p>In practice, experience has shown that deeper networks with fewer units per layer are better both in
 terms of <em>generalization</em> and <em>robustness to training</em>. This leads us with a trade-off between 
 shallow networks with many units in each layer and deep networks with fewer units in each layer. 
-An empirical trend has been observed between  the depth of a network and its accuracy on test data:</p>
+An empirical trend has been observed between the depth of a network and its accuracy on test data:</p>
 <p><img alt="DEPTHACC" src="../figs/depth_vs_accuracy.png" /></p>
 <p>To summarize, whilst theoretically 1-layer shallow networks can learn any function, it is advisable these
 days to trade network width with network depth as training deep networks is nowadays feasible both from a 

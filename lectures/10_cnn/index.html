@@ -549,13 +549,10 @@
                 
                 
                 <h1 id="convolutional-neural-networks">Convolutional Neural Networks</h1>
-<p>Convolutional Neural Networks are one of the most powerful types of neural network, very popular and successfull in image processing (and more broadly 
-computer vision). They are based on a simple mathematical operationrthat we, geoscientists, know very well and user in a
-variety of tasks: the <em>convolution</em> operator. This is motivated in most scenarios where local dependancies in the input data
-are known to be predominant. </p>
+<p>Convolutional Neural Networks are one of the most powerful types of neural network, very popular and successfull in image processing (and more broadly computer vision). They are based on a simple mathematical operation that we, geoscientists, know very well and user in a variety of tasks: the <em>convolution</em> operator. This is motivated in most scenarios where local dependancies in the input data are known to be predominant. </p>
 <p>Imagine for example a geological model, or a core section. If we decide to apply Deep Learning to such data to either classify
 rock types, estimate rock parameters, or even for generative modelling tasks, the first thing that we would like our NN to know is that nearby geological features are likely to be correlated, whilst the further apart we move the more the features become
-indipendent from each other. By looking at the schematic diagrams below, a FCN would not take this prior information into account
+independent from each other. By looking at the schematic diagrams below, a FCN would not take this prior information into account
 as each input value is linearly combined to give rise to the output. On the other hand, a convolutional block which represents
 the key component of a CNN will only use values of the input vector in a certain neighbour to obtain the output:</p>
 <p><img alt="CNN" src="../figs/cnn.png" /></p>
@@ -576,32 +573,22 @@ successfull. Other examples are:</p>
 y(t) = \int x(\tau) h(t-\tau) d\tau \leftrightarrow y = x * h
 \]</div>
 <p>where <span class="arithmatex">\(x(t)\)</span> and <span class="arithmatex">\(y(t)\)</span> are the input and output, respectively, and <span class="arithmatex">\(h(t)\)</span> is the filter (also called <em>kernel</em> in the DL jargon).
-This equation can be interpreted as follows: take the filter and flip it across the origin, then slide it along the time axis and multiply-and-sum it
-to the input signal.</p>
-<p>In practice, when working with digital data in a computer, all signals are discrete and the continous formula above can be rewritten
-as follows:</p>
+This equation can be interpreted as follows: take the filter and flip it across the origin, then slide it along the time axis and multiply-and-sum it to the input signal.</p>
+<p>In practice, when working with digital data in a computer, all signals are discrete and the continous formula above can be rewritten as follows:</p>
 <div class="arithmatex">\[
 y_i = \sum_{j=-\infty}^{\infty} x_j h_{i-j}
 \]</div>
-<p>where, to be general, we have here extended the integral from <span class="arithmatex">\(-\infty\)</span> to <span class="arithmatex">\(\infty\)</span>. In most applications, the filter <span class="arithmatex">\(h\)</span> is however
-compact (it has a small size of N samples, also called <em>kernel size</em>) and therefore we can limit the summation within the window of samples
-where the filter is non-zero.</p>
+<p>where, to be general, we have here extended the integral from <span class="arithmatex">\(-\infty\)</span> to <span class="arithmatex">\(\infty\)</span>. In most applications, the filter <span class="arithmatex">\(h\)</span> is however compact (it has a small size of N samples, also called <em>kernel size</em>) and therefore we can limit the summation within the window of samples where the filter is non-zero.</p>
 <p>A similar (but still different!) concept in signal processing is <em>correlation</em></p>
 <div class="arithmatex">\[
 y(t) = \int x(\tau) h(t+\tau) d\tau \leftrightarrow y_i = \sum_{j=-\infty}^{\infty} x_j h_{i+j}
 \]</div>
-<p>where the filter is simply slided across the <span class="arithmatex">\(t\)</span> axis (without being initially flipped). The main difference between convolution and correlation
-is therefore that one delays the input signal whilst the other anticipates it when the filter is non-symmetric to zero. As we will see later, 
-it is important to immediately empathise also a slight difference in the jargon used in classical signal processing
-and deep learning: what usually we refer to as convolution in DL is what signal processing refers to as correlation. However, since in DL we do not choose
-the filter <span class="arithmatex">\(h\)</span>, rather this is learned from data, if signal processing convolution was used instead of correlation, the learning algorithm would
-just learned the flipped version of the filter.</p>
+<p>where the filter is simply slided across the <span class="arithmatex">\(t\)</span> axis (without being initially flipped). The main difference between convolution and correlation is therefore that one delays the input signal whilst the other anticipates it when the filter is non-symmetric to zero. As we will see later, it is important to immediately empathise also a slight difference in the jargon used in classical signal processing and deep learning: what usually we refer to as convolution in DL is what signal processing refers to as correlation. However, since in DL we do not choose the filter <span class="arithmatex">\(h\)</span>, rather this is learned from data, if signal processing convolution was used instead of correlation, the learning algorithm would just learned the flipped version of the filter.</p>
 <p>In both cases, when we convolve two signals of size <span class="arithmatex">\(N_x\)</span> with a filter of size <span class="arithmatex">\(N_h\)</span>, the output signal has size:</p>
 <div class="arithmatex">\[
 N_y = N_x + N_h - 1
 \]</div>
-<p>However, in the context of CNNs, we generally only want to consider the so-called <em>valid</em> part of the convolution, i.e., where the entire filter contributes
-to the computation. For this reason the output signal size becomes:</p>
+<p>However, in the context of CNNs, we generally only want to consider the so-called <em>valid</em> part of the convolution, i.e., where the entire filter contributes to the computation. For this reason the output signal size becomes:</p>
 <div class="arithmatex">\[
 N_y = N_x - N_h + 1
 \]</div>
@@ -611,75 +598,43 @@ sliding the filter in all dimensions and can be mathematically written (in the d
 <div class="arithmatex">\[
 y_{i,j} = \sum_m \sum_l x_{ij} h_{i+m,j+l}
 \]</div>
-<p>Finally, another interesting thing to notice is that convolution is a linear process. Therefore we can express it as a matrix-vector
-multiplication where the vector identifies the input data and the filter is re-organized into a Toeplitz matrix as show in the figure below</p>
+<p>Finally, another interesting thing to notice is that convolution is a linear process. Therefore we can express it as a matrix-vector multiplication where the vector identifies the input data and the filter is re-organized into a Toeplitz matrix as show in the figure below</p>
 <p><img alt="CONVMTX" src="../figs/convmtx.png" /></p>
-<p>which means that the gradient of a convolutional operator that we need for backpropagation is just the adjoint of the matrix <span class="arithmatex">\(\mathbf{H}^T\)</span>.
-This is a convolution with the flipped kernel (so truly a convolution!).</p>
+<p>which means that the gradient of a convolutional operator that we need for backpropagation is just the adjoint of the matrix <span class="arithmatex">\(\mathbf{H}^T\)</span>. This is a convolution with the flipped kernel (so truly a convolution!).</p>
 <h2 id="why-convolution">Why Convolution?</h2>
 <p>A first intuitive motivation about locality of interactions, also referred to as <em>space interactions</em> 
 (or <em>sparse connectivity</em> or <em>sparse weights</em>), has been already provided onto why convolution blocks may represent an appealing
-alternative to fully connected blocks in the context of neural networks. However, this is not the only reason why convolution blocks
-are so powerful and widely used nowadays when training NNs for image processing tasks.</p>
-<p>Let's start with an example. Imagine we are given a large image and a small 3x3 kernel. By sliding the kernel across the image we can still
-be able to detect useful local features (e.g., edges). Note that the Machine Learning community has been aware of this for decades, and 
-in fact many early approaches to image detection relied on hand-crafted filters that could highlight one feature of the input data over another. 
-The modern DL approach simply takes this paradigm one step further where the filters are learned instead of being defined upfront. Experience has
-further shown that deep CNNs learn initially low level features (e.g., edges), then middle level features (e.g., shapes) and finally
-high level features (e.g., objects).</p>
+alternative to fully connected blocks in the context of neural networks. However, this is not the only reason why convolution blocks are so powerful and widely used nowadays when training NNs for image processing tasks.</p>
+<p>Let's start with an example. Imagine we are given a large image and a small 3x3 kernel. By sliding the kernel across the image we can still be able to detect useful local features (e.g., edges). Note that, the Machine Learning community has been aware of this for decades, and in fact many early approaches to image detection relied on hand-crafted filters that could highlight one feature of the input data over another. 
+The modern DL approach simply takes this paradigm one step further where the filters are learned instead of being defined upfront. Experience has further shown that deep CNNs learn initially low level features (e.g., edges), then middle level features (e.g., shapes) and finally high level features (e.g., objects).</p>
 <p><img alt="HANDLEARNED" src="../figs/hand_learn_filters.png" /></p>
-<p>Compared to flattening the input data and applying a matrix that transforms it into the dimension of the output data (that is what a FCC would do as shown above),
-using convolutions with small filters can save both memory and computations. Given for example an image of size <span class="arithmatex">\(W_x \times H_x\)</span>, a fully connected
-layer that produces an output of the same size requires a matrix with <span class="arithmatex">\((W_x H_x)^2\)</span> parameters and <span class="arithmatex">\((W_xH_x)^2\)</span> computations are required to obtain
+<p>Compared to flattening the input data and applying a matrix that transforms it into the dimension of the output data (that is what a FCC would do as shown above), using convolutions with small filters can save both memory and computations. Given for example an image of size <span class="arithmatex">\(W_x \times H_x\)</span>, a fully connected layer that produces an output of the same size requires a matrix with <span class="arithmatex">\((W_x H_x)^2\)</span> parameters and <span class="arithmatex">\((W_xH_x)^2\)</span> computations are required to obtain
 the output. On the other hand, if we now consider a simple filter of size <span class="arithmatex">\(W_h \times H_h\)</span>, the number of computations is reduced to <span class="arithmatex">\(W_x H_x W_h H_h\)</span>.</p>
-<p>The second main advantage of convolutional blocks is so-called <em>parameter sharing</em>. The same learned kernels are applied all over the input data, instead of having
-one filter operating on all (or part of) the input data to produce a single output component.</p>
-<p>Finally, a third benefit is the <em>equivariance of convolution to translation</em>. This means that if we shift the input by <span class="arithmatex">\(k\)</span> samples, the output
-will also be shifted by the same number of samples; however, the shape of the output will not change.</p>
+<p>The second main advantage of convolutional blocks is so-called <em>parameter sharing</em>. The same learned kernels are applied all over the input data, instead of having one filter operating on all (or part of) the input data to produce a single output component.</p>
+<p>Finally, a third benefit is the <em>equivariance of convolution to translation</em>. This means that if we shift the input by <span class="arithmatex">\(k\)</span> samples, the output will also be shifted by the same number of samples; however, the shape of the output will not change.</p>
 <h2 id="padding-and-strides">Padding and strides</h2>
-<p>We have previously seen how applying convolution to a signal with a kernel of a given size produces an output signal of different size, either with the total
-or valid output size is chosen. It may be however much easier when designing a convolutional neural network to have inputs and outputs of the same size, or more in
-general to be free to design the size of the output indipendent on that of the input and filter. Two simple approaches exist:</p>
+<p>We have previously seen how applying convolution to a signal with a kernel of a given size produces an output signal of different size, either with the total or valid output size is chosen. It may be however much easier when designing a convolutional neural network to have inputs and outputs of the same size, or more in general to be free to design the size of the output indipendent on that of the input and filter. Two simple approaches exist:</p>
 <ul>
-<li><em>padding</em>: the input signal is padded with zeros on both sides (for 1D signals) or all sides (for ND signals) prior to convolution. This allows producing outputs that
-  can have the same size or even larger size than the input. Let's first look at this with an example when the output size is computed using the equation above for the
-  valid case. We can devise a padding such that the size of the output stays the same as that of the input. This is actually easy to do once we choose the size of
-  the filter and more specifically <span class="arithmatex">\(N_{x,pad} = N_x + 2*pad\)</span> with <span class="arithmatex">\(pad = (N_h-1)/2\)</span> when <span class="arithmatex">\(N_h\)</span> is a odd number and <span class="arithmatex">\(N_h/2\)</span> when <span class="arithmatex">\(N_h\)</span> is a even number.</li>
+<li><em>padding</em>: the input signal is padded with zeros on both sides (for 1D signals) or all sides (for ND signals) prior to convolution. This allows producing outputs that can have the same size or even larger size than the input. Let's first look at this with an example when the output size is computed using the equation above for the valid case. We can devise a padding such that the size of the output stays the same as that of the input. This is actually easy to do once we choose the size of the filter and more specifically <span class="arithmatex">\(N_{x,pad} = N_x + 2*pad\)</span> with <span class="arithmatex">\(pad = (N_h-1)/2\)</span> when <span class="arithmatex">\(N_h\)</span> is a odd number and <span class="arithmatex">\(N_h/2\)</span> when <span class="arithmatex">\(N_h\)</span> is a even number.</li>
 </ul>
-<p>Moreover, apart from the obvious benefit of not having to handle outputs that keep reducing in size, padding ensures that edge values in the inputs are also used
-  the same number of times that central values in the convolution process.</p>
+<p>Moreover, apart from the obvious benefit of not having to handle outputs that keep reducing in size, padding ensures that edge values in the inputs are also used the same number of times that central values in the convolution process.</p>
 <p><img alt="PADDING" src="../figs/padding.png" /></p>
 <ul>
-<li><em>strides</em>: a common approach when building convolutional neural network, as we will see when discussing popular CNN architecture, is however to gradually reduce the size of
-  the signal (or image in 2D) whilst going deeper and deeper into the network. Two alternative ways to achieve this exist: the simplest is to couple convolutional layers that do
-  not change the size of the input and downsampling (or pooling layers). Alternatively, one can choose to apply a special type of convolution called <em>strided convolution</em>
-  that simply moves the filter around the input jumping (or striding) by more than a single sample at the time. Again, if we look at an example, we can observe
-  how by doing so the size of the output is reduced by the striding factor. If we stride by a factor of two the output size will be half of the input size. As a result
-  the output size can be written as <span class="arithmatex">\(N_y = \lfloor (N_x - N_h) / stride + 1 \rfloor\)</span>.</li>
+<li><em>strides</em>: a common approach when building convolutional neural network, as we will see when discussing popular CNN architecture, is however to gradually reduce the size of the signal (or image in 2D) whilst going deeper and deeper into the network. Two alternative ways to achieve this exist: the simplest is to couple convolutional layers that do not change the size of the input and downsampling (or pooling layers). Alternatively, one can choose to apply a special type of convolution called <em>strided convolution</em> that simply moves the filter around the input jumping (or striding) by more than a single sample at the time. Again, if we look at an example, we can observe how by doing so the size of the output is reduced by the striding factor. If we stride by a factor of two the output size will be half of the input size. As a result the output size can be written as <span class="arithmatex">\(N_y = \lfloor (N_x - N_h) / stride + 1 \rfloor\)</span>.</li>
 </ul>
 <p><img alt="STRIDING" src="../figs/striding.png" /></p>
-<p>Eventually striding and padding can be used together to get for example an output that is exactly half of the size of the input in all directions. An important formula
-to remember when designing convolutional layers is:</p>
+<p>Eventually striding and padding can be used together to get for example an output that is exactly half of the size of the input in all directions. An important formula to remember when designing convolutional layers is:</p>
 <div class="arithmatex">\[
 N_y = \Bigl\lfloor \frac{N_x + 2pad - N_h}{stride} + 1 \Bigr\rfloor
 \]</div>
 <h2 id="channels">Channels</h2>
-<p>We need to introduce one last key ingredient before we can define a convolutional layer. Let's imagine we have a 3D tensor and a 3D filter; the extension of 2D
-convolution to 3D (or any extra dimension) is as easy as sliding the filter along the third dimension as well as the first two. However, in deep learning we generally do something 
-different when we are dealing with convolutional networks. We define a special dimension called <em>channel</em>.</p>
-<p>Imagine having a 1D signal like a seismic trace but recording both the horizontal and vertical components of the particle displacement field. One way to arrange
-such data is as a 2D array where one of the dimensions is the size of the trace and one is the number of components (or channels), here two. A similar scenario
-may arise for 2D signals if we record for example different spectral components or for pre-stack seismic data where we record data at different angles. Here once again
-we will have two <code>classical</code> dimensions, say latitude and longitude or geographical location and depth and one channel dimension. For the first example this will contain
-the different spectral components, for the second example it will be represented by the different angles (or offsets). This is the geoscientific equivalent to natural images that
-are commonly used in deep learning tasks where the channel contains different colors (e.g., RGB or CMYK). In order to make ourselves already familiar with the
-ordering used in computational frameworks like PyTorch, a batch of training samples is usually organized as follows:</p>
+<p>We need to introduce one last key ingredient before we can define a convolutional layer. Let's imagine we have a 3D tensor and a 3D filter; the extension of 2D convolution to 3D (or any extra dimension) is as easy as sliding the filter along the third dimension as well as the first two. However, in deep learning we generally do something different when we are dealing with convolutional networks. We define a special dimension called <em>channel</em>.</p>
+<p>Imagine having a 1D signal like a seismic trace but recording both the horizontal and vertical components of the particle displacement field. One way to arrange such data is as a 2D array where one of the dimensions is the size of the trace and one is the number of components (or channels), here two. A similar scenario may arise for 2D signals if we record for example different spectral components or for pre-stack seismic data where we record data at different angles. Here once again we will have two <code>classical</code> dimensions, say latitude and longitude or geographical location and depth and one channel dimension. For the first example this will contain the different spectral components, for the second example it will be represented by the different angles (or offsets). This is the geoscientific equivalent to natural images that are commonly used in deep learning tasks where the channel contains different colors (e.g., RGB or CMYK). In order to make ourselves already familiar with the ordering used in computational frameworks like PyTorch, a batch of training samples is usually organized as follows:</p>
 <div class="arithmatex">\[
 N_x = (N_s \times N_{ch} \times N_w \times N_h)
 \]</div>
 <p>where <span class="arithmatex">\(N_{ch}\)</span> is the number of channels, whilst <span class="arithmatex">\(N_w\)</span> and <span class="arithmatex">\(N_h\)</span> are the width and the height of the image, respectively.</p>
-<p>By defining a special dimension, we can now decide to still work with filters that slide only across the width and height axes. Such kernels will have size
-<span class="arithmatex">\(N_{ch} \times H_w \times H_h\)</span>. By doing so, for every step of convolution, the input and filter and multiplied and then all the values across all channels summed together.</p>
+<p>By defining a special dimension, we can now decide to still work with filters that slide only across the width and height axes. Such kernels will have size <span class="arithmatex">\(N_{ch} \times H_w \times H_h\)</span>. By doing so, for every step of convolution, the input and filter and multiplied and then all the values across all channels are summed together.</p>
                 
               
               

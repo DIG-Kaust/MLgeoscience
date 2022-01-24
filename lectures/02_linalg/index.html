@@ -472,9 +472,9 @@ prior to this course.</p>
 <p><strong>Scalars</strong>: <span class="arithmatex">\(a \in \mathbb{R}\)</span>, a single number represented by a lower case italic letter;</p>
 <p><strong>Vectors</strong>: <span class="arithmatex">\(\mathbf{x} = [x_1, x_2, ..., x_N]^T \in \mathbb{R}^N\)</span>, ordered collection of <span class="arithmatex">\(N\)</span> numbers
 represented by a lower case bold letter; it is sometimes useful to extract a subset of elements by defining a set
-<span class="arithmatex">\(\mathbb{S}\)</span> and add it to as a superscript, <span class="arithmatex">\(\mathbf{x}_\mathbb{S}\)</span>. As an example, given <span class="arithmatex">\(\mathbb{S} = {1, 3, N}\)</span>
-we can define the vector <span class="arithmatex">\(\mathbf{x}_\mathbb{S} = [x_1, x_3, ..., x_N]\)</span> and its complementary vector 
-<span class="arithmatex">\(\mathbf{x}_{-\mathbb{S}} = [x_2, x_4, ..., x_{N-1}]\)</span></p>
+<span class="arithmatex">\(\mathbb{S}\)</span> and add it to as a superscript, <span class="arithmatex">\(\mathbf{x}_\mathbb{S}\)</span>. As an example, given <span class="arithmatex">\(\mathbf{x} = [x_1, x_2, x_3, x_4, x_5, x_6]^T \in \mathbb{R}^6\)</span> and <span class="arithmatex">\(\mathbb{S} = {1, 3, 5}\)</span>
+we can define the vector <span class="arithmatex">\(\mathbf{x}_\mathbb{S} = [x_1, x_3, x_5]\)</span> and its complementary vector 
+<span class="arithmatex">\(\mathbf{x}_{-\mathbb{S}} = [x_2, x_4, x_6]\)</span></p>
 <p><strong>Matrices</strong>: <span class="arithmatex">\(\mathbf{X} \in \mathbb{R}^{[N \times M]}\)</span>, two dimensional collection of numbers represented by an upper case bold letter
 where <span class="arithmatex">\(N\)</span> and <span class="arithmatex">\(M\)</span> are referred to as the height and width of the matrix. More specifically a matrix can be written as</p>
 <div class="arithmatex">\[\mathbf{X} = \begin{bmatrix} 
@@ -506,8 +506,7 @@ and matrices are now described: </p>
   <span class="arithmatex">\(\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}\)</span></li>
 <li>Orthogonal vectors and matrices: given two vectors <span class="arithmatex">\(\mathbf{x}\)</span> and <span class="arithmatex">\(\mathbf{y}\)</span>, they are said to be orthogonal if
   <span class="arithmatex">\(\mathbf{y}^T \mathbf{x} = 0\)</span>. Given two matrices <span class="arithmatex">\(\mathbf{X}\)</span> and <span class="arithmatex">\(\mathbf{Y}\)</span>, they are said to be orthogonal if
-  <span class="arithmatex">\(\mathbf{Y}^T \mathbf{X} = \mathbf{I}_N\)</span>. Orthogonal matrices are especially interesting because their inverse is very 
-  cheap <span class="arithmatex">\(\mathbf{X}^{-1} = \mathbf{X}^T\)</span></li>
+  <span class="arithmatex">\(\mathbf{Y}^T \mathbf{X} = \mathbf{I}_N\)</span>. Orthogonal matrices are especially interesting because their inverse is simply <span class="arithmatex">\(\mathbf{X}^{-1} = \mathbf{X}^T\)</span></li>
 <li>Matrix decomposition: like any scalar number can be decomposed into a product of prime numbers, a matrix <span class="arithmatex">\(\mathbf{A}\)</span>
   can also be decomposed into a combination of vectors (i.e., eigenvectors) and scalars (i.e., eigenvalues).<ul>
 <li>Eigendecomposition: real-valued, square, symmetric matrices can be written as 
@@ -517,13 +516,13 @@ and matrices are now described: </p>
     (i.e., <span class="arithmatex">\(\mathbf{V}^T=\mathbf{V}^{-1}\)</span>). Eigenvalues are placed along the diagonal of the matrix 
     <span class="arithmatex">\(\Lambda=diag\{\lambda\}\)</span> and tell us about the rank of the matrix, <span class="arithmatex">\(rank(\mathbf{A}) = \# \lambda \neq 0\)</span>. A
     <em>full rank</em> matrix is matrix whose eigenvalues are all non-zero and can be inverted. In this case the inverse
-    of <span class="arithmatex">\(\mathbf{A}=\mathbf{V}\Lambda^{-1}\mathbf{V}^T\)</span></li>
+    of <span class="arithmatex">\(\mathbf{A}\)</span> is <span class="arithmatex">\(\mathbf{A}^{-1}=\mathbf{V}\Lambda^{-1}\mathbf{V}^T\)</span></li>
 <li>Singular value decomposition (SVD): this is a more general decomposition which can be applied to real-valued, 
     non-square, non-symmetric matrices. Singular vectors <span class="arithmatex">\(\mathbf{u}\)</span> and <span class="arithmatex">\(\mathbf{v}\)</span> and singular values <span class="arithmatex">\(\lambda\)</span>
     generalized the concept of eigenvectors and and eigenvalues. The matrix <span class="arithmatex">\(\mathbf{A}\)</span> can be decomposed as
     <span class="arithmatex">\(\mathbf{A} = \mathbf{U} \mathbf{D} \mathbf{V}^T\)</span> where <span class="arithmatex">\(\mathbf{D} = \Lambda\)</span> for square matrices, 
     <span class="arithmatex">\(\mathbf{D} = [\Lambda \; \mathbf{0}]^T\)</span> for <span class="arithmatex">\(N&gt;M\)</span> and <span class="arithmatex">\(\mathbf{D} = [\Lambda \; \mathbf{0}]\)</span> for <span class="arithmatex">\(M&gt;N\)</span>. Similar
-    to the eigendecomposition, in this case the inverse of <span class="arithmatex">\(\mathbf{A}=\mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T\)</span></li>
+    to the eigendecomposition, in this case the inverse of <span class="arithmatex">\(\mathbf{A}\)</span> is <span class="arithmatex">\(\mathbf{A}^{-1}=\mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T\)</span></li>
 </ul>
 </li>
 <li>Conditioning: in general, it refers to how fast a function <span class="arithmatex">\(f(x)\)</span> changes given a small change in its input <span class="arithmatex">\(x\)</span>. Similarly
@@ -533,7 +532,7 @@ and matrices are now described: </p>
 </ul>
 <p><strong>Norms</strong>: another important object that we will be using when defining cost functions for ML models are norms. A norm is a 
 function that maps a vector <span class="arithmatex">\(\mathbf{x} \in \mathbb{R}^N\)</span> to a scalar <span class="arithmatex">\(d \in \mathbb{R}\)</span> and it can be loosely seen as
-measure of the lenght of the vector (i.e., distance from the origin). In general, the <span class="arithmatex">\(L^p\)</span> norm is defined as:</p>
+measure of the length of the vector (i.e., distance from the origin). In general, the <span class="arithmatex">\(L^p\)</span> norm is defined as:</p>
 <div class="arithmatex">\[
 ||\mathbf{x}||_p = \left( \sum_i |x_i|^p \right) ^{1/p} \; p \ge 0
 \]</div>

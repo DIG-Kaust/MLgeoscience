@@ -310,16 +310,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#gradient-and-steepest-descent-algorithms" class="md-nav__link">
-    Gradient- and steepest-descent algorithms
+  <a href="#gradient-descent-algorithms" class="md-nav__link">
+    Gradient-descent algorithms
   </a>
   
-    <nav class="md-nav" aria-label="Gradient- and steepest-descent algorithms">
+    <nav class="md-nav" aria-label="Gradient-descent algorithms">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-lenght-selection" class="md-nav__link">
-    Step lenght selection
+  <a href="#step-length-selection" class="md-nav__link">
+    Step length selection
   </a>
   
 </li>
@@ -548,16 +548,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#gradient-and-steepest-descent-algorithms" class="md-nav__link">
-    Gradient- and steepest-descent algorithms
+  <a href="#gradient-descent-algorithms" class="md-nav__link">
+    Gradient-descent algorithms
   </a>
   
-    <nav class="md-nav" aria-label="Gradient- and steepest-descent algorithms">
+    <nav class="md-nav" aria-label="Gradient-descent algorithms">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-lenght-selection" class="md-nav__link">
-    Step lenght selection
+  <a href="#step-length-selection" class="md-nav__link">
+    Step length selection
   </a>
   
 </li>
@@ -644,13 +644,13 @@ $$
 where <span class="arithmatex">\(N_f\)</span> and <span class="arithmatex">\(N_t\)</span> are the number of features and targets for each sample in the dataset, respectively, and 
 <span class="arithmatex">\(N_s\)</span> is the number of samples.</p>
 <p><strong>Model</strong>: a mathematical relation between the input (or features) and output (or target) 
-or our dataset. It is generally parametrized as function <span class="arithmatex">\(f\)</span> of a number of free parameters <span class="arithmatex">\(\theta\)</span> which we want the 
+of our dataset. It is generally parametrized as function <span class="arithmatex">\(f\)</span> of a number of free parameters <span class="arithmatex">\(\theta\)</span> which we want the 
 learning algorithm to estimate given a task and a measure of performance, and we write it as 
 $$
 \mathbf{y} = f_\theta(\mathbf{x})
 $$</p>
 <p><strong>Loss (and cost) function</strong>: quantitative measure of the performance of the learning algorithm, which we wish to minimize 
-(or maximize) in order to make accurate predictions on unseen data. It is written as
+(or maximize) in order to make accurate predictions on the unseen data. It is written as
 $$
 J_\theta = \frac{1}{N_s} \sum_{j=1}^{N_s} \mathscr{L} (\mathbf{y}^{(j)}, f_\theta(\mathbf{x}^{(j)}))
 $$</p>
@@ -663,9 +663,8 @@ $$</p>
 <p>Optimization algorithms are generally divided into two main families: gradient-based 
 (or local) and gradient-free (or global). Gradient-based optimization is by far the most popular way to train NNs and 
 will be discussed in more details below.</p>
-<h2 id="gradient-and-steepest-descent-algorithms">Gradient- and steepest-descent algorithms</h2>
-<p>The simplest of gradient-based methods is the so-called <strong>Gradient-descent</strong> algorithm. As the name implies, 
-this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
+<h2 id="gradient-descent-algorithms">Gradient-descent algorithms</h2>
+<p>The simplest of gradient-based methods is the so-called <strong>Gradient-descent</strong> algorithms (e.g., steepest descent algorithm). As the name implies, this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
 mimimum/maximum as depicted in the figure below.</p>
 <p><img alt="GRADIENT OPTIMIZATION" src="../figs/opt_gradient.png" /></p>
 <p>More formally, given a functional <span class="arithmatex">\(J_\theta\)</span> and its gradient 
@@ -677,21 +676,21 @@ mimimum/maximum as depicted in the figure below.</p>
 <li>Estimate step-lenght <span class="arithmatex">\(\alpha_i\)</span></li>
 <li>Update <span class="arithmatex">\(\theta_{i+1} = \theta_{i} + \alpha_i d_i\)</span></li>
 </ol>
-<p>Note that the maximization version of this algorithm simply switches the sign in the update direction (first equation of the algorithm).
+<p>Note that the maximization version of this algorithm simply swaps the sign in the update direction (first equation of the algorithm).
 Moreover, the proposed algorithm can be easily extended to N-dimensional model vectors <span class="arithmatex">\(\theta=[\theta_1, \theta_2, ..., \theta_N]\)</span> by
 defining the following gradient vector 
 <span class="arithmatex">\(\nabla J=[\delta J / \delta\theta_1, \delta J / \delta\theta_2, ..., \delta J/ \delta\theta_N]\)</span>.</p>
-<h3 id="step-lenght-selection">Step lenght selection</h3>
-<p>The choice of the step-lenght has tremendous impact on the performance of the algorithm and its ability to converge 
+<h3 id="step-length-selection">Step length selection</h3>
+<p>The choice of the step-length has tremendous impact on the performance of the algorithm and its ability to converge 
 fast (i.e., in a small number of iterations) to the optimal solution.</p>
 <p>The most used selection rules are:</p>
 <ul>
 <li>Constant: the step size is fixed to a constant value <span class="arithmatex">\(\alpha_i=\hat{\alpha}\)</span>. This is the most common situation that we
   will encounter when training neural networks. In practice, some adaptive schemes based on the evolution of the train
   (or validation) norm are generally adopted, but we will still refer to this case as costant step size;</li>
-<li>Exact linesearch: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(J(\theta_{i} + \alpha_i d_i)\)</span>. This
+<li>Exact line search: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(J(\theta_{i} + \alpha_i d_i)\)</span>. This
   is the most commonly used approach when dealing with linear systems of equations.</li>
-<li>Backtracking  "Armijo" linesearch: at each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
+<li>Backtracking  "Armijo" line search: at each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
   and reduce it by a factor of 2 until the following condition is satisfied: <span class="arithmatex">\(J(\theta_i) - J(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla J^T d_i\)</span></li>
 </ul>
 <h2 id="second-order-optimization">Second-order optimization</h2>
@@ -700,8 +699,7 @@ its gradient <span class="arithmatex">\(\nabla J\)</span>. Second-order optimiza
 local slope and curvature of the function <span class="arithmatex">\(J\)</span>. </p>
 <p>When a function has small curvature, the function and its tangent line are very similar: 
 the gradient alone is therefore able to provide a good local approximation of the function (i.e., <span class="arithmatex">\(J(\theta+\delta \theta)\approx J(\theta) + \nabla J \delta \theta\)</span>).
-On the other hand, if the curvature of the function of large, the function and its tangent line start to differ very quickly away from
-the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
+On the other hand, if the curvature of the function of large, the function and its tangent line start to differ very quickly away from the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
 (i.e., <span class="arithmatex">\(J(\theta+\delta \theta)\approx J(\theta) + \nabla J \delta \theta + \nabla^2 J \delta \theta^2\)</span>).</p>
 <p>Let's start again from the one-dimensional case and the well-known <strong>Newton's method</strong>. This method is generally employed to find the zeros of a function:
 <span class="arithmatex">\(\theta: J(\theta)=0\)</span> and can be written as:</p>
@@ -735,39 +733,28 @@ is symmetric.</p>
 <div class="arithmatex">\[
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_i - \mathbf{H}^{-1}\nabla J
 \]</div>
-<p>Approximated version of the Gauss-Netwon method have been developed over the years, mostly based on the idea that inverting <span class="arithmatex">\(\mathbf{H}\)</span> is
-sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse)
-using the gradient at the current iteration and that of a number of previous iterations. <a href="https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm">BFGS</a>
-or its limited memory version <a href="https://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> are examples of such a kind. Due to their computational cost
-(as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the
-machine learning community to optimize the parameters of NNs in deep learning.</p>
+<p>Approximated version of the Netwon method have been developed over the years, mostly based on the idea that inverting <span class="arithmatex">\(\mathbf{H}\)</span> is sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse) using the collections of gradient information from the previous iterations. <a href="https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm">BFGS</a> or its limited memory version <a href="https://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> are examples of such a kind. Due to their computational cost
+(as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the machine learning community to optimize the parameters of NNs in deep learning.</p>
 <h2 id="stochastic-gradient-descent-sgd">Stochastic-gradient descent (SGD)</h2>
-<p>To conclude, we look again and gradient-based iterative solvers and more specifically in the context of finite-sum functionals of the kind
-that we will encountering when training neural networks:</p>
+<p>To conclude, we look again at gradient-based iterative solvers and more specifically in the context of finite-sum functionals of the kind that we will encountering when training neural networks:</p>
 <div class="arithmatex">\[
 J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} \mathscr{L} (\mathbf{y}^{(i)}, f_\theta(\mathbf{x}^{(i)}))
 \]</div>
-<p>where the summation is here performed over training data.</p>
+<p>where the summation here is performed over training data.</p>
 <h3 id="batched-gradient-descent">Batched gradient descent</h3>
-<p>The solvers that we have considered so far are generally referred to as  methods as they update the
-model parameters <span class="arithmatex">\(\boldsymbol\theta\)</span> using the full gradient (i.e., over the entire batch of samples):</p>
+<p>The solvers that we have considered so far are generally update the model parameters <span class="arithmatex">\(\boldsymbol\theta\)</span> using the full gradient (i.e., over the entire batch of samples):</p>
 <div class="arithmatex">\[
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \alpha_i \nabla J = \boldsymbol\theta_{i} - \frac{\alpha_i}{N_s} \sum_{j=1}^{N_s} \nabla \mathscr{L}_j
 \]</div>
-<p>A limitation of such an approach is that, if we have a very large number of training samples, the computational cost of computing the
-full gradient is very high and when some of the samples are similar their gradient contribution is somehow redundant.</p>
+<p>A limitation of such an approach is that, if we have a very large number of training samples, the computational cost of computing the full gradient is very high and when some of the samples are similar, their gradient contribution is somehow redundant.</p>
 <h3 id="stochastic-gradient-descent">Stochastic gradient descent</h3>
-<p>In this case we take a completely opposite approach to computing the gradient. More specifically, a single
-training sample is considered at each iteration:</p>
+<p>In this case we take a completely opposite approach to computing the gradient. More specifically, a single training sample is considered at each iteration:</p>
 <div class="arithmatex">\[
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \alpha_i \nabla \mathscr{L}_j
 \]</div>
-<p>The choice of the training sample <span class="arithmatex">\(j\)</span> at each iteration is generally completely random and this is repeated once all training data have
-been used at least once (generally referred to as <em>epoch</em>). In this case, the gradient may be noisy because the gradient of a single
-sample is a very rough approximation of the total cost function <span class="arithmatex">\(J\)</span>: such a high variance of gradients requires lowering the 
-step-size <span class="arithmatex">\(\alpha\)</span> leading to slow convergence.</p>
+<p>The choice of the training sample <span class="arithmatex">\(j\)</span> at each iteration is generally completely random and this is repeated once all training data have been used at least once (generally referred to as <em>epoch</em>). In this case, the gradient may be noisy because the gradient of a single sample is a very rough approximation of the total cost function <span class="arithmatex">\(J\)</span>: such a high variance of gradients requires lowering the step-size <span class="arithmatex">\(\alpha\)</span> leading to slow convergence.</p>
 <h3 id="mini-batched-gradient-descent">Mini-batched gradient descent</h3>
-<p>A more commonly used strategy, that lies in between the batched and stochastic gradient descent algorithms 
+<p>A more commonly used strategy lies in between the batched and stochastic gradient descent algorithms 
 uses batches of training samples to compute the gradient at each iteration. More spefically given a batch of 
 <span class="arithmatex">\(N_b\)</span> samples, the update formula can be written as:</p>
 <div class="arithmatex">\[
@@ -782,7 +769,7 @@ data are used once in the training loop. Whilst the choice of the size of the ba
 <ul>
 <li>the following <a href="https://ruder.io/optimizing-gradient-descent/">blog post</a> for a more
 detailed overview of the optimization algorithms discussed here. Note that in one of our future <a href="lectures/08_gradopt1.md">lectures</a> 
-we will also look again at optimization algorithms and more specifically discuss strategies that allow overcoming some of the 
+we will also look again at the optimization algorithms and more specifically discuss strategies that allow overcoming some of the 
 limitations of standard SGD in <a href="lectures/10_gradopt1.md">this lecture</a>.</li>
 </ul>
                 
