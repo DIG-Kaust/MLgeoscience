@@ -12,9 +12,9 @@ Three key mathematical objects arise in the study of linear algebra:
 
 **Vectors**: $\mathbf{x} = [x_1, x_2, ..., x_N]^T \in \mathbb{R}^N$, ordered collection of $N$ numbers
 represented by a lower case bold letter; it is sometimes useful to extract a subset of elements by defining a set
-$\mathbb{S}$ and add it to as a superscript, $\mathbf{x}_\mathbb{S}$. As an example, given $\mathbb{S} = {1, 3, N}$
-we can define the vector $\mathbf{x}_\mathbb{S} = [x_1, x_3, ..., x_N]$ and its complementary vector 
-$\mathbf{x}_{-\mathbb{S}} = [x_2, x_4, ..., x_{N-1}]$
+$\mathbb{S}$ and add it to as a superscript, $\mathbf{x}_\mathbb{S}$. As an example, given $\mathbf{x} = [x_1, x_2, x_3, x_4, x_5, x_6]^T \in \mathbb{R}^6$ and $\mathbb{S} = {1, 3, 5}$
+we can define the vector $\mathbf{x}_\mathbb{S} = [x_1, x_3, x_5]$ and its complementary vector 
+$\mathbf{x}_{-\mathbb{S}} = [x_2, x_4, x_6]$
 
 **Matrices**: $\mathbf{X} \in \mathbb{R}^{[N \times M]}$, two dimensional collection of numbers represented by an upper case bold letter
 where $N$ and $M$ are referred to as the height and width of the matrix. More specifically a matrix can be written as
@@ -49,8 +49,7 @@ and matrices are now described:
   $\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}$
 - Orthogonal vectors and matrices: given two vectors $\mathbf{x}$ and $\mathbf{y}$, they are said to be orthogonal if
   $\mathbf{y}^T \mathbf{x} = 0$. Given two matrices $\mathbf{X}$ and $\mathbf{Y}$, they are said to be orthogonal if
-  $\mathbf{Y}^T \mathbf{X} = \mathbf{I}_N$. Orthogonal matrices are especially interesting because their inverse is very 
-  cheap $\mathbf{X}^{-1} = \mathbf{X}^T$
+  $\mathbf{Y}^T \mathbf{X} = \mathbf{I}_N$. Orthogonal matrices are especially interesting because their inverse is simply $\mathbf{X}^{-1} = \mathbf{X}^T$
 - Matrix decomposition: like any scalar number can be decomposed into a product of prime numbers, a matrix $\mathbf{A}$
   can also be decomposed into a combination of vectors (i.e., eigenvectors) and scalars (i.e., eigenvalues).
       - Eigendecomposition: real-valued, square, symmetric matrices can be written as 
@@ -60,13 +59,13 @@ and matrices are now described:
         (i.e., $\mathbf{V}^T=\mathbf{V}^{-1}$). Eigenvalues are placed along the diagonal of the matrix 
         $\Lambda=diag\{\lambda\}$ and tell us about the rank of the matrix, $rank(\mathbf{A}) = \# \lambda \neq 0$. A
         *full rank* matrix is matrix whose eigenvalues are all non-zero and can be inverted. In this case the inverse
-        of $\mathbf{A}=\mathbf{V}\Lambda^{-1}\mathbf{V}^T$
+        of $\mathbf{A}$ is $\mathbf{A}^{-1}=\mathbf{V}\Lambda^{-1}\mathbf{V}^T$
       - Singular value decomposition (SVD): this is a more general decomposition which can be applied to real-valued, 
         non-square, non-symmetric matrices. Singular vectors $\mathbf{u}$ and $\mathbf{v}$ and singular values $\lambda$
         generalized the concept of eigenvectors and and eigenvalues. The matrix $\mathbf{A}$ can be decomposed as
         $\mathbf{A} = \mathbf{U} \mathbf{D} \mathbf{V}^T$ where $\mathbf{D} = \Lambda$ for square matrices, 
         $\mathbf{D} = [\Lambda \; \mathbf{0}]^T$ for $N>M$ and $\mathbf{D} = [\Lambda \; \mathbf{0}]$ for $M>N$. Similar
-        to the eigendecomposition, in this case the inverse of $\mathbf{A}=\mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T$
+        to the eigendecomposition, in this case the inverse of $\mathbf{A}$ is $\mathbf{A}^{-1}=\mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T$
 - Conditioning: in general, it refers to how fast a function $f(x)$ changes given a small change in its input $x$. Similarly
   for a matrix, conditioning is linked to the curvature of its associated quadratic form 
   $f(\mathbf{A}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$ and it generally indicates how rapidly this function changes as function
@@ -74,7 +73,7 @@ and matrices are now described:
 
 **Norms**: another important object that we will be using when defining cost functions for ML models are norms. A norm is a 
 function that maps a vector $\mathbf{x} \in \mathbb{R}^N$ to a scalar $d \in \mathbb{R}$ and it can be loosely seen as
-measure of the lenght of the vector (i.e., distance from the origin). In general, the $L^p$ norm is defined as:
+measure of the length of the vector (i.e., distance from the origin). In general, the $L^p$ norm is defined as:
 
 $$
 ||\mathbf{x}||_p = \left( \sum_i |x_i|^p \right) ^{1/p} \; p \ge 0

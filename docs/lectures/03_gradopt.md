@@ -17,14 +17,14 @@ where $N_f$ and $N_t$ are the number of features and targets for each sample in 
 $N_s$ is the number of samples.
 
 **Model**: a mathematical relation between the input (or features) and output (or target) 
-or our dataset. It is generally parametrized as function $f$ of a number of free parameters $\theta$ which we want the 
+of our dataset. It is generally parametrized as function $f$ of a number of free parameters $\theta$ which we want the 
 learning algorithm to estimate given a task and a measure of performance, and we write it as 
 $$
 \mathbf{y} = f_\theta(\mathbf{x})
 $$
 
 **Loss (and cost) function**: quantitative measure of the performance of the learning algorithm, which we wish to minimize 
-(or maximize) in order to make accurate predictions on unseen data. It is written as
+(or maximize) in order to make accurate predictions on the unseen data. It is written as
 $$
 J_\theta = \frac{1}{N_s} \sum_{j=1}^{N_s} \mathscr{L} (\mathbf{y}^{(j)}, f_\theta(\mathbf{x}^{(j)}))
 $$
@@ -41,9 +41,8 @@ Optimization algorithms are generally divided into two main families: gradient-b
 (or local) and gradient-free (or global). Gradient-based optimization is by far the most popular way to train NNs and 
 will be discussed in more details below.
 
-## Gradient- and steepest-descent algorithms
-The simplest of gradient-based methods is the so-called **Gradient-descent** algorithm. As the name implies, 
-this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
+## Gradient-descent algorithms
+The simplest of gradient-based methods is the so-called **Gradient-descent** algorithms (e.g., steepest descent algorithm). As the name implies, this algorithm uses local gradient information of the functional to minimize/maximize to move towards its global 
 mimimum/maximum as depicted in the figure below.
 
 ![GRADIENT OPTIMIZATION](figs/opt_gradient.png)
@@ -59,13 +58,13 @@ For $i=0,...N-1$;
 2. Estimate step-lenght $\alpha_i$
 3. Update $\theta_{i+1} = \theta_{i} + \alpha_i d_i$
 
-Note that the maximization version of this algorithm simply switches the sign in the update direction (first equation of the algorithm).
+Note that the maximization version of this algorithm simply swaps the sign in the update direction (first equation of the algorithm).
 Moreover, the proposed algorithm can be easily extended to N-dimensional model vectors $\theta=[\theta_1, \theta_2, ..., \theta_N]$ by
 defining the following gradient vector 
 $\nabla J=[\delta J / \delta\theta_1, \delta J / \delta\theta_2, ..., \delta J/ \delta\theta_N]$.
 
-### Step lenght selection
-The choice of the step-lenght has tremendous impact on the performance of the algorithm and its ability to converge 
+### Step length selection
+The choice of the step-length has tremendous impact on the performance of the algorithm and its ability to converge 
 fast (i.e., in a small number of iterations) to the optimal solution.
 
 The most used selection rules are:
@@ -73,9 +72,9 @@ The most used selection rules are:
 - Constant: the step size is fixed to a constant value $\alpha_i=\hat{\alpha}$. This is the most common situation that we
   will encounter when training neural networks. In practice, some adaptive schemes based on the evolution of the train
   (or validation) norm are generally adopted, but we will still refer to this case as costant step size;
-- Exact linesearch: at each iteration, $\alpha_i$ is chosen such that it minimizes $J(\theta_{i} + \alpha_i d_i)$. This
+- Exact line search: at each iteration, $\alpha_i$ is chosen such that it minimizes $J(\theta_{i} + \alpha_i d_i)$. This
   is the most commonly used approach when dealing with linear systems of equations.
-- Backtracking  "Armijo" linesearch: at each iteration, given a parameter $\mu \in (0,1)$, start with $\alpha_i=1$ 
+- Backtracking  "Armijo" line search: at each iteration, given a parameter $\mu \in (0,1)$, start with $\alpha_i=1$ 
   and reduce it by a factor of 2 until the following condition is satisfied: $J(\theta_i) - J(\theta_{i} + \alpha_i d_i) \ge  -\mu \alpha_i \nabla J^T d_i$
   
 ## Second-order optimization
@@ -85,8 +84,7 @@ local slope and curvature of the function $J$.
 
 When a function has small curvature, the function and its tangent line are very similar: 
 the gradient alone is therefore able to provide a good local approximation of the function (i.e., $J(\theta+\delta \theta)\approx J(\theta) + \nabla J \delta \theta$).
-On the other hand, if the curvature of the function of large, the function and its tangent line start to differ very quickly away from
-the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
+On the other hand, if the curvature of the function of large, the function and its tangent line start to differ very quickly away from the linearization point. The gradient alone is not able anymore to provide a good local approximation of the function 
 (i.e., $J(\theta+\delta \theta)\approx J(\theta) + \nabla J \delta \theta + \nabla^2 J \delta \theta^2$).
 
 Let's start again from the one-dimensional case and the well-known **Newton's method**. This method is generally employed to find the zeros of a function:
@@ -133,52 +131,41 @@ $$
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_i - \mathbf{H}^{-1}\nabla J
 $$
 
-Approximated version of the Gauss-Netwon method have been developed over the years, mostly based on the idea that inverting $\mathbf{H}$ is
-sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse)
-using the gradient at the current iteration and that of a number of previous iterations. [BFGS](https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm)
-or its limited memory version [L-BFGS](https://en.wikipedia.org/wiki/Limited-memory_BFGS) are examples of such a kind. Due to their computational cost
-(as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the
-machine learning community to optimize the parameters of NNs in deep learning.
+Approximated version of the Netwon method have been developed over the years, mostly based on the idea that inverting $\mathbf{H}$ is sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse) using the collections of gradient information from the previous iterations. [BFGS](https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm) or its limited memory version [L-BFGS](https://en.wikipedia.org/wiki/Limited-memory_BFGS) are examples of such a kind. Due to their computational cost
+(as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the machine learning community to optimize the parameters of NNs in deep learning.
 
 ## Stochastic-gradient descent (SGD)
 
-To conclude, we look again and gradient-based iterative solvers and more specifically in the context of finite-sum functionals of the kind
-that we will encountering when training neural networks:
+To conclude, we look again at gradient-based iterative solvers and more specifically in the context of finite-sum functionals of the kind that we will encountering when training neural networks:
 
 $$
 J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} \mathscr{L} (\mathbf{y}^{(i)}, f_\theta(\mathbf{x}^{(i)}))
 $$
 
-where the summation is here performed over training data.
+where the summation here is performed over training data.
 
 ### Batched gradient descent 
-The solvers that we have considered so far are generally referred to as  methods as they update the
-model parameters $\boldsymbol\theta$ using the full gradient (i.e., over the entire batch of samples):
+The solvers that we have considered so far are generally update the model parameters $\boldsymbol\theta$ using the full gradient (i.e., over the entire batch of samples):
 
 $$
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \alpha_i \nabla J = \boldsymbol\theta_{i} - \frac{\alpha_i}{N_s} \sum_{j=1}^{N_s} \nabla \mathscr{L}_j
 $$
 
-A limitation of such an approach is that, if we have a very large number of training samples, the computational cost of computing the
-full gradient is very high and when some of the samples are similar their gradient contribution is somehow redundant.
+A limitation of such an approach is that, if we have a very large number of training samples, the computational cost of computing the full gradient is very high and when some of the samples are similar, their gradient contribution is somehow redundant.
 
 ### Stochastic gradient descent
 
-In this case we take a completely opposite approach to computing the gradient. More specifically, a single
-training sample is considered at each iteration:
+In this case we take a completely opposite approach to computing the gradient. More specifically, a single training sample is considered at each iteration:
 
 $$
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \alpha_i \nabla \mathscr{L}_j
 $$
 
-The choice of the training sample $j$ at each iteration is generally completely random and this is repeated once all training data have
-been used at least once (generally referred to as *epoch*). In this case, the gradient may be noisy because the gradient of a single
-sample is a very rough approximation of the total cost function $J$: such a high variance of gradients requires lowering the 
-step-size $\alpha$ leading to slow convergence.
+The choice of the training sample $j$ at each iteration is generally completely random and this is repeated once all training data have been used at least once (generally referred to as *epoch*). In this case, the gradient may be noisy because the gradient of a single sample is a very rough approximation of the total cost function $J$: such a high variance of gradients requires lowering the step-size $\alpha$ leading to slow convergence.
 
 ### Mini-batched gradient descent
 
-A more commonly used strategy, that lies in between the batched and stochastic gradient descent algorithms 
+A more commonly used strategy lies in between the batched and stochastic gradient descent algorithms 
 uses batches of training samples to compute the gradient at each iteration. More spefically given a batch of 
 $N_b$ samples, the update formula can be written as:
 
@@ -198,5 +185,5 @@ data are used once in the training loop. Whilst the choice of the size of the ba
 
 - the following [blog post](https://ruder.io/optimizing-gradient-descent/) for a more
 detailed overview of the optimization algorithms discussed here. Note that in one of our future [lectures](lectures/08_gradopt1.md) 
-we will also look again at optimization algorithms and more specifically discuss strategies that allow overcoming some of the 
+we will also look again at the optimization algorithms and more specifically discuss strategies that allow overcoming some of the 
 limitations of standard SGD in [this lecture](lectures/10_gradopt1.md).
