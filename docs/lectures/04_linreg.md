@@ -6,15 +6,13 @@ various applications in different scientific field, from now on we will learn ho
 similar algorithms in the context of Machine Learning.
 
 ## Linear regression
-In preparation to our lecture on Neural Networks, we consider here what is generally referred to as the simplest
-machine learning model for regression, *linear regression*. Its simplicity lies in the fact that we will only consider 
-a linear relationship between our inputs and targets:
+In preparation to our lecture on Neural Networks, here we consider the simplest machine learning model for regression, *linear regression*. Its simplicity lies in the fact that we will only consider a linear relationship between our inputs and targets:
 
 ![LIN REG](figs/reg_model.png)
 
 where $\textbf{x}$ is a training sample with $N_f$ features, $\textbf{w}$ is a vector of $N_f$ weights and $b=w_0$ is the
 so-called bias term. The set of trainable parameters is therefore the combination of the weights and bias 
-$\boldsymbol\theta=[\textbf{w}, b] \in \mathbb{R}^{N_f+1}$. Similarly the combination of the training sample and a 1-scalar is defined as 
+$\boldsymbol\theta=[\textbf{w}, b] \in \mathbb{R}^{N_f+1}$. Similarly, the combination of the training sample and a 1-scalar is defined as 
 $\tilde{\textbf{x}}=[\textbf{x}, 1] \in \mathbb{R}^{N_f+1}$
 The prediction $\hat{y}$ is simply obtained by linearly 
 combining the different features of the input vector and adding the bias.
@@ -53,7 +51,7 @@ J_\theta = MSE(\textbf{y}_{train}, \hat{\textbf{y}}_{train}) = \frac{1}{N_s} || 
 \frac{1}{N_s} \sum_i^{N_s} (y_{train}^{(i)}-\hat{y}_{train}^{(i)})^2
 $$
 
-Based on our previous lecture on optimization, we need to find the best set of coefficients $\theta$ that minimize the MSE:
+Based on our previous lecture on optimization, we need to find the best set of coefficients $\theta$ that minimizes the MSE:
 
 $$
 \hat{\theta} = min_\theta  J_\theta \rightarrow \theta_{i+1} = \theta_i - \alpha \nabla J_\theta
@@ -76,7 +74,7 @@ $$
 
 To conclude, once a linear regression model has been trained, a variety of measures exist to assess the goodness of the model. Whilst the same 
 metric used for training, the mean-square error, can be used to assess the model performance, other metrics are represented by the Pearson coefficient 
-($R^2$) and the mean-absolute erorr (MAE).
+($R^2$) and the mean-absolute error (MAE).
 
 ## Logistic regression
 
@@ -148,19 +146,16 @@ regression model.
 The good news here is that there exist a systematic approach to computing the derivative of a composite function (i.e., $f(x)=f_N(...f_2(f_1(x)))$), which
 simply relies on the well-known *chain rule* of functional analysis. This method is referred to in the mathematical community as Automatic Differentiation (AD),
 and more likely so as Back-propagation in the ML community. As this lies as the foundation of the training process for neural networks, we will get into details 
-later in the text. At this point suffices to say that if we have a composite function like the one above, its derivative with respect to $x$ can be written as:
+later in the text. At this point, it suffices to say that if we have a composite function like the one above, its derivative with respect to $x$ can be written as:
 
 $$
 \frac{\partial f}{\partial x} = \frac{\partial f_N}{\partial f_{N-1}} ... \frac{\partial f_2}{\partial f_1} \frac{\partial f_1}{\partial x}
 $$
 
-where the derivative is simply the product of a number of derivatives over the chain of operations of the composite function.
+where the derivative is simply the product of all derivatives over the chain of operations of the composite function.
 Note that in practice it is more common to compute this chain rule in reverse order, from left to right in the equation above.
 
-Whilst we generally rely on the built-in functionalities of deep learning libraries such as Tensorflow or PyTorch to compute such derivaties, we will
-perform here a full derivation for the simple case of logistic regression. In order to do so, we introduce a very useful mathamatical tool that we use to 
-keep track of a chain of operations and later know how to evaluate the associated gradient. This tool is usually known as *computational graph*. More specifically,
-instead of writing the entire logistic regression model compactely in a single equation, we divide it here into its atomic components:
+We generally rely on the built-in functionalities of deep learning libraries such as Tensorflow or PyTorch to compute such derivaties, we will perform here a full derivation for the simple case of logistic regression. In order to do so, we introduce a very useful mathamatical tool that we use to keep track of a chain of operations and later, we know how to evaluate the associated gradient. This tool is usually known as *computational graph*. More specifically, instead of writing the entire logistic regression model compactly in a single equation, we divide it here into its atomic components:
 
 $$
 z = \textbf{x}^T \boldsymbol\theta, \quad
@@ -262,7 +257,7 @@ and a number of complementary metrics (all bounded between 0 and 1) can be defin
    In this case, we are not really concerned with making a few mistakes where we predict a kick when this is not likely to happen (False Positive); 
    of course, this may slow down the drilling process but it is nowhere near as dramatic as the case in which we do not predict a kick which is going to happen (False Negative); 
    a high recall is therefore what we want, as this is an indication of the fact that the model does not miss out on many positive cases. 
-   Of course a model that always provides a positive prediction will have a recall of 1 (FN=0), indication of the fact that a high recall is not 
+   Of course, a model that always provides a positive prediction will have a recall of 1 (FN=0), indication of the fact that a high recall is not 
    always an indication of a good model;
 3. **Accuracy**: $Ac=\frac{TP+TN}{TP+TN+FP+FN}=\frac{TP+TN}{P+N}$, percentage of correct predictions over the total number of cases. 
    This measure combines both error types (in the denominator), it is therefore a more global measure of the quality of the model.

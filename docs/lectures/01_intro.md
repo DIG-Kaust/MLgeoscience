@@ -47,7 +47,7 @@ Machine Learning is divided into 3 main categories:
   samples from such distribution. We will get into the mathematical details of these families of
   models in the second part of our course.
   
-- **Semi-supervised Learning**: it lies in between the other other learning paradigms as it learns from some examples
+- **Semi-supervised Learning**: it lies in between the other learning paradigms as it learns from some examples
   that include a target and some that do not.
   
 Input data can also come in 2 different types:
@@ -84,5 +84,5 @@ waves of major development (and periods of success) interspersed by winters (or 
   unsupervised learning have led to the creation of dimensionality reduction and generative algorithms that can now
   outperform any state-of-the-art method that is not based on neural networks.
   
-If want to dig deeper into the history of this field, an interesting read can be found 
+If you want to dig deeper into the history of this field, an interesting read can be found 
 [here](http://beamlab.org/deeplearning/2017/02/23/deep_learning_101_part1.html).

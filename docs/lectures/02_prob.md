@@ -4,7 +4,7 @@ Another set of fundamental mathematical tools required to develop various machin
 (especially towards the end of the course when we will focus on generative modelling)
 
 In order to develop various machine learning algorithms (especially towards the end of the 
-course when we will focus on generative modelling) we need to familarize with some basic concepts of:
+course when we will focus on generative modelling) we need to be familarized with some basic concepts of:
 mathematical tools from:
 
 - **Probability**: mathematical framework to handle uncertain statements;
@@ -14,7 +14,7 @@ mathematical tools from:
 
 **Random Variable**: a variable whose value is unknown, all we know is that it can take on different 
 values with a given probability. It is generally defined by an uppercase letter $X$, whilst the values 
-it can take are in lowercase letter $x$.
+it can take are in lowercase letter $x$. (Note: Actually, random variable is not really a variable. To be exact, random variable is actually a function that maps from sample space to the probability space.)
 
 **Probability distribution**: description of how likely a variable $x$ is, $P(x)$ (or $p(x)$). 
 Depending on the type of variable we have:
@@ -48,14 +48,14 @@ $$
 P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)}
 $$
 
-This formula can be used recursively to define the joint probability of a number N of variables as product of conditional
+This formula can be used recursively to define the joint probability of N variables as product of conditional
 probabilities (so-called *Chain Rule of Probability*)
 
 $$
 P(x_1, x_2, ..., x_N) = P(x_1) \prod_{i=2}^N P(x_i | x_1, x_2, x_{i-1})
 $$
 
-**Independence and Conditional Independence**: Two variables X and Y are said to be indipendent if
+**Independence and Conditional Independence**: Two variables X and Y are said to be independent if
 
 $$
 P(X=x, Y=y) = P(X=x) P(Y=y)
@@ -75,24 +75,24 @@ $$
 P(x | y) = \frac{P(y|x) P(x)}{P(y)}
 $$
 
-where $P(y) = \sum_x P(x, y) = \sum_x P(y |x) P(x)$ is called the evidence. In practice it is unfeasible to compute this
-quantity as it would require evaluating $y$ for any possible combination of $x$ (we will see later how it is possible to 
+where $P(y) = \sum_x P(x, y) = \sum_x P(y |x) P(x)$ is called the evidence. In practice, it is infeasible to compute this
+quantity as it would require evaluating $y$ for all possible combination of $x$ (we will see later how it is possible to 
 devise methods for which $P(y)$ can be ignored).
 
-**Mean (or Expectation)**: Given a function $f(x)$ where $x$ is a stochastic variable with probability $P(x)$, its average
+**Mean (or Expectation)**: Given a function $f(x)$ where $x$ is a random variable with probability $P(x)$, its average
 or mean value is defined as follows for the discrete case:
 
 $$
 \mu = E_{x \sim P} [f(x)] = \sum_x P(x) f(x)
 $$
 
-and for the continuos case
+and for the continuous case
 
 $$
 \mu = E_{x \sim p} [f(x)] = \int p(x) f(x) dx
 $$
 
-In most Machine Learning applications we do not have knowledge of the full distribution to evaluate the mean, rather we 
+In most Machine Learning applications, we do not have knowledge of the full distribution to evaluate the mean, rather we 
 have access to N equi-probable samples that we assume are drawn from the underlying distribution. We can approximate the mean
 via the *Sample Mean*:
 
@@ -100,7 +100,7 @@ $$
 \mu \approx \sum_i \frac{1}{N} f(x_i)
 $$
 
-**Variance (and Covariance)**: Given a function $f(x)$ where $x$ is a stochastic variable with probability $P(x)$,
+**Variance (and Covariance)**: Given a function $f(x)$ where $x$ is a random variable with probability $P(x)$,
 it represents a masure of how much the values of the function vary from the mean:
 
 $$
@@ -142,7 +142,7 @@ P(x)=\phi^x(1-\phi)^{1-x} = \phi x + (1-\phi)(1-x)
 $$
 
 
-and momentums equal to:
+and momentum equal to:
 
 $$
 E[x] = 1, \; \sigma^2 = \phi (1-\phi)
@@ -155,7 +155,7 @@ $$
 $$
 
 *3. Gaussian*: most popular choice for continuous random variables (most distributions are close to a normal distribution
-  and the central limit theorem states that any sum of indipendent variables is approximately normal)
+  and the central limit theorem states that any sum of independent variables is approximately normal)
   
 $$
 x \sim \mathcal{N}(\mu, \sigma^2) \rightarrow p(x) = \frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} = \sqrt{\frac{\beta}{2 \pi}} e^{-\frac{\beta(x-\mu)^2}{2}}
@@ -164,18 +164,17 @@ $$
 where the second definition uses the precision $\beta=\frac{1}{\sigma^2} \in (0, \infty)$ to avoid possible division by zero. 
 A third way to parametrize the gaussian probability uses $2 \delta = log \sigma^2 \in (-\infty, \infty)$ which has the further
 benefit to be unbounded and can be easily optimized for during training.
-which is unbounded (compared to the
-variance that must be positive)
+which is unbounded (compared to the variance that must be positive)
 
 *4. Multivariate Gaussian*: extension of Gaussian distribution to a multidimensional vector $\textbf{x} \in \mathbb{R}^n$
 
 $$
 \textbf{x} \sim \mathcal{N}(\boldsymbol\mu, \boldsymbol\Sigma) \rightarrow p(\textbf{x}) = 
 \sqrt{\frac{1}{(2 \pi)^n det \boldsymbol\Sigma}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\Sigma^{-1}(\textbf{x}- \boldsymbol\mu)}=
-\sqrt{\frac{det \boldsymbol\beta}{(2 \pi)^n}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\beta(\textbf{x}- \boldsymbol\mu)} $$
+\sqrt{\frac{det \boldsymbol\beta}{(2 \pi)^n}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\beta(\textbf{x}- \boldsymbol\mu)}
 $$
 
-where again $\boldsymbol\beta =\boldsymbol\Sigma^{-1}$. In ML applications $\boldsymbol\beta$ is generally assumed diagonal
+where again $\boldsymbol\beta =\boldsymbol\Sigma^{-1}$. In ML applications, $\boldsymbol\beta$ is generally assumed diagonal
 (mean-field approximation) or even isotropic ($\boldsymbol\beta = \beta \textbf{I}_n)
 
 *5. Mixture of distributions*: any smooth probability density function can be expressed as a weighted sum of simpler distributions
@@ -204,7 +203,7 @@ of bits for the most amount of useful information. Extension of such theory to c
 commonly used in the context of ML systems.
 
 **Self-information**: a measure of information in such a way that likely events have low information content, less 
-likely events have higher information content and indipendent events have additive information:
+likely events have higher information content and independent events have additive information:
 
 $$
 I(x) = - log_eP(x)
@@ -212,15 +211,13 @@ $$
 
 such that for $P(x) \rightarrow 0$ (unlikely event), $I \rightarrow \infty$ and for $P(x) \rightarrow 1$ (likely event), $I \rightarrow 0$.
 
-**Shannon entropy**: extension of self-information to continous variables, representing the expected amount of information in an event $x$ 
-drawn from a probability $P:
+**Shannon entropy**: extension of self-information to continous variables, representing the expected amount of information in an event $x$ drawn from a probability $P:
 
 $$
 H(x) = E_{x \sim P} [I(x)] = - E_{x \sim P} [log_eP(x)]
 $$
 
-**Kullback-Leibler divergence**: extension of entropy to 2 variables with probability $P$ and $Q$, respectively. It is used to measure
-their distance
+**Kullback-Leibler divergence**: extension of entropy to 2 variables with probability $P$ and $Q$, respectively. It is used to measure their distance
 
 $$
 D_{KL}(P||Q)  = E_{x \sim P} [log\frac{P(x)}{Q(x)}] = 

@@ -1,6 +1,6 @@
 # More on gradient-based optimization
 
-Whilst stochastic gradient descent is a easy to understand, and simple to implement algorithm (as discussed in this
+Whilst stochastic gradient descent is easy to understand, and simple to implement algorithm (as discussed in this
 [lecture](lectures/03_gradopt.md)), it presents a number of shortcomings that prevent learning to be as fast and effective
 as we would like it to be. In this lecture, we will discuss some of the limitations of SGD and look at alternative optimization
 algorithms that have been developed in the last decade and are nowadays preferred to SGD in the process of training NNs.
@@ -10,8 +10,7 @@ algorithms that have been developed in the last decade and are nowadays preferre
 ### Ill-conditioning
 
 The shape, and more specifically the curvature, of the functional that we wish to minimize affects
-our ability to quickly and efficiently converge to one of its minima (ideally the global, likely one of the local). For nonlinear optimization problems,
-like those encountered in deep learning, this is mathematically represented its *Hessian* matrix 
+our ability to quickly and efficiently converge to one of its minima (ideally the global, likely one of the local). For nonlinear optimization problems, like those encountered in deep learning, this is mathematically represented by the *Hessian* matrix 
 ($\mathbf{H}=\frac{\partial^2 f}{\partial \boldsymbol \theta^2}$). An Hessian matrix with large conditioning number (i.e.,
 ratio of the largest and smallest eigenvalues) tends to affect convergence speed of first-order (gradient-based) methods.
 
@@ -21,7 +20,7 @@ in that no mathematical foundations have been developed in conjunction with appr
 strategy). 
 
 Another factor that is worth knowing about is related to the norm of the gradient $\mathbf{g}^T\mathbf{g}$ through iterations.
-In theory this norm should shrink through iterations to guarantee convergence. Nevertheless, successful training may still be 
+In theory, this norm should shrink through iterations to guarantee convergence. Nevertheless, successful training may still be 
 obtained even if the norm does not shrink as long as the learning rate is kept small. Let's write the second-order Taylor
 expansion of the functional around the current parameter estimate $\boldsymbol \theta_0$:
 
@@ -41,9 +40,7 @@ We can interpret this expression as follows: a gradient step of $- \alpha \mathb
 to the cost function, $-\mathbf{g}^T \mathbf{g} + 
 \frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g}$. When this contribution is positive (i.e., 
 $\frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g} > \mathbf{g}^T \mathbf{g}$), the cost function grows instead of
-being reduced. Under the assumption that $\mathbf{H}$ is known, we could easily choose a step-size $\alpha$ that prevents this from happening.
-However, when the Hessian cannot be estimated, a conservative selection of the step-size is the only remedy to prevent the cost function
-from growing. A downside of such an approach is that the smaller the learning rate the slower the training process.
+being reduced. Under the assumption that $\mathbf{H}$ is known, we could easily choose a step-size $\alpha$ that prevents this from happening. However, when the Hessian cannot be estimated, a conservative selection of the step-size is the only remedy to prevent the cost function from growing. A downside of such an approach is that the smaller the learning rate the slower the training process.
 
 ### Local minima
 
@@ -90,13 +87,10 @@ whilst not forcing us to lower the overall learning rate.
 
 ### Exploding and vanishing gradients
 
-Two problems that we commonly encounter whilst training Neural Networks are the so-called exploding and vanishing gradient phenomena. Whilst
-we already mentioned two scenarios where either of these situations can occur, i.e., cliffs and saddle points, the shape of the functional that we 
-wish to optimize is not the only reason for gradients to grow uncontrolled or stagnate. It is if fact the NN architecture itself that sometimes may 
-give rise to such phenomena.
+Two problems that we commonly encounter whilst training Neural Networks are the so-called exploding and vanishing gradient phenomena. Whilst we already mentioned two scenarios where either of these situations can occur, i.e., cliffs and saddle points, the shape of the functional that we wish to optimize is not the only reason for gradients to grow uncontrolled or stagnate. It is in fact the NN architecture itself that sometimes may give rise to such phenomena.
 
 To provide some intuition, let's consider a matrix of weights $\mathbf{W}$ and apply it N times recursively to a certain input
-(where we ignore for simplicity the nonlinear activation functions):
+(where for simplicity we ignore the nonlinear activation functions):
 
 $$
 \mathbf{y}=\mathbf{W}^N\mathbf{x}
@@ -109,7 +103,7 @@ $$
 \mathbf{W}=\mathbf{V} \boldsymbol \Sigma \mathbf{V}^{-1}
 $$
 
-the resulting ouput vector $\mathbf{y}$ can be equivalently written as:
+the resulting output vector $\mathbf{y}$ can be equivalently written as:
 
 $$
 \begin{aligned}
@@ -124,8 +118,7 @@ the matrix of eigenvalues is raised to the power of N, when N is large we will e
 - $\lambda_i > 1 \rightarrow$ exploding gradient; 
 - $\lambda_i < 1 \rightarrow$ vanishing gradient; 
 
-Note that the scenario discussed here does not manifest itself when training feed forward networks, whilst it is much more relevant
-in the context of recurrent neural networks as the same weights are repeatedly applied to the input
+Note that the scenario discussed here does not manifest itself when training feed forward networks, whilst it is much more relevant in the context of recurrent neural networks as the same weights are repeatedly applied to the input
 as it flows through the computational graph. We defer a more extensive discussion of this phenomenon to this [lecture](lectures/XX.md).
 
 ## Stategies to improve SGD
@@ -136,18 +129,15 @@ at the SGD algorithm and consider a number of improvements that can lead to both
 
 We remember from our previous [lecture](lectures/03_gradopt.md), that the optimization step of SGD is simply composed of two steps:
 
-- compute the gradient of the cost function with respect to free-parameters, obtained via back-propagation
+- compute the gradient of the cost function with respect to the free-parameters, obtained via back-propagation
 - apply a scaled step, dictated by the learning rate $\alpha$.
 
 ### Cooling strategy
 
-The most basic version of SGD uses a constant learning rate. However, a learning rate that may be optimal at the start of training and lead to fast
-convergence towards one of the minima of the cost function, may lead to unstable behaviour at later iterations.
+The most basic version of SGD uses a constant learning rate. However, a learning rate that may be optimal at the start of training and lead to fast convergence towards one of the minima of the cost function, may lead to unstable behaviour at later iterations.
 
 A question arises: given a gradient telling us where to move in the NN functional landscape, can we do something smart with the 
-learning rate to reach the minimum faster. A common approach is what is usually referred to as *cooling strategy* or *learning rate scheduling*,
-where the learning rate is not kept fixed through epochs. Instead, the learning rate is slowly reduced as epochs progress allowing the
-trajectory of the free-parameters to not fluctuate too much as it progresses towards a valley. 
+learning rate to reach the minimum faster. A common approach usually referred to as *cooling strategy* or *learning rate scheduling*, where the learning rate is not kept fixed through epochs. Instead, the learning rate is slowly reduced as epochs progress allowing the trajectory of the free-parameters to not fluctuate too much as it progresses towards a valley. 
 
 ![COOLING](figs/cooling.png)
 
@@ -173,25 +163,20 @@ of $\alpha_0$ is problem dependent and chosen by monitoring the first few iterat
 
 ![PWLR](figs/piecewiselr.png)
 
-Alternative approaches can either apply a fixed decay (i.e., exponential) or choose to reduce the LR when the training (or validation)
-metric has not decreased for a number of epochs.
+Alternative approaches can either apply a fixed decay (i.e., exponential) or choose to reduce the LR when the training (or validation) metric has not decreased for a number of epochs.
 
 
 ### Momentum
 
 Another commonly used strategy aimed at improving the convergence of SGD is called *Momentum* and dates back to the 60s and the
-seminal works of Polyak and Nesterov in the area of mathematical optimization. The idea of momentum is rather simple, yet very effective.
-It is based on the idea of using information not only from the current gradient but also from past gradients when making a step. 
-More specifically, the step is based on an exponentially decaying moving average of the past gradients created during iterations.
+seminal works of Polyak and Nesterov in the area of mathematical optimization. The idea of momentum is rather simple, yet very effective. It is based on the idea of using information not only from the current gradient but also from past gradients when making a step. More specifically, the step is based on an exponentially decaying moving average of the past gradients created during iterations.
 
 ![MOMENTUM](figs/momentum.png)
 
 The motivation behind using multiple gradients is to use the knowledge about the landscape shape accumulated through time in
 the proximity of the current parameters to make a more informed decision on where to move. This can generally help dealing with 
 poorly conditioned modelling matrices in linear optimization and poorly conditioned Hessian matrices in nonlinear optimization.
-Intuitively, momentum can be understood as some sort of medium resistance or inertia when moving down a valley which slows down the 
-trajectory and keeps it close to the axes of the ellipses of the functional (or its linearization around the current position). This physical 
-interpretation is actually used when defining SGD with momentum as a vector $\mathbf{v}$ (where v stands for velocity) is introduced:
+Intuitively, momentum can be understood as some sort of medium resistance or inertia when moving down a valley which slows down the trajectory and keeps it close to the axes of the ellipses of the functional (or its linearization around the current position). This physical interpretation is actually used when defining SGD with momentum as a vector $\mathbf{v}$ (where v stands for velocity) is introduced:
 
 $$
 \mathbf{v}_{i+1} = \gamma \mathbf{v}_i - \mathbf{g}_{i+1} = \gamma \mathbf{v}_i - \frac{\alpha}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j
@@ -203,7 +188,7 @@ $$
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \mathbf{v}_{i+1}
 $$
 
-where $\gamma \in [0, 1)$ is the momentum term. If we now write explicitely the first three iterates of the velocity vector:
+where $\gamma \in [0, 1)$ is the momentum term. If we write explicitly the first three iterates of the velocity vector:
 
 $$
 \begin{aligned}
@@ -214,19 +199,14 @@ $$
 \end{aligned}
 $$
 
-we notice that the momentum tells us how quickly the contribution of the previous gradient contributions should decay.
-With $\alpha=0$ we are back to the standard SGD algorith, whilst with  $\alpha \rightarrow 1$ we take into account the entire
-history of gradients. More commonly used values of momentum are $\alpha=0.5/0.9/0.99$ which can also be combined with a
-warming strategy (i.e., start from 0.5 and increase through iterations all the way to 0.99). This is a similar 
-strategy (even though in opposite direction) to the one we previously discussed for the learning rate, even though it is known
-to impact the learning process to a lesser extent.
+we notice that the momentum tells us how quickly the contribution of the previous gradients should decay. With $\alpha=0$ we are back to the standard SGD algorithm, whilst with $\alpha \rightarrow 1$ we take into account the entire history of gradients. More commonly used values of momentum are $\alpha=0.5/0.9/0.99$ which can also be combined with a warming strategy (i.e., start from 0.5 and increase through iterations all the way to 0.99). This is a similar strategy (even though in opposite direction) to the one we previously discussed for the learning rate, even though it is known to impact the learning process to a lesser extent.
 
 Based on what we wrote above for the first three iterates, we can easily conclude that:
 
 - if $\mathbf{g}_i \approx \mathbf{g}_{i-1} \approx \mathbf{g}_{i-2}$ (where the sign $\approx$ is used here to
-  indicate a vector with approximately the same direction), the gradients sum constructively leading to higher momentum and therefore a faster trajectory
+  indicate a vector with approximately the same direction), the gradients' sum constructively leading to higher momentum and therefore a faster trajectory
 - if $\mathbf{g}_i \ne \mathbf{g}_{i-1} \ne \mathbf{g}_{i-2}$ (where the sign $\ne is used here to
-  indicate a vector with different directions), the gradients sum destructively leading to lower momentum and therefore a slower trajectory
+  indicate a vector with different directions), the gradients' sum destructively leading to lower momentum and therefore a slower trajectory
 
 Finally, an even smarter approach would require us not only to accumulate past gradients but also to look ahead of time
 so that we could slow down the trajectory if the landscape is about to change curvature (i.e., slow up). This
@@ -236,19 +216,14 @@ $$
 \mathbf{v}_{i+1} = \gamma \mathbf{v}_i - \frac{\alpha}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j(f_{\theta+\gamma \mathbf{v}_i}(\mathbf{x}_i), y_i)
 $$
 
-where the main change here is represented by the fact the the loss function ($\mathscr{L}$) and therefore the gradient is
+where the main change here is represented by the fact that the loss function ($\mathscr{L}$), and therefore, the gradient is
 evaluated at location $\theta+\gamma \mathbf{v}_i$ rather than at the current one. Here, $\gamma \mathbf{v}_i$ represents
-a correction factor to the standard method of momentum. In classical optimization (i.e., for batched gradient descent), this small change 
-provides an improvement in the rate of convergence from $\mathcal{O}(1/i)$ to $\mathcal{O}(1/i^2)$. Note that this is however not always the 
-case when using stochastic gradient descent.
+a correction factor to the standard method of momentum. In classical optimization (i.e., for batched gradient descent), this small change provides an improvement in the rate of convergence from $\mathcal{O}(1/i)$ to $\mathcal{O}(1/i^2)$. Note that this is however not always the case when using stochastic gradient descent.
 
 ### Adaptive learning rates
 
 Up until now, we have introduced some modifications to the standard SGD algorithm that globally change the scaling of the
-gradient (also referred to as learning rate). However, if we believe that directions of sensitivity of the functional should be axis aligned,
-different learning rates should be used for the different parameters we wish to optimize for. More specifically a small LR should be
-preferred for those directions associated with large eigenvalues of the local Hessian whilst a large LR should be
-used for the other directions that associated with small eigenvalues.
+gradient (also referred to as learning rate). However, if we believe that directions of sensitivity of the functional should be axis aligned, different learning rates should be used for the different parameters we wish to optimize for. More specifically a small LR should be preferred for those directions associated with large eigenvalues of the local Hessian whilst a large LR should be used for the other directions that associated with small eigenvalues.
 
 The *delta-bar-delta* algorithm of Jacobs (1988) represents an early heuristic approach to automatically adapting
 learning rates of individual parameters. It is based on this simple rule:
@@ -280,8 +255,8 @@ where the vector $\mathbf{r}$ contains a running sum of the element-wise square 
 (with $\mathbf{r}_0=0$), $\cdot$ and $\sqrt{\;}$ represent the element-wise multiplication of two vectors and
 square root, respectively. Finally, $\delta=10^{-6}$ is used as stabilizer to avoid division by zero.
 
-If we look at the learning rate of AdaGrad, it is clear that this is parameter dependent and more importantly is 
-function of the norm of the past gradients. Therefore, parameters associated with large gradients will experience
+If we look at the learning rate of AdaGrad, it is clear that this is parameter dependent and more importantly, it is 
+a function of the norm of the past gradients. Therefore, parameters associated with large gradients will experience
 a rapid decrease in their associated LR, whilst parameters with small gradients will have an increase of the LR
 through iterations. 
 
@@ -292,11 +267,8 @@ directions with large gradients and therefore an overall slow learning process.
 
 #### RMSProp
 
-A modified version of AdaGrad particularly suited for nonconvex optimazation where the gradient accumulation 
-(i.e., $\mathbf{r}$ vector) is exponentially weighted on a moving window. The idea behind such a change
-is that for NN training it may take a large number of gradient steps to convergence to a satisfactory solution,
-and therefore it is important for the LR not to decrease too fast in the first few hundred steps. In mathematical
-terms, a single change is needed to the AdaGrad equations, namely:
+A modified version of AdaGrad particularly suited for nonconvex optimization where the gradient accumulation 
+(i.e., $\mathbf{r}$ vector) is exponentially weighted on a moving window. The idea behind is that for NN training it may take a large number of gradient steps to converge to a satisfactory solution, and therefore it is important for the LR not to decrease too fast in the first few hundred steps. In mathematical terms, a single change is needed to the AdaGrad equations, namely:
 
 $$
 \mathbf{r}_{i+1} = \rho \mathbf{r}_i + (1-\rho)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1} \\
@@ -313,7 +285,7 @@ is by far the most popular optimizer in the training of deep NNs.
 
 Two key changes have been introduced in the ADAM algorithm when compared to RMSProp:
 
-- Momentum is applied via an estimate of the first-order momentum plus an exponentional decay and used in spite of 
+- Momentum is applied via an estimate of the first-order momentum plus an exponential decay and used in spite of 
   pure gradients in the parameter update step;
 - A bias correction is included to take into account initialization.
 
@@ -334,7 +306,7 @@ $$
 where, once again, a number of hyperparameters are intoduced. These are the stabilizer, $\delta=10^{-6}$, and two 
 decay rates ($\rho_1$ and $\rho_2$).
 
-To conclude, whilst we have first introduced simpler optimizers and subsequently built complexity in terms of both momentum and 
+To conclude, we have first introduced simpler optimizers and subsequently built complexity in terms of both momentum and 
 parameter-dependent learning, there is no universal winner. Although both momentum and adaptive LR do clearly seem
 to be beneficial to the training on NNs, it is not always the case that ADAM provides the best results both in
 terms of robustness and convergence speed. It is therefore important to be aware of the different optimizers that
@@ -344,15 +316,14 @@ when developing a new ML pipeline.
 
 ### Other tricks
 
-In the following we report on a few other practical tricks that can be used when training NNs to further
+In the following, we report a few other practical tricks that can be used when training NNs to further
 improve the learning capabilities of our optimizer (no matter what optimizer has been selected).
 
 #### Polyak Averaging
 When training a NN, the most common approach is to select the last iterate ($\boldsymbol\theta_{N_{it}}$) where 
 $N_{it}$ is the overall number of iterations and use it at inference stage. Nevertheless, given the highly nonconvex 
 optimization problem that we are required to solver, it is logical to expect that perhaps the last estimate of
-model parameters is not the best. Let's for example imagine that towards the end of the training process we are approaching a (local or global) minimum. However,
-our trajectory is bouncing all around the valley: 
+model parameters is not the best. Let's for example imagine that towards the end of the training process we are approaching a (local or global) minimum. However, our trajectory is bouncing all around the valley: 
 
 ![POLYAK](figs/Polyak.png)
 
@@ -377,19 +348,15 @@ is however too expensive and therefore unfeasible). As a consequence of the fact
 together is that second order updates are introduced or, in other words, the statistical distribution of various parameters
 across the layers of the NN are modified. This is commonly referred to as *internal covariate shift*.
 
-*Batch normalization* us a general way to reparametrize every NN, which reduces the need for coordination across many 
+*Batch normalization* use a general way to reparametrize every NN, which reduces the need for coordination across many 
 layers during an update (making the process of updating all parameters at the same time more stable). It is simply
 implemented by modifying the output of a layer (or all the layers) at training time as follows:
 
 ![BATCHNORM](figs/batchnorm.png)
 
-where a re-normalization process is applied to every row of the output matrix $\mathbf{A}$ and it is directly based on the local statistics (mean and standard deviation) of the 
-output of the layer. The overall forward and backward passes remain unchanged with the simple difference that the network
-is now operating on the re-normalized output $\mathbf{A}'$ instead of the original one $\mathbf{A}$.
+where a re-normalization process is applied to every row of the output matrix $\mathbf{A}$ and it is directly based on the local statistics (mean and standard deviation) of the output of the layer. The overall forward and backward passes remain unchanged with the simple difference that the network is now operating on the re-normalized output $\mathbf{A}'$ instead of the original one $\mathbf{A}$.
 
-The implications of such an additional step of re-normalization are that now the activations are distributed as $\mathcal{N}(0, 1)$ throughout
-the entire training process. By doing so, the optimization algorithm is discouraged to propose an update that simply acts constantly over
-the mean or the standard deviation of $\mathbf{A}$.
+The implications of such an additional step of re-normalization are that now the activations are distributed as $\mathcal{N}(0, 1)$ throughout the entire training process. By doing so, the optimization algorithm is discouraged to propose an update that simply acts constantly over the mean or the standard deviation of $\mathbf{A}$.
 
 At testing time, the mean and standard deviation ($\boldsymbol \mu$ and $\boldsymbol \sigma$) are usually fixed and taken from a
 running mean computed during training time.
@@ -402,29 +369,22 @@ $$
 \mathbf{A}'' = \gamma \mathbf{A}' + \beta
 $$
 
-where $\gamma$ and $\beta$ are also learned alongside the weights and biases of the network. Finally, since the bias is now induced
-by $\beta$ a common reccomandation when using batch normalization is to avoid adding a learnable bias to the layer of the network.
+where $\gamma$ and $\beta$ are also learned alongside the weights and biases of the network. Finally, since the bias is now induced by $\beta$ a common recommendation when using batch normalization is to avoid adding a learnable bias to the layer of the network.
 
 #### Supervised pre-training
 
 So far, we have talked about optimizing the free-parameters of a neural network starting from a random initialization of such
 parameters and using all the available data to get the best estimate of such parameters. We have also briefly mentioned that
-transfer learning, a technique that uses a pre-trained network on a different set of data and possible different task and fine-tunes it on the task and data at hand, as a 
-way to speed-up the training process as well as get around to the fact that sometimes we have access to a small amount of labelled data.
+transfer learning, a technique that uses a pre-trained network on a different set of data and possible different task and fine-tunes it on the task and data at hand, as a way to speed-up the training process as well as get around to the fact that sometimes we have access to a small amount of labelled data.
 
-Another interesting technique that can be used to ease the learning capabilities of a NN is called *pre-training* or *greedy training*. Two
-alternative approaches are generally taken:
+Another interesting technique that can be used to ease the learning capabilities of a NN is called *pre-training* or *greedy training*. Two alternative approaches are generally taken:
 
 - $\boldsymbol \theta_0$ (selected at random) $\rightarrow$ Simple task: $\tilde{\boldsymbol \theta}$ $\rightarrow$ Hard task: $\tilde{\boldsymbol \theta'}$
 - $\boldsymbol \theta^1_0$ (selected at random) $\rightarrow$ Simple network: $\tilde{\boldsymbol \theta^1}, \boldsymbol \theta^2_0$
   $\rightarrow$ Complex network: $\tilde{\boldsymbol \theta^1}, \tilde{\boldsymbol \theta^2}$
 
-where in the latter case a common approach is to fix the hidden layers and discard the output layer after the first training process, add a number of extra
-layers to make the network deeper and continue training those layers alone. However, since N indipendent optimizations generally do not
-provide the optimal overall solution, a final fine-tuning step may be required.
+where in the latter case a common approach is to fix the hidden layers and discard the output layer after the first training process, add a number of extra layers to make the network deeper and continue training those layers alone. However, since N independent optimizations generally do not provide the overall optimal solution, a final fine-tuning step may be required.
 
 ## Additional readings
 
-- A [great resource](https://github.com/jettify/pytorch-optimizer) containing references (and Pytorch implementations) of more than 20 optimizers.
-  This may be a good starting point if interest to experiment with different optimizers in both classical optimization
-  and training of NNs.
+- A [great resource](https://github.com/jettify/pytorch-optimizer) containing references (and Pytorch implementations) of more than 20 optimizers. This may be a good starting point if interest to experiment with different optimizers in both classical optimization and training of NNs.
