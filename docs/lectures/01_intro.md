@@ -16,7 +16,7 @@ and outputs (e.g., label of the animal present in the photo), ML algorithms can 
 them such that they can infer the output from the input when provided with unseen inputs. 
 
 A large variety of ML algorithms have been developed by the scientific community, ranging from the basic *linear* and *logistic 
-regression* that we will see in our [third lecture](3_linreg.md), decision tree-based statistical methods such 
+regression* that we will see in our [fourth lecture](04_linreg.md), decision tree-based statistical methods such 
 as *random forrest* or *gradient boosting*, all the way to *deep neural networks*, which have recently
 shown to outperform previously developed algorithms in many fields (e.g., computer science, text analysis and speech recognition,
 seismic interpretation). This subfield has grown exponentially in the last few years and it is now referred to as **Deep Learning**

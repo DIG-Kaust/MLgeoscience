@@ -1,5 +1,12 @@
 Lecture Notes created using [MkDocs](https://www.mkdocs.org).
 
+## Set up environment
+To get started install Mkdocs and Mkdocs material:
+```
+pip install mkdocs
+pip install mkdocs-material
+```
+
 ## Run locally
 Type the following command in the terminal
 
