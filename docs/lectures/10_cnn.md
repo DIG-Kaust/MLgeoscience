@@ -88,8 +88,8 @@ The modern DL approach simply takes this paradigm one step further where the fil
 
 ![HANDLEARNED](figs/hand_learn_filters.png)
 
-Compared to flattening the input data and applying a matrix that transforms it into the dimension of the output data (that is what a FCC would do as shown above), using convolutions with small filters can save both memory and computations. Given for example an image of size $W_x \times H_x$, a fully connected layer that produces an output of the same size requires a matrix with $(W_x H_x)^2$ parameters and $(W_xH_x)^2$ computations are required to obtain
-the output. On the other hand, if we now consider a simple filter of size $W_h \times H_h$, the number of computations is reduced to $W_x H_x W_h H_h$.
+Compared to flattening the input data and applying a matrix that transforms it into the dimension of the output data (that is what a FCC would do as shown above), using convolutions with small filters can save both memory and computations. Given for example an image of size $N_{w,x} \times N_{h,x}$, a fully connected layer that produces an output of the same size requires a matrix with $(N_{w,x} N_{h,x})^2$ parameters and $(N_{w,x} N_{h,x})^2$ computations are required to obtain
+the output. On the other hand, if we now consider a simple filter of size $N_{w,h} \times N_{h,h}$, the number of computations is reduced to $N_{w,x} N_{h,x} N_{w,h} N_{h,h}$.
 
 The second main advantage of convolutional blocks is so-called *parameter sharing*. The same learned kernels are applied all over the input data, instead of having one filter operating on all (or part of) the input data to produce a single output component.
 
@@ -119,13 +119,90 @@ $$
 
 We need to introduce one last key ingredient before we can define a convolutional layer. Let's imagine we have a 3D tensor and a 3D filter; the extension of 2D convolution to 3D (or any extra dimension) is as easy as sliding the filter along the third dimension as well as the first two. However, in deep learning we generally do something different when we are dealing with convolutional networks. We define a special dimension called *channel*.
 
-Imagine having a 1D signal like a seismic trace but recording both the horizontal and vertical components of the particle displacement field. One way to arrange such data is as a 2D array where one of the dimensions is the size of the trace and one is the number of components (or channels), here two. A similar scenario may arise for 2D signals if we record for example different spectral components or for pre-stack seismic data where we record data at different angles. Here once again we will have two `classical` dimensions, say latitude and longitude or geographical location and depth and one channel dimension. For the first example this will contain the different spectral components, for the second example it will be represented by the different angles (or offsets). This is the geoscientific equivalent to natural images that are commonly used in deep learning tasks where the channel contains different colors (e.g., RGB or CMYK). In order to make ourselves already familiar with the ordering used in computational frameworks like PyTorch, a batch of training samples is usually organized as follows:
+Imagine having a 1D signal like a seismic trace but recording both the horizontal and vertical components of the particle displacement field. One way to arrange such data is as a 2D array where one of the dimensions is the size of the trace and the other is the number of components (or channels), here two. A similar scenario may arise for 2D signals if we record for example different spectral components or for pre-stack seismic data where we record data at different angles. Here once again we will have two "classical" dimensions, say latitude and longitude or geographical location and depth and one channel dimension. For the first example this will contain the different spectral components, for the second example it will be represented by the different angles (or offsets). This is the geoscientific equivalent to natural images that are commonly used in deep learning tasks where the channel contains different colors (e.g., RGB or CMYK). In order to make ourselves already familiar with the ordering used in computational frameworks like PyTorch, a batch of training samples is usually organized as follows:
 
 $$
-N_x = (N_s \times N_{ch} \times N_w \times N_h)
+N_x = (N_s \times N_{ch,x} \times N_{w,x} \times N_{h,x})
 $$
 
-where $N_{ch}$ is the number of channels, whilst $N_w$ and $N_h$ are the width and the height of the image, respectively.
+where $N_{ch,x}$ is the number of input channels, whilst $N_{w,x}$ and $N_{w,h}$ are the width and the height of the image, respectively.
 
-By defining a special dimension, we can now decide to still work with filters that slide only across the width and height axes. Such kernels will have size $N_{ch} \times H_w \times H_h$. By doing so, for every step of convolution, the input and filter and multiplied and then all the values across all channels are summed together.
+By defining a special dimension, we can now decide to still work with filters that slide only across the width and height axes. Such kernels will have size $N_{ch,x} \times N_{w,h} \times N_{h,h}$. 
+By doing so, for every step of convolution, the input and filter and multiplied and then all the values across all channels are summed together.
 
+![CHANNEL](figs/channel.png)
+
+## Convolutional layer
+A convolutional layer is simply a stack of $N_{ch,y}$ filters. The resulting output has therefore a shape equal to:
+
+$$
+N_y = (N_s \times N_{ch,y} \times N_{w,y} \times N_{h,y})
+$$
+
+where $N_{w,y}$ and $N_{w,y}$ can be computed upfront using the formulas derived above.
+
+![CONVLAYER](figs/convlayer.png)
+
+Note that a convolutional layer contains trainable parameters both in the form of the coefficients of the various filters and
+a vector of biases $\mathbf{b}=[b_1, b_2,...,b_{N_{ch,y}}]$ where every bias is applied to a different output channel. The output can be therefore written in a compact mathematical
+form as follows:
+  
+$$y = \sigma \Big( \begin{bmatrix} 
+                h_1 * x + b_1 \\
+                ...     \\
+                h_{N_{ch,y}} * x + b_{N_{ch,y}} 
+  \end{bmatrix} \Big)
+$$
+
+In summary, a convolutional layer has the following number of trainable parameters:
+
+$$
+N_{clay}=N_{w,h}N_{h,h}N_{ch,x}N_{ch,y} + N_{ch,y}
+$$
+
+For example, if $N_{ch,x}=3$, $N_{ch,y}=10$, and the filters have size $3 \times 3$, the overall number of parameters is $3\cdot3\cdot3\cdot10 + 10 =280$. 
+
+Moreover, as convolutional layers can be stacked similarly to what we have done with MLP layers, the following nomenclature will be used in the following when
+referring to a generic layer $l$:
+
+
+$$
+\begin{aligned}
+x:&\quad N_{ch}^{[l-1]} \times N_w^{[l-1]} \times N_h^{[l-1]},\\
+h:&\quad N_{ch}^{[l]} \times N_{ch}^{[l-1]} \times N_w^{[l-1]} \times N_h^{[l-1]},\\
+b:&\quad N_{ch}^{[l]},\\
+y:&\quad N_{ch}^{[l]} \times N_w^{[l]} \times N_h^{[l]}
+\end{aligned}
+$$
+  
+## Convolutional network
+Similar to a fully connected network, a convolutional network can be easily created by putting together a certain number of convolutional layers.
+Although we will see that different tasks call for different design choices, most convolutional neural networks share the following design features:
+
+- the height and width ($N_h$ and $N_w$) tends to reduce the deeper we travel into the network;
+- the number of channels ($N_{ch}$) does instead increase as function of network depth;
+- after a certain number of convolutional layers, the output of size $N_{ch}^{[l]} \times N_w^{[l]} \times N_h^{[l]}$ is flattened and fed into one or more
+  fully connected layers and then sent into a classifier (or regressor) loss function.
+
+
+![CNN](figs/cnn1.png)
+
+## Pooling
+As we have previously mentioned in the previous section, convolutional neural networks require reducing the size of the height and width of an input image 
+We have already discussed that by choosing the filter size, stride and padding, the output can be either kept of the same size of the input or reduced (or increased) in size.
+
+At times, it may however be better to avoid changing the size of the output directly as part of the convolution process, rather perform this in a separate step. In this section we introduce the
+so-called *pooling* process, which is designed specifically to reduce the size of an input N-dimensional array by an arbritrary factor $N_p$.
+
+Let's start with an example. We are interested to take a matrix of size $N_{h,x} \timex $N_{w,x}$ as input and produce an output of half the size (i.e., $N_{h,x}/2 \timex $N_{w,x}/2$.
+A possible way to achieve this without purely discarding some of the values of the matrix is to select the maximum value within a sliding window of size $2 \times 2$ (stride=2):
+
+![MAXP](figs/maxpooling.png)
+
+This approach is commonly referred to in the literature as *Max Pooling*. This approach can be easily extended to any other subsampling by simply extending the size of the window and stride
+accordingly (i.e., using to the equations defined above used for the output sizes of a convolutional layer based on the filter size and stride). Moreover, even though less commonly used, *Mean Pooling* represent an alternative approach where the mean value inside each patch is taken 
+instead of the maximum.
+
+Finally, it is important to observe that Pooling is done for each channel indipendently and that it does not contain any learnable parameter.
+
+## 1x1 convolutions
