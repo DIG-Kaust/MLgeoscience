@@ -206,3 +206,45 @@ instead of the maximum.
 Finally, it is important to observe that Pooling is done for each channel indipendently and that it does not contain any learnable parameter.
 
 ## 1x1 convolutions
+At this point we know how to take an input tensor with an arbitrary number of dimensions (two or more) and a given number of channels, feed it 
+through a convolutional layer, and obtain an output sensor with the same (or slightly different size) and a new chosen number of channels.
+
+It is common practice when building convolutional neural networks to start with a small number of channels and increase it gradually as we go deeper
+into the network. However, when you start stacking many of these layers the number of channels will quickly grow to a point where
+$N_{ch} \rightarrow \infty$. As a consequence of this fact, also the size of the filters start to grow indefinitely. But since having deeper networks
+has been shown an effective way to learn very complex mappings, we need something to be able to reduce the size of these filters at any time
+we are in need for it. A simple, yet very effective approach was proposed in 2013 by [Lin and coauthors](https://arxiv.org/abs/1312.4400)
+where filters of size $1\times1$ are used to reduce the number of channels whilst keeping the number of learnable parameter to a minimum 
+(any other filter with bigger depth or width will introduce more learnable parameters). The authors actually refer to this $1\times1$ 
+convolutional layer as a specific implementation of cross-channel parametric pooling, as similar to pooling reduces the size of the input tensor over
+one dimensions (channel in this case).
+
+## Skip connections
+As already extensively discussed in one of our previous lectures, one of the problem associated with making neural networks very deep is that of
+so-called vanishing gradients. However, since deep neural networks are key to high performing models, the DL community has for long time tried to
+come up with strategies that can speed up the training process (or at least avoid a slow down) in the presence of long stacks of convolutional blocks.
+
+One successful idea that was proposed in 2015 by [He and coauthors](https://arxiv.org/abs/1512.03385v1) under the name of *Residual Block*, where
+so-called *skip connection* is introduced in a NN to take the activation of a certain layer and feed it directly to another layer further down in the computational graph.
+In the figure below, we consider an example where a skip connection of 2 layers is introduced to connect the activations of layer $l$ and
+$l+2$ (just before applying a nonlinear activation). Here the *connection* is achieved by summing the two activations.
+
+![SKIPCON](figs/skipcon.png)
+
+Mathematically we can write:
+
+$$
+\textbf{a}^{[l+2]}= \sigma(\textbf{a}^{[l]}+\textbf{z}^{[l+2]})
+$$
+
+and we can clearly see how the information contained in $\textbf{a}^{[l]}$ flows through the graph along both a longer path (i.e., main path)
+and a shorter one (i.e., shortcut). Finally note that in the last 5 years or so many variations of the residual block have been introduced. For example,
+one could have more or less than 2 convolutional layers (or MPLs) inside the main path. Moreover, since the size of $\textbf{a}^{[l]}$ and 
+$\textbf{z}^{[l+2]}$ may be different, an additional layer with learnable parameter may be introduced as part of the shortcut to adjust for the size of 
+$\textbf{a}^{[l]}$:
+
+$$
+\textbf{a}^{[l+2]}= \sigma(f_\theta(\textbf{a}^{[l]})+\textbf{z}^{[l+2]})
+$$
+
+where $f_\theta$ here could simply be a convolutional layer.
