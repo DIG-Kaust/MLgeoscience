@@ -449,10 +449,29 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#skip-connections" class="md-nav__link">
+    Skip connections
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_cnnarch/" class="md-nav__link">
+        Convolutional Neural Network Architectures
+      </a>
     </li>
   
 
@@ -587,6 +606,13 @@
         <li class="md-nav__item">
   <a href="#1x1-convolutions" class="md-nav__link">
     1x1 convolutions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skip-connections" class="md-nav__link">
+    Skip connections
   </a>
   
 </li>
@@ -747,6 +773,39 @@ accordingly (i.e., using to the equations defined above used for the output size
 instead of the maximum.</p>
 <p>Finally, it is important to observe that Pooling is done for each channel indipendently and that it does not contain any learnable parameter.</p>
 <h2 id="1x1-convolutions">1x1 convolutions</h2>
+<p>At this point we know how to take an input tensor with an arbitrary number of dimensions (two or more) and a given number of channels, feed it 
+through a convolutional layer, and obtain an output sensor with the same (or slightly different size) and a new chosen number of channels.</p>
+<p>It is common practice when building convolutional neural networks to start with a small number of channels and increase it gradually as we go deeper
+into the network. However, when you start stacking many of these layers the number of channels will quickly grow to a point where
+<span class="arithmatex">\(N_{ch} \rightarrow \infty\)</span>. As a consequence of this fact, also the size of the filters start to grow indefinitely. But since having deeper networks
+has been shown an effective way to learn very complex mappings, we need something to be able to reduce the size of these filters at any time
+we are in need for it. A simple, yet very effective approach was proposed in 2013 by <a href="https://arxiv.org/abs/1312.4400">Lin and coauthors</a>
+where filters of size <span class="arithmatex">\(1\times1\)</span> are used to reduce the number of channels whilst keeping the number of learnable parameter to a minimum 
+(any other filter with bigger depth or width will introduce more learnable parameters). The authors actually refer to this <span class="arithmatex">\(1\times1\)</span> 
+convolutional layer as a specific implementation of cross-channel parametric pooling, as similar to pooling reduces the size of the input tensor over
+one dimensions (channel in this case).</p>
+<h2 id="skip-connections">Skip connections</h2>
+<p>As already extensively discussed in one of our previous lectures, one of the problem associated with making neural networks very deep is that of
+so-called vanishing gradients. However, since deep neural networks are key to high performing models, the DL community has for long time tried to
+come up with strategies that can speed up the training process (or at least avoid a slow down) in the presence of long stacks of convolutional blocks.</p>
+<p>One successful idea that was proposed in 2015 by <a href="https://arxiv.org/abs/1512.03385v1">He and coauthors</a> under the name of <em>Residual Block</em>, where
+so-called <em>skip connection</em> is introduced in a NN to take the activation of a certain layer and feed it directly to another layer further down in the computational graph.
+In the figure below, we consider an example where a skip connection of 2 layers is introduced to connect the activations of layer <span class="arithmatex">\(l\)</span> and
+<span class="arithmatex">\(l+2\)</span> (just before applying a nonlinear activation). Here the <em>connection</em> is achieved by summing the two activations.</p>
+<p><img alt="SKIPCON" src="../figs/skipcon.png" /></p>
+<p>Mathematically we can write:</p>
+<div class="arithmatex">\[
+\textbf{a}^{[l+2]}= \sigma(\textbf{a}^{[l]}+\textbf{z}^{[l+2]})
+\]</div>
+<p>and we can clearly see how the information contained in <span class="arithmatex">\(\textbf{a}^{[l]}\)</span> flows through the graph along both a longer path (i.e., main path)
+and a shorter one (i.e., shortcut). Finally note that in the last 5 years or so many variations of the residual block have been introduced. For example,
+one could have more or less than 2 convolutional layers (or MPLs) inside the main path. Moreover, since the size of <span class="arithmatex">\(\textbf{a}^{[l]}\)</span> and 
+<span class="arithmatex">\(\textbf{z}^{[l+2]}\)</span> may be different, an additional layer with learnable parameter may be introduced as part of the shortcut to adjust for the size of 
+<span class="arithmatex">\(\textbf{a}^{[l]}\)</span>:</p>
+<div class="arithmatex">\[
+\textbf{a}^{[l+2]}= \sigma(f_\theta(\textbf{a}^{[l]})+\textbf{z}^{[l+2]})
+\]</div>
+<p>where <span class="arithmatex">\(f_\theta\)</span> here could simply be a convolutional layer.</p>
                 
               
               
@@ -780,13 +839,13 @@ instead of the maximum.</p>
           </a>
         
         
-          <a href="../11_vae/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../11_cnnarch/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                VAE
+                Convolutional Neural Network Architectures
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
