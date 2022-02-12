@@ -1,4 +1,4 @@
-# Convolutional Neural Network Architectures
+# CNNs Popular Architectures
 This lecture provides an overview of how deep learning, especially in the context of CNNs (and computer vision in general), has
 evolved over the last decade. This is something that it is good to be familar with because:
 
@@ -122,7 +122,41 @@ for plain networks. On the other hand, networks with Residual blocks are much mo
 ![RESNETTRAINING](figs/resnettraining.png)
 
 ## UNet
-Bla bla..
+The UNet architecture was proposed by Ronneberger et al. in 2015 in the context of interpretation of microscopy images. 
+This network architecture presents however a number of innovative design choices which led to its widespread use in a variety of disciplines
+for both semantic segmentation and regression tasks.
+
+More specifically, whilst most of the networks we have discussed so far are specifically designed for classification
+tasks where inputs are of much larger size of target (i.e., imagine taking images from the MNIST dataset as input as a single vector of 10 elements as output),
+UNet was originally conceived for a *semantic segmentation* task. Semantic segmentation is a special case of classification where 
+instead of predicting a class per input samples, we want to predict a class for each element of that sample. This makes the output space very large,
+equal to that of the input times the number of classes.
+
+![SEMSEG](figs/semseg.png)
+
+The UNet architecture presents the following charactheristics:
+
+- it can be seen as composed by two networks, an *Encoder* or contracting path, and a *Decoder* or expanding path. This is a common
+  design in dimensionality reduction networks like AutoEncoders (see [Lecture X](14_autoencoder.md) for more details). Each level of the encoder 
+  network contains a number of convolutional layers followed by a downsampler (usually achieved by means of max pooling). On the other hand,
+  the decoder is composed of convolutional layers preceeded by an upsampler (this can be either an interpolator like a bilinear interpolation or
+  a convtranspose layer);
+- skip connections are introduced at each level of the contracting path, taking those features all the way to the corresponding level of the
+  expanding path (where they are concatenated with the features coming from a deeper level of the contracting path itself). Whilst we have
+  already discussed the importance of skip connections for stable training, here these skip connections are brought to a new level, as a very 
+  large portion of the network is skipped and concatenation is used instead of summation. The presence of such connections make the UNet architecture
+  able to create very high resolution segmentation and regression outputs;
+
+Finally, restricting ourselves to geoscience applications, UNet has been successfully used for a variety of tasks such as:
+
+- Salt body / channel / karst extraction from seismic data (semantic segmentation);
+- Fault and horizon tracking (semantic segmentation, where a skeletonized fault or horizon volume is used as the target to predict);
+- Microseismic event detection (semantic segmentation);
+- Seismic data interpolation, denoising, deghosting (regression, or more precisely *domain translation*);
+- and more...
+
+
+![UNET](figs/unet.png)
 
 
 To conclude a summary of some of the most popular CNN architectures used for various computer vision task is shown in the figure below. Note
