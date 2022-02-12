@@ -14,7 +14,7 @@
     
     
       
-        <title>Uncertainty Quantification in Neural Networks and Mixture Density Networks - ErSE 222 - Machine Learning in Geoscience</title>
+        <title>PCA - ErSE 222 - Machine Learning in Geoscience</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#uncertainty-quantification-in-neural-networks-and-mixture-density-networks" class="md-skip">
+        <a href="#pca" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Uncertainty Quantification in Neural Networks and Mixture Density Networks
+              PCA
             
           </span>
         </div>
@@ -349,56 +349,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Uncertainty Quantification in Neural Networks and Mixture Density Networks
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../09_mdn/" class="md-nav__link">
         Uncertainty Quantification in Neural Networks and Mixture Density Networks
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#mixture-density-networks-mdns" class="md-nav__link">
-    Mixture density networks (MDNs)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-readings" class="md-nav__link">
-    Additional readings
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -442,11 +397,20 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../13_pca/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         PCA
       </a>
+      
     </li>
   
 
@@ -511,28 +475,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#mixture-density-networks-mdns" class="md-nav__link">
-    Mixture density networks (MDNs)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-readings" class="md-nav__link">
-    Additional readings
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -544,84 +486,8 @@
               
                 
                 
-                <h1 id="uncertainty-quantification-in-neural-networks-and-mixture-density-networks">Uncertainty Quantification in Neural Networks and Mixture Density Networks</h1>
-<p>Before delving into more advanced NN building blocks (e.g., convolutional, recurrent), let's revisit the training process
-of feed forward NNs with a probabilistic standpoint. Anything that we present here can be later applied to any of the other NN 
-architectures that will be discussed in this course.</p>
-<p>We have already discussed that every loss function commonly used in the training of NNs, both for regression and classification,
-can be justified using a statistical formulation mostly in the context of Maximum-likelihood estimators. Despite this intrinsic
-link with probabilistic modelling, NN predictions are however most of the time punctual, meaning that we do not get an idea of
-the uncertainty associated to our prediction. </p>
-<p>First of all, it is important to remark the fact that even in classification tasks when the output of a softmax layer has the form
-of a probability (i.e., each term is bounded between 0 and 1, and their sum is equal to 1), this values should not be treated as an accurate description of the confidence level of our prediction.</p>
-<p>Second, when assessing the confidence of a NN prediction (or another ML model), two different types of uncertainties 
-are generally identified:</p>
-<ul>
-<li><em>Epistemic uncertainty</em>, also called model uncertainty: this uncertainty arises from a lack of training data in certain regions of the input domain. As we can expect our training data not to cover the entire input space, our trained network is likely to produce arbitrary output values for a large portion of the input values that the network has never seen before. We therefore want to be able to quantify the lack of accuracy due to missing training data.</li>
-<li><em>Aleatoric uncertainty</em>: this uncertainty is associated with the fact that the input data may contain some intrinsic randomness. This is either represented by the fact that the function we try to approximate is multimodal (i.e., multiple possible outputs exist for a single input) or the recorded data is polluted by noise. As a result, the training data will include samples with very close input values and a large spread of output values. We wish to be able to get such an insight out of the network predictions.</li>
-</ul>
-<p><img alt="UNCERT" src="../figs/uncert.png" /></p>
-<p>A number of more or less simple strategies can however be employed when training NNs with the goal of obtaining a quantitative measurement of how certain our estimate is:</p>
-<ul>
-<li>
-<p><em>Dropout</em>: this commonly used regularization strategy presented in one of our previous lectures can be also leveraged to produce an estimate of the uncertainty of our solution. This can be done by simply using dropout at the inference time and feeding the network multiple times with the same input. Multiple realizations of a prediction are computed, where different portions of the neurons of the network are deactivated for the different realizations. An empirical distribution or parameter estimates (e.g., mean and standard deviation) over the outputs can be finally estimated. 
-  The reason behind the success of this strategy is that the network can easily learn to always predict the same (or very similar) output when it is well constrained by data no matter if some of the neurons are deactivated at random. On the other hand, when the network is more unsure because of lack of data or constrasting data, different versions of the network are likely to produce different predictions.</p>
-</li>
-<li>
-<p><em>Ensembling</em>: another popular strategy, although quite expensive, is to train N neural networks with different initializations and use them to produce multiple predictions. Similar to dropout, when the training data is available and of good quality, the different networks will make similar predictions as they will likely converge to minima of similar quality. On the other hand, when the data is poor (or lacking), the weight initialization plays a much bigger role in the training and different network are likely to behave differently.</p>
-</li>
-<li>
-<p><em>Distributional parameter estimation (DPE)</em>: a different route is to change the parametrization of the output itself. More specifically, considering here for simplicity the case of regression, the network is asked to produce two outputs. The first is tasked to predict the mean of the output distribution whilst the second predicts the standard deviation. Whilst in the more traditional training of NNs the standard deviation is kept fixed for all training samples, here the network will be able to understand which portion of the input data is noisier and which is cleaner (as well as detect where input data is missing). The negative log-likelihood is chosen to be the loss function of the network:</p>
-</li>
-</ul>
-<div class="arithmatex">\[
-\boldsymbol \theta = \underset{\boldsymbol \theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} \frac{log \hat{\sigma}^{(i)}}{2} +
-\frac{||\hat{y}^{(i)} - y^{(i)}||_2^2}{2\sigma^2} \\
-\]</div>
-<p>with the main difference that not only the mean (here denoted as <span class="arithmatex">\(\hat{y}^{(i)}\)</span>) but also the standard deviation (<span class="arithmatex">\(\hat{\sigma}^{(i)}\)</span>) are produced by the network and therefore function of the free-parameters that we wish to optimize. Intuitively, the numerator of the second term encourages the mean prediction to be close to the observed data, while the denominator makes sure the variance is penalized the predictions. The first term avoids the network making the variance grow to infinity (which would lead to minimizing the second term no matter the mean value prediction).</p>
-<p><img alt="DPE" src="../figs/dpe.png" /></p>
-<ul>
-<li><em>Mixture density networks</em>: a natural extension of the DPE method is is represented by networks that try to predict more complex probability distributions by parametrizing them as mixture of gaussians. </li>
-</ul>
-<h2 id="mixture-density-networks-mdns">Mixture density networks (MDNs)</h2>
-<p>Extending to the case above, the network output is now composed of <span class="arithmatex">\(N_m\)</span> means, <span class="arithmatex">\(N_m\)</span> standard deviations, 
-and <span class="arithmatex">\(N_m\)</span> weights (where <span class="arithmatex">\(N_m\)</span> is the number of gaussians in the mixture):</p>
-<p><img alt="MDN" src="../figs/mdn.png" /></p>
-<p>and the probability of a single outcome <span class="arithmatex">\(y\)</span> given a single input <span class="arithmatex">\(\mathbf{x}\)</span> can be written as follows:</p>
-<div class="arithmatex">\[
-p(y|\mathbf{x}) = \sum_{i=1}^{N_m} \pi_i p_i(y|\mu_i,\sigma_i) = 
-  \sum_{i=1}^{N_m} \pi_i \frac{1}{\sqrt{2 \pi \sigma_i^2}} e^{-\frac{||y - \boldsymbol \mu_i||_2^2}{2 \sigma_i^2}}
-\]</div>
-<p>A few key points worth highlighting for this model:</p>
-<ul>
-<li>
-<p>the last layer produces an output of size <span class="arithmatex">\(3N_m\)</span>, where the last <span class="arithmatex">\(N_m\)</span> values must sum to 1 as they represent the weights
-of the gaussian mixture. They are therefore passed through a sigmoid activation function.</p>
-</li>
-<li>
-<p>the variances should always be positive, this can be simply obtained by adding an exponential activation function at the end 
-  of the network to the parameters that represent the variance. This turns unbounded values into values bounded between 0 and <span class="arithmatex">\(+\infty\)</span>.</p>
-</li>
-</ul>
-<p>The loss function used for MDNs is once again the negative log-likelihood, which can be written for a single training sample
-as follows:</p>
-<div class="arithmatex">\[
-\begin{aligned}
-- log(p(y|\mathbf{x})) &amp;= - log(\sum_{i=1}^{N_m} \pi_i p_i(y|\mu_i,\sigma_i)) = \\
-&amp;= -log(\sum_{i=1}^{N_m} e^{(log \pi_i + log p_i)})
-\end{aligned}
-\]</div>
-<p>where the second equation is introduced to avoid instability issues arising by applying the logarithm to the sum of exponential functions.
-Here we observe that a <span class="arithmatex">\(log(\sum e)\)</span> has to be computed; this can be stably done by using the LogSumExp (LSE) function.</p>
-<p>In prediction mode, a certain input <span class="arithmatex">\(\mathbf{x}\)</span> is feed through the network and a prediction of both the means, standard deviations and weights is produced. This uniquely define the probability function of the mixture of gaussian that we have decided to use to parametrize the output of the network.</p>
-<p>To conclude, let's discuss a practical scenario where MDNs should be preferred to simple DPE networks. Imagine that we are tasked to predict the porosity values in the subsurface given knowledge of elastic parameters (e.g., acoustic and shear impedance). Depending on the rock type, the relation between porosity and acoustic impedance may change. More importantly, there may be a certain overlap in the acoustic impedance values of the different rock types. If this is the case, as shown in the figure below, the output is multi-modal; unless we are certain about the rock type (or jointly predict the rock type alongside the porosity value), we would like the network to inform us when we should be confident about our prediction and where two distinct values of porosity have been observed in the training data for the same (or similar) value of acoustic impedance. Of course, despite this is a simple, single-dimensional example, similar conclusions apply when training a NN with multi-dimensional inputs.</p>
-<p><img alt="MDN_PORO" src="../figs/mdn_poro.png" /></p>
-<h2 id="additional-readings">Additional readings</h2>
-<ul>
-<li>To learn more about uncertainties in deep learning, read this <a href="https://www.inovex.de/de/blog/uncertainty-quantification-deep-learning/">webpage</a></li>
-<li>If you are interest to learn more about MDN, this <a href="https://towardsdatascience.com/mixture-density-networks-probabilistic-regression-for-uncertainty-estimation-5f7250207431">blog post</a>
-  provides an in-depth introduction of both the underlying theory and implementation details.</li>
-</ul>
+                <h1 id="pca">PCA</h1>
+<p>Use material in Linear Algebra page45</p>
                 
               
               
@@ -640,7 +506,7 @@ Here we observe that a <span class="arithmatex">\(log(\sum e)\)</span> has to be
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../08_gradopt1/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../12_seqmod/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -649,19 +515,19 @@ Here we observe that a <span class="arithmatex">\(log(\sum e)\)</span> has to be
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                More on gradient-based optimization
+                Sequence modelling
               </div>
             </div>
           </a>
         
         
-          <a href="../10_cnn/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../14_autoencoder/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Convolutional Neural Networks
+                Autoencoders
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

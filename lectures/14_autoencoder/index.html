@@ -14,7 +14,7 @@
     
     
       
-        <title>GANs - ErSE 222 - Machine Learning in Geoscience</title>
+        <title>Autoencoders - ErSE 222 - Machine Learning in Geoscience</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gans" class="md-skip">
+        <a href="#autoencoders" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              GANs
+              Autoencoders
             
           </span>
         </div>
@@ -376,7 +376,7 @@
   
     <li class="md-nav__item">
       <a href="../11_cnnarch/" class="md-nav__link">
-        Convolutional Neural Network Architectures
+        CNNs Popular Architectures
       </a>
     </li>
   
@@ -387,8 +387,20 @@
   
   
     <li class="md-nav__item">
-      <a href="../11_vae/" class="md-nav__link">
-        VAE
+      <a href="../12_seqmod/" class="md-nav__link">
+        Sequence modelling
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_pca/" class="md-nav__link">
+        PCA
       </a>
     </li>
   
@@ -408,7 +420,7 @@
       
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        GANs
+        Autoencoders
       </a>
       
     </li>
@@ -420,8 +432,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../4_autoencoder/" class="md-nav__link">
-        Autoencoders
+      <a href="../15_vae/" class="md-nav__link">
+        VAE
       </a>
     </li>
   
@@ -432,8 +444,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../4_pca/" class="md-nav__link">
-        PCA
+      <a href="../18_gan/" class="md-nav__link">
+        GANs
       </a>
     </li>
   
@@ -474,9 +486,16 @@
               
                 
                 
-                <h1 id="gans">GANs</h1>
-<p>References: </p>
-<p>https://brantondemoss.com/writing/seismicgan/</p>
+                <h1 id="autoencoders">Autoencoders</h1>
+<p>At different stages of this course we have seen the importance of choosing a good set of input features when solving a
+machine learning problem. We have also discussed how, whilst this may require a great deal of human time and eﬀort to 
+find as it varies from problem to problem, Neural Networks have gained popularity because of their ability to find good
+representations from raw data (e.g., images).</p>
+<p>The problem of discovering a good representation directly from an input dataset is known as <em>representation learning</em>. 
+The quintessential example of a representation learning algorithm is the <em>Autoencoder</em>. 
+An autoencoder is the combination of an encoder function <span class="arithmatex">\(e_\theta\)</span>, which converts the input data into a diﬀerent representation, 
+and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which converts the new representation back into the original format.</p>
+<p>...</p>
                 
               
               
@@ -495,7 +514,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../11_vae/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../13_pca/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -504,19 +523,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                VAE
+                PCA
               </div>
             </div>
           </a>
         
         
-          <a href="../4_autoencoder/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../15_vae/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Autoencoders
+                VAE
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

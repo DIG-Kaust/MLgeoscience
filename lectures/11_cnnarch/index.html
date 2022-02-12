@@ -14,7 +14,7 @@
     
     
       
-        <title>Convolutional Neural Network Architectures - ErSE 222 - Machine Learning in Geoscience</title>
+        <title>CNNs Popular Architectures - ErSE 222 - Machine Learning in Geoscience</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#convolutional-neural-network-architectures" class="md-skip">
+        <a href="#cnns-popular-architectures" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Convolutional Neural Network Architectures
+              CNNs Popular Architectures
             
           </span>
         </div>
@@ -384,12 +384,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Convolutional Neural Network Architectures
+          CNNs Popular Architectures
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Convolutional Neural Network Architectures
+        CNNs Popular Architectures
       </a>
       
         
@@ -467,8 +467,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../11_vae/" class="md-nav__link">
-        VAE
+      <a href="../12_seqmod/" class="md-nav__link">
+        Sequence modelling
       </a>
     </li>
   
@@ -479,8 +479,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../12_gan/" class="md-nav__link">
-        GANs
+      <a href="../13_pca/" class="md-nav__link">
+        PCA
       </a>
     </li>
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../4_autoencoder/" class="md-nav__link">
+      <a href="../14_autoencoder/" class="md-nav__link">
         Autoencoders
       </a>
     </li>
@@ -503,8 +503,20 @@
   
   
     <li class="md-nav__item">
-      <a href="../4_pca/" class="md-nav__link">
-        PCA
+      <a href="../15_vae/" class="md-nav__link">
+        VAE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18_gan/" class="md-nav__link">
+        GANs
       </a>
     </li>
   
@@ -602,7 +614,7 @@
               
                 
                 
-                <h1 id="convolutional-neural-network-architectures">Convolutional Neural Network Architectures</h1>
+                <h1 id="cnns-popular-architectures">CNNs Popular Architectures</h1>
 <p>This lecture provides an overview of how deep learning, especially in the context of CNNs (and computer vision in general), has
 evolved over the last decade. This is something that it is good to be familar with because:</p>
 <ul>
@@ -707,7 +719,37 @@ incurring in the risk of overfitting the training data. So, whilst in theory dee
 for plain networks. On the other hand, networks with Residual blocks are much more succesfull in that respect.</p>
 <p><img alt="RESNETTRAINING" src="../figs/resnettraining.png" /></p>
 <h2 id="unet">UNet</h2>
-<p>Bla bla..</p>
+<p>The UNet architecture was proposed by Ronneberger et al. in 2015 in the context of interpretation of microscopy images. 
+This network architecture presents however a number of innovative design choices which led to its widespread use in a variety of disciplines
+for both semantic segmentation and regression tasks.</p>
+<p>More specifically, whilst most of the networks we have discussed so far are specifically designed for classification
+tasks where inputs are of much larger size of target (i.e., imagine taking images from the MNIST dataset as input as a single vector of 10 elements as output),
+UNet was originally conceived for a <em>semantic segmentation</em> task. Semantic segmentation is a special case of classification where 
+instead of predicting a class per input samples, we want to predict a class for each element of that sample. This makes the output space very large,
+equal to that of the input times the number of classes.</p>
+<p><img alt="SEMSEG" src="../figs/semseg.png" /></p>
+<p>The UNet architecture presents the following charactheristics:</p>
+<ul>
+<li>it can be seen as composed by two networks, an <em>Encoder</em> or contracting path, and a <em>Decoder</em> or expanding path. This is a common
+  design in dimensionality reduction networks like AutoEncoders (see <a href="../14_autoencoder/">Lecture X</a> for more details). Each level of the encoder 
+  network contains a number of convolutional layers followed by a downsampler (usually achieved by means of max pooling). On the other hand,
+  the decoder is composed of convolutional layers preceeded by an upsampler (this can be either an interpolator like a bilinear interpolation or
+  a convtranspose layer);</li>
+<li>skip connections are introduced at each level of the contracting path, taking those features all the way to the corresponding level of the
+  expanding path (where they are concatenated with the features coming from a deeper level of the contracting path itself). Whilst we have
+  already discussed the importance of skip connections for stable training, here these skip connections are brought to a new level, as a very 
+  large portion of the network is skipped and concatenation is used instead of summation. The presence of such connections make the UNet architecture
+  able to create very high resolution segmentation and regression outputs;</li>
+</ul>
+<p>Finally, restricting ourselves to geoscience applications, UNet has been successfully used for a variety of tasks such as:</p>
+<ul>
+<li>Salt body / channel / karst extraction from seismic data (semantic segmentation);</li>
+<li>Fault and horizon tracking (semantic segmentation, where a skeletonized fault or horizon volume is used as the target to predict);</li>
+<li>Microseismic event detection (semantic segmentation);</li>
+<li>Seismic data interpolation, denoising, deghosting (regression, or more precisely <em>domain translation</em>);</li>
+<li>and more...</li>
+</ul>
+<p><img alt="UNET" src="../figs/unet.png" /></p>
 <p>To conclude a summary of some of the most popular CNN architectures used for various computer vision task is shown in the figure below. Note
 the size of the circles refer to the number of trainable parameters of the associated network.</p>
 <p><img alt="ARCHITS" src="../figs/archits.png" /></p>
@@ -749,13 +791,13 @@ the size of the circles refer to the number of trainable parameters of the assoc
           </a>
         
         
-          <a href="../11_vae/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../12_seqmod/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                VAE
+                Sequence modelling
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
