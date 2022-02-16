@@ -4,11 +4,11 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.6.4
+  - python>=3.8
   - pip
   - numpy>=1.15.0
   - scipy>=1.4.0
-  - cudatoolkit=11.0
+  - cudatoolkit=11.3
   - scikit-learn 
   - scikit-image
   - pandas
@@ -17,13 +17,13 @@ dependencies:
   - pylops
   - ipython
   - jupyter
-  - pytorch
+  - pytorch==1.10.1=py3.9_cuda11.3_cudnn8.2.0_0
   - torchvision
   - torchaudio
   - lightgbm
   - tqdm
   - pip:
-    - cupy-cuda110
+    - cupy-cuda113
     - scooby
     - lasio
     - segyio
