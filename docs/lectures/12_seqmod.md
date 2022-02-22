@@ -92,19 +92,20 @@ $$
   \end{bmatrix}_{[N_t \times T_y]}
 $$
 
-where $T_x$ and $T_y$ are the lenght of the input and output sequences. Finally, note that in the most general case these parameters 
-may be sample dependant (i.e., when we allow sequences of variable size): the following notation will be used in that case, $T_x^{(i)}$ and $T_y^{(i)}$
+where $T_x$ and $T_y$ are the lenght of the input and output sequences. First, note that this notations differs from before in that a
+single training sample is now represented as a matrix; therefore, the entire training data becomes a 3-D tensor of size $[N_s \times N_f \times T_x]$ 
+(and $[N_s \times N_t \times T_y]$). Finally, note that in the most general case these parameters may be sample dependant (i.e., when we allow sequences of variable size): the following notation will be used in that case, $T_x^{(i)}$ and $T_y^{(i)}$
 where $i$ refers to the i-th training sample. Moreover, given that we recurrently apply the same function $f_\theta$, we can very compactly write an
 RNN as:
 
 $$
-h^{<t>}, y^{<t>}=f_\theta(h^{<t-1>}, x^{<t>}) \qquad t=1,2,T_x
+\mathbf{h}^{<t>}, \mathbf{y}^{<t>}=f_\theta(\mathbf{h}^{<t-1>}, \mathbf{x}^{<t>}) \qquad t=1,2,T_x
 $$
 
 that we can unroll into:
 
 $$
-h^{<t>}, y^{<t>}=f_\theta(f_\theta(f_\theta(h^{<0>}, x^{<1>}), ...), x^{<t-2>}), x^{<t-1>}), x^{<t>}) 
+\mathbf{h}^{<t>}, \mathbf{y}^{<t>}=f_\theta(f_\theta(f_\theta(\mathbf{h}^{<0>}, \mathbf{x}^{<1>}), ...), \mathbf{x}^{<t-2>}), \mathbf{x}^{<t-1>}), \mathbf{x}^{<t>}) 
 $$
 
 As we have already briefly mentioned, RNNs allows some flexibility on the choice of $T_y$ (i.e., the length of the output sequence).
@@ -122,4 +123,66 @@ by assuming stationariety in the data, we let the network understand if step $t$
 instead of giving the network with the freedom to find relationships between any two samples in the sequence.
 
 ## Basic RNN
+
+### Architecture
 It is now time to discuss in more details what is an effective function, $f_\theta$.
+
+The most basic Recurrent Neural Network can be written as follows:
+
+$$
+\begin{aligned}
+\mathbf{a}^{<t>} &= \mathbf{W}_h \mathbf{h}^{<t-1>} + \mathbf{W}_x \mathbf{x}^{<t>} + \mathbf{b}_a = \mathbf{W} [\mathbf{h}^{<t-1>}, \mathbf{x}^{<t>}]^T + \mathbf{b}_a  \\
+\mathbf{h}^{<t>} &= \sigma(\mathbf{a}^{<t>} )  \\
+\mathbf{o}^{<t>} &= \mathbf{W}_y \mathbf{h}^{<t>} + \mathbf{b}_y \\
+\hat{\mathbf{y}}^{<t>} &= \sigma' (\mathbf{o}^{<t>})  \\
+\end{aligned}
+$$
+
+where:
+
+- $\sigma$ and $\sigma'$ are the activation functions for the hidden and output paths (the choice of the activation
+for the latter depends on the problem we wish to solve, e.g., softmax for binary classification)
+- $\mathbf{h}^{<0>}$ is the initial hidden state vector which is usually initalialized as a zero vector.
+- $\mathbf{W} = [\mathbf{W}_h, \mathbf{W}_x]_{[N_h \times N_h + N_x]}$ is the matrix of weights for the hidden path
+- $\mathbf{W}_{y \; [N_y \times N_h]}$ is the matrix of weights for the output path
+
+In conclusion, the learnable parameters for this kind of RNN block are: $\mathbf{W}_h, \mathbf{W}_x, \mathbf{W}_y, 
+\mathbf{b}_a, \mathbf{b}_y$ whose overall size is $N_h(N_h+N_x) + N_y N_h + N_h + N_y$. To give some perspective, this 
+is much smaller than the number of learnable parameters of an 'equivalent' Feed-Forward network where the entire input matrix $\mathbf{X}$
+is flattened into a 1-d array of size $N_f T_x$ and the entire output matrix $\mathbf{Y}$
+is flattened into a 1-d array of size $N_t T_y$. The equivalent weight matrix and bias vectors have size $N_x N_y T_x T_y$ and $N_yT_y$.
+For example, given a problem of size $N_x=2$, $N_y=3$, $N_h=5$, and $T_x=T_y=4$, we obtain $N_{FFN}=108$ and $N_{RNN}=58$.
+
+**ADD FIGURE!!!**
+
+### Loss
+
+Once the architecture is defined, the next step is to understand how the loss function should be defined for this kind of networks.
+As shown in the figure below, this can be simply accomplished by considering a loss function per time step and summing them together:
+
+$$
+\mathscr{L} = \sum_{t=1}^{T_x} \mathscr{L}^{<t>}, \qquad \mathscr{L}^{<t>}= f(\hat{\mathbf{y}}^{<t>}, \mathbf{y}^{<t>})
+$$
+
+where $f$ can be the MSE, MAE, BCE, etc. This loss function can be easily interpreted in probabilistic terms as:
+
+$$
+f \rightarrow -log P (\mathbf{y}^{<t>} | \mathbf{x}^{<1>}, \mathbf{x}^{<2>}, ..., \mathbf{x}^{<t>})
+$$
+
+To conclude, we note that the process of evaluating the various terms of the loss function is sequential as a previous hidden state is 
+required to evaluate the current output. This can be very expensive and does not allow for parallelization (beyond across training samples), similar
+to the case of very deep feedforward neural networks.
+
+**ADD FIGURE!!!**
+
+Given the loss function defined above, the computation of its gradient easily follows the principles that we have already extensively
+discussed in previous lectures; in simple terms, the backpropagation algorithm is applied on the unrolled computational graph in order
+to obtain the gradients of the weights and biases of the network block. Backpropagation over an RNN block is usually referred to as
+back-propagation through time (BPTT).
+
+Looking at this in more details, we can observe how the overall gradient of each of the weights or biases can be written as
+
+$$
+\frac{\partial \mathscr{L}}{\partial \cdot} = \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}^{<t>}}{\partial \cdot}
+$$
