@@ -20,10 +20,15 @@ On your terminal, run
 wandb login
 ```
 
-You should see that you are authenticated as ``mlgeoscience`` user.
+You should see that you are authenticated as ``mlgeoscience`` user. 
 
 Read this page for more details: https://docs.wandb.ai/quickstart.
 
+**NOTE:** Unfortunately, wandb login may raise a `Permission denied` error as it tries to write the
+`/Users/$USERNAME/.config/wandb/settings` file. If this problem arises, try to change ownership of this directory 
+```
+chown -R $USERNAME /Users/$USERNAME/.config/wandb
+```
 
 ## Running an experiment
 
