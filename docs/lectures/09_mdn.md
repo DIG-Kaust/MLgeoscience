@@ -59,7 +59,7 @@ $$
 A few key points worth highlighting for this model:
 
 - the last layer produces an output of size $3N_m$, where the last $N_m$ values must sum to 1 as they represent the weights
-of the gaussian mixture. They are therefore passed through a sigmoid activation function.
+of the gaussian mixture. They are therefore passed through a softmax activation function.
   
 - the variances should always be positive, this can be simply obtained by adding an exponential activation function at the end 
   of the network to the parameters that represent the variance. This turns unbounded values into values bounded between 0 and $+\infty$.

@@ -14,4 +14,4 @@
 | 9       | 24/02   | [UQ in Neural Networks and Mixture Density Networks](lectures/09_mdn.md)                  | [link1](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/LearningFunction/LearningFunction.ipynb) [link2](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/MixtureDensityNetwork/MDN.ipynb)          | 
 | 10      | 08/03   | [Introduction to CNNs](lectures/10_cnn.md)                                                | -        | 
 | 11      | 10/03   | [CNNs Popular Architectutues](lectures/11_cnnarch.md)                                     | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/SaltNet/SaltNet.ipynb)  | 
-| 12      | XX/XX   | [Sequence modelling](lectures/12_seqmod.md)                                               | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb)  | 
+| 12      | 15/03   | [Sequence modelling](lectures/12_seqmod.md)                                               | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb)  | 
