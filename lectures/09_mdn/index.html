@@ -590,7 +590,7 @@ p(y|\mathbf{x}) = \sum_{i=1}^{N_m} \pi_i p_i(y|\mu_i,\sigma_i) =
 <ul>
 <li>
 <p>the last layer produces an output of size <span class="arithmatex">\(3N_m\)</span>, where the last <span class="arithmatex">\(N_m\)</span> values must sum to 1 as they represent the weights
-of the gaussian mixture. They are therefore passed through a sigmoid activation function.</p>
+of the gaussian mixture. They are therefore passed through a softmax activation function.</p>
 </li>
 <li>
 <p>the variances should always be positive, this can be simply obtained by adding an exponential activation function at the end 
