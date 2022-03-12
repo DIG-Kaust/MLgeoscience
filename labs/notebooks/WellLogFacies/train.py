@@ -23,9 +23,9 @@ def train(model, criterion, optimizer, data_loader):
     Returns
     -------
     loss : :obj:`float`
-        Loss over entire dataset
+        Loss over entire training dataset
     accuracy : :obj:`float`
-        Accuracy over entire dataset
+        Accuracy over entire training dataset
 
     """
     model.train()
@@ -58,14 +58,14 @@ def evaluate(model, criterion, data_loader):
     criterion : :obj:`torch.nn.modules.loss`
         Loss function
     data_loader : :obj:`torch.utils.data.dataloader.DataLoader`
-        Training dataloader
+        Evaluation dataloader
 
     Returns
     -------
     loss : :obj:`float`
-        Loss over entire dataset
+        Loss over entire evaluation dataset
     accuracy : :obj:`float`
-        Accuracy over entire dataset
+        Accuracy over entire evaluation dataset
 
     """
     model.eval()
