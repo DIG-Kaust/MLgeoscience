@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-import tqdm
+from tqdm.notebook import tqdm
 from sklearn.metrics import accuracy_score
 
 from utils import show_tensor_images
