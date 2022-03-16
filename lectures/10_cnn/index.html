@@ -771,7 +771,7 @@ Although we will see that different tasks call for different design choices, mos
 We have already discussed that by choosing the filter size, stride and padding, the output can be either kept of the same size of the input or reduced (or increased) in size.</p>
 <p>At times, it may however be better to avoid changing the size of the output directly as part of the convolution process, rather perform this in a separate step. In this section we introduce the
 so-called <em>pooling</em> process, which is designed specifically to reduce the size of an input N-dimensional array by an arbritrary factor <span class="arithmatex">\(N_p\)</span>.</p>
-<p>Let's start with an example. We are interested to take a matrix of size $N_{h,x} \timex <span class="arithmatex">\(N_{w,x}\)</span> as input and produce an output of half the size (i.e., $N_{h,x}/2 \timex <span class="arithmatex">\(N_{w,x}/2\)</span>.
+<p>Let's start with an example. We are interested to take a matrix of size $N_{h,x} \times <span class="arithmatex">\(N_{w,x}\)</span> as input and produce an output of half the size (i.e., $N_{h,x}/2 \times <span class="arithmatex">\(N_{w,x}/2\)</span>.
 A possible way to achieve this without purely discarding some of the values of the matrix is to select the maximum value within a sliding window of size <span class="arithmatex">\(2 \times 2\)</span> (stride=2):</p>
 <p><img alt="MAXP" src="../figs/maxpooling.png" /></p>
 <p>This approach is commonly referred to in the literature as <em>Max Pooling</em>. This approach can be easily extended to any other subsampling by simply extending the size of the window and stride
