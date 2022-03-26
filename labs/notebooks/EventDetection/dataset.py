@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.stats import skewnorm
 from scipy.signal import butter, filtfilt
 
@@ -299,3 +300,36 @@ def create_data(nt=500, dt=0.002,
 
     return dictdata
 
+
+def plotting(X1, y1, X2, y2, title1, title2,
+             y1prob=None, y2prob=None, dt=0.002, nplot=3):
+    """Display training and test samples with labels
+    """
+    fig, axs = plt.subplots(nplot, 2, figsize=[15, nplot*2])
+    nt = len(X1[0])
+    for t in range(nplot):
+        axs[t, 0].set_title(title1)
+        axs[t, 0].plot(np.arange(nt)*dt, X1[t].squeeze(),'k')
+        axs[t, 0].fill_between(np.arange(nt)*dt,
+                               y1=1*y1[t].squeeze(),
+                               y2=-1*y1[t].squeeze(),
+                               linewidth=0.0,
+                               color='#E6DF44')
+        if y1prob is not None:
+            axs[t, 0].plot(np.arange(nt)*dt, y1prob[t].squeeze(), '#E6DF44', lw=2)
+
+        axs[t, 1].set_title(title2)
+        axs[t, 1].plot(np.arange(nt)*dt, X2[t].squeeze(),'k')
+        axs[t, 1].fill_between(np.arange(nt)*dt,
+                               y1=1*y2[t].squeeze(),
+                               y2=-1*y2[t].squeeze(),
+                               linewidth=0.0,
+                               color='#A2C523')
+        if y2prob is not None:
+            axs[t, 1].plot(np.arange(nt)*dt, y2prob[t].squeeze(), '#A2C523', lw=2)
+
+    for ax in axs.ravel():
+        ax.set_xlim([0,dt*nt])
+        ax.set_ylim([-1,1])
+
+    fig.tight_layout()

@@ -23,12 +23,14 @@ After that simply run:
 ```
 ./install_env.sh
 ```
-It will take some time, if at the end you see the work `Done!` on your terminal you are ready to go!
+It will take some time, if at the end you see the word `Done!` on your terminal you are ready to go!
 
 Later in the course, it may be useful to have access to a workstation with GPU capabilities (it will speed up your training time).
 A modified version of the environment and installation files for GPU-powered environment are also provided here.
 
-Finally, if you do not have access to a GPU directly, you could use the [KAUST Ibex](https://www.hpc.kaust.edu.sa/ibex). To install the GPU environment follow the following steps:
+Various options exist to access a GPU. If you have a personal machine with a GPU you are lucky, 
+take advantage of it. Alternatively, the [KAUST Ibex](https://www.hpc.kaust.edu.sa/ibex) cluster provides a large pool of nodes with different 
+families of GPUs (RTX 2080, P6000, P100, V100). To install the GPU environment follow the following steps:
 ```
 ssh ${USER}@glogin.ibex.kaust.edu.sa
 salloc --time=01:00:00 --gres=gpu:v100:1 
@@ -36,5 +38,5 @@ srun --pty bash
 ./install_env-gpu.sh
 ```
 
-A sample SLURM file is provided
-`jupyter_notebook_ibex.slurm` that allows setting up a Jupyter notebook with GPU capabilities.
+A sample [SLURM file](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/jupyter_notebook_ibex.slurm) is provided 
+that allows setting up a Jupyter notebook with GPU capabilities. More details can be found [here](https://kaust-supercomputing-lab.atlassian.net/wiki/spaces/Doc/pages/88080449/Interactive+computing+using+Jupyter+Notebooks+on+KSL+platforms). 
