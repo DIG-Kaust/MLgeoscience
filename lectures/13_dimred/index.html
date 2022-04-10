@@ -1,0 +1,851 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.1">
+    
+    
+      
+        <title>Dimensionality reduction - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e8d9bf0c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dimensionality-reduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dimensionality reduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Lectures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_nn/" class="md-nav__link">
+        More on Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_bestpractice/" class="md-nav__link">
+        Best practices in the training of Machine Learning models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_mdn/" class="md-nav__link">
+        Uncertainty Quantification in Neural Networks and Mixture Density Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_cnn/" class="md-nav__link">
+        Convolutional Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_cnnarch/" class="md-nav__link">
+        CNNs Popular Architectures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_seqmod/" class="md-nav__link">
+        Sequence modelling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Dimensionality reduction
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Dimensionality reduction
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principal-component-analysis-pca" class="md-nav__link">
+    Principal Component Analysis (PCA)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-linear-dimensionality-reduction-techniques" class="md-nav__link">
+    Other linear dimensionality reduction techniques
+  </a>
+  
+    <nav class="md-nav" aria-label="Other linear dimensionality reduction techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indipendent-component-analysis-ica" class="md-nav__link">
+    Indipendent Component Analysis (ICA)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-coding" class="md-nav__link">
+    Sparse Coding
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoencoders" class="md-nav__link">
+    Autoencoders
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-readings" class="md-nav__link">
+    Additional readings
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principal-component-analysis-pca" class="md-nav__link">
+    Principal Component Analysis (PCA)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-linear-dimensionality-reduction-techniques" class="md-nav__link">
+    Other linear dimensionality reduction techniques
+  </a>
+  
+    <nav class="md-nav" aria-label="Other linear dimensionality reduction techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indipendent-component-analysis-ica" class="md-nav__link">
+    Indipendent Component Analysis (ICA)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-coding" class="md-nav__link">
+    Sparse Coding
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoencoders" class="md-nav__link">
+    Autoencoders
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-readings" class="md-nav__link">
+    Additional readings
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="dimensionality-reduction">Dimensionality reduction</h1>
+<p>Up until now we have mostly focused on one family of Machine Learning methods, so-called <em>Supervised learning</em>. Whilst this
+is by far the most popular application in Deep Learning and the one that has reported greater success in the last decade,
+another family of methods that is becoming more and more popular falls under the umbrella of so-called <em>Unsupervised learning</em>.</p>
+<p>When labelled data are scarce, or it is difficult to have access to ground truth labels (e.g., in geoscience), unsupervised learning
+can represent an appealing alternative to find patterns in data. Unsupervised learning comes in different flavours. 
+For example let's imagine grouping a set of unlabelled data into a number of buckets and then analyse them 
+one-by-one knowing that the samples within each bucket are more similar to each other than others in the dataset: this is a form of 
+unsupervised learning called <em>clustering</em>. The flavour that we are going to discuss in 
+more details in the following is however referred to as <em>Dimensionality reduction</em>. Simply stated dimensionality reduction 
+can be described as:</p>
+<p>Take <span class="arithmatex">\(N_s\)</span> training samples <span class="arithmatex">\(\mathbf{x}^{(i)} \in \mathbb{R}^{N_f}\)</span>, (<span class="arithmatex">\(i=1,2,...N_s\)</span>),</p>
+<p>Find a smaller representation <span class="arithmatex">\(\mathbf{c}^{(i)} \in \mathbb{R}^{N_l}\)</span> (<span class="arithmatex">\(N_l&lt;&lt;N_f\)</span>) whilst making the 
+smallest possible reconstruction error.</p>
+<p>If you previously studied how data are stored in a computer transmitted via cable (or air), you may recall that this 
+is the very same objective of <em>data compression</em>. For this reason, nowadays we can build on a vast body of literature
+when designing effective dimensionality reduction techniques. What it is however slowly becoming more and more evident is
+the fact that by identifying representative low-dimensional (also called <em>latent</em>) spaces from a set of data samples living
+in a much richer space, we can implicitly extract useful features to be later used in subsequent tasks of supervised learning.
+This two-steps approach is becoming very popular these days especially in fields of science that lack vast amount of labelled data
+as a way to take advantage as much as possible of unlabelled samples and then being able to fine-tune supervised models using
+small amounts of labelled data.</p>
+<p>Before we consider a number of different approaches to dimensionality reduction, let's write the problem in a common mathematical form. 
+Given a number of training samples $\mathbf{x}^{(i)}, we wish to identify:</p>
+<ul>
+<li>encoder: <span class="arithmatex">\(\mathbf{c}^{(i)} = e(\mathbf{x}^{(i)})\)</span></li>
+<li>decoder: <span class="arithmatex">\(\hat{\mathbf{x}}^{(i)} = d(\mathbf{c}^{(i)})\)</span></li>
+</ul>
+<p>such that:</p>
+<div class="arithmatex">\[
+\hat{e},\hat{d} = \underset{e,d} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d(e(\mathbf{x}^{(i)})))
+\]</div>
+<h2 id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h2>
+<p>The simplest approach to dimensionality reduction uses linear operators for the encoder:</p>
+<ul>
+<li>encoder: <span class="arithmatex">\(\mathbf{c}^{(i)} = \mathbf{E}\mathbf{x}^{(i)}\)</span></li>
+<li>decoder: <span class="arithmatex">\(\hat{\mathbf{x}}^{(i)} = \mathbf{D}\mathbf{c}^{(i)}\)</span></li>
+</ul>
+<p>where <span class="arithmatex">\(\mathbf{E}_{[N_l \times N_f]}\)</span> and <span class="arithmatex">\(\mathbf{D}_{[N_f \times N_l]}\)</span>. PCA aims to find representative
+features that are linear combinations of the columns of the encoder (i.e., <span class="arithmatex">\(\mathbf{c}=\sum_{i=1}^{N_f} \mathbf{E}_{:,i} x_i\)</span>)
+such that the projection of these new features onto the original space (<span class="arithmatex">\(\mathbf{D}\mathbf{c}\)</span>) is as close as possible to the
+original sample <span class="arithmatex">\(\mathbf{x}\)</span>. In other words, we want to find the best linear subspace of the original space that minimizes the
+reconstruction error defined here as the squared Eucliden norm (<span class="arithmatex">\(\mathscr{L}=||.||^2_2\)</span>).</p>
+<p>Defining a unique pair of matrices (<span class="arithmatex">\(\mathbf{E},\mathbf{D}\)</span>) is however not possible without imposing further constraints. In the
+PCA derivation we must assume that the columns of <span class="arithmatex">\(\mathbf{D}\)</span> are orthonormal:</p>
+<div class="arithmatex">\[
+\mathbf{D}^T \mathbf{D} = \mathbf{I}_{N_l}
+\]</div>
+<p>By making such a strong assumption we can easily see that</p>
+<div class="arithmatex">\[
+$\hat{\mathbf{x}}^{(i)} = \mathbf{D}\mathbf{E}\mathbf{x}^{(i)}=\mathbf{D}\mathbf{D}^T\mathbf{x}^{(i)} \quad (\mathbf{E}=\mathbf{D}^T)
+\]</div>
+<p>is the choice of encoder-decoder that minimizes the reconstruction error. Let's now prove to ourselves that this is the case for 
+a single training sample:</p>
+<div class="arithmatex">\[
+\hat{\mathbf{c}} = \underset{\mathbf{c}} {\mathrm{argmin}} \; ||\mathbf{x}-d(\mathbf{x})||_2^2
+\]</div>
+<p>where for the moment we do not specify the decoder and simply call it <span class="arithmatex">\(d\)</span>. Let's first expand the loss function</p>
+<div class="arithmatex">\[
+\begin{aligned}
+||\mathbf{x}-d(\mathbf{x})||_2^2 &amp;= (\mathbf{x}-g(\mathbf{x}))^T (\mathbf{x}-d(\mathbf{x})) \\
+&amp;= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{x}) - g(\mathbf{x})^T \mathbf{x} + d(\mathbf{c})^T g(\mathbf{c})^T\\
+&amp;= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{x}) + d(\mathbf{c})^T g(\mathbf{c})^T\\
+\end{aligned}
+\]</div>
+<p>where we can ignore the first term given it does not depend on <span class="arithmatex">\(\mathbf{c}\)</span>. At this point let's consider the special
+case of <span class="arithmatex">\(d()=\mathbf{D}\)</span>, which gives:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+||\mathbf{x}-d(\mathbf{x})||_2^2 &amp;= \mathbf{c}^T \mathbf{D}^T \mathbf{D} \mathbf{c} - 2 \mathbf{x}^T \mathbf{D} \mathbf{c} \\
+&amp;= \mathbf{c}^T \mathbf{I}_{N_l} \mathbf{c} - 2 \mathbf{x}^T \mathbf{D} \mathbf{c}
+\end{aligned}
+\]</div>
+<p>Finally we compute the derivative of the loss function over <span class="arithmatex">\(\mathbf{c}\)</span>:</p>
+<div class="arithmatex">\[
+\frac{\partial J}{\partial \mathbf{c}} = 0 \rightarrow 2 \mathbf{c}^T - 2 \mathbf{x}^T \mathbf{D} = 0 \rightarrow \mathbf{c} = \mathbf{D}^T \mathbf{x}
+\]</div>
+<p>where we have obtained that <span class="arithmatex">\(\mathbf{E} = \mathbf{D}^T\)</span>.</p>
+<p>At this point we know what is the optimal linear encoder-decoder pair with respect to the MSE loss. However, we do not have a specific form
+for the matrix <span class="arithmatex">\(\mathbf{D}\)</span> itself. In order to identify the entries of the decoder matrix, we need to set up another optimization problem, this 
+time directly for <span class="arithmatex">\(\mathbf{D}\)</span>:</p>
+<div class="arithmatex">\[
+\hat{\mathbf{D}} = \underset{\mathbf{D}} {\mathrm{argmin}} \; ||\mathbf{X}-\mathbf{D}\mathbf{D}^T \mathbf{X}||_F 
+\quad s.t. \; \mathbf{D}^T \mathbf{D} = \mathbf{I}_{N_l}
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{X}_{[N_f \times N_s]}\)</span> is the training sample matrix. To simplify our derivation let's consider the case of
+<span class="arithmatex">\(N_l=1\)</span>; the result can then be easily generalized for any choice of <span class="arithmatex">\(N_l=1\)</span>. Let's write</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\hat{\mathbf{d}} &amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; ||\mathbf{X}-\mathbf{d}\mathbf{d}^T \mathbf{X}||_F 
+\quad s.t. \; \mathbf{d}^T \mathbf{d} = 1 \\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; ||\bar{\mathbf{X}}-\bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T||_F 
+\quad s.t. \; \mathbf{d}^T \mathbf{d} = 1 \quad (\bar{\mathbf{X}}=\mathbf{X}^T) \\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; Tr((\bar{\mathbf{X}}-\bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T)^T(\bar{\mathbf{X}}-\bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T))
+\quad s.t. \; \mathbf{d}^T \mathbf{d} = 1\\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; Tr(\bar{\mathbf{X}}^T \bar{\mathbf{X}} - \bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T - 
+\mathbf{d}\mathbf{d}^T \bar{\mathbf{X}}^T \bar{\mathbf{X}} + \mathbf{d}\mathbf{d}^T\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T)
+\quad s.t. \; \mathbf{d}^T \mathbf{d} = 1\\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; -2 Tr(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T) + Tr(\mathbf{d}\mathbf{d}^T\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T) \quad s.t. \; \mathbf{d}^T \mathbf{d} = 1\\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; -2 Tr(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T) + Tr(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T \mathbf{d}\mathbf{d}^T) \quad s.t. \; \mathbf{d}^T \mathbf{d} = 1\\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmin}} \; -Tr(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T) \quad s.t. \; \mathbf{d}^T \mathbf{d} = 1\\
+&amp;= \underset{\mathbf{d}} {\mathrm{argmax}} \; Tr(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d}\mathbf{d}^T) = Tr(\mathbf{d}^T \bar{\mathbf{X}}^T \bar{\mathbf{X}}\mathbf{d})  \quad s.t. \; \mathbf{d}^T \mathbf{d} = 1\\
+\end{aligned}
+\]</div>
+<p>where in 6 we use the fact that <span class="arithmatex">\(\mathbf{d}^T \mathbf{d} = 1\)</span>. The solution of this maximization problem is represented by the 
+eigenvector of <span class="arithmatex">\(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\)</span> associated to the largest eigenvalue (or the <span class="arithmatex">\(N_l\)</span> largest eigenvalues for the 
+general case).</p>
+<p>We can therefore conclude that PCA is defined as:</p>
+<ul>
+<li>Take <span class="arithmatex">\(N_s\)</span> training samples <span class="arithmatex">\(\mathbf{x}^{(i)} \in \mathbb{R}^{N_f}\)</span>, (<span class="arithmatex">\(i=1,2,...N_s\)</span>),</li>
+<li>Compute the matrix <span class="arithmatex">\(\bar{\mathbf{X}}_{[N_s \times N_f]}\)</span></li>
+<li>Compute the SVD of <span class="arithmatex">\(\bar{\mathbf{X}}\)</span> (i.e., eigenvalues and eigenvectors of the sample covariance matrix <span class="arithmatex">\(\bar{\mathbf{X}}^T \bar{\mathbf{X}}\)</span>)</li>
+<li>Form <span class="arithmatex">\(\mathbf{D}\)</span> composed by the eigenvector associated with the <span class="arithmatex">\(N_l\)</span> largest eigenvalues.</li>
+<li>Compute <span class="arithmatex">\(\mathbf{c}=\mathbf{D}^T \mathbf{x}\)</span> and <span class="arithmatex">\(\hat{\mathbf{x}}=\mathbf{D} \mathbf{c}\)</span>.</li>
+</ul>
+<p>More in general, it is also worth remembering that if the training data is not zero-mean, PCA can be slightly modified to take that into account:</p>
+<div class="arithmatex">\[
+\mathbf{c}=\mathbf{D}^T (\mathbf{x}-\boldsymbol\mu$ and $\hat{\mathbf{x}}=\mathbf{D} \mathbf{c}+\boldsymbol\mu$.
+\]</div>
+<p>where <span class="arithmatex">\(\boldsymbol\mu\)</span> is the sample mean.</p>
+<p>To conclude, let's try to provide some additional geometrical intuition of how PCA works in practice. Once again,
+let's recall the covariance matrix that we form and create SVD on:</p>
+<div class="arithmatex">\[
+\mathbf{C}_x=E_\mathbf{x} [(\mathbf{x}-\boldsymbol\mu) (\mathbf{x}-\boldsymbol\mu)^T]
+\]</div>
+<p>The eigenvalues <span class="arithmatex">\(\lambda_i\)</span> of <span class="arithmatex">\(\mathbf{C}_x\)</span> relate to the variance of the dataset <span class="arithmatex">\(\mathbf{X}\)</span> in the direction of the 
+associated eigenvector <span class="arithmatex">\(\mathbf{v}_i\)</span> as follows (we use a 2d example for simplicity):</p>
+<p><img alt="PCS" src="../figs/pca.png" /></p>
+<p>so we observe that the first direction of PCA (i.e. <span class="arithmatex">\(\mathbf{v}_1\)</span>) is the one that best minimizes the 
+reconstruction error (i.e., \sum_i d_{i,1}). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
+error of the projected data points from smallest to largest.</p>
+<h2 id="other-linear-dimensionality-reduction-techniques">Other linear dimensionality reduction techniques</h2>
+<p>Whilst PCA is very popular for its simplicity (both of understanding and implementation), other techniques for linead dimensionality
+reduction exist. As some of them has been shown during the years to be very powerful and better suited to find representative latent
+representations from data, we will briefly look at them here.</p>
+<h3 id="indipendent-component-analysis-ica">Indipendent Component Analysis (ICA)</h3>
+<p>ICA aims to separate a signal into many underlying signals that are scaled and added together to reproduce the original one:</p>
+<div class="arithmatex">\[
+\mathbf{x} = \sum_i c_i \mathbf{w}_i = \mathbf{Wc} 
+\]</div>
+<p>where in this case <span class="arithmatex">\(\mathbf{c}\)</span> has the same dimensionality of <span class="arithmatex">\(\mathbf{x}\)</span>. This model is in fact commonly used for blind source separation
+of mixed signals. Despite it is strictly speaking not a dimensionality reduction technique, we discuss it here due to its ability of finding
+representative bases that combined together can explain a set of data.</p>
+<p>Once again, the problem is in need for extra constraints for us to be able to find a solution. In this case the assumption made of
+the <span class="arithmatex">\(\mathbf{w}_i\)</span> signals is as follows:</p>
+<p>Signals <span class="arithmatex">\(\mathbf{w}_i\)</span> must be statistically indipendent from each other and non-gaussian</p>
+<p>A solution to this problem can be obtained finding the pair (<span class="arithmatex">\(\mathbf{W}, \mathbf{h}\)</span>) which maximises non-gaussianity (i.e., minimizes 
+normalized sample kurtosis) or minimizes mutual information (MI). Whilst we don't discuss here in details how to achieve such solution,
+it is worth pointing out that this requires solving a nonlinear inverse problem as <span class="arithmatex">\(\mathbf{W}\)</span> relates in a nonlinear manner to kurtosis or MI. </p>
+<h2 id="sparse-coding">Sparse Coding</h2>
+<p>!!HERE!!</p>
+<h2 id="autoencoders">Autoencoders</h2>
+<p>At different stages of this course we have seen the importance of choosing a good set of input features when solving a
+machine learning problem. We have also discussed how, whilst this may require a great deal of human time and eﬀort to 
+find as it varies from problem to problem, Neural Networks have gained popularity because of their ability to find good
+representations from raw data (e.g., images).</p>
+<p>The problem of discovering a good representation directly from an input dataset is known as <em>representation learning</em>. 
+The quintessential example of a representation learning algorithm is the <em>Autoencoder</em>. 
+An autoencoder is the combination of an encoder function <span class="arithmatex">\(e_\theta\)</span>, which converts the input data into a diﬀerent representation, 
+and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which converts the new representation back into the original format.</p>
+<h2 id="additional-readings">Additional readings</h2>
+<ul>
+<li>the following <a href="https://towardsdatascience.com/independent-component-analysis-ica-a3eba0ccec35">resource</a> provides a detailed 
+  explanation of the theory of ICA (and a simple Python implementation!)</li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../12_seqmod/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sequence modelling" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Sequence modelling
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8aa65030.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
