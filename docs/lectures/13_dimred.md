@@ -159,8 +159,7 @@ $$
 The eigenvalues $\lambda_i$ of $\mathbf{C}_x$ relate to the variance of the dataset $\mathbf{X}$ in the direction of the 
 associated eigenvector $\mathbf{v}_i$ as follows (we use a 2d example for simplicity):
 
-![PCS](figs/pca.png)
-
+![PCA](figs/pca.png)
 
 so we observe that the first direction of PCA (i.e. $\mathbf{v}_1$) is the one that best minimizes the 
 reconstruction error (i.e., \sum_i d_{i,1}). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
@@ -190,26 +189,74 @@ the $\mathbf{w}_i$ signals is as follows:
 
 Signals $\mathbf{w}_i$ must be statistically indipendent from each other and non-gaussian
 
-A solution to this problem can be obtained finding the pair ($\mathbf{W}, \mathbf{h}$) which maximises non-gaussianity (i.e., minimizes 
+A solution to this problem can be obtained finding the pair ($\mathbf{W}, \mathbf{c}$) which maximises non-gaussianity (i.e., minimizes 
 normalized sample kurtosis) or minimizes mutual information (MI). Whilst we don't discuss here in details how to achieve such solution,
 it is worth pointing out that this requires solving a nonlinear inverse problem as $\mathbf{W}$ relates in a nonlinear manner to kurtosis or MI. 
 
-## Sparse Coding
-!!HERE!!
+### Sparse Coding (or Dictionary Learning)
+Sparse coding is another heavily studied model for dimensionality reduction. The general idea has origin in a large body of 
+work carried out in other areas of applied mathematics where hand-crafted transformations (e.g., wavelets) habe been identified
+to nicely represent data of different kind (e.g., images, sounds, seismic recordings) in a very sparse fashion. Here *sparse*
+refers to the fact that the transformed signal can be represented by a vector with many zeros and just few non-zero entries.
+
+In this context, however, the transformation is represented a matrix $\mathbf{W}$, whose entries are once again learned directly
+from the available training data. This is achieved by imposing a strong condition on the probability distribution associated with 
+the latent vector $\mathbf{c}$:
+
+$$
+p(\mathbf{c}) \approx Laplace, Cauchy, Factorized t-student
+$$
+
+in other words, a fat tailed distribution, whose samples are therefore sparse. By making such an assumption, no closed form
+solution exist like in the PCA case. Instead the training process is set up with the following goals in mind:
+
+1. Find sparsest latent representation during the encoding phase
+2. Find a decoder that provides the smallest reconstruction error
+
+which mathematically can be written as:
+
+$$
+\begin{aligned}
+\hat{\mathbf{W}}, \hat{\mathbf{h}} &= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmax}} p(\mathbf{h}|\mathbf{x}) 
+&= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{h}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+\end{aligned}
+$$
+where $\beta$, $\lambda$ are directly related to the parameters of the posterior distribution that we wish to maximize. This
+functional can be minimized in an alternating fashion, first for $\mathbf{W}$, then for $\mathbf{x}$, and so on and so forth.
+
+Finally, once the training process is over and $\hat{\mathbf{W}}$ is avaiable, it is worth noting that sparse coding does require
+solving a sparsity-promoting inverse problem for any new training sample $\mathbf{x}$ in order to find its best
+representation $\hat{\mathbf{h}}$. Nevetheless, despite the higher cost compared to for example PCA, sparse coding has shown 
+great promise in both data compression and representation learning, the latter when coupled with down-the-line supervised tasks.
 
 ## Autoencoders
 
-At different stages of this course we have seen the importance of choosing a good set of input features when solving a
-machine learning problem. We have also discussed how, whilst this may require a great deal of human time and eﬀort to 
-find as it varies from problem to problem, Neural Networks have gained popularity because of their ability to find good
-representations from raw data (e.g., images).
+Finally, we turn our attention onto nonlinear dimensionality reduction models. We should know by now that nonlinear mappings (like
+those performed by NNs) may be much more powerful than their linear counterpart is used to our advantage.
 
-The problem of discovering a good representation directly from an input dataset is known as *representation learning*. 
-The quintessential example of a representation learning algorithm is the *Autoencoder*. 
-An autoencoder is the combination of an encoder function $e_\theta$, which converts the input data into a diﬀerent representation, 
-and a decoder function $d_\theta$, which converts the new representation back into the original format.
+The most popular nonlinear dimensionality techniques dates back to 1991 and the work of M. Kramer. Simply put, an autoencoder is 
+the combination of an encoder function $e_\theta$, which converts the input data into a latent representation, 
+and a decoder function $d_\theta$, which converts the new representation back into the original format. Here, both 
+$e_\theta$ and $d_\theta$ and nonlinear and fully learned and stack one after the other as shown below
 
+![AE](figs/ae.png)
 
+An autoencoder can therefore be simply defined as:
+
+$$
+\hat{\mathbf{x}} = d_\phi(e_\theta(\mathbf{x}))
+$$
+
+where similar to PCA, the training process is setup such the parameters of the two networks are optimized to minimize the 
+following loss function:
+
+$$
+\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}))))
+$$
+
+Once again, our code (or latent vector) must be chosen to be of lower dimension compared to the input in order to be able to 
+learn useful representations. On the other hand if we choose $l \ge n$, we will likely not learn something useful: very likely what
+we are going to learn is to reproduce the identity matrix.
 
 ## Additional readings
 
