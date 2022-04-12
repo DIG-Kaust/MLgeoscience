@@ -491,15 +491,15 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#sparse-coding-or-dictionary-learning" class="md-nav__link">
+    Sparse Coding (or Dictionary Learning)
+  </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sparse-coding" class="md-nav__link">
-    Sparse Coding
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -580,15 +580,15 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#sparse-coding-or-dictionary-learning" class="md-nav__link">
+    Sparse Coding (or Dictionary Learning)
+  </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sparse-coding" class="md-nav__link">
-    Sparse Coding
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -747,7 +747,7 @@ let's recall the covariance matrix that we form and create SVD on:</p>
 \]</div>
 <p>The eigenvalues <span class="arithmatex">\(\lambda_i\)</span> of <span class="arithmatex">\(\mathbf{C}_x\)</span> relate to the variance of the dataset <span class="arithmatex">\(\mathbf{X}\)</span> in the direction of the 
 associated eigenvector <span class="arithmatex">\(\mathbf{v}_i\)</span> as follows (we use a 2d example for simplicity):</p>
-<p><img alt="PCS" src="../figs/pca.png" /></p>
+<p><img alt="PCA" src="../figs/pca.png" /></p>
 <p>so we observe that the first direction of PCA (i.e. <span class="arithmatex">\(\mathbf{v}_1\)</span>) is the one that best minimizes the 
 reconstruction error (i.e., \sum_i d_{i,1}). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
 error of the projected data points from smallest to largest.</p>
@@ -766,20 +766,59 @@ representative bases that combined together can explain a set of data.</p>
 <p>Once again, the problem is in need for extra constraints for us to be able to find a solution. In this case the assumption made of
 the <span class="arithmatex">\(\mathbf{w}_i\)</span> signals is as follows:</p>
 <p>Signals <span class="arithmatex">\(\mathbf{w}_i\)</span> must be statistically indipendent from each other and non-gaussian</p>
-<p>A solution to this problem can be obtained finding the pair (<span class="arithmatex">\(\mathbf{W}, \mathbf{h}\)</span>) which maximises non-gaussianity (i.e., minimizes 
+<p>A solution to this problem can be obtained finding the pair (<span class="arithmatex">\(\mathbf{W}, \mathbf{c}\)</span>) which maximises non-gaussianity (i.e., minimizes 
 normalized sample kurtosis) or minimizes mutual information (MI). Whilst we don't discuss here in details how to achieve such solution,
 it is worth pointing out that this requires solving a nonlinear inverse problem as <span class="arithmatex">\(\mathbf{W}\)</span> relates in a nonlinear manner to kurtosis or MI. </p>
-<h2 id="sparse-coding">Sparse Coding</h2>
-<p>!!HERE!!</p>
+<h3 id="sparse-coding-or-dictionary-learning">Sparse Coding (or Dictionary Learning)</h3>
+<p>Sparse coding is another heavily studied model for dimensionality reduction. The general idea has origin in a large body of 
+work carried out in other areas of applied mathematics where hand-crafted transformations (e.g., wavelets) habe been identified
+to nicely represent data of different kind (e.g., images, sounds, seismic recordings) in a very sparse fashion. Here <em>sparse</em>
+refers to the fact that the transformed signal can be represented by a vector with many zeros and just few non-zero entries.</p>
+<p>In this context, however, the transformation is represented a matrix <span class="arithmatex">\(\mathbf{W}\)</span>, whose entries are once again learned directly
+from the available training data. This is achieved by imposing a strong condition on the probability distribution associated with 
+the latent vector <span class="arithmatex">\(\mathbf{c}\)</span>:</p>
+<div class="arithmatex">\[
+p(\mathbf{c}) \approx Laplace, Cauchy, Factorized t-student
+\]</div>
+<p>in other words, a fat tailed distribution, whose samples are therefore sparse. By making such an assumption, no closed form
+solution exist like in the PCA case. Instead the training process is set up with the following goals in mind:</p>
+<ol>
+<li>Find sparsest latent representation during the encoding phase</li>
+<li>Find a decoder that provides the smallest reconstruction error</li>
+</ol>
+<p>which mathematically can be written as:</p>
+<p>$$
+\begin{aligned}
+\hat{\mathbf{W}}, \hat{\mathbf{h}} &amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmax}} p(\mathbf{h}|\mathbf{x}) 
+&amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{h}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+\end{aligned}
+$$
+where <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\lambda\)</span> are directly related to the parameters of the posterior distribution that we wish to maximize. This
+functional can be minimized in an alternating fashion, first for <span class="arithmatex">\(\mathbf{W}\)</span>, then for <span class="arithmatex">\(\mathbf{x}\)</span>, and so on and so forth.</p>
+<p>Finally, once the training process is over and <span class="arithmatex">\(\hat{\mathbf{W}}\)</span> is avaiable, it is worth noting that sparse coding does require
+solving a sparsity-promoting inverse problem for any new training sample <span class="arithmatex">\(\mathbf{x}\)</span> in order to find its best
+representation <span class="arithmatex">\(\hat{\mathbf{h}}\)</span>. Nevetheless, despite the higher cost compared to for example PCA, sparse coding has shown 
+great promise in both data compression and representation learning, the latter when coupled with down-the-line supervised tasks.</p>
 <h2 id="autoencoders">Autoencoders</h2>
-<p>At different stages of this course we have seen the importance of choosing a good set of input features when solving a
-machine learning problem. We have also discussed how, whilst this may require a great deal of human time and eﬀort to 
-find as it varies from problem to problem, Neural Networks have gained popularity because of their ability to find good
-representations from raw data (e.g., images).</p>
-<p>The problem of discovering a good representation directly from an input dataset is known as <em>representation learning</em>. 
-The quintessential example of a representation learning algorithm is the <em>Autoencoder</em>. 
-An autoencoder is the combination of an encoder function <span class="arithmatex">\(e_\theta\)</span>, which converts the input data into a diﬀerent representation, 
-and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which converts the new representation back into the original format.</p>
+<p>Finally, we turn our attention onto nonlinear dimensionality reduction models. We should know by now that nonlinear mappings (like
+those performed by NNs) may be much more powerful than their linear counterpart is used to our advantage.</p>
+<p>The most popular nonlinear dimensionality techniques dates back to 1991 and the work of M. Kramer. Simply put, an autoencoder is 
+the combination of an encoder function <span class="arithmatex">\(e_\theta\)</span>, which converts the input data into a latent representation, 
+and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which converts the new representation back into the original format. Here, both 
+<span class="arithmatex">\(e_\theta\)</span> and <span class="arithmatex">\(d_\theta\)</span> and nonlinear and fully learned and stack one after the other as shown below</p>
+<p><img alt="AE" src="../figs/ae.png" /></p>
+<p>An autoencoder can therefore be simply defined as:</p>
+<div class="arithmatex">\[
+\hat{\mathbf{x}} = d_\phi(e_\theta(\mathbf{x}))
+\]</div>
+<p>where similar to PCA, the training process is setup such the parameters of the two networks are optimized to minimize the 
+following loss function:</p>
+<div class="arithmatex">\[
+\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}))))
+\]</div>
+<p>Once again, our code (or latent vector) must be chosen to be of lower dimension compared to the input in order to be able to 
+learn useful representations. On the other hand if we choose <span class="arithmatex">\(l \ge n\)</span>, we will likely not learn something useful: very likely what
+we are going to learn is to reproduce the identity matrix.</p>
 <h2 id="additional-readings">Additional readings</h2>
 <ul>
 <li>the following <a href="https://towardsdatascience.com/independent-component-analysis-ica-a3eba0ccec35">resource</a> provides a detailed 
