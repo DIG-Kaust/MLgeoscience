@@ -27,6 +27,8 @@ def set_device():
 
 
 def eikonal_grid(ox, dx, nx, oz, dz, nz):
+    """Create regular grid
+    """
     x = np.arange(nx) * dx + ox
     z = np.arange(nz) * dz + oz
 

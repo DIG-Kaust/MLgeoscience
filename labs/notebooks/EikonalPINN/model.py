@@ -37,6 +37,8 @@ def activation(act_fun='LeakyReLU'):
             raise ValueError(f'{act_fun} is not an activation function...')
     else:
         return act_fun()
+    
+    
 class AdaptiveLinear(nn.Linear):
     r"""Applies a linear transformation to the input data as follows
     :math:`y = naxA^T + b`.

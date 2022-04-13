@@ -8,6 +8,10 @@ from torch.utils.data import TensorDataset, DataLoader
 
 def create_dataloader(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
                       batch_size=None, perc=0.25, shuffle=True, device='cpu'):
+    """Create dataloaders
+    
+    Create two dataloaders, one for the co-location points and one for the initial condition
+    """
     XZ = torch.from_numpy(np.vstack((X, Z)).T).float().to(device)
     v = torch.from_numpy(v).float().to(device)
     tana = torch.from_numpy(tana).float().to(device)
@@ -28,12 +32,16 @@ def create_dataloader(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
     # initial condition
-    ic = torch.tensor([xs, zs], dtype=torch.float, requires_grad=True)
+    ic_loader = torch.tensor([xs, zs], dtype=torch.float, requires_grad=True)
 
-    return data_loader, ic
+    return data_loader, ic_loader
 
 
 def create_gridloader(X, Z, device='cpu'):
+    """Create grid
+    
+    Create a dataloader that contains the entire grid for evaluation
+    """
     XZ = torch.from_numpy(np.vstack((X, Z)).T).float().to(device)
     grid = TensorDataset(XZ)
     grid_loader = DataLoader(grid, batch_size=XZ.size(0), shuffle=False)
@@ -84,7 +92,6 @@ def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1.):
             loss_pde.append(ls_pde.item())
             loss_ic.append(ls_ic.item())
             loss.append(ls.item())
-            # ls.backward(retain_graph = True)
             ls.backward()
             return ls
         optimizer.step(closure)
