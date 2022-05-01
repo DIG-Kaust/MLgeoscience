@@ -552,6 +552,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#present-and-future-of-sequence-modelling" class="md-nav__link">
+    Present and future of sequence modelling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-readings" class="md-nav__link">
+    Additional readings
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -700,6 +714,20 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#present-and-future-of-sequence-modelling" class="md-nav__link">
+    Present and future of sequence modelling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-readings" class="md-nav__link">
+    Additional readings
+  </a>
   
 </li>
       
@@ -1135,6 +1163,21 @@ x^{&lt;t&gt;}
 &amp;\boldsymbol{y}^{&lt;t&gt;}=\sigma^{\prime}\left(\boldsymbol{W}_{y} \boldsymbol{h}^{&lt;t&gt;}+\boldsymbol{b}_{y}\right)
 \end{aligned}
 \]</div>
+<h2 id="present-and-future-of-sequence-modelling">Present and future of sequence modelling</h2>
+<p>Finally, it is worth noting that the field of sequence modelling with deep neural networks has been taken by a storm a couple of years
+ago with novel architectures that have led to great improvements in the field of Natural Language Processing. The first innovation, which
+goes under the name of <em>Attention</em> layer has been initially introduced to mitigate one of the main limitations of the encoder-decoder RNN
+architecture that we have extensively discussed in this lecture. More specifically, the attention layer can find global correlations between
+the input(s) of the decoder layer and any of the hidden states of the encoder, avoiding the problem of having a bottleneck at the end of the 
+encoder and a single hidden state that is required to encode the information of the various inputs of the encoder. </p>
+<p>The attention layer has later led to the design of a completely new type of neural network architecture, the so-called <em>Transformer</em> layer. In this
+case, instead of processing the input sequentially as in RNNs, the transformer layer takes all the inputs at once and find both local and global correlations
+by means of so-called self-attention blocks.</p>
+<h2 id="additional-readings">Additional readings</h2>
+<ul>
+<li>If you are interested to learn more about attention and transformer layers, I recommend watching this </li>
+<li><a href="![img.png](img.png)">lecture</a> from the KAUST Summer School on Unstructured Data in Geoscience</li>
+</ul>
 
               
             </article>
