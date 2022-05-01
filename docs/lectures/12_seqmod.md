@@ -153,7 +153,8 @@ is flattened into a 1-d array of size $N_f T_x$ and the entire output matrix $\m
 is flattened into a 1-d array of size $N_t T_y$. The equivalent weight matrix and bias vectors have size $N_x N_y T_x T_y$ and $N_yT_y$.
 For example, given a problem of size $N_x=2$, $N_y=3$, $N_h=5$, and $T_x=T_y=4$, we obtain $N_{FFN}=108$ and $N_{RNN}=58$.
 
-**ADD FIGURE!!!**
+![BASICRNN](figs/basicrnn.png)
+
 
 ### Loss
 
@@ -174,7 +175,9 @@ To conclude, we note that the process of evaluating the various terms of the los
 required to evaluate the current output. This can be very expensive and does not allow for parallelization (beyond across training samples), similar
 to the case of very deep feedforward neural networks.
 
-**ADD FIGURE!!!**
+![BASICRNLOSS](figs/basicrnn_loss.png)
+
+### Backprop
 
 Given the loss function defined above, the computation of its gradient easily follows the principles that we have already extensively
 discussed in previous lectures; in simple terms, the backpropagation algorithm is applied on the unrolled computational graph in order
@@ -186,3 +189,128 @@ Looking at this in more details, we can observe how the overall gradient of each
 $$
 \frac{\partial \mathscr{L}}{\partial \cdot} = \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}^{<t>}}{\partial \cdot}
 $$
+
+or, in other words, the gradient accumulates over the unrolled graph. Note also that,
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathscr{L}^{<t>}} = 1, \qquad \frac{\partial \mathscr{L}}{\partial \cdot} = \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}}{\partial \mathscr{L}^{<t>}} \frac{\partial \mathscr{L}^{<t>}}{\partial \cdot} = 
+\sum_{t=1}^{T_x} \frac{\partial \mathscr{L}^{<t>}}{\partial \cdot}
+$$
+
+![BASICRNBACK](figs/basicrnn_backprop.png)
+
+Let's now look more in details at the equations of backpropagation through time for a specific case of multi-label classification. 
+More specifically we assume that the output of each step of the recurrent network ($\mathbf{o}^{<t>}$) is passed through a softmax
+to get $\hat{\mathbf{y}}^{<t>}= \sigma' (\mathbf{o}^{<t>})$, and the loss in the negative log-likelihood of a Multinoulli distribution. 
+Moreover, we will use tanh for the internal activation function $\sigma$. Starting from the gradients of the internal nodes:
+
+$$
+\left(\frac{\partial \mathscr{L}}{\partial \mathbf{o}^{<t>}}\right)_i = \hat{y}_i^{<t>} - \mathbf{1}_{i=y^{<t>}}
+$$
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<T_x>}} = \frac{\partial \mathscr{L}^{<T_x>}}{\partial \mathbf{o}^{<T_x>}} 
+\frac{\partial \mathbf{o}^{<T_x>}}{\partial \mathbf{h}^{<T_x>}} = \mathbf{W}_y^T (\hat{\mathbf{y}}^{<T_x>} - \mathbf{1}_{i=y^{<T_x>}})
+$$
+
+$$
+\begin{aligned}
+\frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t>}} &= \frac{\partial \mathscr{L}}{\partial \mathbf{o}^{<t>}} 
+\frac{\partial \mathbf{o}^{<t>}}{\partial \mathbf{h}^{<t>}} + \frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t+1>}} 
+\frac{\partial \mathbf{h}^{<t+1>}}{\partial \mathbf{h}^{<t>}} \\
+&= \mathbf{W}_y^T (\hat{\mathbf{y}}^{<t>} - \mathbf{1}_{i=y^{<t>}}) + \mathbf{W}_h^T diag(1 - (\mathbf{h}^{<t+1>})^2) 
+\frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t+1>}}
+\end{aligned}
+$$
+
+where $\mathbf{1}_{i=y^{<t>}}$ is a vector of zeros with 1 at location of the true label, i.e. $i=y^{<t>}$, $diag(1 - (\mathbf{h}^{<t+1>})^2)$
+is the Jacobian of the tanh activation function, and $\partial \mathscr{L} / \partial \mathbf{h}^{<t+1>}$ is computed recursively from $t+1=T_x$
+as we know $\partial \mathscr{L} / \partial \mathbf{h}^{<T_x>}$. Moreover, it is worth noting how the gradient of the loss function
+over any hidden state $\mathbf{h}^{<t>}$ is composed of two terms, one coming directly from the corresponding output 
+$\mathbf{o}^{<t>}$ and one from the next hiddent state $\mathbf{h}^{<t+1>}$.
+
+It follows that the gradients of the parameters to update are:
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathbf{b}_y} = \sum_{t=1}^{T_x} \left( \frac{\partial \mathbf{o}^{<t>}}{\partial \mathbf{b}_y} \right)^T 
+\frac{\partial \mathscr{L}}{\partial \mathbf{o}^{<t>}} =  \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}}{\partial \mathbf{o}^{<t>}}
+$$
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathbf{b}_a} = \sum_{t=1}^{T_x} \left( \frac{\partial \mathbf{h}^{<t>}}{\partial \mathbf{b}_a} \right)^T 
+\frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t>}} = \sum_{t=1}^{T_x} diag(1 - (\mathbf{h}^{<t>})^2) \frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t>}}
+$$
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathbf{W}_y} = \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}}{\partial \mathbf{o}^{<t>}} 
+\frac{\partial \mathbf{o}^{<t>}}{\partial \mathbf{W}_y} =
+\sum_{t=1}^{T_x} \frac{\partial \mathscr{L}}{\partial \mathbf{o}^{<t>}} \mathbf{h}^{<t>T}
+$$
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathbf{W}_h} = \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t>}} 
+\frac{\partial \mathbf{h}^{<t>}}{\partial \mathbf{W}_h} = \sum_{t=1}^{T_x} diag(1 - (\mathbf{h}^{<t>})^2) \frac{\partial 
+\mathscr{L}}{\partial \mathbf{h}^{<t>}} \mathbf{h}^{<t-1>T}
+$$
+
+$$
+\frac{\partial \mathscr{L}}{\partial \mathbf{W}_x} = \sum_{t=1}^{T_x} \frac{\partial \mathscr{L}}{\partial \mathbf{h}^{<t>}} 
+\frac{\partial \mathbf{h}^{<t>}}{\partial \mathbf{W}_x} = \sum_{t=1}^{T_x} diag(1 - (\mathbf{h}^{<t>})^2) \frac{\partial 
+\mathscr{L}}{\partial \mathbf{h}^{<t>}} \mathbf{x}^{<t>T}
+$$
+
+### Inference
+
+At test time, the evaluation of a RNN is straightforward. We usually simply need to pass through the forward pass and get 
+the output $\hat{\mathbf{y}}^{<t>}$. However, this is not always true, especially in the following two cases:
+
+- $T_x=1, T_y>1$ (generative network)
+- $T_x, T_y$ (encoder-decoder network)
+
+as in both cases we will be required to use the output at a given step ($\hat{\mathbf{y}}^{<t-1>}$) as part of the input to
+produce the output of the next step ($\hat{\mathbf{y}}^{<t>}$). These two scenarios are dominant in so-called *Language Modelling*
+for tasks where we want to generate sentences given some initial guess (e.g., first word) or perform language-to-language translation.
+However, similar concepts could also be used to for example generate well logs or seismograms. Let's briefly take a look at some of
+the required changes in the inference process of these 2 network types. 
+
+First of all, in conventional cases our loss function can be written as:
+
+$$
+\begin{aligned}
+\mathscr{L} &= \prod_{t=1}^{T_x} P (\mathbf{y}^{<t>} | \mathbf{x}^{<1>}, \mathbf{x}^{<2>}, ..., \mathbf{x}^{<t>}) \\
+&= - \sum_{t=1}^{T_x} log P (\mathbf{y}^{<t>} | \mathbf{x}^{<1>}, \mathbf{x}^{<2>}, ..., \mathbf{x}^{<t>})
+\end{aligned}
+$$
+
+where each output is here totally indipendent from the others. On the other hand, we are now faced with a joint distribution to
+sample from:
+
+$$
+\begin{aligned}
+\mathscr{L} &= P (\mathbf{y}^{<1>}, \mathbf{y}^{<2>},..., \mathbf{y}^{<t>})\\
+&= - \prod_{t=1}^{T_x} log P (\mathbf{y}^{<t>} | \mathbf{y}^{<1>}, \mathbf{y}^{<2>},..., \mathbf{y}^{<t-1>})
+\end{aligned}
+$$
+
+Evaluating such a probability is not a big deal during training as we can simply use the true labels as inputs (similarly to the 
+more conventional network architectures where we use $\mathbf{x}^{<t>}$) instead. However, at inference stage we do not have access to the
+exact previous outputs when evaluating the current one. In order to simplify the evaluation of such a probability, we are therefore required
+to make an assumption: more specifically, we assume that the outputs can be modelled as a Markov Chain. In other words, we assume that the 
+current output depends only on the previous one and not all of the other previous outputs. We can therefore write:
+
+$$
+\mathscr{L} \approx - \prod_{t=1}^{T_x} log P (\mathbf{y}^{<t>} | \hat{\mathbf{y}}^{<t-1>})
+$$
+
+which can be easily evaluated by placing the prediction at step $t-1$ as input to step $t$. 
+
+However, when we are interested in using our trained RNN for generative tasks, this approach comes with a limitation. 
+It is in fact deterministic, and therefore we can only create a single output sequence. A more sophisticated procedure can be
+designed such that we can take advantage of our predictions in terms of their probabilities (and not the most probable outcome).
+Given $P (\mathbf{y}^{<t-1>} | ...)$ (from, e.g., before a softmax later), what we can instead do is to sample one value of 
+$\mathbf{y}^{<t-1>}$ and feed it to the next step of our recurrent network. If we now repeat the same procedure multiple times,
+we will produce a bunch of different sequences. Finally, we could go even one step beyond and sample multiple values at step $t-1$, 
+feed them concurrently to the next step (or the next N steps) and evaluate which one(s) has the highest joint probability, then go back 
+to step $t-1$ and choose that value(s). This procedure, usually referred as *Beam Search*, is however beyond the scope of this lecture.
+
+## Bidirectional RNN
