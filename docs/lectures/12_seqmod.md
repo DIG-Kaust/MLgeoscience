@@ -134,7 +134,7 @@ $$
 \mathbf{a}^{<t>} &= \mathbf{W}_h \mathbf{h}^{<t-1>} + \mathbf{W}_x \mathbf{x}^{<t>} + \mathbf{b}_a = \mathbf{W} [\mathbf{h}^{<t-1>}, \mathbf{x}^{<t>}]^T + \mathbf{b}_a  \\
 \mathbf{h}^{<t>} &= \sigma(\mathbf{a}^{<t>} )  \\
 \mathbf{o}^{<t>} &= \mathbf{W}_y \mathbf{h}^{<t>} + \mathbf{b}_y \\
-\hat{\mathbf{y}}^{<t>} &= \sigma' (\mathbf{o}^{<t>})  \\
+\hat{\mathbf{y}}^{<t>} &= \sigma' (\mathbf{o}^{<t>}) 
 \end{aligned}
 $$
 
@@ -314,3 +314,64 @@ feed them concurrently to the next step (or the next N steps) and evaluate which
 to step $t-1$ and choose that value(s). This procedure, usually referred as *Beam Search*, is however beyond the scope of this lecture.
 
 ## Bidirectional RNN
+
+Up until now, we have tried to construct NNs that can learn from short and long term patterns in the data in a *causal* fashion: in other
+words, by feeding our time series from left to right to the network we allow it at every time step $t$ to learn dependencies from 
+the past $(t-1,t-2,t-i)$. This is very useful for streaming data where we record the data sequentially from $t=0$ to $t=T_x$, and we do not
+want to wait until the entire data has been collected before we can make some predictions. This is usually referred to as *online* processing. 
+An example of such a scenario is represented by real-time drilling, when we drill a hole into the subsurface and record some measurements whilst doing so. We would like a machine to process
+such recordings as they come in and provide us with useful insights on how to best continue drilling:
+
+![DRILLBIT](figs/drillbit.png)
+
+Of course, not every problem lends naturally to the above depicted scenario. In most cases we are able to record data over an entire time window
+and only after that we are concerned with analysing such data. This is usually referred to as *offline* processing. In this case it may be useful
+to also look at correlations betweeen samples at time $t$ and future samples $(t+1,t+2,t+i)$. Bidirection RNNs represent a solution to this as they 
+allow learning short and long term dependencies not only from the past but also from the future. Let's start with a schematic diagram:
+
+![BRNN](figs/brnn.png)
+
+where the network architecture presents a simple modification. Instead of having a single flow of information from left to right as it is the 
+case for basic RNNs, we have now added a second flow of information from right to left. The hidden states of the first have been labelled with
+the suffix F (for forward), and those of the second with the suffix B (for backward). The inputs remain unchanged, apart from the fact that they 
+are now fed twice to the network, once for the forward flow and once for the backward flow, whilst the output is not the concatenation of the 
+outputs of the two flows, i.e., $\hat{\mathbf{y}}^{<t>} = [\hat{\mathbf{y}}_F^{<t>T} \; \hat{\mathbf{y}}_B^{<t>T}]^T$.
+
+## Deep RNNs
+
+Similarly to any other network architecture that we have investiaged so far, the concept of shallow and deep network also applies to RNNs. Shallow
+RNNs are recurrent networks that have a single hidden layer connecting the inputs to the outputs. On the other than, deep RNNs are composed of more hidden
+layers. This is simply achieved as follows:
+
+- **First layer** input: $\mathbf{x}^{<t>}$, hidden and output: $\mathbf{h}_0^{<t>}$,
+- **Second layer** input: $\mathbf{h}_0^{<t>}$, hidden and output: $\mathbf{h}_1^{<t>}$,
+- **Last layer** input: $\mathbf{h}_{N-1}^{<t>}$, hidden:$\mathbf{h}_N^{<t>}$, output: $\hat{\mathbf{y}}^{<t>}$.
+
+that we can visually represent as:
+
+![DEEPRNN](figs/deeprnn.png)
+
+Mathematically, a deep RNN can be simply expressed as follows.
+
+- For $i=0,1,N-1$ (with $\mathbf{h}_{-1}=\mathbf{x}$)
+
+    $$
+    \begin{aligned}
+    \mathbf{a}_i^{<t>} &= \mathbf{W}_{h_i} \mathbf{h}_i^{<t-1>} + \mathbf{W}_{x_i} \mathbf{h}_{i-1}^{<t>} + \mathbf{b}_{a_i} \\
+    \mathbf{h}_i^{<t>} &= \sigma(\mathbf{a}_i^{<t>} )  \\
+    \end{aligned}
+    $$
+
+- For $i=N$
+
+    $$
+    \begin{aligned}
+    \mathbf{a}_N^{<t>} &= \mathbf{W}_{h_N} \mathbf{h}_N^{<t-1>} + \mathbf{W}_{x_N} \mathbf{h}_{N-1}^{<t>} + \mathbf{b}_{a_N} \\
+    \mathbf{h}_N^{<t>} &= \sigma(\mathbf{a}_N^{<t>} )  \\ 
+    \mathbf{o}^{<t>} &= \mathbf{W}_y \mathbf{h}_N^{<t>} + \mathbf{b}_y \\
+    \hat{\mathbf{y}}^{<t>} &= \sigma' (\mathbf{o}^{<t>})  \\
+    \end{aligned}
+    $$
+
+## Long-term dependencies: implications for gradients
+
