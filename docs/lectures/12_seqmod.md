@@ -523,5 +523,5 @@ by means of so-called self-attention blocks.
 
 ## Additional readings
 
-- If you are interested to learn more about attention and transformer layers, I recommend watching this 
-- [lecture](![img.png](img.png)) from the KAUST Summer School on Unstructured Data in Geoscience
+- If you are interested to learn more about attention and transformer layers, I recommend watching this
+  [lecture](![img.png](img.png)) from the KAUST Summer School on Unstructured Data in Geoscience
