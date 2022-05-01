@@ -507,3 +507,21 @@ x^{<t>}
 &\boldsymbol{y}^{<t>}=\sigma^{\prime}\left(\boldsymbol{W}_{y} \boldsymbol{h}^{<t>}+\boldsymbol{b}_{y}\right)
 \end{aligned}
 $$
+
+## Present and future of sequence modelling
+
+Finally, it is worth noting that the field of sequence modelling with deep neural networks has been taken by a storm a couple of years
+ago with novel architectures that have led to great improvements in the field of Natural Language Processing. The first innovation, which
+goes under the name of *Attention* layer has been initially introduced to mitigate one of the main limitations of the encoder-decoder RNN
+architecture that we have extensively discussed in this lecture. More specifically, the attention layer can find global correlations between
+the input(s) of the decoder layer and any of the hidden states of the encoder, avoiding the problem of having a bottleneck at the end of the 
+encoder and a single hidden state that is required to encode the information of the various inputs of the encoder. 
+
+The attention layer has later led to the design of a completely new type of neural network architecture, the so-called *Transformer* layer. In this
+case, instead of processing the input sequentially as in RNNs, the transformer layer takes all the inputs at once and find both local and global correlations
+by means of so-called self-attention blocks.
+
+## Additional readings
+
+- If you are interested to learn more about attention and transformer layers, I recommend watching this 
+- [lecture](![img.png](img.png)) from the KAUST Summer School on Unstructured Data in Geoscience
