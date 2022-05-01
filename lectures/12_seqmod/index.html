@@ -523,6 +523,33 @@
     Long-term dependencies: implications for gradients
   </a>
   
+    <nav class="md-nav" aria-label="Long-term dependencies: implications for gradients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gradient-clipping" class="md-nav__link">
+    Gradient clipping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gated-recurrent-networks-or-gru-unit" class="md-nav__link">
+    Gated recurrent networks or GRU unit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-short-term-memory-lstm-unit" class="md-nav__link">
+    Long-short term memory (LSTM) unit
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -646,6 +673,33 @@
   <a href="#long-term-dependencies-implications-for-gradients" class="md-nav__link">
     Long-term dependencies: implications for gradients
   </a>
+  
+    <nav class="md-nav" aria-label="Long-term dependencies: implications for gradients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gradient-clipping" class="md-nav__link">
+    Gradient clipping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gated-recurrent-networks-or-gru-unit" class="md-nav__link">
+    Gated recurrent networks or GRU unit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-short-term-memory-lstm-unit" class="md-nav__link">
+    Long-short term memory (LSTM) unit
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -966,6 +1020,121 @@ layers. This is simply achieved as follows:</p>
 </li>
 </ul>
 <h2 id="long-term-dependencies-implications-for-gradients">Long-term dependencies: implications for gradients</h2>
+<p>In this section, we will discuss a long-standing challenge arising when implementing backpropagation through a RNN. A number
+of solution to circumvent this problem will be presented in following sections.</p>
+<p>Let's start by considering the forward pass of a recurrent network. For the information to flow from left to right, a 
+recurrent network repeatedly applies the matrix <span class="arithmatex">\(\mathbf{W}_h\)</span> to the hidden state vectors (interleaved by nonlinear
+transformations): as already discussed in the <a href="../08_gradopt1/">Optimization</a> lecture, this leads to raising the eigenvalues
+of this matrix to the power of <span class="arithmatex">\(T_x\)</span>. Eigenvalues smaller than one decay very fast to zero, whilst those bigger than one grow
+exponentially fast to infinity. As a consequence, only the part of the initial vector <span class="arithmatex">\(\mathbf{h}^{&lt;0&gt;}\)</span> aligned with the largest
+eigenvectors successfully propagates through the network whilst the other components become insignificant after a few steps. So,
+no matter how we choose the initial weights of the network and hidden state, long term dependencies tend to become irrelevant when
+compared to short terms ones in terms of their contribution to the gradient. In other words, the network will take a long time to
+train and learn long-term dependencies. </p>
+<p>In order to avoid that, a number of strategies have been proposed in the literature. In the following, we will look at three of them:
+the first tries to circumvent this problem as part of the learning process, whilst the latter two tackle the issue from the perspective 
+of the network architecture design. By no means, these are the preferred choices nowadays when using RNNs.</p>
+<h3 id="gradient-clipping">Gradient clipping</h3>
+<p>We have previously mentioned that one simple strategy to prevent exploding gradient is represented by so-called gradient clipping. As the name
+suggests, this is applied only during the backward pass to gradients that overcome a given threshold. A forward-backward pass with gradient
+clipping can be therefore written as:</p>
+<ul>
+<li>Forward pass: <span class="arithmatex">\(\hat{\mathbf{y}}^{&lt;t&gt;} = f_\theta(\mathbf{x}^{&lt;t&gt;} , \mathbf{h}^{&lt;0&gt;}) \; \forall t=0,1,...T_x\)</span></li>
+<li>Backward pass: <span class="arithmatex">\(\partial \mathscr{L} / \partial \theta\)</span></li>
+<li>Gradient clipping: if <span class="arithmatex">\(|\partial \mathscr{L} / \partial \theta| &gt; th\)</span>, then 
+  <span class="arithmatex">\(\partial \mathscr{L} / \partial \theta = sign(\partial \mathscr{L} / \partial \theta) \cdot th\)</span></li>
+</ul>
+<p>Unfortunately, a similar simply trick does not exist for the other problem, vanishing gradients. So, whislt adopting this strategy will avoid
+instabilities in the training of basic RNNs, the training process will still be painfully slow.</p>
+<h3 id="gated-recurrent-networks-or-gru-unit">Gated recurrent networks or GRU unit</h3>
+<p>The most effective family of networks that can tackle both the exploding and vanishing gradient problem is called <em>Gated networks</em>. As the name
+implies, a gate is introduced in each block of the network to help information flow and be used by later unities without vanishing and exploding 
+gradient issues. By doing so, the gate helps the network <em>remembering</em> some information from early steps, use it much later down the flow, and eventually
+<em>forget</em> about it.</p>
+<p>A GRU unit can be simply seen as a classical RNN unit with a number of small modifications. Let's start by drawing them side-by-side
+(note that for the moment we are considering a simplified GRU block):</p>
+<p><img alt="SIMPGRU" src="../figs/simpgru.png" /></p>
+<p>Apart from a slight change in name (<span class="arithmatex">\(\mathbf{h}^{&lt;t&gt;}\)</span> has been replaced by <span class="arithmatex">\(\mathbf{c}^{&lt;t&gt;}\)</span>, which stands for <em>memory</em> cell), compared to the basic RNN
+the GRU block contains a number of additional internal states. More specifically:</p>
+<ul>
+<li><span class="arithmatex">\(\tilde{\mathbf{c}}^{&lt;t&gt;}\)</span>: the candidate replacement for the memory cell. It is a candidate as in some cases it will not be used, rather the current 
+  memory cell will be fast-tracked to allow learning long-term dependencies.</li>
+<li><span class="arithmatex">\(\Gamma_u\)</span>: update gate, which is responsible to choose whether to pass the candidate memory cell <span class="arithmatex">\(\tilde{\mathbf{c}}^{&lt;t&gt;}\)</span> or the previous memory
+  cell <span class="arithmatex">\(\mathbf{c}^{&lt;t-1&gt;}\)</span> to the next layer.</li>
+</ul>
+<p>The associated update equations for this simplified GRU block are:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+&amp;\boldsymbol \Gamma_{u}=\sigma\left(\mathbf{W}_{u}\left[\begin{array}{c}
+\mathbf{c}^{&lt;t-1&gt;} \\
+\mathbf{x}^{&lt;t&gt;}
+\end{array}\right]+\mathbf{b}_{u}\right) \\
+&amp;\tilde{\mathbf{c}}^{&lt;t&gt;}=\tanh \left(\mathbf{W}_{c}\left[\begin{array}{c} 
+\mathbf{c}^{&lt;t-1&gt;} \\
+\mathbf{x}^{&lt;t&gt;}
+\end{array}\right]+\mathbf{b}_{c}\right) \\
+&amp;\mathbf{c}^{&lt;t&gt;}=\boldsymbol \Gamma_{u} \cdot \tilde{\mathbf{c}}^{&lt;t&gt;}+\left(1-\boldsymbol \Gamma_{u}\right) \cdot  \mathbf{c}^{&lt;t-1&gt;}\\
+&amp;\hat{\mathbf{y}}^{&lt;t&gt;}=\sigma' (\mathbf{W}_y \mathbf{c}^{&lt;t&gt;} + \mathbf{b}_{y})
+\end{aligned}
+\]</div>
+<p>In the last equation, the new memory cell is computed as the linear interpolation between the old memory cell and the candidate one. 
+However, since a sigmoid is usually chosen for the update gate, <span class="arithmatex">\(\boldsymbol \Gamma_{u}\)</span> roughly acts as a binary gate (0-stop, 1-pass). 
+This way, the gate can stop the flowing of new information for a number of steps allowing the old information to be moved further up the flow
+without being multiplicated by the weight matrix and therefore creating long-term dependencies that do not suffer from the vanishing gradient
+problem. </p>
+<p>To conclude, let's look at the real GRU and its equations, which introduces an additional gate called the relevance or reset gate <span class="arithmatex">\(\boldsymbol \Gamma_{r}\)</span>:</p>
+<p><img alt="GRU" src="../figs/gru.png" /></p>
+<div class="arithmatex">\[
+\begin{aligned}
+&amp;\boldsymbol \Gamma_{u}=\sigma\left(\mathbf{W}_{u}\left[\begin{array}{c}
+\mathbf{c}^{&lt;t-1&gt;} \\
+\mathbf{x}^{&lt;t&gt;}
+\end{array}\right]+\mathbf{b}_{u}\right) \\
+&amp;\boldsymbol \Gamma_{r}=\sigma\left(\mathbf{W}_{r}\left[\begin{array}{c}
+\mathbf{c}^{&lt;t-1&gt;} \\
+\mathbf{x}^{&lt;t&gt;}
+\end{array}\right]+\mathbf{b}_{r}\right) \\
+&amp;\tilde{\mathbf{c}}^{&lt;t&gt;}=\tanh \left(\mathbf{W}_{c}\left[\begin{array}{c}
+\boldsymbol \Gamma_{r} \cdot \mathbf{c}^{&lt;t-1&gt;} \\
+\mathbf{x}^{&lt;t&gt;}
+\end{array}\right]+\mathbf{b}_{c}\right) \\
+&amp;\mathbf{c}^{&lt;t&gt;}=\boldsymbol \Gamma_{u} \cdot \tilde{\mathbf{c}}^{&lt;t&gt;}+\left(1-\boldsymbol \Gamma_{u}\right) \cdot \mathbf{c}^{&lt;t-1&gt;}\\
+&amp;\hat{\mathbf{y}}^{&lt;t&gt;}=\sigma' (\mathbf{W}_y \mathbf{c}^{&lt;t&gt;} + \mathbf{b}_{y})
+\end{aligned}
+\]</div>
+<h3 id="long-short-term-memory-lstm-unit">Long-short term memory (LSTM) unit</h3>
+<p>Another popular, probably the most popular, RNN block that mitigates the vanishing gradient problem is called LSTM block. It uses similar concepts
+to those introduced for the GRU block, but at the same time introduces a number of additional hidden states, namely:</p>
+<ul>
+<li><span class="arithmatex">\(\Gamma_f\)</span>: forget gate, which provides more flexibility when updating the memory cell with the old and candidate memory cells. More specifically,<br />
+  whist in the GRU block, the new memory cell was a linear combination of those two terms, now we have two independent weights (both of them learned) that
+  can allow passing more or less information from the two inputs instead of having to weight their total contribution to 1.</li>
+<li><span class="arithmatex">\(\Gamma_o\)</span>: output gate;</li>
+</ul>
+<p><img alt="LSTM" src="../figs/lstm.png" /></p>
+<div class="arithmatex">\[
+\begin{aligned}
+&amp;\boldsymbol{\Gamma}_{u}=\sigma\left(\boldsymbol{W}_{u}\left[\begin{array}{c}
+\boldsymbol{h}^{&lt;t-1&gt;} \\
+\boldsymbol{x}^{&lt;t&gt;}
+\end{array}\right]+\boldsymbol{b}_{u}\right) \\
+&amp;\boldsymbol{\Gamma}_{\boldsymbol{f}}=\sigma\left(\boldsymbol{W}_{f}\left[\begin{array}{c}
+h^{&lt;t-1&gt;} \\
+x^{&lt;t&gt;}
+\end{array}\right]+\boldsymbol{b}_{f}\right) \\
+&amp;\boldsymbol{\Gamma}_{o}=\sigma\left(\boldsymbol{W}_{o}\left[\begin{array}{c}
+\boldsymbol{h}^{&lt;t-1&gt;} \\
+\boldsymbol{x}^{&lt;t&gt;}
+\end{array}\right]+\boldsymbol{b}_{o}\right) \\
+&amp;\tilde{\boldsymbol{c}}^{&lt;t&gt;}=\tanh \left(\boldsymbol{W}_{c}\left[\begin{array}{c}
+\boldsymbol{h}^{&lt;t-1&gt;} \\
+\boldsymbol{x}^{&lt;t&gt;}
+\end{array}\right]+\boldsymbol{b}_{c}\right) \\
+&amp;\boldsymbol{c}^{&lt;t&gt;}=\boldsymbol{\Gamma}_{u} \tilde{\boldsymbol{c}}^{&lt;t&gt;}+\boldsymbol{\Gamma}_{f} \boldsymbol{c}^{&lt;t-1&gt;} \\
+&amp;\boldsymbol{h}^{&lt;t&gt;}=\boldsymbol{\Gamma}_{o} \tanh \left(\boldsymbol{c}^{&lt;t&gt;}\right) \\
+&amp;\boldsymbol{y}^{&lt;t&gt;}=\sigma^{\prime}\left(\boldsymbol{W}_{y} \boldsymbol{h}^{&lt;t&gt;}+\boldsymbol{b}_{y}\right)
+\end{aligned}
+\]</div>
 
               
             </article>
