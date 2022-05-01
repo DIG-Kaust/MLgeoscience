@@ -375,3 +375,135 @@ Mathematically, a deep RNN can be simply expressed as follows.
 
 ## Long-term dependencies: implications for gradients
 
+In this section, we will discuss a long-standing challenge arising when implementing backpropagation through a RNN. A number
+of solution to circumvent this problem will be presented in following sections.
+
+Let's start by considering the forward pass of a recurrent network. For the information to flow from left to right, a 
+recurrent network repeatedly applies the matrix $\mathbf{W}_h$ to the hidden state vectors (interleaved by nonlinear
+transformations): as already discussed in the [Optimization](08_gradopt1.md) lecture, this leads to raising the eigenvalues
+of this matrix to the power of $T_x$. Eigenvalues smaller than one decay very fast to zero, whilst those bigger than one grow
+exponentially fast to infinity. As a consequence, only the part of the initial vector $\mathbf{h}^{<0>}$ aligned with the largest
+eigenvectors successfully propagates through the network whilst the other components become insignificant after a few steps. So,
+no matter how we choose the initial weights of the network and hidden state, long term dependencies tend to become irrelevant when
+compared to short terms ones in terms of their contribution to the gradient. In other words, the network will take a long time to
+train and learn long-term dependencies. 
+
+In order to avoid that, a number of strategies have been proposed in the literature. In the following, we will look at three of them:
+the first tries to circumvent this problem as part of the learning process, whilst the latter two tackle the issue from the perspective 
+of the network architecture design. By no means, these are the preferred choices nowadays when using RNNs.
+
+### Gradient clipping
+
+We have previously mentioned that one simple strategy to prevent exploding gradient is represented by so-called gradient clipping. As the name
+suggests, this is applied only during the backward pass to gradients that overcome a given threshold. A forward-backward pass with gradient
+clipping can be therefore written as:
+
+- Forward pass: $\hat{\mathbf{y}}^{<t>} = f_\theta(\mathbf{x}^{<t>} , \mathbf{h}^{<0>}) \; \forall t=0,1,...T_x$
+- Backward pass: $\partial \mathscr{L} / \partial \theta$
+- Gradient clipping: if $|\partial \mathscr{L} / \partial \theta| > th$, then 
+  $\partial \mathscr{L} / \partial \theta = sign(\partial \mathscr{L} / \partial \theta) \cdot th$
+
+Unfortunately, a similar simply trick does not exist for the other problem, vanishing gradients. So, whislt adopting this strategy will avoid
+instabilities in the training of basic RNNs, the training process will still be painfully slow.
+
+### Gated recurrent networks or GRU unit
+
+The most effective family of networks that can tackle both the exploding and vanishing gradient problem is called *Gated networks*. As the name
+implies, a gate is introduced in each block of the network to help information flow and be used by later unities without vanishing and exploding 
+gradient issues. By doing so, the gate helps the network *remembering* some information from early steps, use it much later down the flow, and eventually
+*forget* about it.
+
+A GRU unit can be simply seen as a classical RNN unit with a number of small modifications. Let's start by drawing them side-by-side
+(note that for the moment we are considering a simplified GRU block):
+
+![SIMPGRU](figs/simpgru.png)
+
+Apart from a slight change in name ($\mathbf{h}^{<t>}$ has been replaced by $\mathbf{c}^{<t>}$, which stands for *memory* cell), compared to the basic RNN
+the GRU block contains a number of additional internal states. More specifically:
+
+- $\tilde{\mathbf{c}}^{<t>}$: the candidate replacement for the memory cell. It is a candidate as in some cases it will not be used, rather the current 
+  memory cell will be fast-tracked to allow learning long-term dependencies.
+- $\Gamma_u$: update gate, which is responsible to choose whether to pass the candidate memory cell $\tilde{\mathbf{c}}^{<t>}$ or the previous memory
+  cell $\mathbf{c}^{<t-1>}$ to the next layer.
+
+The associated update equations for this simplified GRU block are:
+
+$$
+\begin{aligned}
+&\boldsymbol \Gamma_{u}=\sigma\left(\mathbf{W}_{u}\left[\begin{array}{c}
+\mathbf{c}^{<t-1>} \\
+\mathbf{x}^{<t>}
+\end{array}\right]+\mathbf{b}_{u}\right) \\
+&\tilde{\mathbf{c}}^{<t>}=\tanh \left(\mathbf{W}_{c}\left[\begin{array}{c} 
+\mathbf{c}^{<t-1>} \\
+\mathbf{x}^{<t>}
+\end{array}\right]+\mathbf{b}_{c}\right) \\
+&\mathbf{c}^{<t>}=\boldsymbol \Gamma_{u} \cdot \tilde{\mathbf{c}}^{<t>}+\left(1-\boldsymbol \Gamma_{u}\right) \cdot  \mathbf{c}^{<t-1>}\\
+&\hat{\mathbf{y}}^{<t>}=\sigma' (\mathbf{W}_y \mathbf{c}^{<t>} + \mathbf{b}_{y})
+\end{aligned}
+$$
+
+In the last equation, the new memory cell is computed as the linear interpolation between the old memory cell and the candidate one. 
+However, since a sigmoid is usually chosen for the update gate, $\boldsymbol \Gamma_{u}$ roughly acts as a binary gate (0-stop, 1-pass). 
+This way, the gate can stop the flowing of new information for a number of steps allowing the old information to be moved further up the flow
+without being multiplicated by the weight matrix and therefore creating long-term dependencies that do not suffer from the vanishing gradient
+problem. 
+
+To conclude, let's look at the real GRU and its equations, which introduces an additional gate called the relevance or reset gate $\boldsymbol \Gamma_{r}$:
+
+![GRU](figs/gru.png)
+
+$$
+\begin{aligned}
+&\boldsymbol \Gamma_{u}=\sigma\left(\mathbf{W}_{u}\left[\begin{array}{c}
+\mathbf{c}^{<t-1>} \\
+\mathbf{x}^{<t>}
+\end{array}\right]+\mathbf{b}_{u}\right) \\
+&\boldsymbol \Gamma_{r}=\sigma\left(\mathbf{W}_{r}\left[\begin{array}{c}
+\mathbf{c}^{<t-1>} \\
+\mathbf{x}^{<t>}
+\end{array}\right]+\mathbf{b}_{r}\right) \\
+&\tilde{\mathbf{c}}^{<t>}=\tanh \left(\mathbf{W}_{c}\left[\begin{array}{c}
+\boldsymbol \Gamma_{r} \cdot \mathbf{c}^{<t-1>} \\
+\mathbf{x}^{<t>}
+\end{array}\right]+\mathbf{b}_{c}\right) \\
+&\mathbf{c}^{<t>}=\boldsymbol \Gamma_{u} \cdot \tilde{\mathbf{c}}^{<t>}+\left(1-\boldsymbol \Gamma_{u}\right) \cdot \mathbf{c}^{<t-1>}\\
+&\hat{\mathbf{y}}^{<t>}=\sigma' (\mathbf{W}_y \mathbf{c}^{<t>} + \mathbf{b}_{y})
+\end{aligned}
+$$
+
+### Long-short term memory (LSTM) unit
+
+Another popular, probably the most popular, RNN block that mitigates the vanishing gradient problem is called LSTM block. It uses similar concepts
+to those introduced for the GRU block, but at the same time introduces a number of additional hidden states, namely:
+
+- $\Gamma_f$: forget gate, which provides more flexibility when updating the memory cell with the old and candidate memory cells. More specifically,  
+  whist in the GRU block, the new memory cell was a linear combination of those two terms, now we have two independent weights (both of them learned) that
+  can allow passing more or less information from the two inputs instead of having to weight their total contribution to 1.
+- $\Gamma_o$: output gate;
+
+![LSTM](figs/lstm.png)
+
+$$
+\begin{aligned}
+&\boldsymbol{\Gamma}_{u}=\sigma\left(\boldsymbol{W}_{u}\left[\begin{array}{c}
+\boldsymbol{h}^{<t-1>} \\
+\boldsymbol{x}^{<t>}
+\end{array}\right]+\boldsymbol{b}_{u}\right) \\
+&\boldsymbol{\Gamma}_{\boldsymbol{f}}=\sigma\left(\boldsymbol{W}_{f}\left[\begin{array}{c}
+h^{<t-1>} \\
+x^{<t>}
+\end{array}\right]+\boldsymbol{b}_{f}\right) \\
+&\boldsymbol{\Gamma}_{o}=\sigma\left(\boldsymbol{W}_{o}\left[\begin{array}{c}
+\boldsymbol{h}^{<t-1>} \\
+\boldsymbol{x}^{<t>}
+\end{array}\right]+\boldsymbol{b}_{o}\right) \\
+&\tilde{\boldsymbol{c}}^{<t>}=\tanh \left(\boldsymbol{W}_{c}\left[\begin{array}{c}
+\boldsymbol{h}^{<t-1>} \\
+\boldsymbol{x}^{<t>}
+\end{array}\right]+\boldsymbol{b}_{c}\right) \\
+&\boldsymbol{c}^{<t>}=\boldsymbol{\Gamma}_{u} \tilde{\boldsymbol{c}}^{<t>}+\boldsymbol{\Gamma}_{f} \boldsymbol{c}^{<t-1>} \\
+&\boldsymbol{h}^{<t>}=\boldsymbol{\Gamma}_{o} \tanh \left(\boldsymbol{c}^{<t>}\right) \\
+&\boldsymbol{y}^{<t>}=\sigma^{\prime}\left(\boldsymbol{W}_{y} \boldsymbol{h}^{<t>}+\boldsymbol{b}_{y}\right)
+\end{aligned}
+$$
