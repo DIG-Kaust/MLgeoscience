@@ -17,3 +17,5 @@
 | 13      | [Sequence modelling: basic principles](lectures/12_seqmod.md)                             |          | 
 | 14      | [Sequence modelling: architectures](lectures/12_seqmod.md)                                | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb)  | 
 | 15      | [Dimensionality reduction](lectures/13_dimred.md)                                         |          | 
+| 16      | [Generative modelling and VAEs reduction](lectures/14_vaes.md)                            |          | 
+| 17      | [GANs](lectures/15_gans.md)                                                               |          | 

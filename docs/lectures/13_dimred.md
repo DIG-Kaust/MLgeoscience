@@ -187,7 +187,7 @@ representative bases that combined together can explain a set of data.
 Once again, the problem is in need for extra constraints for us to be able to find a solution. In this case the assumption made of
 the $\mathbf{w}_i$ signals is as follows:
 
-Signals $\mathbf{w}_i$ must be statistically indipendent from each other and non-gaussian
+Signals $\mathbf{w}_i$ must be statistically independent from each other and non-gaussian
 
 A solution to this problem can be obtained finding the pair ($\mathbf{W}, \mathbf{c}$) which maximises non-gaussianity (i.e., minimizes 
 normalized sample kurtosis) or minimizes mutual information (MI). Whilst we don't discuss here in details how to achieve such solution,
@@ -204,11 +204,11 @@ from the available training data. This is achieved by imposing a strong conditio
 the latent vector $\mathbf{c}$:
 
 $$
-p(\mathbf{c}) \approx Laplace, Cauchy, Factorized t-student
+p(\mathbf{c}) \approx \text{Laplace, Cauchy, Factorized t-student}
 $$
 
 in other words, a fat tailed distribution, whose samples are therefore sparse. By making such an assumption, no closed form
-solution exist like in the PCA case. Instead the training process is set up with the following goals in mind:
+solution exist like in the PCA case. Instead, the training process is set up with the following goals in mind:
 
 1. Find sparsest latent representation during the encoding phase
 2. Find a decoder that provides the smallest reconstruction error
@@ -251,14 +251,135 @@ where similar to PCA, the training process is setup such the parameters of the t
 following loss function:
 
 $$
-\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}))))
+\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))))
 $$
 
-Once again, our code (or latent vector) must be chosen to be of lower dimension compared to the input in order to be able to 
-learn useful representations. On the other hand if we choose $l \ge n$, we will likely not learn something useful: very likely what
-we are going to learn is to reproduce the identity matrix.
+where the network architecture for both the encoder and decoder can be chosen accordingly to the type of data we are interested in.
+
+Once again, our code (or latent vector $\mathbf{z}$) must be chosen to be of lower dimensionality compared to the input in order to be able to 
+learn useful representations. On the other hand if we choose $N_l \ge N_f$, we will likely not learn something useful: very likely what
+we are going to learn is to reproduce the identity mapping. In other words, whilst the loss function is set to reproduce the input itself,
+what we are really interested is not the mere reconstruction, rather the creation of some meaningful transformation of the input vector
+that first projects it into a latent space and then expands it back to the original space. If we are able to accomplish this task,
+we will likely see that if we feed the trained network with a new sample $\mathbf{x}_{in}$ that lies inside the distribution of the training data,
+the reconstruction will be of similar quality as to what we observed in training. On the other hand, when a out-of-distribution sample
+$\mathbf{x}_{out}$ is fed to the network, its prediction will be much less accurate.
+
+### Applications
+
+Now that we know how an AutoEncoder works, the next obvious question is why do we care and what can we use if for. Let's recap here a
+couple of applications that we have already mentioned here and there in the lecture:
+
+- Data compression: the use of NNs (and AEs in this specific case) may soon lead to a completely new, nonlinear paradigm in data compression 
+  where we could simply store the latent vectors and network architecture and weights and reconstruct the original vector on-demand similar
+  to what conventionally done with linear compressors (e.g., JPEG2000).
+- Learn robust features on large unlabelled data prior to supervised learning: assuming that we have access to a large dataset composed for the majority of
+  unlabelled data and for a small portion of labelled data, we could imagine training and AE on the first part of the dataset and use the learned latent
+  features as input to a subsequent task of supervised learning. More specifically, the inputs of the labelled data are fed to the trained encoder and the resulting
+  features are used in conjunction with the labels in a supervised manner.
+- Inverse problems in the latent space: this is similar to the previous case, with the main difference that we may have an inverse problem we wish to solve where
+  the parameter to estimate lives in the manifold of the $\mathbf{x}$ samples. We can once again train and AE to learn a good representation for such
+  the manifold of possible solutions and then solve the inverse problem for $\mathbf{z}$ instead of $\mathbf{x}$ directly.
+- Perform vector math in the latent space: Imagine we want to compare two multi-dimensional vectors $\mathbf{x}$ (e.g., images). Classical
+  distance measures may focus too much on small discrepancies and not really on the overall similarity between these samples, that is
+  what we usually want to compare. Alternatively, we could convert both vectors into their latent representations and compare them in this reduced space.
+  In this case, even simple distance measures like MSE may become more robust as they really compare high-level features of the inputs that
+  are encapsulated in the latent vectors.
+
+### Undercomplete vs. Overcomplete AEs
+
+Up until now, we are talked about *undercomplete* representations (i.e., $N_l << N_f$). We have justified this with the fact that if we give
+too many degrees of freedom to the network, we will likely allow it to learn the identity mapping (a form of overfitting for AEs). In short,
+a good design for a AE should follow these two rules:
+
+- choose a small enough code ($N_l$): not too small as it won't be able to reproduce the input accurately, not too large as it will make the AE overfit;
+- choose a small enough network capacity for both the encoder and decoder: similarly, a too large network will easily overfit even if the size of bottleneck has been appropriately chosen. 
+
+However, a different choice may be taken as we will see shortly. This is heavily inspired by traditional compression algorithms, where a
+(linear) transformation that can produce a compact code (i.e., a code that can be stored in far fewer bits than the corresponding input) is
+usually overcomplete. Let's take the Wavelet transform as an example:
+
+![WAVELETTRANSFORM](figs/wt.png)
+
+Here the input image is initially decomposed into 3 high-pass and one-low pass filtered versions of it, and the low-pass one is further processed
+recursively. The overall size of the input and output is however *identical*. What makes this transform a great compressor is that in the transformed domain,
+natural images (and other N-dimensional signals) can be represented by very few non-zero coefficients. In other words, we say that the Wavelet transform provides
+a *sparse* representation of a variety of N-dimensional signals in nature.
+
+A similar approach can be taken for nonlinear transformations, like those applied by AEs. In this case, however, extra care must be taken to
+avoid overfitting, which can be done by adding some constraints to the learning process. As already discussed many times, these constraints
+can simply come in the form of regularization in the learning process:
+
+$$
+\mathscr{L}_r = \frac{1}{N_s}\sum_i \left( \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) +\lambda R(\mathbf{x}^{(i)} ; \theta,\phi) \right)
+$$
+
+where $R(\mathbf{x}^{(i)} ;\theta,\phi)$ can take several forms:
+
+- *L1 norm*: this encourages the network to produce sparse latent representations;
+- *Derivative of the latent vector over the input*: this encourages robust latent vectors that a small sensitivity to small perturbations of the input;
+- *Noise or missing parts in the inputs*: this is not really a regularization in formal sense, as nothing is added to the cost function, 
+  rather the input is perturbed to make once again the latent representation robust to small variations in the input.
+
+#### Sparse AutoEncoders
+Enforcing a sparse latent vector can act as a strong regularization. This can be simply achieved by choosing:
+
+$$
+R(\mathbf{x}^{(i)} ;\theta,\phi) = ||e_\theta(\mathbf{x}^{(i)})||_1
+$$
+
+which allows the learning process to optimize for the pair of encoder-decoder that can reproduce the training samples, whilst also forcing the encoder
+to produce sparse latent representation.
+
+A step further can be taken by imposing that not only the activations of the latent code are sparse, rather all the activations in the network. Let's
+take for simplicity a small network as depicted below:
+
+![AESPARSE](figs/ae_sparse.png)
+
+and changing the regularizer to:
+
+$$
+R(\mathbf{x}^{(i)} ;\theta,\phi) = \sum_j ||a_e^{[j](i)}||_1 + \sum_j ||a_d^{[j](i)}||_1
+$$
+
+An autoencoder that is trained using this strategy is called *Sparse Autoencoder*.
+
+Finally, a slightly different strategy has been proposed under the name of *K-sparse AutoEncoder*, where instead of having a soft-constraint
+in the form of the regularization term above, the elements of the latent code are modified by a nonlinear 
+transformation that brings all elements to zero apart from the K largest elements in absolute value. More formally, even though in practice no regularization term is
+therefore explicitly added to the loss function, this approach solves the following constrained problem:
+
+$$
+\underset{\mathbf{e}_\theta, \mathbf{d}_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) 
+\quad s.t. \quad ||\mathbf{z}||_0<K
+$$
+
+Note that, once again, this procedure can be extended such that all the activations in the network are forced to have only K non-zero values.
+
+#### Contractive AutoEncoders
+
+An alternative regularization term that can make AEs robust to small changes in the input vectors is:
+
+$$
+R(\mathbf{x} ;\theta,\phi) = ||\nabla_\mathbf{x} \mathbf{z}||_F
+$$
+
+where the derivative of the latent vector is taken over the input vector and forced to be small. Note that this derivative produces the 
+Jacobian of the encoder as both the input and output are multi-dimensional (and therefore the use of the Frobenious norm). Whilst the authors
+of this method claim additional robustness, the computational cost of computing a Jacobian makes this approach quite costly.
+
+#### Denoising AutoEncoders
+
+Finally, denoising AEs are another family of regularized autoencoders. In this case, however, the regularization is implemented directly on
+the input vectors prior to feeding them to the network, by eithe replacing some values with zeros (or random values) or adding noise. Considering 
+this last case, each step of the training process becomes:
+
+- $\tilde{\mathbf{x}}^{(i)} = \mathbf{x}^{(i)} + \mathbf{n}^{(i)} \quad \forall i$;
+- $\mathscr{L} = \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\tilde{\mathbf{x}}^{(i)})))$.
 
 ## Additional readings
 
 - the following [resource](https://towardsdatascience.com/independent-component-analysis-ica-a3eba0ccec35) provides a detailed 
   explanation of the theory of ICA (and a simple Python implementation!)
+- the following [blog post](https://lilianweng.github.io/posts/2018-08-12-vae/) provides an extensive list (and description) of
+  different AutoEncoder networks (and Variational AutoEncoders, which we will discuss in the next lecture).
