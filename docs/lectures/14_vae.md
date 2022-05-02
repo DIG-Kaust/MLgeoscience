@@ -31,7 +31,7 @@ set up a generative modelling task as follows:
   
 - Inference / Generation
      - Sample a vector from a unitary, zero-mean normal distribution $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
-     - Create a new sample from the true distribution: $\tilde{\mathbf{x}} =  \mathbf{L} \mathbf{z} + \boldsymbol \mu$
+     - Create a new sample from the true distribution: $\tilde{\mathbf{x}} = \mathbf{L} \mathbf{z} + \boldsymbol \mu$
 
 Unfortunately, multi-dimensional distributions that we usually find in nature are hardly gaussian and this kind of simple
 generative modelling procedure falls short. Nevertheless, the approach that we take with some of the more advanced generative modelling
@@ -49,11 +49,72 @@ Let's start by looking at a schematic representation of a VAEs:
 
 ![VAE](figs/vae.png)
 
-
 Even before we delve into the mathematical details, we can clearly see that one main change has been implemented to the network architecture:
+instead of directly producing a vector $\mathbf{z} \in \mathbb{R}^{N_l}$, the encoder's output is composed of two vectors 
+$\boldsymbol \mu \in \mathbb{R}^{N_l}$ and $\boldsymbol \sigma \in \mathbb{R}^{N_l}$ that represent the mean and standard deviation of a $N_l$ dimensional
+gaussian distribution (with uncorrelated variables, i.e., diagonal covariance matrix). These two vectors are fed together to a sampler,
+who similar to what we did before, produces a sample from the following gaussian distribution: $\mathcal{N}(\boldsymbol \mu, diag\{ \boldsymbol \sigma \})$.
+In practice this is however achieved by sampling a vector and then transforming it into the desired distribution, 
+$\mathbf{z} = \boldsymbol \sigma \cdot \mathbf{z} + \boldsymbol \mu$ where $\cdot$ refers to an element-wise product. 
 
+### Reparametrization trick
+
+This rather simple trick is referred
+to as *Reparametrization trick* and it is stricly needed in neural networks every time we want to introduce a stochastic procees within the computational graph.
+In fact, by simply having a stochastic process parametrized by a certain mean and standard deviation that may come from a previous part of the computational graph
+(as in VAEs) we lose the possibility to perform backpropagation. Instead if we decouple the stochastic component (which we are not interested to update, and 
+therefore to backpropagate onto) and the deterministic component(s), we do not lose access to backpropagation:
+
+![REPARAMETRIZATIONTRICK](figs/reptrick.png)
+
+### Why VAEs?
+
+Before we progress in discussing the loss function and training procedure of VAEs, a rather simple question may arise: 'Why can we not use AEs for
+generative modelling?'
+
+In fact, this could be achieved by simply modifying the inference step:
+
+![GENAE](figs/generativeae.png)
+
+where instead of taking a precomputed $\mathbf{z}$ vector (from a previous stage of compression), we could sample a new $\mathbf{z}$ 
+value from a properly crafted distribution (perhaps chosen from statistical analysis of the training latent vectors) at any time we want 
+to create a new sample.
+
+Unfortunately, whilst this idea may sound reasonable, we will be soon faced with a problem. In fact, the latent manifold learned by a AE may
+not be regular, or in other words it may be hard to ensure that areas of such manifold that have not been properly sampled by the training data will
+produce meaningful samples $\tilde{\mathbf{z}}$. Just to give an idea, let's look at the following schematic representation:
+
+![LATENTAE](figs/latentspaceae.png)
+
+as we can see, if a part of the latent 1-d manifold is not rich in training data, the resulting generated sample may be non-representative at all.
+Whilst we discussed techniques that can mitigate this form of overfitting (e.g., sparse AEs), VAEs bring the learning process to a whole new level
+by choosing a more appropriate regularization term $R(\mathbf{x}^{(i)} ;\theta,\phi)$ to add to the reconstruction loss.
+
+### Regularization in VAEs
+
+In order to better understand the regularization choice in VAEs, let's look once again at a schematic representation of VAEs but this time in a
+probabilistic mindset:
+
+![VAEPROB](figs/vaeprob.png)
+
+where we highlight here the fact that the encoder and decoder can be seen as probability approximators. More specifically:
+
+- $e_\theta(\mathbf{x}) \approx p(\mathbf{z}|\mathbf{x})$: the encoder learns to sample from the latent space distribution conditioned on a specific input
+- $d_\phi(\mathbf{z}) \approx p(\mathbf{x}|\mathbf{z})$: the decoder learns to sample from the true distribution conditioned on a specific latent sample
+
+By doing so, we can reinterpret the reconstruction loss as the negative log-likelihood of the decoder. And, provided that we have defined a 
+prior for the latent space $\mathbf{z} \sim P(\mathbf{z})$, we can learn the parameters of the decoder by ensuring that the posterior does not deviate
+too much from the prior. This can be achieved by choosing:
+
+$$
+R(\mathbf{x} ;\theta,\phi) = KL(p(\mathbf{z}|\mathbf{x})||p(\mathbf{z}))
+$$
+
+As in any statistical learning process, the overall loss of our VAEs shows a trade-off between the likelihood (i.e., learning from data) and 
+prior (i.e., keeping close to the initial guess).
 
 
 ## Additional readings
 
+- The flow of this lecture is heavily inspired by this [blog post](https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73)
 - A Python library that can help you step up your game with Variational Inference is [Pyro](https://pyro.ai) from Uber.
