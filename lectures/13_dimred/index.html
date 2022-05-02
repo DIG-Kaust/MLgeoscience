@@ -509,6 +509,53 @@
     Autoencoders
   </a>
   
+    <nav class="md-nav" aria-label="Autoencoders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    Applications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undercomplete-vs-overcomplete-aes" class="md-nav__link">
+    Undercomplete vs. Overcomplete AEs
+  </a>
+  
+    <nav class="md-nav" aria-label="Undercomplete vs. Overcomplete AEs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sparse-autoencoders" class="md-nav__link">
+    Sparse AutoEncoders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contractive-autoencoders" class="md-nav__link">
+    Contractive AutoEncoders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#denoising-autoencoders" class="md-nav__link">
+    Denoising AutoEncoders
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -522,6 +569,34 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_vae/" class="md-nav__link">
+        Generative Modelling and Variational AutoEncoders
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15_gans/" class="md-nav__link">
+        Generative Adversarial Networks (GANs)
+      </a>
     </li>
   
 
@@ -597,6 +672,53 @@
   <a href="#autoencoders" class="md-nav__link">
     Autoencoders
   </a>
+  
+    <nav class="md-nav" aria-label="Autoencoders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    Applications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undercomplete-vs-overcomplete-aes" class="md-nav__link">
+    Undercomplete vs. Overcomplete AEs
+  </a>
+  
+    <nav class="md-nav" aria-label="Undercomplete vs. Overcomplete AEs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sparse-autoencoders" class="md-nav__link">
+    Sparse AutoEncoders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contractive-autoencoders" class="md-nav__link">
+    Contractive AutoEncoders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#denoising-autoencoders" class="md-nav__link">
+    Denoising AutoEncoders
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -766,7 +888,7 @@ of mixed signals. Despite it is strictly speaking not a dimensionality reduction
 representative bases that combined together can explain a set of data.</p>
 <p>Once again, the problem is in need for extra constraints for us to be able to find a solution. In this case the assumption made of
 the <span class="arithmatex">\(\mathbf{w}_i\)</span> signals is as follows:</p>
-<p>Signals <span class="arithmatex">\(\mathbf{w}_i\)</span> must be statistically indipendent from each other and non-gaussian</p>
+<p>Signals <span class="arithmatex">\(\mathbf{w}_i\)</span> must be statistically independent from each other and non-gaussian</p>
 <p>A solution to this problem can be obtained finding the pair (<span class="arithmatex">\(\mathbf{W}, \mathbf{c}\)</span>) which maximises non-gaussianity (i.e., minimizes 
 normalized sample kurtosis) or minimizes mutual information (MI). Whilst we don't discuss here in details how to achieve such solution,
 it is worth pointing out that this requires solving a nonlinear inverse problem as <span class="arithmatex">\(\mathbf{W}\)</span> relates in a nonlinear manner to kurtosis or MI. </p>
@@ -779,10 +901,10 @@ refers to the fact that the transformed signal can be represented by a vector wi
 from the available training data. This is achieved by imposing a strong condition on the probability distribution associated with 
 the latent vector <span class="arithmatex">\(\mathbf{c}\)</span>:</p>
 <div class="arithmatex">\[
-p(\mathbf{c}) \approx Laplace, Cauchy, Factorized t-student
+p(\mathbf{c}) \approx \text{Laplace, Cauchy, Factorized t-student}
 \]</div>
 <p>in other words, a fat tailed distribution, whose samples are therefore sparse. By making such an assumption, no closed form
-solution exist like in the PCA case. Instead the training process is set up with the following goals in mind:</p>
+solution exist like in the PCA case. Instead, the training process is set up with the following goals in mind:</p>
 <ol>
 <li>Find sparsest latent representation during the encoding phase</li>
 <li>Find a decoder that provides the smallest reconstruction error</li>
@@ -807,7 +929,7 @@ those performed by NNs) may be much more powerful than their linear counterpart 
 the combination of an encoder function <span class="arithmatex">\(e_\theta\)</span>, which converts the input data into a latent representation, 
 and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which converts the new representation back into the original format. Here, both 
 <span class="arithmatex">\(e_\theta\)</span> and <span class="arithmatex">\(d_\theta\)</span> and nonlinear and fully learned and stack one after the other as shown below</p>
-<p><img alt="AE" src="figs/ae.png" /></p>
+<p><img alt="AE" src="../figs/ae.png" /></p>
 <p>An autoencoder can therefore be simply defined as:</p>
 <div class="arithmatex">\[
 \hat{\mathbf{x}} = d_\phi(e_\theta(\mathbf{x}))
@@ -815,15 +937,112 @@ and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which conve
 <p>where similar to PCA, the training process is setup such the parameters of the two networks are optimized to minimize the 
 following loss function:</p>
 <div class="arithmatex">\[
-\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}))))
+\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))))
 \]</div>
-<p>Once again, our code (or latent vector) must be chosen to be of lower dimension compared to the input in order to be able to 
-learn useful representations. On the other hand if we choose <span class="arithmatex">\(l \ge n\)</span>, we will likely not learn something useful: very likely what
-we are going to learn is to reproduce the identity matrix.</p>
+<p>where the network architecture for both the encoder and decoder can be chosen accordingly to the type of data we are interested in.</p>
+<p>Once again, our code (or latent vector <span class="arithmatex">\(\mathbf{z}\)</span>) must be chosen to be of lower dimensionality compared to the input in order to be able to 
+learn useful representations. On the other hand if we choose <span class="arithmatex">\(N_l \ge N_f\)</span>, we will likely not learn something useful: very likely what
+we are going to learn is to reproduce the identity mapping. In other words, whilst the loss function is set to reproduce the input itself,
+what we are really interested is not the mere reconstruction, rather the creation of some meaningful transformation of the input vector
+that first projects it into a latent space and then expands it back to the original space. If we are able to accomplish this task,
+we will likely see that if we feed the trained network with a new sample <span class="arithmatex">\(\mathbf{x}_{in}\)</span> that lies inside the distribution of the training data,
+the reconstruction will be of similar quality as to what we observed in training. On the other hand, when a out-of-distribution sample
+<span class="arithmatex">\(\mathbf{x}_{out}\)</span> is fed to the network, its prediction will be much less accurate.</p>
+<h3 id="applications">Applications</h3>
+<p>Now that we know how an AutoEncoder works, the next obvious question is why do we care and what can we use if for. Let's recap here a
+couple of applications that we have already mentioned here and there in the lecture:</p>
+<ul>
+<li>Data compression: the use of NNs (and AEs in this specific case) may soon lead to a completely new, nonlinear paradigm in data compression 
+  where we could simply store the latent vectors and network architecture and weights and reconstruct the original vector on-demand similar
+  to what conventionally done with linear compressors (e.g., JPEG2000).</li>
+<li>Learn robust features on large unlabelled data prior to supervised learning: assuming that we have access to a large dataset composed for the majority of
+  unlabelled data and for a small portion of labelled data, we could imagine training and AE on the first part of the dataset and use the learned latent
+  features as input to a subsequent task of supervised learning. More specifically, the inputs of the labelled data are fed to the trained encoder and the resulting
+  features are used in conjunction with the labels in a supervised manner.</li>
+<li>Inverse problems in the latent space: this is similar to the previous case, with the main difference that we may have an inverse problem we wish to solve where
+  the parameter to estimate lives in the manifold of the <span class="arithmatex">\(\mathbf{x}\)</span> samples. We can once again train and AE to learn a good representation for such
+  the manifold of possible solutions and then solve the inverse problem for <span class="arithmatex">\(\mathbf{z}\)</span> instead of <span class="arithmatex">\(\mathbf{x}\)</span> directly.</li>
+<li>Perform vector math in the latent space: Imagine we want to compare two multi-dimensional vectors <span class="arithmatex">\(\mathbf{x}\)</span> (e.g., images). Classical
+  distance measures may focus too much on small discrepancies and not really on the overall similarity between these samples, that is
+  what we usually want to compare. Alternatively, we could convert both vectors into their latent representations and compare them in this reduced space.
+  In this case, even simple distance measures like MSE may become more robust as they really compare high-level features of the inputs that
+  are encapsulated in the latent vectors.</li>
+</ul>
+<h3 id="undercomplete-vs-overcomplete-aes">Undercomplete vs. Overcomplete AEs</h3>
+<p>Up until now, we are talked about <em>undercomplete</em> representations (i.e., <span class="arithmatex">\(N_l &lt;&lt; N_f\)</span>). We have justified this with the fact that if we give
+too many degrees of freedom to the network, we will likely allow it to learn the identity mapping (a form of overfitting for AEs). In short,
+a good design for a AE should follow these two rules:</p>
+<ul>
+<li>choose a small enough code (<span class="arithmatex">\(N_l\)</span>): not too small as it won't be able to reproduce the input accurately, not too large as it will make the AE overfit;</li>
+<li>choose a small enough network capacity for both the encoder and decoder: similarly, a too large network will easily overfit even if the size of bottleneck has been appropriately chosen. </li>
+</ul>
+<p>However, a different choice may be taken as we will see shortly. This is heavily inspired by traditional compression algorithms, where a
+(linear) transformation that can produce a compact code (i.e., a code that can be stored in far fewer bits than the corresponding input) is
+usually overcomplete. Let's take the Wavelet transform as an example:</p>
+<p><img alt="WAVELETTRANSFORM" src="../figs/wt.png" /></p>
+<p>Here the input image is initially decomposed into 3 high-pass and one-low pass filtered versions of it, and the low-pass one is further processed
+recursively. The overall size of the input and output is however <em>identical</em>. What makes this transform a great compressor is that in the transformed domain,
+natural images (and other N-dimensional signals) can be represented by very few non-zero coefficients. In other words, we say that the Wavelet transform provides
+a <em>sparse</em> representation of a variety of N-dimensional signals in nature.</p>
+<p>A similar approach can be taken for nonlinear transformations, like those applied by AEs. In this case, however, extra care must be taken to
+avoid overfitting, which can be done by adding some constraints to the learning process. As already discussed many times, these constraints
+can simply come in the form of regularization in the learning process:</p>
+<div class="arithmatex">\[
+\mathscr{L}_r = \frac{1}{N_s}\sum_i \left( \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) +\lambda R(\mathbf{x}^{(i)} ; \theta,\phi) \right)
+\]</div>
+<p>where <span class="arithmatex">\(R(\mathbf{x}^{(i)} ;\theta,\phi)\)</span> can take several forms:</p>
+<ul>
+<li><em>L1 norm</em>: this encourages the network to produce sparse latent representations;</li>
+<li><em>Derivative of the latent vector over the input</em>: this encourages robust latent vectors that a small sensitivity to small perturbations of the input;</li>
+<li><em>Noise or missing parts in the inputs</em>: this is not really a regularization in formal sense, as nothing is added to the cost function, 
+  rather the input is perturbed to make once again the latent representation robust to small variations in the input.</li>
+</ul>
+<h4 id="sparse-autoencoders">Sparse AutoEncoders</h4>
+<p>Enforcing a sparse latent vector can act as a strong regularization. This can be simply achieved by choosing:</p>
+<div class="arithmatex">\[
+R(\mathbf{x}^{(i)} ;\theta,\phi) = ||e_\theta(\mathbf{x}^{(i)})||_1
+\]</div>
+<p>which allows the learning process to optimize for the pair of encoder-decoder that can reproduce the training samples, whilst also forcing the encoder
+to produce sparse latent representation.</p>
+<p>A step further can be taken by imposing that not only the activations of the latent code are sparse, rather all the activations in the network. Let's
+take for simplicity a small network as depicted below:</p>
+<p><img alt="AESPARSE" src="../figs/ae_sparse.png" /></p>
+<p>and changing the regularizer to:</p>
+<div class="arithmatex">\[
+R(\mathbf{x}^{(i)} ;\theta,\phi) = \sum_j ||a_e^{[j](i)}||_1 + \sum_j ||a_d^{[j](i)}||_1
+\]</div>
+<p>An autoencoder that is trained using this strategy is called <em>Sparse Autoencoder</em>.</p>
+<p>Finally, a slightly different strategy has been proposed under the name of <em>K-sparse AutoEncoder</em>, where instead of having a soft-constraint
+in the form of the regularization term above, the elements of the latent code are modified by a nonlinear 
+transformation that brings all elements to zero apart from the K largest elements in absolute value. More formally, even though in practice no regularization term is
+therefore explicitly added to the loss function, this approach solves the following constrained problem:</p>
+<div class="arithmatex">\[
+\underset{\mathbf{e}_\theta, \mathbf{d}_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) 
+\quad s.t. \quad ||\mathbf{z}||_0&lt;K
+\]</div>
+<p>Note that, once again, this procedure can be extended such that all the activations in the network are forced to have only K non-zero values.</p>
+<h4 id="contractive-autoencoders">Contractive AutoEncoders</h4>
+<p>An alternative regularization term that can make AEs robust to small changes in the input vectors is:</p>
+<div class="arithmatex">\[
+R(\mathbf{x} ;\theta,\phi) = ||\nabla_\mathbf{x} \mathbf{z}||_F
+\]</div>
+<p>where the derivative of the latent vector is taken over the input vector and forced to be small. Note that this derivative produces the 
+Jacobian of the encoder as both the input and output are multi-dimensional (and therefore the use of the Frobenious norm). Whilst the authors
+of this method claim additional robustness, the computational cost of computing a Jacobian makes this approach quite costly.</p>
+<h4 id="denoising-autoencoders">Denoising AutoEncoders</h4>
+<p>Finally, denoising AEs are another family of regularized autoencoders. In this case, however, the regularization is implemented directly on
+the input vectors prior to feeding them to the network, by eithe replacing some values with zeros (or random values) or adding noise. Considering 
+this last case, each step of the training process becomes:</p>
+<ul>
+<li><span class="arithmatex">\(\tilde{\mathbf{x}}^{(i)} = \mathbf{x}^{(i)} + \mathbf{n}^{(i)} \quad \forall i\)</span>;</li>
+<li><span class="arithmatex">\(\mathscr{L} = \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\tilde{\mathbf{x}}^{(i)})))\)</span>.</li>
+</ul>
 <h2 id="additional-readings">Additional readings</h2>
 <ul>
 <li>the following <a href="https://towardsdatascience.com/independent-component-analysis-ica-a3eba0ccec35">resource</a> provides a detailed 
   explanation of the theory of ICA (and a simple Python implementation!)</li>
+<li>the following <a href="https://lilianweng.github.io/posts/2018-08-12-vae/">blog post</a> provides an extensive list (and description) of
+  different AutoEncoder networks (and Variational AutoEncoders, which we will discuss in the next lecture).</li>
 </ul>
 
               
@@ -852,6 +1071,21 @@ we are going to learn is to reproduce the identity matrix.</p>
           </div>
         </a>
       
+      
+        
+        <a href="../14_vae/" class="md-footer__link md-footer__link--next" aria-label="Next: Generative Modelling and Variational AutoEncoders" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Generative Modelling and Variational AutoEncoders
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
