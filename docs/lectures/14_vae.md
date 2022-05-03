@@ -111,7 +111,100 @@ R(\mathbf{x} ;\theta,\phi) = KL(p(\mathbf{z}|\mathbf{x})||p(\mathbf{z}))
 $$
 
 As in any statistical learning process, the overall loss of our VAEs shows a trade-off between the likelihood (i.e., learning from data) and 
-prior (i.e., keeping close to the initial guess).
+prior (i.e., keeping close to the initial guess). 
+
+Before we provide a mathematical derivation supporting these claims, let's briefly try to provide some intuition onto why adding this regularization
+makes VAEs more well behaved than AEs in terms of generating representation samples of the input distribution ($p(\mathbf{x})$) whilst sampling directly
+in the latent space. Back to the example with geometrical shapes, if we now assume a 2-dimensional latent space for both an AE and a VAEs:
+
+![VAELATENT](figs/vaelatent.png)
+
+the effect of the regularization term in VAEs is such that the probability density function of the latent space (($p(\mathbf{z}|\mathbf{x})$) is forced
+to stay close to the prior, and therefore the "clouds" of different classes do not really separate from each other abruptly. As a consequence, the 
+geometrical shapes associated with the transition zones in the latent space are still meaningful. The same cannot be said for the AE as the
+"clouds" of different classes tend to move apart leaving unexplored regions between them. Sampling from such region will result in non-representative
+geometrical shapes.
+
+More precisely, the regularization term in VAEs ensures the following two properties for the latent space:
+
+- continuity: two closely points in the latent space are similar in the original space;
+- completness: any point sampled from the latent distribution is meaningful in the original space;
+
+### Mathematics of VAEs
+
+To conclude our lecture on VAEs, we would like to gain a stronger mathematical understanding about the inner working of this model. In order to do
+so, we are required to introduce a technique commonly used in statistics to estimate complex distributions. 
+This technique goes under the name of *Variational Inference (VI)*. 
+
+Let's begin from the classical setup of Bayesian inference. We are interested in a certain probability distribution that we want to sample from 
+or characterize (e.g., in terms of its mean and standard deviation), for example the following posterior distribution in a general inverse problem setting:
+
+$$
+p(\mathbf{x} | \mathbf{y}) = \frac{p(\mathbf{y}|\mathbf{x}) p(\mathbf{x})}{p(\mathbf{y})}
+$$
+
+where $\mathbf{x}$ is the model we wish to estimate and $\mathbf{y}$ are the available observations. We assume knowledge of the prior distribution $p(\mathbf{x})$ and the underlying
+physical process that links the model to the data, $\mathbf{y}=f(\mathbf{x})$ from which we can compute the likelihood $p(\mathbf{y}|\mathbf{x})$ (assuming a certain statistics for the noise).
+The denominator of the Bayes rule ($p(\mathbf{y}) = \int p(\mathbf{y}|\mathbf{x}) p(\mathbf{x}) d\mathbf{x}$) is what prevents us from computing the posterior directly.
+
+Variational Inference approaches the above problem in a special way. A parametric distribution $q_\theta(\mathbf{x})$ is defined, also sometimes referred to as
+guide or proposal distribution, and an optimization problem is set up to find the best free-parameters $\theta$ such that this easy-to-evaluate distribution
+closely resembles to posterior distribution of interest. As usual when setting up an optimization problem, a measure of distance between such distributions is required to be able to optimize 
+for such set of parameters. In this case, since we are dealing with distributions, it comes natural to choose the Kullback-Leibler divergence as metric:
+
+$$
+\underset{\theta} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{x})||p(\mathbf{x}|\mathbf{y}))
+$$
+
+Let's now expand the expression of the KL divergence and show an equivalent formula for this optimization problem:
+
+$$
+\begin{aligned}
+&\underset{\theta} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{x})||p(\mathbf{x}|\mathbf{y})) \\
+&= \underset{\theta} {\mathrm{argmin}} \; E_{\mathbf{x} \sim q_\theta} \left[ log \left( \frac{q_\theta(\mathbf{x})}{p(\mathbf{x}|\mathbf{y})} \right) \right] \\
+&= \underset{\theta} {\mathrm{argmin}} \; E_{\mathbf{x} \sim q_\theta} [ log q_\theta(\mathbf{x}) ] - E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{x}|\mathbf{y}) ] \\
+&= \underset{\theta} {\mathrm{argmin}} \; E_{\mathbf{x} \sim q_\theta} [ log q_\theta(\mathbf{x}) ] - E_{\mathbf{x} \sim q_\theta} \left[ log \left( \frac{p(y|\mathbf{x})p(\mathbf{x})}{p(\mathbf{y})} \right) \right] \\
+&= \underset{\theta} {\mathrm{argmin}} \; E_{\mathbf{x} \sim q_\theta} [ log q_\theta(\mathbf{x}) ] - E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}|\mathbf{x}) ] - E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{x}) ] + \cancel{E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}) ]} \\
+&= \underset{\theta} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{x})||p(\mathbf{x})) - E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}|\mathbf{x}) ]
+\end{aligned}
+$$
+
+where we have eliminated $E_{x \sim q_\theta} [ p(\mathbf{y}) ]$ the in the 5th row since it does not depend on $\theta$. In the last row, we can see the two 
+terms that we have previously described:
+
+- $-E_{x \sim q_\theta} [ p(\mathbf{y}|\mathbf{x}) ]$ is the negative log-likelihood of a traditional Maximum likelihood estimation (i.e., data misfit term). In the
+  special case of gaussian noise ($\mathbf{y} \sim \mathcal{N}(f(\mathbf{x}), \sigma^2 \mathbf{I})$), this becomes the MSE loss as discussed in one 
+  of our previous lectures;
+- $KL(q_\theta(\mathbf{x})||p(\mathbf{x}))$ is the regularization term encouraging the proposal distribution to stay close to the prior.
+
+Finally, let's slightly rearrange the epression in the 5th row:
+
+$$
+E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}) ] - KL(q_\theta(\mathbf{x})||p(\mathbf{x}|\mathbf{y})) = 
+E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}|\mathbf{x}) ] - KL(q_\theta(\mathbf{x})||p(\mathbf{x})) 
+$$
+
+The left hand side of this equation is called *Evidence Lower Bound (ELBO)*. The names comes from the fact that the sum of these two terms is
+always $\le E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}) ]$ since KL divergence is always positive. Therefore, by maximizing the right hand side (or
+equivalently by minimizing the negative of the right hand side), we effectively maximize the lower bound of the probability of the evidence $p(\mathbf{y})$.
+Variational inference can be therefore seen also as a maximization problem over the ELBO.
+
+Whilst we now understand the theoretical foundations of VI, to make it practical we need to specify:
+
+- A suitable proposal $q_\theta(\mathbf{x})$, where *suitable* means that we can easily evaluate such probability, its KL divergence with a prior of choice,
+  as well as sample from it. The simplest choice that is sometimes made in VI is named *mean-field approximation* where:
+    $$
+    q_\theta(\mathbf{x}) = \prod_i q_\theta(x_i) \sim \mathcal{N}(\boldsymbol \mu , diag \{ \boldsymbol \sigma \})$
+    $$
+  where $\theta={\boldsymbol \mu, \boldsymbol \sigma}$. This implies that there is no correlation over the different variables of the N-dimensional 
+  proposal distribution. Whilst this choice may be too simple in many practical scenarios, it is important to notice that this is not the same as 
+  assuming that the variables of the posterior itself are uncorrelated!
+
+- A suitable optimizer. In the case where multiple \mathbf{x} samples are available, $p(\mathbf{y}|\mathbf{x}$, $p(\mathbf{x}$, and 
+  $q_\theta(\mathbf{x})$ are differentiable we can simply use a stochastic gradient method. This special case of VI is named ADVI.
+
+Moving back to where we started, the VAE model. Let's now rewrite the problem as a VI estimation:
+
 
 
 ## Additional readings
