@@ -693,7 +693,7 @@ methods that we are going to discuss later on in this lecture does not differ fr
 free-parameters of the chosen parametric model (e.g., a NN) are learned from the available data, followed by a generation phase that uses
 the trained model and some stochastic input (like the <span class="arithmatex">\(\mathbf{z}\)</span> vector in the example above).</p>
 <h2 id="variational-autoencoders-vaes">Variational AutoEncoders (VAEs)</h2>
-<p>As the name implies, these networks take inspiration from the AutoEncoder networks that we have presented in the previous lecture. However, some 
+<p>Variational AutoEncoders have been proposed by <a href="https://arxiv.org/abs/1312.6114">Kingma and Welling</a> in 2013. in As the name implies, these networks take inspiration from the AutoEncoder networks that we have presented in the previous lecture. However, some 
 small, yet fundamental changes are implemented to the network architecture as well as the learning process (i.e., loss function) to turn such family
 of networks from being able to perform dimensionality reduction to being generative models. </p>
 <p>Let's start by looking at a schematic representation of a VAEs:</p>
@@ -701,7 +701,9 @@ of networks from being able to perform dimensionality reduction to being generat
 <p>Even before we delve into the mathematical details, we can clearly see that one main change has been implemented to the network architecture:
 instead of directly producing a vector <span class="arithmatex">\(\mathbf{z} \in \mathbb{R}^{N_l}\)</span>, the encoder's output is composed of two vectors 
 <span class="arithmatex">\(\boldsymbol \mu \in \mathbb{R}^{N_l}\)</span> and <span class="arithmatex">\(\boldsymbol \sigma \in \mathbb{R}^{N_l}\)</span> that represent the mean and standard deviation of a <span class="arithmatex">\(N_l\)</span> dimensional
-gaussian distribution (with uncorrelated variables, i.e., diagonal covariance matrix). These two vectors are fed together to a sampler,
+gaussian distribution (with uncorrelated variables, i.e., diagonal covariance matrix). Mathematically, the encoder can be written as 
+<span class="arithmatex">\(\boldsymbol \mu = e_{\theta,\mu}(\mathbf{x}), \; \boldsymbol \sigma = e_{\theta,\sigma}(\mathbf{x})\)</span>, where the two networks share all weights apart from
+the last layer. The two vectors produced by the encoder are then fed together to a sampler,
 who similar to what we did before, produces a sample from the following gaussian distribution: <span class="arithmatex">\(\mathcal{N}(\boldsymbol \mu, diag\{ \boldsymbol \sigma \})\)</span>.
 In practice this is however achieved by sampling a vector and then transforming it into the desired distribution, 
 <span class="arithmatex">\(\mathbf{z} = \boldsymbol \sigma \cdot \mathbf{z} + \boldsymbol \mu\)</span> where <span class="arithmatex">\(\cdot\)</span> refers to an element-wise product. </p>
@@ -811,7 +813,7 @@ Variational inference can be therefore seen also as a maximization problem over 
 <p>A suitable proposal <span class="arithmatex">\(q_\theta(\mathbf{x})\)</span>, where <em>suitable</em> means that we can easily evaluate such probability, its KL divergence with a prior of choice,
   as well as sample from it. The simplest choice that is sometimes made in VI is named <em>mean-field approximation</em> where:
     $$
-    q_\theta(\mathbf{x}) = \prod_i q_\theta(x_i) \sim \mathcal{N}(\boldsymbol \mu , diag { \boldsymbol \sigma })$
+    q_\theta(\mathbf{x}) = \prod_i q_\theta(x_i) \sim \mathcal{N}(\boldsymbol \mu , diag(\boldsymbol \sigma))
     $$
   where <span class="arithmatex">\(\theta={\boldsymbol \mu, \boldsymbol \sigma}\)</span>. This implies that there is no correlation over the different variables of the N-dimensional 
   proposal distribution. Whilst this choice may be too simple in many practical scenarios, it is important to notice that this is not the same as 
@@ -822,7 +824,17 @@ Variational inference can be therefore seen also as a maximization problem over 
   <span class="arithmatex">\(q_\theta(\mathbf{x})\)</span> are differentiable we can simply use a stochastic gradient method. This special case of VI is named ADVI.</p>
 </li>
 </ul>
-<p>Moving back to where we started, the VAE model. Let's now rewrite the problem as a VI estimation:</p>
+<p>Moving back to where we started, the VAE model. Let's now rewrite the problem as a VI estimation (where <span class="arithmatex">\(\mathbf{z}\)</span> plays here the role of the
+model or unseen variable and <span class="arithmatex">\(\mathbf{x}\)</span> represents the available observations):</p>
+<div class="arithmatex">\[
+\begin{aligned}
+&amp;\underset{\theta, \phi} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{z})||p(\mathbf{z}|\mathbf{x})) \\
+&amp;= \underset{\theta, \phi} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{z})||p(\mathbf{z})) - E_{\mathbf{z} \sim q_\theta} [ log p_\phi(\mathbf{x}|\mathbf{z}) ]
+\end{aligned}
+\]</div>
+<p>where the first term is responsible for updating the encoder whilst the second term contributes to the update of both the encoder and decoder. 
+The proposal distribution is here parametrized as <span class="arithmatex">\(q_\theta(\mathbf{z}) \sim \mathcal{N}(e_{\theta,\mu}(\mathbf{x}), diag(e_{\theta,\sigma}(\mathbf{x})))\)</span>.
+and the expectation is taken over the training samples (or a batch of them).</p>
 <h2 id="additional-readings">Additional readings</h2>
 <ul>
 <li>The flow of this lecture is heavily inspired by this <a href="https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73">blog post</a></li>

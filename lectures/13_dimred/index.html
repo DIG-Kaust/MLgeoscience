@@ -773,7 +773,7 @@ Given a number of training samples $\mathbf{x}^{(i)}, we wish to identify:</p>
 </ul>
 <p>such that:</p>
 <div class="arithmatex">\[
-\hat{e},\hat{d} = \underset{e,d} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d(e(\mathbf{x}^{(i)})))
+\hat{e},\hat{d} = \underset{e,d} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d(e(\mathbf{x}^{(i)})))
 \]</div>
 <h2 id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h2>
 <p>The simplest approach to dimensionality reduction uses linear operators for the encoder:</p>
@@ -937,7 +937,7 @@ and a decoder function <span class="arithmatex">\(d_\theta\)</span>, which conve
 <p>where similar to PCA, the training process is setup such the parameters of the two networks are optimized to minimize the 
 following loss function:</p>
 <div class="arithmatex">\[
-\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))))
+\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))))
 \]</div>
 <p>where the network architecture for both the encoder and decoder can be chosen accordingly to the type of data we are interested in.</p>
 <p>Once again, our code (or latent vector <span class="arithmatex">\(\mathbf{z}\)</span>) must be chosen to be of lower dimensionality compared to the input in order to be able to 
@@ -988,7 +988,7 @@ a <em>sparse</em> representation of a variety of N-dimensional signals in nature
 avoid overfitting, which can be done by adding some constraints to the learning process. As already discussed many times, these constraints
 can simply come in the form of regularization in the learning process:</p>
 <div class="arithmatex">\[
-\mathscr{L}_r = \frac{1}{N_s}\sum_i \left( \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) +\lambda R(\mathbf{x}^{(i)} ; \theta,\phi) \right)
+\mathscr{L}_r = \frac{1}{N_s}\sum_i \left( \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) +\lambda R(\mathbf{x}^{(i)} ; \theta,\phi) \right)
 \]</div>
 <p>where <span class="arithmatex">\(R(\mathbf{x}^{(i)} ;\theta,\phi)\)</span> can take several forms:</p>
 <ul>
@@ -1017,7 +1017,7 @@ in the form of the regularization term above, the elements of the latent code ar
 transformation that brings all elements to zero apart from the K largest elements in absolute value. More formally, even though in practice no regularization term is
 therefore explicitly added to the loss function, this approach solves the following constrained problem:</p>
 <div class="arithmatex">\[
-\underset{\mathbf{e}_\theta, \mathbf{d}_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) 
+\underset{\mathbf{e}_\theta, \mathbf{d}_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) 
 \quad s.t. \quad ||\mathbf{z}||_0&lt;K
 \]</div>
 <p>Note that, once again, this procedure can be extended such that all the activations in the network are forced to have only K non-zero values.</p>
@@ -1035,7 +1035,7 @@ the input vectors prior to feeding them to the network, by eithe replacing some 
 this last case, each step of the training process becomes:</p>
 <ul>
 <li><span class="arithmatex">\(\tilde{\mathbf{x}}^{(i)} = \mathbf{x}^{(i)} + \mathbf{n}^{(i)} \quad \forall i\)</span>;</li>
-<li><span class="arithmatex">\(\mathscr{L} = \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\tilde{\mathbf{x}}^{(i)})))\)</span>.</li>
+<li><span class="arithmatex">\(\mathscr{L} = \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\tilde{\mathbf{x}}^{(i)})))\)</span>.</li>
 </ul>
 <h2 id="additional-readings">Additional readings</h2>
 <ul>
