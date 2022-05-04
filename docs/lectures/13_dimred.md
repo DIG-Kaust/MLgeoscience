@@ -35,7 +35,7 @@ Given a number of training samples $\mathbf{x}^{(i)}, we wish to identify:
 such that:
 
 $$
-\hat{e},\hat{d} = \underset{e,d} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d(e(\mathbf{x}^{(i)})))
+\hat{e},\hat{d} = \underset{e,d} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d(e(\mathbf{x}^{(i)})))
 $$
 
 ## Principal Component Analysis (PCA)
@@ -251,7 +251,7 @@ where similar to PCA, the training process is setup such the parameters of the t
 following loss function:
 
 $$
-\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))))
+\hat{e}_\theta,\hat{d}_\phi = \underset{e_\theta,d_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))))
 $$
 
 where the network architecture for both the encoder and decoder can be chosen accordingly to the type of data we are interested in.
@@ -311,7 +311,7 @@ avoid overfitting, which can be done by adding some constraints to the learning 
 can simply come in the form of regularization in the learning process:
 
 $$
-\mathscr{L}_r = \frac{1}{N_s}\sum_i \left( \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) +\lambda R(\mathbf{x}^{(i)} ; \theta,\phi) \right)
+\mathscr{L}_r = \frac{1}{N_s}\sum_i \left( \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) +\lambda R(\mathbf{x}^{(i)} ; \theta,\phi) \right)
 $$
 
 where $R(\mathbf{x}^{(i)} ;\theta,\phi)$ can take several forms:
@@ -350,7 +350,7 @@ transformation that brings all elements to zero apart from the K largest element
 therefore explicitly added to the loss function, this approach solves the following constrained problem:
 
 $$
-\underset{\mathbf{e}_\theta, \mathbf{d}_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) 
+\underset{\mathbf{e}_\theta, \mathbf{d}_\phi} {\mathrm{argmin}} \; \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\mathbf{x}^{(i)}))) 
 \quad s.t. \quad ||\mathbf{z}||_0<K
 $$
 
@@ -375,7 +375,7 @@ the input vectors prior to feeding them to the network, by eithe replacing some 
 this last case, each step of the training process becomes:
 
 - $\tilde{\mathbf{x}}^{(i)} = \mathbf{x}^{(i)} + \mathbf{n}^{(i)} \quad \forall i$;
-- $\mathscr{L} = \frac{1}{N_s}\sum_i \mathscr{L}_i(\mathbf{x}^{(i)}, d_\phi(e_\theta(\tilde{\mathbf{x}}^{(i)})))$.
+- $\mathscr{L} = \frac{1}{N_s}\sum_i \mathscr{L}(\mathbf{x}^{(i)}, d_\phi(e_\theta(\tilde{\mathbf{x}}^{(i)})))$.
 
 ## Additional readings
 

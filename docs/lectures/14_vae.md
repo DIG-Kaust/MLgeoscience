@@ -41,7 +41,7 @@ the trained model and some stochastic input (like the $\mathbf{z}$ vector in the
 
 ## Variational AutoEncoders (VAEs)
 
-As the name implies, these networks take inspiration from the AutoEncoder networks that we have presented in the previous lecture. However, some 
+Variational AutoEncoders have been proposed by [Kingma and Welling](https://arxiv.org/abs/1312.6114) in 2013. in As the name implies, these networks take inspiration from the AutoEncoder networks that we have presented in the previous lecture. However, some 
 small, yet fundamental changes are implemented to the network architecture as well as the learning process (i.e., loss function) to turn such family
 of networks from being able to perform dimensionality reduction to being generative models. 
 
@@ -52,7 +52,9 @@ Let's start by looking at a schematic representation of a VAEs:
 Even before we delve into the mathematical details, we can clearly see that one main change has been implemented to the network architecture:
 instead of directly producing a vector $\mathbf{z} \in \mathbb{R}^{N_l}$, the encoder's output is composed of two vectors 
 $\boldsymbol \mu \in \mathbb{R}^{N_l}$ and $\boldsymbol \sigma \in \mathbb{R}^{N_l}$ that represent the mean and standard deviation of a $N_l$ dimensional
-gaussian distribution (with uncorrelated variables, i.e., diagonal covariance matrix). These two vectors are fed together to a sampler,
+gaussian distribution (with uncorrelated variables, i.e., diagonal covariance matrix). Mathematically, the encoder can be written as 
+$\boldsymbol \mu = e_{\theta,\mu}(\mathbf{x}), \; \boldsymbol \sigma = e_{\theta,\sigma}(\mathbf{x})$, where the two networks share all weights apart from
+the last layer. The two vectors produced by the encoder are then fed together to a sampler,
 who similar to what we did before, produces a sample from the following gaussian distribution: $\mathcal{N}(\boldsymbol \mu, diag\{ \boldsymbol \sigma \})$.
 In practice this is however achieved by sampling a vector and then transforming it into the desired distribution, 
 $\mathbf{z} = \boldsymbol \sigma \cdot \mathbf{z} + \boldsymbol \mu$ where $\cdot$ refers to an element-wise product. 
@@ -194,7 +196,7 @@ Whilst we now understand the theoretical foundations of VI, to make it practical
 - A suitable proposal $q_\theta(\mathbf{x})$, where *suitable* means that we can easily evaluate such probability, its KL divergence with a prior of choice,
   as well as sample from it. The simplest choice that is sometimes made in VI is named *mean-field approximation* where:
     $$
-    q_\theta(\mathbf{x}) = \prod_i q_\theta(x_i) \sim \mathcal{N}(\boldsymbol \mu , diag \{ \boldsymbol \sigma \})$
+    q_\theta(\mathbf{x}) = \prod_i q_\theta(x_i) \sim \mathcal{N}(\boldsymbol \mu , diag(\boldsymbol \sigma))
     $$
   where $\theta={\boldsymbol \mu, \boldsymbol \sigma}$. This implies that there is no correlation over the different variables of the N-dimensional 
   proposal distribution. Whilst this choice may be too simple in many practical scenarios, it is important to notice that this is not the same as 
@@ -203,8 +205,19 @@ Whilst we now understand the theoretical foundations of VI, to make it practical
 - A suitable optimizer. In the case where multiple \mathbf{x} samples are available, $p(\mathbf{y}|\mathbf{x}$, $p(\mathbf{x}$, and 
   $q_\theta(\mathbf{x})$ are differentiable we can simply use a stochastic gradient method. This special case of VI is named ADVI.
 
-Moving back to where we started, the VAE model. Let's now rewrite the problem as a VI estimation:
+Moving back to where we started, the VAE model. Let's now rewrite the problem as a VI estimation (where $\mathbf{z}$ plays here the role of the
+model or unseen variable and $\mathbf{x}$ represents the available observations):
 
+$$
+\begin{aligned}
+&\underset{\theta, \phi} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{z})||p(\mathbf{z}|\mathbf{x})) \\
+&= \underset{\theta, \phi} {\mathrm{argmin}} \; KL(q_\theta(\mathbf{z})||p(\mathbf{z})) - E_{\mathbf{z} \sim q_\theta} [ log p_\phi(\mathbf{x}|\mathbf{z}) ]
+\end{aligned}
+$$
+
+where the first term is responsible for updating the encoder whilst the second term contributes to the update of both the encoder and decoder. 
+The proposal distribution is here parametrized as $q_\theta(\mathbf{z}) \sim \mathcal{N}(e_{\theta,\mu}(\mathbf{x}), diag(e_{\theta,\sigma}(\mathbf{x})))$.
+and the expectation is taken over the training samples (or a batch of them).
 
 
 ## Additional readings
