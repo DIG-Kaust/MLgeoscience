@@ -87,7 +87,7 @@ and the latter with the modelling operator (this is different from the supervise
     training process of neural networks, namely backpropagation:
     
     $$
-    $\frac{\partial J}{\partial \mathbf{z}} = \frac{\partial J}{\partial g} \frac{\partial g}{\partial p} \frac{\partial p}{\partial \mathbf{z}}
+    \frac{\partial J}{\partial \mathbf{z}} = \frac{\partial J}{\partial g} \frac{\partial g}{\partial p} \frac{\partial p}{\partial \mathbf{z}}
     $$
     
     where $\partial J / \partial g$ is the derivative of the loss function over the predicted data, $\partial g / \partial p$ is the derivative of the physical modelling
@@ -101,3 +101,107 @@ $$
 
 where the regularization terms ensures that the autoencoder can recreate the estimated model. This ensures that the solution lies in the manifold of the set of plausible solutions used
 to train the AE network.
+
+## Learned solvers
+
+In the previous section we have discussed the solution of linear (or nonlinear) inverse problems from a high-level perspective. In fact, we purposely decided to avoid any discussion
+regarding the numerical aspects of solving any of the cost functions $J$. In practice, real-life problems may target model spaces that contain millions (or even billions) of variables and the
+same usually applies for the observation vector. Under these conditions, iterative solvers similar to those presented [here](03_gradopt.md) and [here](08_gradopt1.md) are
+therefore the only viable option.
+
+An iterative solver can be loosely expressed as a nonlinear function $\mathcal{F}$ of this form:
+
+$$
+\hat{\mathbf{m}} = \mathcal{F}(\mathbf{d}^{obs}, \mathbf{m}_0, g/\mathbf{G})
+$$
+
+where $\mathbf{m}_0$ is an initial guess. The vanilla gradient descent algorithm can be more explicitly described by the following update rule:
+
+$$
+\mathbf{m}_{i+1} = \mathbf{m}_i - \alpha \frac{\partial J}{\partial \mathbf{m}} | _ {\mathbf{m}=\mathbf{m}_i} (\mathbf{d}^{obs}, \mathbf{m}, g/\mathbf{G})
+$$
+
+which we can *unroll* for a number of iterations and write as:
+
+$$
+\mathbf{m}_{2} = \mathbf{m}_0 - \alpha \frac{\partial J}{\partial \mathbf{m}} | _ {\mathbf{m}=\mathbf{m}_0} - \alpha \frac{\partial J}{\partial \mathbf{m}} | _ {\mathbf{m}=\mathbf{m}_1}
+$$
+
+This expression clearly shows that the solution of an iterative solver at a given iteration is a simple weighted summation of the intermediate gradients that are subtracted from
+the initial guess $\mathbf{m}_0 $. Similarly, more advanced solvers like the linear or nonlinear conjugate gradient algorithm take into account the past gradients at each iteration,
+however they still apply simple linear scalings to the gradients to produce the final solution.
+
+The mathematical community has recently started to investigate a new family of iterative solvers, called learned solvers. The key idea lies in the fact that a linear combination of gradients may not be the 
+best choice (both in terms of convergence speed and ultimate quality of the solution). An alternative update rule of this form
+
+$$
+\mathbf{m}_{i+1} = \mathbf{m}_i - f_\theta \left( \frac{\partial J}{\partial \mathbf{m}} | _ {\mathbf{m}=\mathbf{m}_i}\right)
+$$
+
+may represent a better choice. However, a question may arise at this point: how do we choose the nonlinear project $f_\theta$ that we are going to apply to the gradients at each step? 
+Learned iterative solvers, as the name implies, learn this mapping. More specifically, assuming availability of pairs of models and associated observations $(\mathbf{m}^{<i>}, \mathbf{d}^{obs,<i>})$,
+a supervised learning process is setup such that an iterative solver with $N_it$ iterations is tasked to learn the mapping from data to models. Let's take a look at the schematic below
+to better understand how this works:
+
+![LEARNEDSOLV](figs/learnedsolv.png)
+
+A learned iterative solver can be seen as an unrolled neural network where each element takes as input the current model estimate and its gradient and produces an updated version
+of the model. To keep the model capacity low, each unit shares weights like in classical RNN and each update can be compactly written as:
+
+$$
+\mathbf{m}_i = f_\theta(\mathbf{x}_i), \qquad \mathbf{x}_i = \mathbf{m}_{i-1} \oplus \frac{\partial J}{\partial \mathbf{m}}
+$$ 
+
+where $\oplus$ indicates concatenation over the channel axis (assuming that model and gradient are N-dimensional tensors). Depending on the problem and type of data
+$f_\theta$ can be chosen to be any network architecture, from a simple FF block, to a stack of FF blocks, or even a convolutional neural network.
+Moreover, given that we have access to the solution, the loss function is set up as follows:
+
+$$
+\underset{f_\theta} {\mathrm{arg min}} \; \frac{1}{N_s}\sum_{i=1}^{N_s} \sum_{j=1}^{N_{it}} w_j \mathscr{L}(\mathbf{m}_j^{(i)}, \mathbf{m})
+$$
+
+where each estimate is compared to the true model. Since early iterations may be worse, an exponentially increasing weight may be used to downweight their contributions over the estimates
+as later iterations of the unrolled solver. Finally, once the learning process is finalized, inference can be simply performed by evaluation a single forward pass of the network for *one instance* of data $\mathbf{d}^{obs}$ and 
+a chosen initial guess.
+
+To conclude, it is important to answer the following question: why learned solvers are better than pure vanilla supervised learning? 
+
+The key difference between these two approaches lies in how they decide to use the knowledge of the modelling operator $g/\mathbf{G}$. Whilst traditional supervised
+learning approaches may use the modelling operator in the process of generating training data whilst ignoring it during training, learned iterative solvers integrate the 
+modelling operator in the learning process. Two benefits may arise from this choice: generalization of the trained network over unseen modelling operator and 
+increased robustness to noise in the data.
+
+### Variants of learned solvers
+
+The structure of the learned solver discussed above closely resembles the method proposed by [Adler and Öktem](https://iopscience.iop.org/article/10.1088/1361-6420/aa9581/meta) in 2017. 
+A number of variants have been suggested in the literature in the following years:
+
+**Learned solver with memory**
+
+Adler and Öktem further propose to include a memory variable $\mathbf{s}$. This takes inspiration from conventional solvers that use past gradients (or memory) to obtain more informed update directions. 
+
+![LEARNEDSOLV1](figs/learnedsolv1.png)
+
+The model update can be therefore written as follows:
+
+$$
+\mathbf{y}_i = f_\theta(\mathbf{x}_i), \qquad \mathbf{x}_i = \mathbf{m}_{i-1} \oplus \frac{\partial J}{\partial \mathbf{m}} \oplus \mathbf{s}_{i-1} 
+\qquad \mathbf{y}_i = \mathbf{m}_i \oplus \mathbf{s}_i
+$$
+
+**Recurrent Inference Machines (RIMs)**
+
+RIMs closely resemble the second learned solver of Adler and Öktem. They however differ in the design on the network block and the fact that similarly to RNNs two set of parameters
+are used instead of one, $f_\theta$ and $f'_\phi$.
+
+The model update can be therefore written as follows:
+
+$$
+\begin{aligned}
+\mathbf{s}_i &= f'_\phi (\mathbf{z}_i) , \qquad \mathbf{z}_i = \boldsymbol \eta_{i-1} \oplus \frac{\partial J}{\partial \mathbf{m}} \oplus \mathbf{s}_{i-1} \\
+\boldsymbol \eta_i &= \boldsymbol \eta_{i-1} + f_\theta(\mathbf{x}_i), \qquad \mathbf{x}_i = \boldsymbol \eta_{i-1} \oplus \frac{\partial J}{\partial \mathbf{m}} \oplus \mathbf{s}_i
+\end{aligned}
+$$
+
+where a new variable $\boldsymbol \eta$ has been introduced. This is the unscaled output and is connected to the model via a nonlinear activation function $\sigma$ that is in change of
+defining a range of allowed values: $\mathbf{z} = \sigma ( \boldsymbol \eta)$.
