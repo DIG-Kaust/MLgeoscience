@@ -1,0 +1,860 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.9">
+    
+    
+      
+        <title>Scientific Machine Learning and Physics-informed Neural Networks - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.120efc48.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.9647289d.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#scientific-machine-learning-and-physics-informed-neural-networks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Scientific Machine Learning and Physics-informed Neural Networks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Lectures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_nn/" class="md-nav__link">
+        More on Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_bestpractice/" class="md-nav__link">
+        Best practices in the training of Machine Learning models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_mdn/" class="md-nav__link">
+        Uncertainty Quantification in Neural Networks and Mixture Density Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_cnn/" class="md-nav__link">
+        Convolutional Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_cnnarch/" class="md-nav__link">
+        CNNs Popular Architectures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_seqmod/" class="md-nav__link">
+        Sequence modelling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_dimred/" class="md-nav__link">
+        Dimensionality reduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_vae/" class="md-nav__link">
+        Generative Modelling and Variational AutoEncoders
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15_gans/" class="md-nav__link">
+        Generative Adversarial Networks (GANs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Scientific Machine Learning and Physics-informed Neural Networks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Scientific Machine Learning and Physics-informed Neural Networks
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#physics-informed-neural-networks-pinns" class="md-nav__link">
+    Physics-Informed Neural Networks (PINNs)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17_deepinv/" class="md-nav__link">
+        Deep learning for Inverse Problems
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#physics-informed-neural-networks-pinns" class="md-nav__link">
+    Physics-Informed Neural Networks (PINNs)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="scientific-machine-learning-and-physics-informed-neural-networks">Scientific Machine Learning and Physics-informed Neural Networks</h1>
+<p>In the last two lectures of our course, we will focus our attention on a flourishing area of scientific computing that 
+aims to develop algorithms that can bridge the gap between purely data-driven methods and model-driven ones. Sometimes 
+this new field of research is referred to as <em>Scientific Machine Learning</em> and you can find a great deal of information
+on the web (e.g., <a href="https://sciml.ai">1</a>, <a href="https://sites.brown.edu/bergen-lab/research/what-is-sciml/">2</a>, 
+<a href="https://www.science.org/doi/10.1126/science.aau0323">3</a>). However, it is not always easy to understand what Scientific ML 
+really is and how it differs from the mere application of the ML (and DL) tooling that we have discussed during this course.</p>
+<p>To be able to understand what is the best way to marry the latest advances in deep learning with our toolbox of model-driven
+algorithms, let's first briefly review what these two words are good at alone and where they usually struggle.</p>
+<p><strong>Deep Learning</strong> is usually great at:</p>
+<ul>
+<li>Computer Vision tasks;</li>
+<li>Language modelling tasks;</li>
+<li>Discovery of hidden patterns in large amount of structured data.</li>
+</ul>
+<p>These three topics have something in common: very little is known a priori about the <code>physics</code> that underlie the process that
+we want to learn from. For example, although a great deal of research has been performed in the fields of neuroscience, our current
+understanding of how a child learns to recognize a dog from a cat or how we learn a new language is still very limited. Whilst 
+for long time researchers have tried to decode the rules of a language and create computer programs that could translate, 
+answer questions or more broadly communicate with humans, it is nowadays clear to us that a better route is to provide machines
+with a large amount of training data and let them identify the best possible way to accomplish a task.</p>
+<p><strong>Physics</strong> is usually great at:</p>
+<ul>
+<li>Modelling natural phenomena by means of (more or less) simple equations, e.g. how waves propagate.</li>
+<li>
+<p>Providing a link between some observations that we are able to take in the nature and the unobserved parameters of the underlying
+  physical system. For example, we can link the traveltime of sound waves with the actual velocity of the medium they travel in, or link
+  precipitation levels with the pressure and temperature of the atmosphere. This is usually encoded by equations of the form:</p>
+<p>$$
+d = g(m)
+$$
+  where <span class="arithmatex">\(d\)</span> are the observations, <span class="arithmatex">\(m\)</span> are the model parameters, and <span class="arithmatex">\(g\)</span> is the (usually nonlinear) physical model. This could be
+  an ordinary differential equation (ODE), or a partial differential equation (PDE), or any other equation that has an analytical or
+  numerical solution.</p>
+</li>
+</ul>
+<p>On the other hand, unlike deep learning, a purely physics-driven approach may not be able to learn useful information from data nor
+automatically identify patterns in the solution space that we would like to enhance or suppress. This is where a hybrid approach could
+come in handy: we can leverage some of the deep learning methods discussed in this course to identify patterns in both the observations and
+the sough model and use it as an informed prior whilst still relying on the well-known physical process to link the two.</p>
+<p>In the following we will focus on the following three directions of research that build their foundations on this paradigm:</p>
+<ul>
+<li>Physics-Informed Neural Networks (PINNs): this family of NNs try to learn to model a physical process in an unsupervised manner. This is accomplished
+  by including the ODE or PDE that describe the physical process of interest as part of
+  the loss function used to train the network. Ultimately, a trained PINN can quickly evaluate the solution of the chosen ODE or PDE at any point in the domain of interest
+  (or perform inverse modelling with respect to the free-parameters, initial conditions or boundary conditions of such an equation);</li>
+<li>Data-driven regularization of inverse problems: in classical inverse problem theory, regularization is a heavily used tool to allow the solution
+  of ill-posed inverse problem. We will discuss how hand-crafted regularizers (and/or preconditioners) are nowadays replaced by properly pre-trained
+  Neural networks.</li>
+<li>Learned iterative solvers: large-scale inverse problems are usually solved by means of iterative solvers. A new line of research has shown great promise
+  in learning the best direction to apply at each step of an iterative solver, this being the output of a neural network fed with the current solution, gradient
+  and possibly other inputs. Whilst this approach requires supervision, we will discuss its great potential to replace classical iterative solvers to improve both
+  the speed and quality of the solution.</li>
+</ul>
+<h2 id="physics-informed-neural-networks-pinns">Physics-Informed Neural Networks (PINNs)</h2>
+<p>Physics-Informed Neural Networks are a new family of deep learning models specifically aimed at solving differential equations. </p>
+<p>To begin with, let's recall how a physical model can be explained by means of differential equations:</p>
+<ul>
+<li>
+<p>Ordinary Differential Equations (ODEs): differential equations with a single independent variable, here denoted with <span class="arithmatex">\(t\)</span>. For example:
+  $$
+  \frac{d u(t)}{dt} = f(u(t; \alpha))
+  $$
+  where <span class="arithmatex">\(u(t)\)</span> is the dependent variable we are interested in, and <span class="arithmatex">\(f\)</span> is a generic linear or nonlinear function of <span class="arithmatex">\(u(t)\)</span>. </p>
+</li>
+<li>
+<p>Partial Differential Equation (PDEs): differential equations with two or more independent variable, here denoted with <span class="arithmatex">\(t,x\)</span>. For example:
+  $$
+  \frac{\partial u(t,x)}{\partial t} + \frac{\partial u(t,x)}{\partial x} = f(u(t,x; \alpha))
+  $$
+  where <span class="arithmatex">\(u(t)\)</span> is the dependent variable we are interested in, and <span class="arithmatex">\(f\)</span> is a generic linear or nonlinear function of <span class="arithmatex">\(u(t)\)</span>.</p>
+</li>
+</ul>
+<p>In both cases the free-parameters of the equation are denoted with <span class="arithmatex">\(\alpha\)</span>.</p>
+<p>Three family of methods exist to solve such equations:</p>
+<ul>
+<li><em>Analytical solution</em>: some special types of ODEs and PDEs (e.g., with constant free-parameters <span class="arithmatex">\(\alpha\)</span>) can be solved analytically.
+  Whilst this approach is very appealing in terms of computational cost and accuracy of the solution it has limited practical use;</li>
+<li><em>Numerical methods</em>: a more general approach to any form of ODE or PDE is to discretize the differential equation itself (or its equivalent
+  integral relation) and solve it by means of numerical methods such as Finite-Difference (FD), Finite-Element (FE), Spectral-Element (SE), etc.
+  Whilst these methods are routinely employed in almost any scientific field, they present some outstanding limitations, the most important of which
+  are the extremely large computational cost and the need for a predefined (regular or irregular) mesh. Moreover, numerical methods like FD or FE
+  solve a specific instance of a ODE or PDE (given fixed initial and boundary conditions and free-parameters) and cannot take advantage of the solution
+  of one instance of the equation when solving a different instance. A classical problem in geophysics, for example, is to solve the wave equation
+  for a given number of different sources (i.e., forcing terms): each instance is solved separately as no one instance can benefit from another one even
+  when sources are just a few meters apart.</li>
+<li><em>Learned models</em>: in the spirit of supervised learning, a number of solutions have been proposed to directly learn a ODE or PDE (or the entire operator)
+  by training a deep learning model (usually a CNN) to map initial conditions and free-parameters into the solution, or a portion of the solution 
+  (e.g., u(t) for <span class="arithmatex">\(0\ge t &lt;T/N\)</span>) and free-parameters into the rest of the solution (e.g., u(t) for <span class="arithmatex">\(T/N\ge t&lt;T\)</span>). Whilst such an approach can work under special
+  circumstances, one clear limitation is that the knowledge of the ODE/PDE is only embedded in the training data. Moreover a classical numerical solver
+  is still required to create the training data.</li>
+</ul>
+<p>PINNs, on the other hand, take a very different approach to learning differential equations. First of all, the exploit the general idea of the
+Universal Approximation Theorem which states that any function can be learned with a large enough (1 layer) Neural Network. Second, they do so
+by leveraging the underlying ODE/PDE that we wish to solve as part of the loss function used to train such a network. To explain how PINNs work,
+let's take a generic PDE and write it formally as:</p>
+<p><img alt="PDE" src="../figs/pde.png" /></p>
+<p>where we have specified here both the differential equation itself, as well as its initial conditions (IC) and boundary conditions (BC). </p>
+<p>Given the definition of a ODE/PDE, a Physics-Informed Neural Network is composed of the following:</p>
+<ul>
+<li>A simple feedforward network <span class="arithmatex">\(f_\theta\)</span> with number of inputs equal to the number of independent variables of the differential equation and number of
+  outputs equal to the number of dependent variables of the differential equation. In the simple case above, the network will have 2 inputs and one
+  outputs. The internal structure of the network is totally arbitrary. Depending on the complexity of the solution this may require more or less layers
+  as well as more or less units per layer. Similarly, the choice of the internal activation functions is arbitrary. Experience has shown than tanh works
+  well in simple scenarios (e.g., when the solution <span class="arithmatex">\(u\)</span> is smooth), whilst other activations such as LeakyRelu, Swish or even Sin may be preferable for
+  complex solutions (e.g., oscillating or with abrupt discontinuities).</li>
+<li>Automatic differentiation (AD) is used not only to compute the gradient of the loss function, but also to compute the derivatives of the output(s) of the 
+  network (dependent variables) over the inputs (independent variables)</li>
+<li>A loss function is defined in such a way that the ODE/PDE is fitted alongside initial and/or boundary conditions.</li>
+</ul>
+<p>Before we delve into the details of each of these three new ingredients, let's visually consider the PINN for the sample PDE equation above:</p>
+<p><img alt="PINN" src="../figs/pinn.png" /></p>
+<p>Starting from the left, as usually done when training NNs, a number of <span class="arithmatex">\((x^{&lt;i&gt;},t^{&lt;i&gt;}) \; i=1,2,...,N_c\)</span> pairs (also sometimes referred in the literature as co-location points) is selected
+and feed to the network. The corresponding outputs <span class="arithmatex">\(u(x^{&lt;i&gt;},t^{&lt;i&gt;})\)</span> are then fed to AD to compute the required derivatives over the inputs (here <span class="arithmatex">\(\partial u / \partial x\)</span> and
+<span class="arithmatex">\(\partial u / \partial t\)</span>). Finally, both the output and its derivatives are used to evaluate the PDE. Alongside these <span class="arithmatex">\(N_c\)</span> co-locations points, a number of additional points
+are fed to the network. In case of initial conditions, these points are <span class="arithmatex">\((x^{&lt;i&gt;},t_0) \; i=1,2,...,N_{IC}\)</span>. Similarly, in case of boundary conditions,
+these points are <span class="arithmatex">\((x_j,t^{&lt;i&gt;}) \; i=1,2,...,N_{BC}; \; j=0,1\)</span>. The ratio between <span class="arithmatex">\(N_c\)</span>, <span class="arithmatex">\(N_{IC}\)</span>, <span class="arithmatex">\(N_{BC}\)</span> is arbitrary. Moreover, the choice of the co-location 
+points can be performed in various alternative ways:</p>
+<ul>
+<li>Uniform in the grid;</li>
+<li>Randomly sampled in the grid (once at the start of training);</li>
+<li>Randomly sampled in the grid (at every step)</li>
+<li>Adaptively: this can be based for example on the PDE loss, where during the training process more points are selected in areas where the PDE match is poorer.</li>
+<li>Which one is best is still under debate, and it is likely to be also problem dependent. Moreover, whilst a full batch approach is the most common for training PINNs,
+researcher have also started to successfully use mini-batch approaches during training.</li>
+</ul>
+<p>Moving onto the computation of the derivatives (<span class="arithmatex">\(\partial u / \partial x\)</span> and <span class="arithmatex">\(\partial u / \partial t\)</span>), since <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(t\)</span> represents the entry leaves of the 
+computational graph, as long as we make our computational framework aware of the fact that we want to compute derivatives over such variables,
+we can do so at any time (and even multiple times if required by the PDE, e.g., <span class="arithmatex">\(\partial^2 u / \partial x^2\)</span>).</p>
+<p>Last but not least, the loss function of PINNs can be written as follows:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathscr{L}_{pinn} &amp;= \frac{1}{N_c} \sum_{i=1}^{N_c} PDE(x^{&lt;i&gt;},t^{&lt;i&gt;}) \\
+&amp;+ \frac{\lambda_IC}{N_{IC}} \sum_{i=1}^{N_{IC}} IC(x^{&lt;i&gt;},t_0) \\
+&amp;+ \frac{\lambda_{BC}}{N_{BC}} \sum_{i=1}^{N_{BC}} BC(x_{j^{&lt;i&gt;}},t^{&lt;i&gt;}) \\
+\end{aligned}
+\]</div>
+<p>As an example, for the problem above, the loss function becomes:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathscr{L}_{pinn} &amp;= \frac{1}{N_c} \sum_{i=1}^{N_c} (\partial u(x^{&lt;i&gt;},t^{&lt;i&gt;}) / \partial t 
++ \partial u(x^{&lt;i&gt;},t^{&lt;i&gt;}) / \partial x - f(u(x^{&lt;i&gt;},t^{&lt;i&gt;}; \alpha)||_2^2 \\
+&amp;+ \frac{\lambda_IC}{N_{IC}} \sum_{i=1}^{N_{IC}} ||u(x^{&lt;i&gt;},t_0)-u_{t0}(x^{&lt;i&gt;})||_2^2 \\
+&amp;+ \frac{\lambda_{BC}}{N_{BC}} \sum_{i=1}^{N_{BC}} ||u(x_{j^{&lt;i&gt;}},t^{&lt;i&gt;})-u_{x_{j^{&lt;i&gt;}}}(t^{&lt;i&gt;})||_2^2
+\end{aligned}
+\]</div>
+<p>where the L2 norm has been used for all the three losses.</p>
+<p>Given the loss, the training process follows similar pattern to that of any Neural Network described in this course. An optimizer of 
+choice (e.g., Adam) is used to minimize the loss:</p>
+<div class="arithmatex">\[
+\underset{\theta} {\mathrm{argmin}} \; \mathscr{L}_{pinn}
+\]</div>
+<p>Finally, once the network is trained, the solution can be evaluated anywhere in the domain by simply passing a pair of coordinates <span class="arithmatex">\((x,t)\)</span> of choice.
+One of the key features of PINNs is that they are mesh independent. Theoretically speaking we could sample our solution at any spatial and temporal sampling of choice,
+and even more so we could have different ones for different areas of the domain. Similarly, since we can evaluate any area of the domain, this method can be also very fast
+compared to for example FD which requires starting from earlier times to get to later ones.</p>
+<p>To conclude, whilst up until now we have discussed PINNs in the context of forward modelling, they can be also used for inverse modelling. In other words,
+an optimization problem can be setup for the free-parameters of the ODE/PDE <span class="arithmatex">\(\alpha\)</span> as follows:</p>
+<p><img alt="PINNINV" src="../figs/pinninv.png" /></p>
+<p>where the optimization process is now performed not only over the network parameters <span class="arithmatex">\(\theta\)</span> whose aim is to produce a continuos field <span class="arithmatex">\(u\)</span> that
+satisfies the ODE/PDE of interest but also over the free-parameters <span class="arithmatex">\(\alpha\)</span>:</p>
+<div class="arithmatex">\[
+\underset{\theta, \alpha} {\mathrm{argmin}} \; \mathscr{L}_{pinn}
+\]</div>
+<p>Note, however, that whilst from a computational point of view this can be easily done, In practice the underlying inverse problem may be highly ill-posed 
+and finding a satisfactory pair of (<span class="arithmatex">\(\alpha, \theta\)</span> may not always be easy. Finally, when <span class="arithmatex">\(\alpha\)</span> is also function of one or more of the independent
+variables of the differential equation (e.g., <span class="arithmatex">\(\alpha(x)\)</span>), this approach can be taken one step further by parametrizing also <span class="arithmatex">\(\alpha\)</span> with a 
+feedforward neural network and optimizing the the weights of the two networks instead of <span class="arithmatex">\(\alpha\)</span> directly:</p>
+<div class="arithmatex">\[
+\underset{\theta, \phi} {\mathrm{argmin}} \; \mathscr{L}_{pinn}
+\]</div>
+<p><img alt="PINNINV1" src="../figs/pinn2net.png" /></p>
+<p>An example of such a scenario can be represented by a classical problem in geophysics: traveltime tomography. Here the PDE is the eikonal
+equation, the independent variables are spatial coordinates <span class="arithmatex">\((x,z)\)</span> and possibly the coordinates of the sources <span class="arithmatex">\((x_S,z_S)\)</span>, and the dependent 
+variable is the traveltime <span class="arithmatex">\(T\)</span>. For inverse modelling, the free-parameter <span class="arithmatex">\(\alpha(x,z)\)</span> is the velocity of the medium which can be also parametrized
+via a network as shown above. To reduce the amount of plausible solutions that can fit the PDE, a BC must be added to the loss function in the form of
+the observed traveltime at receivers (either on the surface (<span class="arithmatex">\(z=0\)</span>) or anywhere available within the domain). </p>
+<p>Of course, the eikonal equation and traveltime tomography is just one problem in geophysics where PINNs may represent an appealing solution.
+Other applications that have recently emerged within the field of geoscience are:</p>
+<ul>
+<li>time and frequency domain wave equation;</li>
+<li>Navier-Stokes equations;</li>
+<li>...</li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../15_gans/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Generative Adversarial Networks (GANs)" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Generative Adversarial Networks (GANs)
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../17_deepinv/" class="md-footer__link md-footer__link--next" aria-label="Next: Deep learning for Inverse Problems" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Deep learning for Inverse Problems
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6e54b5cd.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
