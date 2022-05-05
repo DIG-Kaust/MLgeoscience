@@ -388,3 +388,5 @@ where in the latter case a common approach is to fix the hidden layers and disca
 ## Additional readings
 
 - A [great resource](https://github.com/jettify/pytorch-optimizer) containing references (and Pytorch implementations) of more than 20 optimizers. This may be a good starting point if interest to experiment with different optimizers in both classical optimization and training of NNs.
+- Another great [resource](https://github.com/labmlai/annotated_deep_learning_paper_implementations) with step-by-step implementations of 
+  some popular optimizers and networks.
