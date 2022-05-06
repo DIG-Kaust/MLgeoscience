@@ -8,7 +8,7 @@ on the web (e.g., [1](https://sciml.ai), [2](https://sites.brown.edu/bergen-lab/
 really is and how it differs from the mere application of the ML (and DL) tooling that we have discussed during this course.
 
 To be able to understand what is the best way to marry the latest advances in deep learning with our toolbox of model-driven
-algorithms, let's first briefly review what these two words are good at alone and where they usually struggle.
+algorithms, let's first briefly review what these two disciplines are good at alone and where they usually struggle.
 
 **Deep Learning** is usually great at:
 
@@ -40,18 +40,18 @@ with a large amount of training data and let them identify the best possible way
 On the other hand, unlike deep learning, a purely physics-driven approach may not be able to learn useful information from data nor
 automatically identify patterns in the solution space that we would like to enhance or suppress. This is where a hybrid approach could
 come in handy: we can leverage some of the deep learning methods discussed in this course to identify patterns in both the observations and
-the sough model and use it as an informed prior whilst still relying on the well-known physical process to link the two.
+the sought after model and use it as an informed prior whilst still relying on the well-established physical process to link the two.
 
 In the following we will focus on the following three directions of research that build their foundations on this paradigm:
 
-- Physics-Informed Neural Networks (PINNs): this family of NNs try to learn to model a physical process in an unsupervised manner. This is accomplished
+- *Physics-Informed Neural Networks (PINNs)*: this family of NNs try to learn to model a physical process in an unsupervised manner. This is accomplished
   by including the ODE or PDE that describe the physical process of interest as part of
   the loss function used to train the network. Ultimately, a trained PINN can quickly evaluate the solution of the chosen ODE or PDE at any point in the domain of interest
   (or perform inverse modelling with respect to the free-parameters, initial conditions or boundary conditions of such an equation);
-- Data-driven regularization of inverse problems: in classical inverse problem theory, regularization is a heavily used tool to allow the solution
+- *Data-driven regularization of inverse problems*: in classical inverse problem theory, regularization is a heavily used tool to allow the solution
   of ill-posed inverse problem. We will discuss how hand-crafted regularizers (and/or preconditioners) are nowadays replaced by properly pre-trained
   Neural networks.
-- Learned iterative solvers: large-scale inverse problems are usually solved by means of iterative solvers. A new line of research has shown great promise
+- *Learned iterative solvers*: large-scale inverse problems are usually solved by means of iterative solvers. A new line of research has shown great promise
   in learning the best direction to apply at each step of an iterative solver, this being the output of a neural network fed with the current solution, gradient
   and possibly other inputs. Whilst this approach requires supervision, we will discuss its great potential to replace classical iterative solvers to improve both
   the speed and quality of the solution.
