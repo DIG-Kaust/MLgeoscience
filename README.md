@@ -1,4 +1,4 @@
-![MLGeoscience](https://github.com/DIG-Kaust/MLgeoscience/blob/main/logo.png)
+![MLGeoscience](logo.png)
 
 Teaching material for ErSE 222 Machine Learning in Geoscience course to be held at KAUST during the Spring semester.
 

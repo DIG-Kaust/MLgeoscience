@@ -4,3 +4,4 @@ __pycache__/
 site/
 .idea/
 Figures.pptx
+_build
