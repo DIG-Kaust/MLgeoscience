@@ -3,7 +3,7 @@ from sklearn.datasets import make_moons
 from torch.utils.data import TensorDataset, DataLoader
 
 
-def make_train_test(train_size, test_size, noise=0.05):
+def make_train_test(train_size, test_size, noise=0.05, batch_size=None):
     """Makes a two-moon train-test dataset
 
     Parameters
@@ -14,7 +14,9 @@ def make_train_test(train_size, test_size, noise=0.05):
         Number of test samples
     noise : :obj:`float`, optional
         Standard deviation of noise
-
+    batch_size : :obj:`int`, optional
+        Batch size. If None, full batch
+        
     Returns
     -------
     X_train : :obj:`torch.Tensor`
@@ -50,9 +52,11 @@ def make_train_test(train_size, test_size, noise=0.05):
     test_dataset = TensorDataset(X_test, y_test)
 
     # Use Pytorch's functionality to load data in batches.
-    train_loader = DataLoader(train_dataset, batch_size=X_train.size(0),
+    if batch_size is None: 
+        batch_size = X_train.size(0)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size,
                               shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=X_test.size(0),
+    test_loader = DataLoader(test_dataset, batch_size=batch_size,
                              shuffle=False)
 
     return X_train, y_train, X_test, y_test, train_loader, test_loader
