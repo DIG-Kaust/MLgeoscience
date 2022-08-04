@@ -40,7 +40,7 @@ A GAN model is composed of two networks, namely:
   the generator.
 
 A classical example from the original paper is that the generator is a painting forger, whilst the discriminator is a painting critic. It is obvious here
-that these two networks must compete with each other, if one achieves its goal the other would have failed and viceversa. As we will see later, this is 
+that these two networks must compete with each other, if one achieves its goal the other would have failed and vice-versa. As we will see later, this is 
 what makes GANs successful but also hard to train. Moreover, whilst training is performed in parallel, it is worth noticing that the generator network is what
 ultimately we care about (to be able to create realistic samples), whilst the discriminator is an auxiliary network that will be discarded after training.
 
@@ -68,7 +68,7 @@ $$
 $$
 
 which is minimum for $g_\theta(d_\phi(\mathbf{z}))=1$ (i.e., when the generator has been able to fool the discriminator), and maximum for 
-$g_\theta(d_\phi(\mathbf{z}))=0$ (i.e., when the discriminator recognises the creation of the generator).
+$g_\theta(d_\phi(\mathbf{z}))=0$ (i.e., when the discriminator recognizes the creation of the generator).
 
 For the discriminator we must consider two cases. The first one is associated with the generator:
 
@@ -76,7 +76,7 @@ $$
 \mathscr{L}(\hat{\mathbf{x}}, \hat{\mathbf{y}}=0) = BCE(d_\phi(g_\theta(\mathbf{z})), \hat{\mathbf{y}}=0) = -log(1-d_\phi(g_\theta(\mathbf{z})))
 $$
 
-which is minimum for $g_\theta(d_\phi(\mathbf{z}))=0$ (i.e., when the discriminator recognises the creation of the generator), and maximum for 
+which is minimum for $g_\theta(d_\phi(\mathbf{z}))=0$ (i.e., when the discriminator recognizes the creation of the generator), and maximum for 
 $g_\theta(d_\phi(\mathbf{z}))=1$ (i.e., when the generator has been able to fool the discriminator). The second one is instead
 associated with the true samples:
 
@@ -84,10 +84,10 @@ $$
 \mathscr{L}(\mathbf{x}, \mathbf{y}=1) = BCE(d_\phi(\mathbf{x}), \mathbf{y}=1) = -log(d_\phi(\mathbf{x}))
 $$
 
-which is minimum for $d_\phi(\mathbf{x})=1$ (i.e., when the discriminator recognises the true samples), and maximum for 
+which is minimum for $d_\phi(\mathbf{x})=1$ (i.e., when the discriminator recognizes the true samples), and maximum for 
 $d_\phi(\mathbf{x})=0$ (i.e., when the discriminator believes that the true samples are fake).
 
-Whilst for simplicity we have analysed these three terms separately and focused on how they can be minimized (this is also what we would do when 
+Whilst for simplicity we have analyzed these three terms separately and focused on how they can be minimized (this is also what we would do when 
 implementing GANs in practice), a unique *adversarial loss function* can be also defined that uniquely identifies the goal of GAN training:
 
 $$
@@ -123,7 +123,7 @@ learner, the following scenarios may arise:
   distribution (so-called mode collapse).
 
 Now that we know how to train GANs, and that the training process may be hard, let's discuss in details a number of scenarios that we may encounter during
-training. After that, we will discuss a number of strategies that have been devised throught the years to minimize the risk of having unbalanced training and ultimately 
+training. After that, we will discuss a number of strategies that have been devised through out the years to minimize the risk of having unbalanced training and ultimately 
 a generator with poor generative capabilities.
 
 ### Mode collapse
@@ -265,7 +265,7 @@ where the noise vector $\mathbf{z}$ can be used to sample multiple realizations 
 too constrained to allow 'rich sampling', so the original authors suggest to remove $\mathbf{z}$ from the inputs and use alternative approaches such as dropout if interested 
 to produce multi outputs.
 
-The overall network architecture of Pix2Pix can be summarised as follows:
+The overall network architecture of Pix2Pix can be summarized as follows:
 
 ![PIX2PIX](figs/pix2pix.png)
 

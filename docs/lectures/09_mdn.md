@@ -24,7 +24,7 @@ are generally identified:
 A number of more or less simple strategies can however be employed when training NNs with the goal of obtaining a quantitative measurement of how certain our estimate is:
 
 - *Dropout*: this commonly used regularization strategy presented in one of our previous lectures can be also leveraged to produce an estimate of the uncertainty of our solution. This can be done by simply using dropout at the inference time and feeding the network multiple times with the same input. Multiple realizations of a prediction are computed, where different portions of the neurons of the network are deactivated for the different realizations. An empirical distribution or parameter estimates (e.g., mean and standard deviation) over the outputs can be finally estimated. 
-  The reason behind the success of this strategy is that the network can easily learn to always predict the same (or very similar) output when it is well constrained by data no matter if some of the neurons are deactivated at random. On the other hand, when the network is more unsure because of lack of data or constrasting data, different versions of the network are likely to produce different predictions.
+  The reason behind the success of this strategy is that the network can easily learn to always predict the same (or very similar) output when it is well constrained by data no matter if some of the neurons are deactivated at random. On the other hand, when the network is more unsure because of lack of data or contrasting data, different versions of the network are likely to produce different predictions.
 
 - *Ensembling*: another popular strategy, although quite expensive, is to train N neural networks with different initializations and use them to produce multiple predictions. Similar to dropout, when the training data is available and of good quality, the different networks will make similar predictions as they will likely converge to minima of similar quality. On the other hand, when the data is poor (or lacking), the weight initialization plays a much bigger role in the training and different network are likely to behave differently.
   
@@ -39,7 +39,7 @@ $$
 
 ![DPE](figs/dpe.png)
 
-- *Mixture density networks*: a natural extension of the DPE method is is represented by networks that try to predict more complex probability distributions by parametrizing them as mixture of gaussians. 
+- *Mixture density networks*: a natural extension of the DPE method is is represented by networks that try to predict more complex probability distributions by parametrizing them as a mixture of gaussians. 
   
 
 ## Mixture density networks (MDNs)

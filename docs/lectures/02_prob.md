@@ -4,7 +4,7 @@ Another set of fundamental mathematical tools required to develop various machin
 (especially towards the end of the course when we will focus on generative modelling)
 
 In order to develop various machine learning algorithms (especially towards the end of the 
-course when we will focus on generative modelling) we need to be familarized with some basic concepts of:
+course when we will focus on generative modelling) we need to be familiarized with some basic concepts of:
 mathematical tools from:
 
 - **Probability**: mathematical framework to handle uncertain statements;
@@ -101,7 +101,7 @@ $$
 $$
 
 **Variance (and Covariance)**: Given a function $f(x)$ where $x$ is a random variable with probability $P(x)$,
-it represents a masure of how much the values of the function vary from the mean:
+it represents a measure of how much the values of the function vary from the mean:
 
 $$
 \sigma^2 = E_{x \sim p} [(f(x)-\mu)^2]
@@ -199,7 +199,7 @@ signals (or probability distributions) differ from each other.
 
 A large body of literature exists in the context of telecommunications, where it is necessary to study how to transmit signals
 for a discrete alphabet over a noisy channel. More specifically, a code must be designed so to allow sending the least amount
-of bits for the most amount of useful information. Extension of such theory to continous variables is also available and more 
+of bits for the most amount of useful information. Extension of such theory to continuous variables is also available and more 
 commonly used in the context of ML systems.
 
 **Self-information**: a measure of information in such a way that likely events have low information content, less 
@@ -211,7 +211,7 @@ $$
 
 such that for $P(x) \rightarrow 0$ (unlikely event), $I \rightarrow \infty$ and for $P(x) \rightarrow 1$ (likely event), $I \rightarrow 0$.
 
-**Shannon entropy**: extension of self-information to continous variables, representing the expected amount of information in an event $x$ drawn from a probability $P:
+**Shannon entropy**: extension of self-information to continuous variables, representing the expected amount of information in an event $x$ drawn from a probability $P:
 
 $$
 H(x) = E_{x \sim P} [I(x)] = - E_{x \sim P} [log_eP(x)]

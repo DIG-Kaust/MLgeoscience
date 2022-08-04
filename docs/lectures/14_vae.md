@@ -62,7 +62,7 @@ $\mathbf{z} = \boldsymbol \sigma \cdot \mathbf{z} + \boldsymbol \mu$ where $\cdo
 ### Reparametrization trick
 
 This rather simple trick is referred
-to as *Reparametrization trick* and it is stricly needed in neural networks every time we want to introduce a stochastic procees within the computational graph.
+to as *Reparametrization trick* and it is strictly needed in neural networks every time we want to introduce a stochastic process within the computational graph.
 In fact, by simply having a stochastic process parametrized by a certain mean and standard deviation that may come from a previous part of the computational graph
 (as in VAEs) we lose the possibility to perform backpropagation. Instead if we decouple the stochastic component (which we are not interested to update, and 
 therefore to backpropagate onto) and the deterministic component(s), we do not lose access to backpropagation:
@@ -179,7 +179,7 @@ terms that we have previously described:
   of our previous lectures;
 - $KL(q_\theta(\mathbf{x})||p(\mathbf{x}))$ is the regularization term encouraging the proposal distribution to stay close to the prior.
 
-Finally, let's slightly rearrange the epression in the 5th row:
+Finally, let's slightly rearrange the expression in the 5th row:
 
 $$
 E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}) ] - KL(q_\theta(\mathbf{x})||p(\mathbf{x}|\mathbf{y})) = 
