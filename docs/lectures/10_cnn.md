@@ -1,6 +1,6 @@
 # Convolutional Neural Networks
 
-Convolutional Neural Networks are one of the most powerful types of neural network, very popular and successfull in image processing (and more broadly computer vision). They are based on a simple mathematical operation that we, geoscientists, know very well and user in a variety of tasks: the *convolution* operator. This is motivated in most scenarios where local dependancies in the input data are known to be predominant. 
+Convolutional Neural Networks are one of the most powerful types of neural network, very popular and successful in image processing (and more broadly computer vision). They are based on a simple mathematical operation that we, geoscientists, know very well and user in a variety of tasks: the *convolution* operator. This is motivated in most scenarios where local dependencies in the input data are known to be predominant. 
 
 Imagine for example a geological model, or a core section. If we decide to apply Deep Learning to such data to either classify
 rock types, estimate rock parameters, or even for generative modelling tasks, the first thing that we would like our NN to know is that nearby geological features are likely to be correlated, whilst the further apart we move the more the features become
@@ -34,7 +34,7 @@ $$
 where $x(t)$ and $y(t)$ are the input and output, respectively, and $h(t)$ is the filter (also called *kernel* in the DL jargon).
 This equation can be interpreted as follows: take the filter and flip it across the origin, then slide it along the time axis and multiply-and-sum it to the input signal.
 
-In practice, when working with digital data in a computer, all signals are discrete and the continous formula above can be rewritten as follows:
+In practice, when working with digital data in a computer, all signals are discrete and the continuous formula above can be rewritten as follows:
 
 $$
 y_i = \sum_{j=-\infty}^{\infty} x_j h_{i-j}
@@ -48,7 +48,7 @@ $$
 y(t) = \int x(\tau) h(t+\tau) d\tau \leftrightarrow y_i = \sum_{j=-\infty}^{\infty} x_j h_{i+j}
 $$
 
-where the filter is simply slided across the $t$ axis (without being initially flipped). The main difference between convolution and correlation is therefore that one delays the input signal whilst the other anticipates it when the filter is non-symmetric to zero. As we will see later, it is important to immediately empathise also a slight difference in the jargon used in classical signal processing and deep learning: what usually we refer to as convolution in DL is what signal processing refers to as correlation. However, since in DL we do not choose the filter $h$, rather this is learned from data, if signal processing convolution was used instead of correlation, the learning algorithm would just learned the flipped version of the filter.
+where the filter is simply slid across the $t$ axis (without being initially flipped). The main difference between convolution and correlation is therefore that one delays the input signal whilst the other anticipates it when the filter is non-symmetric to zero. As we will see later, it is important to immediately empathize also a slight difference in the jargon used in classical signal processing and deep learning: what usually we refer to as convolution in DL is what signal processing refers to as correlation. However, since in DL we do not choose the filter $h$, rather this is learned from data, if signal processing convolution was used instead of correlation, the learning algorithm would just learned the flipped version of the filter.
 
 In both cases, when we convolve two signals of size $N_x$ with a filter of size $N_h$, the output signal has size:
 
@@ -64,7 +64,7 @@ $$
 
 In the next section, we will see how we can actually make the choice of $N_y$ more flexible with the help of additional tools like padding and striding.
 
-Extending the concept of convolution to two- and multi-dimensional data is straighforward. This can be done by simply
+Extending the concept of convolution to two- and multi-dimensional data is straightforward. This can be done by simply
 sliding the filter in all dimensions and can be mathematically written (in the discrete form) as follows:
 
 $$
@@ -97,7 +97,7 @@ Finally, a third benefit is the *equivariance of convolution to translation*. Th
 
 ## Padding and strides
 
-We have previously seen how applying convolution to a signal with a kernel of a given size produces an output signal of different size, either with the total or valid output size is chosen. It may be however much easier when designing a convolutional neural network to have inputs and outputs of the same size, or more in general to be free to design the size of the output indipendent on that of the input and filter. Two simple approaches exist:
+We have previously seen how applying convolution to a signal with a kernel of a given size produces an output signal of different size, either with the total or valid output size is chosen. It may be however much easier when designing a convolutional neural network to have inputs and outputs of the same size, or more in general to be free to design the size of the output independent on that of the input and filter. Two simple approaches exist:
 
 - *padding*: the input signal is padded with zeros on both sides (for 1D signals) or all sides (for ND signals) prior to convolution. This allows producing outputs that can have the same size or even larger size than the input. Let's first look at this with an example when the output size is computed using the equation above for the valid case. We can devise a padding such that the size of the output stays the same as that of the input. This is actually easy to do once we choose the size of the filter and more specifically $N_{x,pad} = N_x + 2*pad$ with $pad = (N_h-1)/2$ when $N_h$ is a odd number and $N_h/2$ when $N_h$ is a even number.
   
@@ -192,7 +192,7 @@ As we have previously mentioned in the previous section, convolutional neural ne
 We have already discussed that by choosing the filter size, stride and padding, the output can be either kept of the same size of the input or reduced (or increased) in size.
 
 At times, it may however be better to avoid changing the size of the output directly as part of the convolution process, rather perform this in a separate step. In this section we introduce the
-so-called *pooling* process, which is designed specifically to reduce the size of an input N-dimensional array by an arbritrary factor $N_p$.
+so-called *pooling* process, which is designed specifically to reduce the size of an input N-dimensional array by an arbitrary factor $N_p$.
 
 Let's start with an example. We are interested to take a matrix of size $N_{h,x} \times $N_{w,x}$ as input and produce an output of half the size (i.e., $N_{h,x}/2 \times $N_{w,x}/2$.
 A possible way to achieve this without purely discarding some of the values of the matrix is to select the maximum value within a sliding window of size $2 \times 2$ (stride=2):
@@ -203,7 +203,7 @@ This approach is commonly referred to in the literature as *Max Pooling*. This a
 accordingly (i.e., using to the equations defined above used for the output sizes of a convolutional layer based on the filter size and stride). Moreover, even though less commonly used, *Mean Pooling* represent an alternative approach where the mean value inside each patch is taken 
 instead of the maximum.
 
-Finally, it is important to observe that Pooling is done for each channel indipendently and that it does not contain any learnable parameter.
+Finally, it is important to observe that Pooling is done for each channel independently and that it does not contain any learnable parameter.
 
 ## 1x1 convolutions
 At this point we know how to take an input tensor with an arbitrary number of dimensions (two or more) and a given number of channels, feed it 

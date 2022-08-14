@@ -56,7 +56,7 @@ classical approaches in inverse problem theory and supervised learning approache
 - learned regularization: a set of models $(\mathbf{m}^{<i>}$ is available upfront, which are used to find a latent representation. The inverse problem is subsequently solved for *one instance* of data $\mathbf{d}^{obs}$
   using the learned regularizer (or preconditioner) and the physical modelling operator.
 
-The key idea of solving inverse problems with learned regualizers is therefore to split the problem into two subsequent tasks, where the first is concerned with the prior
+The key idea of solving inverse problems with learned regularizers is therefore to split the problem into two subsequent tasks, where the first is concerned with the prior
 and the latter with the modelling operator (this is different from the supervised learning approach where the two are learned together):
 
 - Learning process: a nonlinear model is trained to identify a representative latent space for the set of available solutions. Such model can be an AE (or VAE) network:

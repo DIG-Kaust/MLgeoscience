@@ -5,7 +5,7 @@ we are now in a position to start our journey in the field of *learning algorith
 Any learning algorithm, no matter its level of complexity, is composed of 4 key elements:
 
 **Dataset**: a collection of many examples (sometimes referred to as samples of data points) that represents the experience
-we wish our machine learning algorithm to learn from. More speficically, the dataset is defined as:
+we wish our machine learning algorithm to learn from. More specifically, the dataset is defined as:
 $$
 \mathbf{x} = [x_1, x_2, ..., x_{N_f}]^T \quad \mathbf{X} = [\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, ..., \mathbf{x}^{(N_s)}] 
 $$
@@ -71,7 +71,7 @@ The most used selection rules are:
 
 - Constant: the step size is fixed to a constant value $\alpha_i=\hat{\alpha}$. This is the most common situation that we
   will encounter when training neural networks. In practice, some adaptive schemes based on the evolution of the train
-  (or validation) norm are generally adopted, but we will still refer to this case as costant step size;
+  (or validation) norm are generally adopted, but we will still refer to this case as constant step size;
 - Exact line search: at each iteration, $\alpha_i$ is chosen such that it minimizes $J(\theta_{i} + \alpha_i d_i)$. This
   is the most commonly used approach when dealing with linear systems of equations.
 - Backtracking  "Armijo" line search: at each iteration, given a parameter $\mu \in (0,1)$, start with $\alpha_i=1$ 
@@ -97,7 +97,7 @@ $$
 which can be easily derived from the Taylor expansion of $f(\theta)$ around $\theta_{i+1}$.
 
 If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
-($\theta: min_\theta f(\theta) \leftrightarrow \theta: f'(\theta)=0$), the Netwon's method can be written as:
+($\theta: min_\theta f(\theta) \leftrightarrow \theta: f'(\theta)=0$), the Newton's method can be written as:
 
 $$
 \theta_{i+1} = \theta_i - \frac{J'(\theta)|_{\theta_i}}{J''(\theta)|_{\theta_i}} 
@@ -131,7 +131,7 @@ $$
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_i - \mathbf{H}^{-1}\nabla J
 $$
 
-Approximated version of the Netwon method have been developed over the years, mostly based on the idea that inverting $\mathbf{H}$ is sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse) using the collections of gradient information from the previous iterations. [BFGS](https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm) or its limited memory version [L-BFGS](https://en.wikipedia.org/wiki/Limited-memory_BFGS) are examples of such a kind. Due to their computational cost
+Approximated version of the Newton method have been developed over the years, mostly based on the idea that inverting $\mathbf{H}$ is sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse) using the collections of gradient information from the previous iterations. [BFGS](https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm) or its limited memory version [L-BFGS](https://en.wikipedia.org/wiki/Limited-memory_BFGS) are examples of such a kind. Due to their computational cost
 (as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the machine learning community to optimize the parameters of NNs in deep learning.
 
 ## Stochastic-gradient descent (SGD)
@@ -166,7 +166,7 @@ The choice of the training sample $j$ at each iteration is generally completely 
 ### Mini-batched gradient descent
 
 A more commonly used strategy lies in between the batched and stochastic gradient descent algorithms 
-uses batches of training samples to compute the gradient at each iteration. More spefically given a batch of 
+uses batches of training samples to compute the gradient at each iteration. More specifically given a batch of 
 $N_b$ samples, the update formula can be written as:
 
 $$

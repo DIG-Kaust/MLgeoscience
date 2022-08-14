@@ -1,12 +1,12 @@
 # CNNs Popular Architectures
 This lecture provides an overview of how deep learning, especially in the context of CNNs (and computer vision in general), has
-evolved over the last decade. This is something that it is good to be familar with because:
+evolved over the last decade. This is something that it is good to be familiar with because:
 
-- whilst most of these advances are given for granted and routinely used today, it is always insigthful to learn *how* ans *why* these
+- whilst most of these advances are given for granted and routinely used today, it is always insightful to learn *how* ans *why* these
   developments were made;
 - we can use architectures that worked well with no (or minimal) adaptation to our problem at hand (we will see that this is very commonly 
   done with high degree of success in geoscience);
-- even better, sometimes we can decide to use pre-trained networks and fine-tune them with limited amount of label data. In this case knowning
+- even better, sometimes we can decide to use pre-trained networks and fine-tune them with limited amount of label data. In this case knowing
   the network architecture in details allows us to make informed choices, such as remove some of the final layers and introduce new ones that 
   better adapt to the problem at hand (e.g., different number of classes).
   
@@ -35,7 +35,7 @@ today would have been implemented differently:
 ## AlexNet
 AlexNet represents a milestone in the field of DeepLearning. Developed by Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton, this network
 was the first CNN that won the popular computer vision competition ImageNet. Not only that, but the network outperformed other submissions by
-far, and brough Deep Learning to the attention of the larger Computer Vision community.
+far, and brought Deep Learning to the attention of the larger Computer Vision community.
 
 As shown in the figure below, this network is not very different from LeNet-5 in its individual components, it is however much deeper and contains
 much more trainable parameters. More specifically, it is composed of:
@@ -103,12 +103,12 @@ The GoogleLeNet network is a large networks where multiple of these Inception la
 ![GLENET](figs/googlelenet.png)
 
 ## ResNet
-We can already observe a trend moving from LeNet-5 to VGG-19. From the 80' all the way to the early 2000', networks started to become depeer and deeper.
+We can already observe a trend moving from LeNet-5 to VGG-19. From the 80' all the way to the early 2000', networks started to become deeper and deeper.
 However, despite deeper network can generally achieve better performance, practitioners started to also experience painfully slow training. It was later discovered
 that this was caused by the vanishing gradient problem.
 
 Around the same time of VGG-16, He and coauthors proposed a new network block called the Residual Block. As already discussed in our last lecture,
-this block introduces the innovative idea of shortcutting some of the activations forward in the computational graph and summing them to the activations
+this block introduces the innovative idea of shortcuting some of the activations forward in the computational graph and summing them to the activations
 of the main path. This gave rise to the so-called ResNet that proved to be much easier (and faster) to train than other CNNs when stacking a large number of layers,
 even up to 100 (or 1000) of layers!
 
@@ -117,7 +117,7 @@ even up to 100 (or 1000) of layers!
 The figure above shows ResNet-18, but it is important to remember that the idea of adding skip-connections every couple of layers has much wider 
 implications than just for the ResNet architecture. One of the key benefits introduced by ResNet is the ability to increase the depth of a network without
 incurring in the risk of overfitting the training data. So, whilst in theory deeper networks should always reduce the training error, this is not always the case
-for plain networks. On the other hand, networks with Residual blocks are much more succesfull in that respect.
+for plain networks. On the other hand, networks with Residual blocks are much more successful in that respect.
 
 ![RESNETTRAINING](figs/resnettraining.png)
 
@@ -134,12 +134,12 @@ equal to that of the input times the number of classes.
 
 ![SEMSEG](figs/semseg.png)
 
-The UNet architecture presents the following charactheristics:
+The UNet architecture presents the following characteristics:
 
 - it can be seen as composed by two networks, an *Encoder* or contracting path, and a *Decoder* or expanding path. This is a common
   design in dimensionality reduction networks like AutoEncoders (see [Lecture X](14_autoencoder.md) for more details). Each level of the encoder 
   network contains a number of convolutional layers followed by a downsampler (usually achieved by means of max pooling). On the other hand,
-  the decoder is composed of convolutional layers preceeded by an upsampler (this can be either an interpolator like a bilinear interpolation or
+  the decoder is composed of convolutional layers preceded by an upsampler (this can be either an interpolator like a bilinear interpolation or
   a convtranspose layer);
 - skip connections are introduced at each level of the contracting path, taking those features all the way to the corresponding level of the
   expanding path (where they are concatenated with the features coming from a deeper level of the contracting path itself). Whilst we have

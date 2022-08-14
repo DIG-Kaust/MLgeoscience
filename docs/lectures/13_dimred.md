@@ -6,7 +6,7 @@ another family of methods that is becoming more and more popular falls under the
 
 When labelled data are scarce, or it is difficult to have access to ground truth labels (e.g., in geoscience), unsupervised learning
 can represent an appealing alternative to find patterns in data. Unsupervised learning comes in different flavours. 
-For example let's imagine grouping a set of unlabelled data into a number of buckets and then analyse them 
+For example let's imagine grouping a set of unlabelled data into a number of buckets and then analyze them 
 one-by-one knowing that the samples within each bucket are more similar to each other than others in the dataset: this is a form of 
 unsupervised learning called *clustering*. The flavour that we are going to discuss in 
 more details in the following is however referred to as *Dimensionality reduction*. Simply stated dimensionality reduction 
@@ -49,7 +49,7 @@ where $\mathbf{E}_{[N_l \times N_f]}$ and $\mathbf{D}_{[N_f \times N_l]}$. PCA a
 features that are linear combinations of the columns of the encoder (i.e., $\mathbf{c}=\sum_{i=1}^{N_f} \mathbf{E}_{:,i} x_i$)
 such that the projection of these new features onto the original space ($\mathbf{D}\mathbf{c}$) is as close as possible to the
 original sample $\mathbf{x}$. In other words, we want to find the best linear subspace of the original space that minimizes the
-reconstruction error defined here as the squared Eucliden norm ($\mathscr{L}=||.||^2_2$).
+reconstruction error defined here as the squared Euclidean norm ($\mathscr{L}=||.||^2_2$).
 
 Defining a unique pair of matrices ($\mathbf{E},\mathbf{D}$) is however not possible without imposing further constraints. In the
 PCA derivation we must assume that the columns of $\mathbf{D}$ are orthonormal:
@@ -172,7 +172,7 @@ Whilst PCA is very popular for its simplicity (both of understanding and impleme
 reduction exist. As some of them has been shown during the years to be very powerful and better suited to find representative latent
 representations from data, we will briefly look at them here.
 
-### Indipendent Component Analysis (ICA)
+### Independent Component Analysis (ICA)
 
 ICA aims to separate a signal into many underlying signals that are scaled and added together to reproduce the original one:
 
@@ -224,9 +224,9 @@ $$
 where $\beta$, $\lambda$ are directly related to the parameters of the posterior distribution that we wish to maximize. This
 functional can be minimized in an alternating fashion, first for $\mathbf{W}$, then for $\mathbf{x}$, and so on and so forth.
 
-Finally, once the training process is over and $\hat{\mathbf{W}}$ is avaiable, it is worth noting that sparse coding does require
+Finally, once the training process is over and $\hat{\mathbf{W}}$ is available, it is worth noting that sparse coding does require
 solving a sparsity-promoting inverse problem for any new training sample $\mathbf{x}$ in order to find its best
-representation $\hat{\mathbf{h}}$. Nevetheless, despite the higher cost compared to for example PCA, sparse coding has shown 
+representation $\hat{\mathbf{h}}$. Nevertheless, despite the higher cost compared to for example PCA, sparse coding has shown 
 great promise in both data compression and representation learning, the latter when coupled with down-the-line supervised tasks.
 
 ## Autoencoders
@@ -371,7 +371,7 @@ of this method claim additional robustness, the computational cost of computing 
 #### Denoising AutoEncoders
 
 Finally, denoising AEs are another family of regularized autoencoders. In this case, however, the regularization is implemented directly on
-the input vectors prior to feeding them to the network, by eithe replacing some values with zeros (or random values) or adding noise. Considering 
+the input vectors prior to feeding them to the network, by either replacing some values with zeros (or random values) or adding noise. Considering 
 this last case, each step of the training process becomes:
 
 - $\tilde{\mathbf{x}}^{(i)} = \mathbf{x}^{(i)} + \mathbf{n}^{(i)} \quad \forall i$;

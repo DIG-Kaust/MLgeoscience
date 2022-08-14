@@ -14,7 +14,7 @@ our ability to quickly and efficiently converge to one of its minima (ideally th
 ($\mathbf{H}=\frac{\partial^2 f}{\partial \boldsymbol \theta^2}$). An Hessian matrix with large conditioning number (i.e.,
 ratio of the largest and smallest eigenvalues) tends to affect convergence speed of first-order (gradient-based) methods.
 
-In classical optimization theory, second order methods such as the Gauss-Netwon method are commonly employed to counteract
+In classical optimization theory, second order methods such as the Gauss-Newton method are commonly employed to counteract
 this problem. However, as already mentioned in one of our previous lectures, such methods are not yet suitable for deep learning
 in that no mathematical foundations have been developed in conjunction with approximate gradients (i.e., mini-batch learning
 strategy). 
@@ -55,7 +55,7 @@ Nevertheless, getting stuck into local minima is much less of a problem when tra
 This can be justified by the fact that multiple models may perform equally well on both the training and testing data. 
 To be more precise this relates to the concept of *model identifiability*, where a model is defined identifiable if there exist a 
 single set of parameters ($\boldsymbol \theta_{gm}$) that lead to optimal model performance. On the other hand, when multiple models $\{ \boldsymbol \theta_{gm}, 
-\boldsymbol \theta_{lm,1}, ..., \boldsymbol \theta_{lm1,N}$ perform similarly those models are said to be non-identifiable. Moroever, even when a 
+\boldsymbol \theta_{lm,1}, ..., \boldsymbol \theta_{lm1,N}$ perform similarly those models are said to be non-identifiable. Moreover, even when a 
 single model performs best, a distinction must be made between training and testing performance. As far as training performance is concerned,
 this model must be that of the global minimum of the functional $\boldsymbol \theta_{gm}$. Nevertheless, the model that performs best on the testing
 data may be the one obtained from any of the local minima $\boldsymbol \theta_{lm,i}$ as such a model be have better generalization capabilities
@@ -303,7 +303,7 @@ $$
 \end{aligned}
 $$
 
-where, once again, a number of hyperparameters are intoduced. These are the stabilizer, $\delta=10^{-6}$, and two 
+where, once again, a number of hyperparameters are introduced. These are the stabilizer, $\delta=10^{-6}$, and two 
 decay rates ($\rho_1$ and $\rho_2$).
 
 To conclude, we have first introduced simpler optimizers and subsequently built complexity in terms of both momentum and 
@@ -311,7 +311,7 @@ parameter-dependent learning, there is no universal winner. Although both moment
 to be beneficial to the training on NNs, it is not always the case that ADAM provides the best results both in
 terms of robustness and convergence speed. It is therefore important to be aware of the different optimizers that
 are available in the DL arsenal and identify the best based on the task at end. In other words, the choice of the
-optimizer can usually represent one of those hyperparameters that ML practictioners need to evaluate and select
+optimizer can usually represent one of those hyperparameters that ML practitioners need to evaluate and select
 when developing a new ML pipeline.
 
 ### Other tricks

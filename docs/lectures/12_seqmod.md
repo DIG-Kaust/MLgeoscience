@@ -26,14 +26,14 @@ are all datatypes that present a certain degree of correlation along either the 
 
 Finally, similar to FFNs or CNNs, sequence modelling can be used for various applications:
 
-- Single output classification: given an input sequence of a certain lenght $\mathbf{x}$, a model is trained to decide whether than sequence contains
+- Single output classification: given an input sequence of a certain length $\mathbf{x}$, a model is trained to decide whether than sequence contains
   a feature of interest or not. For example, given a seismogram we may be interest to detect the presence of a seismic event, or we may want to find out
   if a well log is clean or corrupted by some recording error or what is the facies in the middle of the sequence;
-- Multi ouput classification (i.e., semantic segmentation): given an input sequence of a certain lenght $\mathbf{x}$, a model is trained to classify each element
+- Multi output classification (i.e., semantic segmentation): given an input sequence of a certain length $\mathbf{x}$, a model is trained to classify each element
   of the input sequence into a predefined set of classes. Taking once again the example of facies labelling, here the task is extended to predicting labels
   at each depth level (and not only in the middle of the sequence);
-- Regression: given an input sequence of a certain lenght $\mathbf{x}$, a model is trained to predict a continuous output, which could be
-  a single value $y$ or a sequence of values $\mathbf{y}$ that has the same (or different lenght) of the input. For example, given a set of 
+- Regression: given an input sequence of a certain length $\mathbf{x}$, a model is trained to predict a continuous output, which could be
+  a single value $y$ or a sequence of values $\mathbf{y}$ that has the same (or different length) of the input. For example, given a set of 
   well logs we may want to predict another one that was not acquired. Similarly, given a seismic trace recorded by the vertical component of a geophone
   we may be interested to predict the horizontal components. Both of these example fall under the area of *domain translation*;
 
@@ -58,18 +58,18 @@ a certain degree of correlation. Alternatively, the matrix $\mathbf{X}$ could be
 however present two main limitations:
 
 - since the vector $vec(\mathbf{X})$ is likely to be very long, weight matrices will be very large leading to a very expensive training process;
-- FFNs cannot easily handle inputs of variable lenghts, so all sequences will need to have fixed lenght. We will see that being able to handle 
-  variable-lenght sequences is very useful in some situations. 
+- FFNs cannot easily handle inputs of variable lengths, so all sequences will need to have fixed length. We will see that being able to handle 
+  variable-length sequences is very useful in some situations. 
   
 Both problems can be overcome by taking advantage of *parameter sharing*. We have already introduced this concept in the context of CNNs,
 where the same filters are used in different parts of the input. Similarly in sequence modelling, the idea of parameter sharing allows using the same
-parameters at different stages of the sequence and therefore allows the network to easily handle sequences of variable lenght. By doing so,
+parameters at different stages of the sequence and therefore allows the network to easily handle sequences of variable length. By doing so,
 a new type of neural network is created under the name of Recurrent Neural Network (RNN):
 
 ![RNN](figs/rnn.png)
 
 where $\mathbf{x}$ is the input vector (or matrix when multiple features are present), $\mathbf{y}$ is the output vector, and $\mathbf{h}$
-is the so calle hidden state vector.
+is the so called hidden state vector.
 
 As clearly shown in the unrolled version of the network into a standard computational graph, various inputs and hidden states are passed through
 the same function $f_\theta$ with a given number of training parameters. This is very different from a feed-forward network where different functions 
@@ -92,7 +92,7 @@ $$
   \end{bmatrix}_{[N_t \times T_y]}
 $$
 
-where $T_x$ and $T_y$ are the lenght of the input and output sequences. First, note that this notations differs from before in that a
+where $T_x$ and $T_y$ are the length of the input and output sequences. First, note that this notations differs from before in that a
 single training sample is now represented as a matrix; therefore, the entire training data becomes a 3-D tensor of size $[N_s \times N_f \times T_x]$ 
 (and $[N_s \times N_t \times T_y]$). Finally, note that in the most general case these parameters may be sample dependant (i.e., when we allow sequences of variable size): the following notation will be used in that case, $T_x^{(i)}$ and $T_y^{(i)}$
 where $i$ refers to the i-th training sample. Moreover, given that we recurrently apply the same function $f_\theta$, we can very compactly write an
@@ -227,7 +227,7 @@ where $\mathbf{1}_{i=y^{<t>}}$ is a vector of zeros with 1 at location of the tr
 is the Jacobian of the tanh activation function, and $\partial \mathscr{L} / \partial \mathbf{h}^{<t+1>}$ is computed recursively from $t+1=T_x$
 as we know $\partial \mathscr{L} / \partial \mathbf{h}^{<T_x>}$. Moreover, it is worth noting how the gradient of the loss function
 over any hidden state $\mathbf{h}^{<t>}$ is composed of two terms, one coming directly from the corresponding output 
-$\mathbf{o}^{<t>}$ and one from the next hiddent state $\mathbf{h}^{<t+1>}$.
+$\mathbf{o}^{<t>}$ and one from the next hidden state $\mathbf{h}^{<t+1>}$.
 
 It follows that the gradients of the parameters to update are:
 
@@ -282,7 +282,7 @@ $$
 \end{aligned}
 $$
 
-where each output is here totally indipendent from the others. On the other hand, we are now faced with a joint distribution to
+where each output is here totally independent from the others. On the other hand, we are now faced with a joint distribution to
 sample from:
 
 $$
@@ -325,8 +325,8 @@ such recordings as they come in and provide us with useful insights on how to be
 ![DRILLBIT](figs/drillbit.png)
 
 Of course, not every problem lends naturally to the above depicted scenario. In most cases we are able to record data over an entire time window
-and only after that we are concerned with analysing such data. This is usually referred to as *offline* processing. In this case it may be useful
-to also look at correlations betweeen samples at time $t$ and future samples $(t+1,t+2,t+i)$. Bidirection RNNs represent a solution to this as they 
+and only after that we are concerned with analyzing such data. This is usually referred to as *offline* processing. In this case it may be useful
+to also look at correlations between samples at time $t$ and future samples $(t+1,t+2,t+i)$. Bidirectional RNNs represent a solution to this as they 
 allow learning short and long term dependencies not only from the past but also from the future. Let's start with a schematic diagram:
 
 ![BRNN](figs/brnn.png)
@@ -339,7 +339,7 @@ outputs of the two flows, i.e., $\hat{\mathbf{y}}^{<t>} = [\hat{\mathbf{y}}_F^{<
 
 ## Deep RNNs
 
-Similarly to any other network architecture that we have investiaged so far, the concept of shallow and deep network also applies to RNNs. Shallow
+Similarly to any other network architecture that we have investigated so far, the concept of shallow and deep network also applies to RNNs. Shallow
 RNNs are recurrent networks that have a single hidden layer connecting the inputs to the outputs. On the other than, deep RNNs are composed of more hidden
 layers. This is simply achieved as follows:
 

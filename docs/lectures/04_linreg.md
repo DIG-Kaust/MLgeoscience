@@ -17,7 +17,7 @@ $\tilde{\textbf{x}}=[\textbf{x}, 1] \in \mathbb{R}^{N_f+1}$
 The prediction $\hat{y}$ is simply obtained by linearly 
 combining the different features of the input vector and adding the bias.
 
-Despite its simplicity, linear regression (and more commonly multi-variate linear regression) has been succesfully used in 
+Despite its simplicity, linear regression (and more commonly multi-variate linear regression) has been successfully used in 
 a variety of geoscientific tasks, examples of such a kind are:
 
 - rock-physics models, where a number of petrophysical parameters (e.g., porosity, shale content, depth) can be linearly regressed 
@@ -99,7 +99,7 @@ $$
 or in other words, the input vector $\textbf{x}$ is fed through a nonlinear model $f_\theta$ whose output is a scalar number between 0 and 1 that 
 represents the probability of the target output to be 1.
 
-Considering now a set of $N_s$ training pairs, the model can be explicitely written as:
+Considering now a set of $N_s$ training pairs, the model can be explicitly written as:
 
 $$
 \hat{\textbf{y}}_{train} = f_\theta(\textbf{X}_{train}) = \sigma(\textbf{X}_{train}^T \boldsymbol\theta)
@@ -132,7 +132,7 @@ and then the case of negative target, $y_{train}^{(i)}=0$:
 
 ![LOGISTIC NEGATIVE](figs/logistic_neg.png)
 
-Our drawings cleary show the validity of such a cost function in both cases. The further away is the prediction from the true label the higher the
+Our drawings clearly show the validity of such a cost function in both cases. The further away is the prediction from the true label the higher the
 resulting cost function. Similar to the case of linear regression, we can now update the model parameters by minimizing the cost function:
 
 $$
