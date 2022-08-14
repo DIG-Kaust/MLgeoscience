@@ -486,8 +486,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#indipendent-component-analysis-ica" class="md-nav__link">
-    Indipendent Component Analysis (ICA)
+  <a href="#independent-component-analysis-ica" class="md-nav__link">
+    Independent Component Analysis (ICA)
   </a>
   
 </li>
@@ -678,8 +678,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#indipendent-component-analysis-ica" class="md-nav__link">
-    Indipendent Component Analysis (ICA)
+  <a href="#independent-component-analysis-ica" class="md-nav__link">
+    Independent Component Analysis (ICA)
   </a>
   
 </li>
@@ -777,7 +777,7 @@ is by far the most popular application in Deep Learning and the one that has rep
 another family of methods that is becoming more and more popular falls under the umbrella of so-called <em>Unsupervised learning</em>.</p>
 <p>When labelled data are scarce, or it is difficult to have access to ground truth labels (e.g., in geoscience), unsupervised learning
 can represent an appealing alternative to find patterns in data. Unsupervised learning comes in different flavours. 
-For example let's imagine grouping a set of unlabelled data into a number of buckets and then analyse them 
+For example let's imagine grouping a set of unlabelled data into a number of buckets and then analyze them 
 one-by-one knowing that the samples within each bucket are more similar to each other than others in the dataset: this is a form of 
 unsupervised learning called <em>clustering</em>. The flavour that we are going to discuss in 
 more details in the following is however referred to as <em>Dimensionality reduction</em>. Simply stated dimensionality reduction 
@@ -813,7 +813,7 @@ Given a number of training samples $\mathbf{x}^{(i)}, we wish to identify:</p>
 features that are linear combinations of the columns of the encoder (i.e., <span class="arithmatex">\(\mathbf{c}=\sum_{i=1}^{N_f} \mathbf{E}_{:,i} x_i\)</span>)
 such that the projection of these new features onto the original space (<span class="arithmatex">\(\mathbf{D}\mathbf{c}\)</span>) is as close as possible to the
 original sample <span class="arithmatex">\(\mathbf{x}\)</span>. In other words, we want to find the best linear subspace of the original space that minimizes the
-reconstruction error defined here as the squared Eucliden norm (<span class="arithmatex">\(\mathscr{L}=||.||^2_2\)</span>).</p>
+reconstruction error defined here as the squared Euclidean norm (<span class="arithmatex">\(\mathscr{L}=||.||^2_2\)</span>).</p>
 <p>Defining a unique pair of matrices (<span class="arithmatex">\(\mathbf{E},\mathbf{D}\)</span>) is however not possible without imposing further constraints. In the
 PCA derivation we must assume that the columns of <span class="arithmatex">\(\mathbf{D}\)</span> are orthonormal:</p>
 <div class="arithmatex">\[
@@ -906,7 +906,7 @@ error of the projected data points from smallest to largest.</p>
 <p>Whilst PCA is very popular for its simplicity (both of understanding and implementation), other techniques for linead dimensionality
 reduction exist. As some of them has been shown during the years to be very powerful and better suited to find representative latent
 representations from data, we will briefly look at them here.</p>
-<h3 id="indipendent-component-analysis-ica">Indipendent Component Analysis (ICA)</h3>
+<h3 id="independent-component-analysis-ica">Independent Component Analysis (ICA)</h3>
 <p>ICA aims to separate a signal into many underlying signals that are scaled and added together to reproduce the original one:</p>
 <div class="arithmatex">\[
 \mathbf{x} = \sum_i c_i \mathbf{w}_i = \mathbf{Wc} 
@@ -946,9 +946,9 @@ solution exist like in the PCA case. Instead, the training process is set up wit
 $$
 where <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\lambda\)</span> are directly related to the parameters of the posterior distribution that we wish to maximize. This
 functional can be minimized in an alternating fashion, first for <span class="arithmatex">\(\mathbf{W}\)</span>, then for <span class="arithmatex">\(\mathbf{x}\)</span>, and so on and so forth.</p>
-<p>Finally, once the training process is over and <span class="arithmatex">\(\hat{\mathbf{W}}\)</span> is avaiable, it is worth noting that sparse coding does require
+<p>Finally, once the training process is over and <span class="arithmatex">\(\hat{\mathbf{W}}\)</span> is available, it is worth noting that sparse coding does require
 solving a sparsity-promoting inverse problem for any new training sample <span class="arithmatex">\(\mathbf{x}\)</span> in order to find its best
-representation <span class="arithmatex">\(\hat{\mathbf{h}}\)</span>. Nevetheless, despite the higher cost compared to for example PCA, sparse coding has shown 
+representation <span class="arithmatex">\(\hat{\mathbf{h}}\)</span>. Nevertheless, despite the higher cost compared to for example PCA, sparse coding has shown 
 great promise in both data compression and representation learning, the latter when coupled with down-the-line supervised tasks.</p>
 <h2 id="autoencoders">Autoencoders</h2>
 <p>Finally, we turn our attention onto nonlinear dimensionality reduction models. We should know by now that nonlinear mappings (like
@@ -1059,7 +1059,7 @@ Jacobian of the encoder as both the input and output are multi-dimensional (and 
 of this method claim additional robustness, the computational cost of computing a Jacobian makes this approach quite costly.</p>
 <h4 id="denoising-autoencoders">Denoising AutoEncoders</h4>
 <p>Finally, denoising AEs are another family of regularized autoencoders. In this case, however, the regularization is implemented directly on
-the input vectors prior to feeding them to the network, by eithe replacing some values with zeros (or random values) or adding noise. Considering 
+the input vectors prior to feeding them to the network, by either replacing some values with zeros (or random values) or adding noise. Considering 
 this last case, each step of the training process becomes:</p>
 <ul>
 <li><span class="arithmatex">\(\tilde{\mathbf{x}}^{(i)} = \mathbf{x}^{(i)} + \mathbf{n}^{(i)} \quad \forall i\)</span>;</li>

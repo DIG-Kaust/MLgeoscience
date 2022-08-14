@@ -613,7 +613,7 @@
 <p>Another set of fundamental mathematical tools required to develop various machine learning algorithms 
 (especially towards the end of the course when we will focus on generative modelling)</p>
 <p>In order to develop various machine learning algorithms (especially towards the end of the 
-course when we will focus on generative modelling) we need to be familarized with some basic concepts of:
+course when we will focus on generative modelling) we need to be familiarized with some basic concepts of:
 mathematical tools from:</p>
 <ul>
 <li><strong>Probability</strong>: mathematical framework to handle uncertain statements;</li>
@@ -700,7 +700,7 @@ via the <em>Sample Mean</em>:</p>
 \mu \approx \sum_i \frac{1}{N} f(x_i)
 \]</div>
 <p><strong>Variance (and Covariance)</strong>: Given a function <span class="arithmatex">\(f(x)\)</span> where <span class="arithmatex">\(x\)</span> is a random variable with probability <span class="arithmatex">\(P(x)\)</span>,
-it represents a masure of how much the values of the function vary from the mean:</p>
+it represents a measure of how much the values of the function vary from the mean:</p>
 <div class="arithmatex">\[
 \sigma^2 = E_{x \sim p} [(f(x)-\mu)^2]
 \]</div>
@@ -767,7 +767,7 @@ P(x,c) = P(x | c) P(c), \; P(x) = \sum_c P(x|c)P(c)
 signals (or probability distributions) differ from each other.</p>
 <p>A large body of literature exists in the context of telecommunications, where it is necessary to study how to transmit signals
 for a discrete alphabet over a noisy channel. More specifically, a code must be designed so to allow sending the least amount
-of bits for the most amount of useful information. Extension of such theory to continous variables is also available and more 
+of bits for the most amount of useful information. Extension of such theory to continuous variables is also available and more 
 commonly used in the context of ML systems.</p>
 <p><strong>Self-information</strong>: a measure of information in such a way that likely events have low information content, less 
 likely events have higher information content and independent events have additive information:</p>
@@ -775,7 +775,7 @@ likely events have higher information content and independent events have additi
 I(x) = - log_eP(x)
 \]</div>
 <p>such that for <span class="arithmatex">\(P(x) \rightarrow 0\)</span> (unlikely event), <span class="arithmatex">\(I \rightarrow \infty\)</span> and for <span class="arithmatex">\(P(x) \rightarrow 1\)</span> (likely event), <span class="arithmatex">\(I \rightarrow 0\)</span>.</p>
-<p><strong>Shannon entropy</strong>: extension of self-information to continous variables, representing the expected amount of information in an event <span class="arithmatex">\(x\)</span> drawn from a probability $P:</p>
+<p><strong>Shannon entropy</strong>: extension of self-information to continuous variables, representing the expected amount of information in an event <span class="arithmatex">\(x\)</span> drawn from a probability $P:</p>
 <div class="arithmatex">\[
 H(x) = E_{x \sim P} [I(x)] = - E_{x \sim P} [log_eP(x)]
 \]</div>

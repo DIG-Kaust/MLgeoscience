@@ -623,7 +623,7 @@ so-called bias term. The set of trainable parameters is therefore the combinatio
 <span class="arithmatex">\(\tilde{\textbf{x}}=[\textbf{x}, 1] \in \mathbb{R}^{N_f+1}\)</span>
 The prediction <span class="arithmatex">\(\hat{y}\)</span> is simply obtained by linearly 
 combining the different features of the input vector and adding the bias.</p>
-<p>Despite its simplicity, linear regression (and more commonly multi-variate linear regression) has been succesfully used in 
+<p>Despite its simplicity, linear regression (and more commonly multi-variate linear regression) has been successfully used in 
 a variety of geoscientific tasks, examples of such a kind are:</p>
 <ul>
 <li>
@@ -688,7 +688,7 @@ from petrophysical logs.</p>
 \]</div>
 <p>or in other words, the input vector <span class="arithmatex">\(\textbf{x}\)</span> is fed through a nonlinear model <span class="arithmatex">\(f_\theta\)</span> whose output is a scalar number between 0 and 1 that 
 represents the probability of the target output to be 1.</p>
-<p>Considering now a set of <span class="arithmatex">\(N_s\)</span> training pairs, the model can be explicitely written as:</p>
+<p>Considering now a set of <span class="arithmatex">\(N_s\)</span> training pairs, the model can be explicitly written as:</p>
 <div class="arithmatex">\[
 \hat{\textbf{y}}_{train} = f_\theta(\textbf{X}_{train}) = \sigma(\textbf{X}_{train}^T \boldsymbol\theta)
 \]</div>
@@ -709,7 +709,7 @@ First the case of positive target, <span class="arithmatex">\(y_{train}^{(i)}=1\
 <p><img alt="LOGISTIC POSITIVE" src="../figs/logistic_pos.png" /></p>
 <p>and then the case of negative target, <span class="arithmatex">\(y_{train}^{(i)}=0\)</span>:</p>
 <p><img alt="LOGISTIC NEGATIVE" src="../figs/logistic_neg.png" /></p>
-<p>Our drawings cleary show the validity of such a cost function in both cases. The further away is the prediction from the true label the higher the
+<p>Our drawings clearly show the validity of such a cost function in both cases. The further away is the prediction from the true label the higher the
 resulting cost function. Similar to the case of linear regression, we can now update the model parameters by minimizing the cost function:</p>
 <div class="arithmatex">\[
 \hat{\theta} = min_\theta  J_\theta \rightarrow \theta_{i+1} = \theta_i - \alpha \nabla J_\theta

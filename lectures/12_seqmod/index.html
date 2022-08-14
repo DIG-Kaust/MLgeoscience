@@ -824,14 +824,14 @@ to sequence modelling and deep learning. In geoscience, many of the commonly use
 <p>are all datatypes that present a certain degree of correlation along either the time or depth axis. </p>
 <p>Finally, similar to FFNs or CNNs, sequence modelling can be used for various applications:</p>
 <ul>
-<li>Single output classification: given an input sequence of a certain lenght <span class="arithmatex">\(\mathbf{x}\)</span>, a model is trained to decide whether than sequence contains
+<li>Single output classification: given an input sequence of a certain length <span class="arithmatex">\(\mathbf{x}\)</span>, a model is trained to decide whether than sequence contains
   a feature of interest or not. For example, given a seismogram we may be interest to detect the presence of a seismic event, or we may want to find out
   if a well log is clean or corrupted by some recording error or what is the facies in the middle of the sequence;</li>
-<li>Multi ouput classification (i.e., semantic segmentation): given an input sequence of a certain lenght <span class="arithmatex">\(\mathbf{x}\)</span>, a model is trained to classify each element
+<li>Multi output classification (i.e., semantic segmentation): given an input sequence of a certain length <span class="arithmatex">\(\mathbf{x}\)</span>, a model is trained to classify each element
   of the input sequence into a predefined set of classes. Taking once again the example of facies labelling, here the task is extended to predicting labels
   at each depth level (and not only in the middle of the sequence);</li>
-<li>Regression: given an input sequence of a certain lenght <span class="arithmatex">\(\mathbf{x}\)</span>, a model is trained to predict a continuous output, which could be
-  a single value <span class="arithmatex">\(y\)</span> or a sequence of values <span class="arithmatex">\(\mathbf{y}\)</span> that has the same (or different lenght) of the input. For example, given a set of 
+<li>Regression: given an input sequence of a certain length <span class="arithmatex">\(\mathbf{x}\)</span>, a model is trained to predict a continuous output, which could be
+  a single value <span class="arithmatex">\(y\)</span> or a sequence of values <span class="arithmatex">\(\mathbf{y}\)</span> that has the same (or different length) of the input. For example, given a set of 
   well logs we may want to predict another one that was not acquired. Similarly, given a seismic trace recorded by the vertical component of a geophone
   we may be interested to predict the horizontal components. Both of these example fall under the area of <em>domain translation</em>;</li>
 </ul>
@@ -854,16 +854,16 @@ a certain degree of correlation. Alternatively, the matrix <span class="arithmat
 however present two main limitations:</p>
 <ul>
 <li>since the vector <span class="arithmatex">\(vec(\mathbf{X})\)</span> is likely to be very long, weight matrices will be very large leading to a very expensive training process;</li>
-<li>FFNs cannot easily handle inputs of variable lenghts, so all sequences will need to have fixed lenght. We will see that being able to handle 
-  variable-lenght sequences is very useful in some situations. </li>
+<li>FFNs cannot easily handle inputs of variable lengths, so all sequences will need to have fixed length. We will see that being able to handle 
+  variable-length sequences is very useful in some situations. </li>
 </ul>
 <p>Both problems can be overcome by taking advantage of <em>parameter sharing</em>. We have already introduced this concept in the context of CNNs,
 where the same filters are used in different parts of the input. Similarly in sequence modelling, the idea of parameter sharing allows using the same
-parameters at different stages of the sequence and therefore allows the network to easily handle sequences of variable lenght. By doing so,
+parameters at different stages of the sequence and therefore allows the network to easily handle sequences of variable length. By doing so,
 a new type of neural network is created under the name of Recurrent Neural Network (RNN):</p>
 <p><img alt="RNN" src="../figs/rnn.png" /></p>
 <p>where <span class="arithmatex">\(\mathbf{x}\)</span> is the input vector (or matrix when multiple features are present), <span class="arithmatex">\(\mathbf{y}\)</span> is the output vector, and <span class="arithmatex">\(\mathbf{h}\)</span>
-is the so calle hidden state vector.</p>
+is the so called hidden state vector.</p>
 <p>As clearly shown in the unrolled version of the network into a standard computational graph, various inputs and hidden states are passed through
 the same function <span class="arithmatex">\(f_\theta\)</span> with a given number of training parameters. This is very different from a feed-forward network where different functions 
 is are used over consecutive layers. The choice of the function <span class="arithmatex">\(f_\theta\)</span> leads to the definition of different RNN architectures. </p>
@@ -880,7 +880,7 @@ will be always defined as follows:</p>
                 \mathbf{y}^{&lt;1&gt;} &amp; \mathbf{y}^{&lt;2&gt;} &amp; \mathbf{y}^{&lt;T_y&gt;}
   \end{bmatrix}_{[N_t \times T_y]}
 \]</div>
-<p>where <span class="arithmatex">\(T_x\)</span> and <span class="arithmatex">\(T_y\)</span> are the lenght of the input and output sequences. First, note that this notations differs from before in that a
+<p>where <span class="arithmatex">\(T_x\)</span> and <span class="arithmatex">\(T_y\)</span> are the length of the input and output sequences. First, note that this notations differs from before in that a
 single training sample is now represented as a matrix; therefore, the entire training data becomes a 3-D tensor of size <span class="arithmatex">\([N_s \times N_f \times T_x]\)</span> 
 (and <span class="arithmatex">\([N_s \times N_t \times T_y]\)</span>). Finally, note that in the most general case these parameters may be sample dependant (i.e., when we allow sequences of variable size): the following notation will be used in that case, <span class="arithmatex">\(T_x^{(i)}\)</span> and <span class="arithmatex">\(T_y^{(i)}\)</span>
 where <span class="arithmatex">\(i\)</span> refers to the i-th training sample. Moreover, given that we recurrently apply the same function <span class="arithmatex">\(f_\theta\)</span>, we can very compactly write an
@@ -982,7 +982,7 @@ Moreover, we will use tanh for the internal activation function <span class="ari
 is the Jacobian of the tanh activation function, and <span class="arithmatex">\(\partial \mathscr{L} / \partial \mathbf{h}^{&lt;t+1&gt;}\)</span> is computed recursively from <span class="arithmatex">\(t+1=T_x\)</span>
 as we know <span class="arithmatex">\(\partial \mathscr{L} / \partial \mathbf{h}^{&lt;T_x&gt;}\)</span>. Moreover, it is worth noting how the gradient of the loss function
 over any hidden state <span class="arithmatex">\(\mathbf{h}^{&lt;t&gt;}\)</span> is composed of two terms, one coming directly from the corresponding output 
-<span class="arithmatex">\(\mathbf{o}^{&lt;t&gt;}\)</span> and one from the next hiddent state <span class="arithmatex">\(\mathbf{h}^{&lt;t+1&gt;}\)</span>.</p>
+<span class="arithmatex">\(\mathbf{o}^{&lt;t&gt;}\)</span> and one from the next hidden state <span class="arithmatex">\(\mathbf{h}^{&lt;t+1&gt;}\)</span>.</p>
 <p>It follows that the gradients of the parameters to update are:</p>
 <div class="arithmatex">\[
 \frac{\partial \mathscr{L}}{\partial \mathbf{b}_y} = \sum_{t=1}^{T_x} \left( \frac{\partial \mathbf{o}^{&lt;t&gt;}}{\partial \mathbf{b}_y} \right)^T 
@@ -1026,7 +1026,7 @@ the required changes in the inference process of these 2 network types. </p>
 &amp;= - \sum_{t=1}^{T_x} log P (\mathbf{y}^{&lt;t&gt;} | \mathbf{x}^{&lt;1&gt;}, \mathbf{x}^{&lt;2&gt;}, ..., \mathbf{x}^{&lt;t&gt;})
 \end{aligned}
 \]</div>
-<p>where each output is here totally indipendent from the others. On the other hand, we are now faced with a joint distribution to
+<p>where each output is here totally independent from the others. On the other hand, we are now faced with a joint distribution to
 sample from:</p>
 <div class="arithmatex">\[
 \begin{aligned}
@@ -1060,8 +1060,8 @@ An example of such a scenario is represented by real-time drilling, when we dril
 such recordings as they come in and provide us with useful insights on how to best continue drilling:</p>
 <p><img alt="DRILLBIT" src="../figs/drillbit.png" /></p>
 <p>Of course, not every problem lends naturally to the above depicted scenario. In most cases we are able to record data over an entire time window
-and only after that we are concerned with analysing such data. This is usually referred to as <em>offline</em> processing. In this case it may be useful
-to also look at correlations betweeen samples at time <span class="arithmatex">\(t\)</span> and future samples <span class="arithmatex">\((t+1,t+2,t+i)\)</span>. Bidirection RNNs represent a solution to this as they 
+and only after that we are concerned with analyzing such data. This is usually referred to as <em>offline</em> processing. In this case it may be useful
+to also look at correlations between samples at time <span class="arithmatex">\(t\)</span> and future samples <span class="arithmatex">\((t+1,t+2,t+i)\)</span>. Bidirectional RNNs represent a solution to this as they 
 allow learning short and long term dependencies not only from the past but also from the future. Let's start with a schematic diagram:</p>
 <p><img alt="BRNN" src="../figs/brnn.png" /></p>
 <p>where the network architecture presents a simple modification. Instead of having a single flow of information from left to right as it is the 
@@ -1070,7 +1070,7 @@ the suffix F (for forward), and those of the second with the suffix B (for backw
 are now fed twice to the network, once for the forward flow and once for the backward flow, whilst the output is not the concatenation of the 
 outputs of the two flows, i.e., <span class="arithmatex">\(\hat{\mathbf{y}}^{&lt;t&gt;} = [\hat{\mathbf{y}}_F^{&lt;t&gt;T} \; \hat{\mathbf{y}}_B^{&lt;t&gt;T}]^T\)</span>.</p>
 <h2 id="deep-rnns">Deep RNNs</h2>
-<p>Similarly to any other network architecture that we have investiaged so far, the concept of shallow and deep network also applies to RNNs. Shallow
+<p>Similarly to any other network architecture that we have investigated so far, the concept of shallow and deep network also applies to RNNs. Shallow
 RNNs are recurrent networks that have a single hidden layer connecting the inputs to the outputs. On the other than, deep RNNs are composed of more hidden
 layers. This is simply achieved as follows:</p>
 <ul>

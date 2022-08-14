@@ -681,13 +681,13 @@
 
 <h1 id="cnns-popular-architectures">CNNs Popular Architectures</h1>
 <p>This lecture provides an overview of how deep learning, especially in the context of CNNs (and computer vision in general), has
-evolved over the last decade. This is something that it is good to be familar with because:</p>
+evolved over the last decade. This is something that it is good to be familiar with because:</p>
 <ul>
-<li>whilst most of these advances are given for granted and routinely used today, it is always insigthful to learn <em>how</em> ans <em>why</em> these
+<li>whilst most of these advances are given for granted and routinely used today, it is always insightful to learn <em>how</em> ans <em>why</em> these
   developments were made;</li>
 <li>we can use architectures that worked well with no (or minimal) adaptation to our problem at hand (we will see that this is very commonly 
   done with high degree of success in geoscience);</li>
-<li>even better, sometimes we can decide to use pre-trained networks and fine-tune them with limited amount of label data. In this case knowning
+<li>even better, sometimes we can decide to use pre-trained networks and fine-tune them with limited amount of label data. In this case knowing
   the network architecture in details allows us to make informed choices, such as remove some of the final layers and introduce new ones that 
   better adapt to the problem at hand (e.g., different number of classes).</li>
 </ul>
@@ -713,7 +713,7 @@ today would have been implemented differently:</p>
 <h2 id="alexnet">AlexNet</h2>
 <p>AlexNet represents a milestone in the field of DeepLearning. Developed by Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton, this network
 was the first CNN that won the popular computer vision competition ImageNet. Not only that, but the network outperformed other submissions by
-far, and brough Deep Learning to the attention of the larger Computer Vision community.</p>
+far, and brought Deep Learning to the attention of the larger Computer Vision community.</p>
 <p>As shown in the figure below, this network is not very different from LeNet-5 in its individual components, it is however much deeper and contains
 much more trainable parameters. More specifically, it is composed of:</p>
 <ul>
@@ -770,18 +770,18 @@ outputs are simply concatenated together to form the output of the Inception lay
 </ul>
 <p><img alt="GLENET" src="../figs/googlelenet.png" /></p>
 <h2 id="resnet">ResNet</h2>
-<p>We can already observe a trend moving from LeNet-5 to VGG-19. From the 80' all the way to the early 2000', networks started to become depeer and deeper.
+<p>We can already observe a trend moving from LeNet-5 to VGG-19. From the 80' all the way to the early 2000', networks started to become deeper and deeper.
 However, despite deeper network can generally achieve better performance, practitioners started to also experience painfully slow training. It was later discovered
 that this was caused by the vanishing gradient problem.</p>
 <p>Around the same time of VGG-16, He and coauthors proposed a new network block called the Residual Block. As already discussed in our last lecture,
-this block introduces the innovative idea of shortcutting some of the activations forward in the computational graph and summing them to the activations
+this block introduces the innovative idea of shortcuting some of the activations forward in the computational graph and summing them to the activations
 of the main path. This gave rise to the so-called ResNet that proved to be much easier (and faster) to train than other CNNs when stacking a large number of layers,
 even up to 100 (or 1000) of layers!</p>
 <p><img alt="RESNET" src="../figs/resnet.png" /></p>
 <p>The figure above shows ResNet-18, but it is important to remember that the idea of adding skip-connections every couple of layers has much wider 
 implications than just for the ResNet architecture. One of the key benefits introduced by ResNet is the ability to increase the depth of a network without
 incurring in the risk of overfitting the training data. So, whilst in theory deeper networks should always reduce the training error, this is not always the case
-for plain networks. On the other hand, networks with Residual blocks are much more succesfull in that respect.</p>
+for plain networks. On the other hand, networks with Residual blocks are much more successful in that respect.</p>
 <p><img alt="RESNETTRAINING" src="../figs/resnettraining.png" /></p>
 <h2 id="unet">UNet</h2>
 <p>The UNet architecture was proposed by Ronneberger et al. in 2015 in the context of interpretation of microscopy images. 
@@ -793,12 +793,12 @@ UNet was originally conceived for a <em>semantic segmentation</em> task. Semanti
 instead of predicting a class per input samples, we want to predict a class for each element of that sample. This makes the output space very large,
 equal to that of the input times the number of classes.</p>
 <p><img alt="SEMSEG" src="../figs/semseg.png" /></p>
-<p>The UNet architecture presents the following charactheristics:</p>
+<p>The UNet architecture presents the following characteristics:</p>
 <ul>
 <li>it can be seen as composed by two networks, an <em>Encoder</em> or contracting path, and a <em>Decoder</em> or expanding path. This is a common
   design in dimensionality reduction networks like AutoEncoders (see <a href="14_autoencoder.md">Lecture X</a> for more details). Each level of the encoder 
   network contains a number of convolutional layers followed by a downsampler (usually achieved by means of max pooling). On the other hand,
-  the decoder is composed of convolutional layers preceeded by an upsampler (this can be either an interpolator like a bilinear interpolation or
+  the decoder is composed of convolutional layers preceded by an upsampler (this can be either an interpolator like a bilinear interpolation or
   a convtranspose layer);</li>
 <li>skip connections are introduced at each level of the contracting path, taking those features all the way to the corresponding level of the
   expanding path (where they are concatenated with the features coming from a deeper level of the contracting path itself). Whilst we have

@@ -664,7 +664,7 @@ Neural Networks (they will be subject of future lectures):</p>
 <p>To begin with, we focus on the core building block of a MLP, so-called Perceptron or Unit. 
 This is nothing really new to us, as it is exactly the same structure that we used to create the logistic regression model, 
 a linear weighting of the element of the input vector followed by a nonlinear activation function. We prefer however
-to schematic represent it in a slighty different way as this will make it easier later on to drawn MLPs.</p>
+to schematic represent it in a slightly different way as this will make it easier later on to drawn MLPs.</p>
 <p><img alt="PERCEPTRON" src="../figs/perceptron.png" /></p>
 <p>Mathematically, the action of a percepton can be written compactly as dot-product followed 
 by an element-wise nonlinear activation:</p>
@@ -691,7 +691,7 @@ is a vector of biases.</p>
 the count of the number of layers does not include the input layer. For example, a 3-layer NN has the following structure</p>
 <p><img alt="3LAYERNN" src="../figs/3layernn.png" /></p>
 <p>where we omit for simplicity the bias terms in the schematic drawing. 
-This figure gives us the oppportunity to introduce some terminology commonly used in the DL community:</p>
+This figure gives us the opportunity to introduce some terminology commonly used in the DL community:</p>
 <ul>
 <li><em>Input layer</em>: first layer taking the input vector <span class="arithmatex">\(\textbf{x}\)</span> as input and returning an intermediate representation
   <span class="arithmatex">\(\textbf{z}^{[1]}\)</span>;</li>
@@ -758,7 +758,7 @@ Of course, there may be many more combinations of weights and biases that lead t
 initializing the weights and biases randomly and optimizing them by means of a stochastic gradient-descent algorithm.</p>
 <p>Having introduced nonlinearites every time after we apply the weight matrices to the vector 
 flowing through the computational graph, the overall set of operations cannot be simply reconducted to a matrix-vector
-multiplication and allows us to learn highly complex nonlinear mappings between input features and targets. The role of activation functions is however not always straighforward and easy to grasp. Whilst we can say that
+multiplication and allows us to learn highly complex nonlinear mappings between input features and targets. The role of activation functions is however not always straightforward and easy to grasp. Whilst we can say that
 they help in the learning process, not every function is suitable for this task and in fact, some functions may prevent
 the network from learning at all.</p>
 <p>In the following we look at the most commonly used activation functions and discuss their origin and why 
@@ -807,7 +807,7 @@ they became popular and useful in Deep Learning:</p>
   $$
   We can observe that this activation function never saturates, for every value in the positive axis the derivative
   is always 1. Such a property makes ReLU suitable for large networks as the risk of vanishing gradients is
-  greatly reduced. A downside of ReLU is that the entire negative axis acts as an annhilator preventing information
+  greatly reduced. A downside of ReLU is that the entire negative axis acts as an annihilator preventing information
   to flow. A strategy to prevent or reduce the occurrences of negative inputs is represented by the initialization
   of biases to a value slightly greater than zero (e.g., b=0.1).</p>
 </li>
@@ -835,7 +835,7 @@ they became popular and useful in Deep Learning:</p>
       -x &amp; x&lt;0
     \end{cases}   <br />
   $$
-  Whilst this is not a popular choice in the DL literature, it has been succesfully used in object detection
+  Whilst this is not a popular choice in the DL literature, it has been successfully used in object detection
   tasks where the features that we wish the NN to extract from the training process are polarity invariant.</p>
 </li>
 <li>
@@ -843,7 +843,7 @@ they became popular and useful in Deep Learning:</p>
   especially in the context of scientific DL (e.g., Physics-informed neural networks).</p>
 </li>
 <li>
-<p><strong>Softmax</strong>: this activation function is commony used at the end of the last layer in the context of 
+<p><strong>Softmax</strong>: this activation function is commonly used at the end of the last layer in the context of 
   multi-label classification. However as it takes an input vector of N numbers and converts it into an 
   output vector of probabilities (i.e., N numbers summing to 1), it may also be used as a sort of switch in 
   the internal layers.</p>

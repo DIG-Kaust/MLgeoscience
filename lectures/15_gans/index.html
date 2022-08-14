@@ -795,7 +795,7 @@ the network architectures as we will be dealing with two networks!):</p>
   the generator.</li>
 </ul>
 <p>A classical example from the original paper is that the generator is a painting forger, whilst the discriminator is a painting critic. It is obvious here
-that these two networks must compete with each other, if one achieves its goal the other would have failed and viceversa. As we will see later, this is 
+that these two networks must compete with each other, if one achieves its goal the other would have failed and vice-versa. As we will see later, this is 
 what makes GANs successful but also hard to train. Moreover, whilst training is performed in parallel, it is worth noticing that the generator network is what
 ultimately we care about (to be able to create realistic samples), whilst the discriminator is an auxiliary network that will be discarded after training.</p>
 <h2 id="mathematics-of-gans">Mathematics of GANs</h2>
@@ -814,20 +814,20 @@ is the commonly used binary cross entropy (BCE) loss. Starting from the generato
 \mathscr{L}(\hat{\mathbf{x}}, \hat{\mathbf{y}}=1) = BCE(d_\phi(g_\theta(\mathbf{z})), \hat{\mathbf{y}}=1) = -log(d_\phi(g_\theta(\mathbf{z})))
 \]</div>
 <p>which is minimum for <span class="arithmatex">\(g_\theta(d_\phi(\mathbf{z}))=1\)</span> (i.e., when the generator has been able to fool the discriminator), and maximum for 
-<span class="arithmatex">\(g_\theta(d_\phi(\mathbf{z}))=0\)</span> (i.e., when the discriminator recognises the creation of the generator).</p>
+<span class="arithmatex">\(g_\theta(d_\phi(\mathbf{z}))=0\)</span> (i.e., when the discriminator recognizes the creation of the generator).</p>
 <p>For the discriminator we must consider two cases. The first one is associated with the generator:</p>
 <div class="arithmatex">\[
 \mathscr{L}(\hat{\mathbf{x}}, \hat{\mathbf{y}}=0) = BCE(d_\phi(g_\theta(\mathbf{z})), \hat{\mathbf{y}}=0) = -log(1-d_\phi(g_\theta(\mathbf{z})))
 \]</div>
-<p>which is minimum for <span class="arithmatex">\(g_\theta(d_\phi(\mathbf{z}))=0\)</span> (i.e., when the discriminator recognises the creation of the generator), and maximum for 
+<p>which is minimum for <span class="arithmatex">\(g_\theta(d_\phi(\mathbf{z}))=0\)</span> (i.e., when the discriminator recognizes the creation of the generator), and maximum for 
 <span class="arithmatex">\(g_\theta(d_\phi(\mathbf{z}))=1\)</span> (i.e., when the generator has been able to fool the discriminator). The second one is instead
 associated with the true samples:</p>
 <div class="arithmatex">\[
 \mathscr{L}(\mathbf{x}, \mathbf{y}=1) = BCE(d_\phi(\mathbf{x}), \mathbf{y}=1) = -log(d_\phi(\mathbf{x}))
 \]</div>
-<p>which is minimum for <span class="arithmatex">\(d_\phi(\mathbf{x})=1\)</span> (i.e., when the discriminator recognises the true samples), and maximum for 
+<p>which is minimum for <span class="arithmatex">\(d_\phi(\mathbf{x})=1\)</span> (i.e., when the discriminator recognizes the true samples), and maximum for 
 <span class="arithmatex">\(d_\phi(\mathbf{x})=0\)</span> (i.e., when the discriminator believes that the true samples are fake).</p>
-<p>Whilst for simplicity we have analysed these three terms separately and focused on how they can be minimized (this is also what we would do when 
+<p>Whilst for simplicity we have analyzed these three terms separately and focused on how they can be minimized (this is also what we would do when 
 implementing GANs in practice), a unique <em>adversarial loss function</em> can be also defined that uniquely identifies the goal of GAN training:</p>
 <div class="arithmatex">\[
 \mathscr{L}_{adv} = E_{\mathbf{x} \sim p_x} [log(d_\phi(\mathbf{x}))] + 
@@ -857,7 +857,7 @@ learner, the following scenarios may arise:</p>
   distribution (so-called mode collapse).</li>
 </ul>
 <p>Now that we know how to train GANs, and that the training process may be hard, let's discuss in details a number of scenarios that we may encounter during
-training. After that, we will discuss a number of strategies that have been devised throught the years to minimize the risk of having unbalanced training and ultimately 
+training. After that, we will discuss a number of strategies that have been devised through out the years to minimize the risk of having unbalanced training and ultimately 
 a generator with poor generative capabilities.</p>
 <h3 id="mode-collapse">Mode collapse</h3>
 <p>Let's consider the following multi-modal 1-dimensional distribution:</p>
@@ -967,7 +967,7 @@ p(\mathbf{x}_B | \mathbf{z}, \mathbf{x}_A)
 <p>where the noise vector <span class="arithmatex">\(\mathbf{z}\)</span> can be used to sample multiple realizations conditioned on the given input <span class="arithmatex">\(\mathbf{x}_A\)</span>. In practice, it turns out that this problem is
 too constrained to allow 'rich sampling', so the original authors suggest to remove <span class="arithmatex">\(\mathbf{z}\)</span> from the inputs and use alternative approaches such as dropout if interested 
 to produce multi outputs.</p>
-<p>The overall network architecture of Pix2Pix can be summarised as follows:</p>
+<p>The overall network architecture of Pix2Pix can be summarized as follows:</p>
 <p><img alt="PIX2PIX" src="../figs/pix2pix.png" /></p>
 <ul>
 <li>Generator: as the inputs and outputs of the generator share the same dimensions, the network architecture here does not need to be that of a

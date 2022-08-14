@@ -737,7 +737,7 @@ In practice this is however achieved by sampling a vector and then transforming 
 <span class="arithmatex">\(\mathbf{z} = \boldsymbol \sigma \cdot \mathbf{z} + \boldsymbol \mu\)</span> where <span class="arithmatex">\(\cdot\)</span> refers to an element-wise product. </p>
 <h3 id="reparametrization-trick">Reparametrization trick</h3>
 <p>This rather simple trick is referred
-to as <em>Reparametrization trick</em> and it is stricly needed in neural networks every time we want to introduce a stochastic procees within the computational graph.
+to as <em>Reparametrization trick</em> and it is strictly needed in neural networks every time we want to introduce a stochastic process within the computational graph.
 In fact, by simply having a stochastic process parametrized by a certain mean and standard deviation that may come from a previous part of the computational graph
 (as in VAEs) we lose the possibility to perform backpropagation. Instead if we decouple the stochastic component (which we are not interested to update, and 
 therefore to backpropagate onto) and the deterministic component(s), we do not lose access to backpropagation:</p>
@@ -826,7 +826,7 @@ terms that we have previously described:</p>
   of our previous lectures;</li>
 <li><span class="arithmatex">\(KL(q_\theta(\mathbf{x})||p(\mathbf{x}))\)</span> is the regularization term encouraging the proposal distribution to stay close to the prior.</li>
 </ul>
-<p>Finally, let's slightly rearrange the epression in the 5th row:</p>
+<p>Finally, let's slightly rearrange the expression in the 5th row:</p>
 <div class="arithmatex">\[
 E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}) ] - KL(q_\theta(\mathbf{x})||p(\mathbf{x}|\mathbf{y})) = 
 E_{\mathbf{x} \sim q_\theta} [ log p(\mathbf{y}|\mathbf{x}) ] - KL(q_\theta(\mathbf{x})||p(\mathbf{x})) 

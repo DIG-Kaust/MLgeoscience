@@ -892,7 +892,7 @@ algorithms that have been developed in the last decade and are nowadays preferre
 our ability to quickly and efficiently converge to one of its minima (ideally the global, likely one of the local). For nonlinear optimization problems, like those encountered in deep learning, this is mathematically represented by the <em>Hessian</em> matrix 
 (<span class="arithmatex">\(\mathbf{H}=\frac{\partial^2 f}{\partial \boldsymbol \theta^2}\)</span>). An Hessian matrix with large conditioning number (i.e.,
 ratio of the largest and smallest eigenvalues) tends to affect convergence speed of first-order (gradient-based) methods.</p>
-<p>In classical optimization theory, second order methods such as the Gauss-Netwon method are commonly employed to counteract
+<p>In classical optimization theory, second order methods such as the Gauss-Newton method are commonly employed to counteract
 this problem. However, as already mentioned in one of our previous lectures, such methods are not yet suitable for deep learning
 in that no mathematical foundations have been developed in conjunction with approximate gradients (i.e., mini-batch learning
 strategy). </p>
@@ -925,7 +925,7 @@ objective functions that are more well-behaved (i.e., show a large basin of attr
 This can be justified by the fact that multiple models may perform equally well on both the training and testing data. 
 To be more precise this relates to the concept of <em>model identifiability</em>, where a model is defined identifiable if there exist a 
 single set of parameters (<span class="arithmatex">\(\boldsymbol \theta_{gm}\)</span>) that lead to optimal model performance. On the other hand, when multiple models <span class="arithmatex">\(\{ \boldsymbol \theta_{gm}, 
-\boldsymbol \theta_{lm,1}, ..., \boldsymbol \theta_{lm1,N}\)</span> perform similarly those models are said to be non-identifiable. Moroever, even when a 
+\boldsymbol \theta_{lm,1}, ..., \boldsymbol \theta_{lm1,N}\)</span> perform similarly those models are said to be non-identifiable. Moreover, even when a 
 single model performs best, a distinction must be made between training and testing performance. As far as training performance is concerned,
 this model must be that of the global minimum of the functional <span class="arithmatex">\(\boldsymbol \theta_{gm}\)</span>. Nevertheless, the model that performs best on the testing
 data may be the one obtained from any of the local minima <span class="arithmatex">\(\boldsymbol \theta_{lm,i}\)</span> as such a model be have better generalization capabilities
@@ -1110,14 +1110,14 @@ is by far the most popular optimizer in the training of deep NNs. </p>
 &amp;\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \Delta \boldsymbol\theta_{i+1}
 \end{aligned}
 \]</div>
-<p>where, once again, a number of hyperparameters are intoduced. These are the stabilizer, <span class="arithmatex">\(\delta=10^{-6}\)</span>, and two 
+<p>where, once again, a number of hyperparameters are introduced. These are the stabilizer, <span class="arithmatex">\(\delta=10^{-6}\)</span>, and two 
 decay rates (<span class="arithmatex">\(\rho_1\)</span> and <span class="arithmatex">\(\rho_2\)</span>).</p>
 <p>To conclude, we have first introduced simpler optimizers and subsequently built complexity in terms of both momentum and 
 parameter-dependent learning, there is no universal winner. Although both momentum and adaptive LR do clearly seem
 to be beneficial to the training on NNs, it is not always the case that ADAM provides the best results both in
 terms of robustness and convergence speed. It is therefore important to be aware of the different optimizers that
 are available in the DL arsenal and identify the best based on the task at end. In other words, the choice of the
-optimizer can usually represent one of those hyperparameters that ML practictioners need to evaluate and select
+optimizer can usually represent one of those hyperparameters that ML practitioners need to evaluate and select
 when developing a new ML pipeline.</p>
 <h3 id="other-tricks">Other tricks</h3>
 <p>In the following, we report a few other practical tricks that can be used when training NNs to further

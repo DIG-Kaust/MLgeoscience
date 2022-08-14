@@ -722,7 +722,7 @@
 we are now in a position to start our journey in the field of <em>learning algorithms</em>. </p>
 <p>Any learning algorithm, no matter its level of complexity, is composed of 4 key elements:</p>
 <p><strong>Dataset</strong>: a collection of many examples (sometimes referred to as samples of data points) that represents the experience
-we wish our machine learning algorithm to learn from. More speficically, the dataset is defined as:
+we wish our machine learning algorithm to learn from. More specifically, the dataset is defined as:
 $$
 \mathbf{x} = [x_1, x_2, ..., x_{N_f}]^T \quad \mathbf{X} = [\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, ..., \mathbf{x}^{(N_s)}] 
 $$
@@ -776,7 +776,7 @@ fast (i.e., in a small number of iterations) to the optimal solution.</p>
 <ul>
 <li>Constant: the step size is fixed to a constant value <span class="arithmatex">\(\alpha_i=\hat{\alpha}\)</span>. This is the most common situation that we
   will encounter when training neural networks. In practice, some adaptive schemes based on the evolution of the train
-  (or validation) norm are generally adopted, but we will still refer to this case as costant step size;</li>
+  (or validation) norm are generally adopted, but we will still refer to this case as constant step size;</li>
 <li>Exact line search: at each iteration, <span class="arithmatex">\(\alpha_i\)</span> is chosen such that it minimizes <span class="arithmatex">\(J(\theta_{i} + \alpha_i d_i)\)</span>. This
   is the most commonly used approach when dealing with linear systems of equations.</li>
 <li>Backtracking  "Armijo" line search: at each iteration, given a parameter <span class="arithmatex">\(\mu \in (0,1)\)</span>, start with <span class="arithmatex">\(\alpha_i=1\)</span> 
@@ -797,7 +797,7 @@ On the other hand, if the curvature of the function of large, the function and i
 \]</div>
 <p>which can be easily derived from the Taylor expansion of <span class="arithmatex">\(f(\theta)\)</span> around <span class="arithmatex">\(\theta_{i+1}\)</span>.</p>
 <p>If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
-(<span class="arithmatex">\(\theta: min_\theta f(\theta) \leftrightarrow \theta: f'(\theta)=0\)</span>), the Netwon's method can be written as:</p>
+(<span class="arithmatex">\(\theta: min_\theta f(\theta) \leftrightarrow \theta: f'(\theta)=0\)</span>), the Newton's method can be written as:</p>
 <div class="arithmatex">\[
 \theta_{i+1} = \theta_i - \frac{J'(\theta)|_{\theta_i}}{J''(\theta)|_{\theta_i}} 
 \]</div>
@@ -822,7 +822,7 @@ is symmetric.</p>
 <div class="arithmatex">\[
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_i - \mathbf{H}^{-1}\nabla J
 \]</div>
-<p>Approximated version of the Netwon method have been developed over the years, mostly based on the idea that inverting <span class="arithmatex">\(\mathbf{H}\)</span> is sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse) using the collections of gradient information from the previous iterations. <a href="https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm">BFGS</a> or its limited memory version <a href="https://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> are examples of such a kind. Due to their computational cost
+<p>Approximated version of the Newton method have been developed over the years, mostly based on the idea that inverting <span class="arithmatex">\(\mathbf{H}\)</span> is sometimes a prohibitive task. Such methods, generally referred to as Quasi-Netwon methods attempt to approximate the Hessian (or its inverse) using the collections of gradient information from the previous iterations. <a href="https://en.wikipedia.org/wiki/Broyden–Fletcher–Goldfarb–Shanno_algorithm">BFGS</a> or its limited memory version <a href="https://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> are examples of such a kind. Due to their computational cost
 (as well as the lack of solid theories for their use in conjunction with approximate gradients), these methods are not yet commonly used by the machine learning community to optimize the parameters of NNs in deep learning.</p>
 <h2 id="stochastic-gradient-descent-sgd">Stochastic-gradient descent (SGD)</h2>
 <p>To conclude, we look again at gradient-based iterative solvers and more specifically in the context of finite-sum functionals of the kind that we will encountering when training neural networks:</p>
@@ -844,7 +844,7 @@ J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} \mathscr{L} (\mathbf{y}^{(i)}, f_\thet
 <p>The choice of the training sample <span class="arithmatex">\(j\)</span> at each iteration is generally completely random and this is repeated once all training data have been used at least once (generally referred to as <em>epoch</em>). In this case, the gradient may be noisy because the gradient of a single sample is a very rough approximation of the total cost function <span class="arithmatex">\(J\)</span>: such a high variance of gradients requires lowering the step-size <span class="arithmatex">\(\alpha\)</span> leading to slow convergence.</p>
 <h3 id="mini-batched-gradient-descent">Mini-batched gradient descent</h3>
 <p>A more commonly used strategy lies in between the batched and stochastic gradient descent algorithms 
-uses batches of training samples to compute the gradient at each iteration. More spefically given a batch of 
+uses batches of training samples to compute the gradient at each iteration. More specifically given a batch of 
 <span class="arithmatex">\(N_b\)</span> samples, the update formula can be written as:</p>
 <div class="arithmatex">\[
 \boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \frac{\alpha_i}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j

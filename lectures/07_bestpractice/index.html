@@ -669,7 +669,7 @@
 <p>This lecture is devoted to the training of Machine Learning models in general, with Neural Networks 
 representing a subclass of the entire set of models commonly used to learn mappings between some
 features and targets. As we will see in the following, a number of <code>best practices</code> are in fact 
-indepedent on the model used.</p>
+independent on the model used.</p>
 <p>Let's begin by re-stating here the overall aim of a ML model: a model is useful if it can perform
 well on new, previously unseen data. This property of a model is also generally referred to as
 <em>generalization</em>.</p>
@@ -678,7 +678,7 @@ training must be divided into 3 distinct sets:</p>
 <ul>
 <li>Training dataset: <span class="arithmatex">\(\{ \mathbf{X}_{train}, \mathbf{Y}_{train} \}\)</span>, used to train the model 
   (e.g., learn the free-parameters <span class="arithmatex">\(\boldsymbol \theta\)</span> of a NN);</li>
-<li>Validation dataset: <span class="arithmatex">\(\{ \mathbf{X}_{valid}, \mathbf{Y}_{valid} \}\)</span>, used to select the hyperparamters of
+<li>Validation dataset: <span class="arithmatex">\(\{ \mathbf{X}_{valid}, \mathbf{Y}_{valid} \}\)</span>, used to select the hyperparameters of
   the model;</li>
 <li>Testing dataset:<span class="arithmatex">\(\{ \mathbf{X}_{test}, \mathbf{Y}_{test} \}\)</span>, used only once a model is finalized
   (trained and optimized) to produce an <em>unbiased</em> estimate of model performance.</li>
@@ -687,7 +687,7 @@ training must be divided into 3 distinct sets:</p>
 independent from the others, samples must come from the same distributions. The first assumption
 is however seldom satisfied as a different training samples are related to each other to some degree (this is for example
 the case when samples are taken from well logs at consecutive depth levels or from 2D slices of 3D seismic
-cubes). On the other hand, the second assumption must be satisfied for a succesfull training. For example, if well logs
+cubes). On the other hand, the second assumption must be satisfied for a successful training. For example, if well logs
 from the North Sea are used in the training data and well logs from Onshore US are used in the testing data,
 any estimate of model performance will be biased as the two sets are likely to belong to different distributions.</p>
 <p>Historically, the overall dataset is split into training/validation/testing data with the following proportions: 
@@ -760,7 +760,7 @@ number of free parameters <span class="arithmatex">\(\theta\)</span> that the mo
 y_i = f_{\boldsymbol \theta}(x_i) = \sum_{j=0}^{N_f} x_i^j \theta_j \qquad \forall i=1,2,...,N_s
 \]</div>
 <p>where <span class="arithmatex">\(N_f+1\)</span> is the capacity of the model. The simplest model that we can fit to the available data
-is straigh line parametrized by <span class="arithmatex">\(\boldsymbol \theta = {\theta_1, \theta_2}\)</span>. More complex model fit a
+is straight line parametrized by <span class="arithmatex">\(\boldsymbol \theta = {\theta_1, \theta_2}\)</span>. More complex model fit a
 polynomial function of order <span class="arithmatex">\(N_f+1\)</span>. As shown in the figure below, a too simple model does lead to underfitting, 
 whilst a too complex model leads to overfitting. The key is therefore to make a model that is as simple as possible
 but not too simple, something usually referred to as the Occam's razor principle in inverse problem theory.</p>
@@ -789,10 +789,10 @@ purposes. i.e., hyperparameter optimization.</p>
 <p>As already mentioned, we need to devote a portion of the overall dataset that we will not be using to evaluate the final performance of the model for the task of <em>hyperparameter tuning</em>. This is indeed the role of the validation dataset (note that using this dataset at testing stage will result in underestimating the generalization error of the model because the model is partially optimized on this dataset).</p>
 <p>Finally, whilst not very commonly used in the context of deep learning because of the extremely high cost of training neural networks, a more powerful approach in optimizing hyper-parameter is the so-called <em>cross-validations</em> strategy. Similar to validation, a portion of the dataset is hold out from the training process and used for hyperparameter tuning. However, the portion selected for this task is not fixed, rather the entire training dataset is split into K groups, where each group is used once as the validation set and the remaining number of times as part of the training dataset.</p>
 <p>This approach, usually referred to a <em>K-fold cross-validation</em>. It is a great help when the training dataset is of limited size as it helps averaging out fluctuations on the validation error over multiple realizations. The obvious downside of this strategy is of course that the training process must be repeated N times.</p>
-<p>Note that other strategies can be used to split the dataset into training and validation. For example, in the context of classification, a class-aware division is usually reccomended where inter-class proportions are the same between the validation and training datasets.</p>
+<p>Note that other strategies can be used to split the dataset into training and validation. For example, in the context of classification, a class-aware division is usually recommended where inter-class proportions are the same between the validation and training datasets.</p>
 <h2 id="regularization">Regularization</h2>
-<p>Whilst both under- and overfitting commonly affect the development of a succesfull ML model, reducing variance without affecting
-bias is notoriously difficult. A strategy that is usually succesfull in achieving such a task is called Regularization. 
+<p>Whilst both under- and overfitting commonly affect the development of a successful ML model, reducing variance without affecting
+bias is notoriously difficult. A strategy that is usually successful in achieving such a task is called Regularization. 
 Regularization acts directly on the loss function by adding prior knowledge to the training process. By informing the network
 about something that we know (or wish the model to know), the network is less prone to just learn from the training data and improve its generalization capabilities.</p>
 <p>In the context of inverse problem theory, where our aim is to fit some observations <span class="arithmatex">\(\mathbf{y}\)</span> given knowledge of
@@ -808,7 +808,7 @@ J = ||\mathbf{y} - g(\mathbf{x})||_2^2 + \lambda R(\mathbf{x})
   second derivative of the model (i.e., curvature).</li>
 <li><em>L1 regularization or sparsity</em>: <span class="arithmatex">\(||\mathbf{x}||_p \; p \le 1\)</span>. Promotes solutions that are sparse (i.e., few non-zero elements)</li>
 </ul>
-<p>A similar approach can be adopted in the context of machine learning by augumenting the data-fitting loss function with a regularization term:</p>
+<p>A similar approach can be adopted in the context of machine learning by augmenting the data-fitting loss function with a regularization term:</p>
 <div class="arithmatex">\[
 J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} ||y^{(i)} - f_\theta(\mathbf{x}^{(i)})||_2^2 + \lambda R(\theta)
 \]</div>
@@ -820,7 +820,7 @@ J_\theta = \frac{1}{N_s} \sum_{i=1}^{N_s} ||y^{(i)} - f_\theta(\mathbf{x}^{(i)})
 <li>
 <p><em>L1 regularization</em>: <span class="arithmatex">\(||\boldsymbol \theta||_1\)</span>. Ensures small L1 norm for the free-parameters. 
   By favouring sparsity in the parameters of the model, this regularization can allow compressing the 
-  trained model by storing only the non-negative paramters and their indices.</p>
+  trained model by storing only the non-negative parameters and their indices.</p>
 </li>
 </ul>
 <p>Note that in the statistical community, regression models with one of the two regularizations discussed above 
@@ -867,9 +867,9 @@ compensate for the fact that the output is smaller than the one that we would ob
 \]</div>
 <p>Finally, at testing time, dropout is usually inactivated. Recent research in the area of uncertainty quantification (UQ) for deep learning has however suggested that by using dropout also at testing time, multiple equi-probable realizations of the output can be produced and statistics (e.g., mean, variance, marginal probability...) can be computed. This strategy will be implemented and compared to other strategies for UQ in in this <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/LearningFunction/LearningFunction.ipynb">lab</a>.</p>
 <h2 id="data-augumentation">Data augumentation</h2>
-<p>One of the key elements to a successfull generalization (i.e., low variance) is represented by the 
+<p>One of the key elements to a successful generalization (i.e., low variance) is represented by the 
 availability of a large training dataset. When this is not the case and it is not feasible to acquire additional 
-data, an alternative solution is represented by so-called <em>data augumentation</em>. Data augumentation simply refers to
+data, an alternative solution is represented by so-called <em>data augmentation</em>. Data augmentation simply refers to
 the set of procedures that can be employed to create new artificial data samples by manipulating or combining some of the
 original data samples. Whilst this is very data and problem dependant, in the following we will mention a number of strategies 
 that are commonly used in computer vision when working with natural images. More specifically:</p>
@@ -883,15 +883,15 @@ that are commonly used in computer vision when working with natural images. More
 </ul>
 <p>are all strategies that can be used or adapted to geoscientific multi-dimensional datasets. 
 Nevertheless, special attention may be required when implementing some of the above mentioned strategies. Just to give an example, stretching or squeezing time series data such as seismic traces does introduce a shift in the frequency content that may not be desirable. Similarly, applying <code>color shifting</code> to seismic data will lead to a signal whose average is not zero anymore. Alternatively, polarity reversal represents a better alternative that can be seen as a special type of color shifting when dealing with seismic data.</p>
-<p>Finally, we observe that although this does not, stricly speaking, fall within the realm of data augumentation, using basic physics principles to create synthetic datasets for training is another commonly employed strategy in geoscience when accessing high-quality labelled datasets is feasible from either a technical or intellectual property point of view. We will see example of a ML workflow that relies on synthetic data when dealing with <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb">microseismic event detection</a>.</p>
+<p>Finally, we observe that although this does not, strictly speaking, fall within the realm of data augmentation, using basic physics principles to create synthetic datasets for training is another commonly employed strategy in geoscience when accessing high-quality labelled datasets is feasible from either a technical or intellectual property point of view. We will see example of a ML workflow that relies on synthetic data when dealing with <a href="https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EventDetection/EventDetection.ipynb">microseismic event detection</a>.</p>
 <h2 id="transfer-learning">Transfer learning</h2>
-<p>An edge case of data augumentation is represented by transfer learning. Transfer learning is a procedure employed to circumvent the issue or scarce labelled data when <em>similar</em> datasets are available and have been previously used to train a neural network for a similar (or sometimes different task). Under these conditions, one may think to use the pre-trained network and use the available training data to fine-tune such a network for the task at hand. Once again, based on the dataset and problem, the entire pre-trained network may be used as starting point or just a portion of it (generally chosen to be the initial portion of the network where some of the final layers are removed, and referred to as backbone).</p>
-<p>To make things a bit more concrete, let's consider here an example. A NN model has been created to interpret faults in seismic data. Training has been performed using data from an area of the world where both seismic data and fault interpratations are abundant. When a new dataset from the same area becomes available, the pre-trained model can be used as-is or fine-tuned using a much smaller training dataset (i.e., requiring limited manual labelling of faults). A similar strategy could also be used if a new dataset from another area of the world is ready for fault interpretation. In this second case, however, a user needs to 
+<p>An edge case of data augmentation is represented by transfer learning. Transfer learning is a procedure employed to circumvent the issue or scarce labelled data when <em>similar</em> datasets are available and have been previously used to train a neural network for a similar (or sometimes different task). Under these conditions, one may think to use the pre-trained network and use the available training data to fine-tune such a network for the task at hand. Once again, based on the dataset and problem, the entire pre-trained network may be used as starting point or just a portion of it (generally chosen to be the initial portion of the network where some of the final layers are removed, and referred to as backbone).</p>
+<p>To make things a bit more concrete, let's consider here an example. A NN model has been created to interpret faults in seismic data. Training has been performed using data from an area of the world where both seismic data and fault interpretations are abundant. When a new dataset from the same area becomes available, the pre-trained model can be used as-is or fine-tuned using a much smaller training dataset (i.e., requiring limited manual labelling of faults). A similar strategy could also be used if a new dataset from another area of the world is ready for fault interpretation. In this second case, however, a user needs to 
 be aware that the model may not generalize well if key features in the data (e.g., frequency content) or interpretation (e.g., presence of reverse faults) are different from those in the original dataset used for training.</p>
 <p>A different case where transfer learning can be also used is when the output that we are interested is slightly different from the one the network was trained on but the input is the same (and therefore the low- and medium-level features learned by the network). In this case, one may freeze the first few layers (i.e., make those parameters non-learnable) and fine-tune only the last few layers of the network on the new task. As an example, let's consider again a network trained for fault interpretation. Imagine now that we are interest to estimate a seismic attribute such as the relative geological time and we have very limited 
 access to labelled data. In this case the backbone of the network is likely to already contain useful features, and the problem arising from a lack of large training dataset is mitigated by limiting the number of free-parameters to learn to those of the last few layers.</p>
 <p><img alt="TRANSFER" src="../figs/transferlearning.png" /></p>
-<p>To conclude, let's visually summarize the stategies that we should keep in mind when interested to reduce 
+<p>To conclude, let's visually summarize the strategies that we should keep in mind when interested to reduce 
 bias or variance. </p>
 <p><img alt="BIASVARIANCE" src="../figs/biasvariance.png" /></p>
 
