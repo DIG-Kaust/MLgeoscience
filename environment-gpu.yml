@@ -1,0 +1,34 @@
+name: mlcoursegpu
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.8
+  - pip
+  - numpy>=1.15.0
+  - scipy>=1.4.0
+  - cudatoolkit=11.3
+  - scikit-learn 
+  - scikit-image
+  - pandas
+  - matplotlib
+  - seaborn
+  - pylops
+  - ipython
+  - jupyter
+  - pytorch==1.10.1=py3.9_cuda11.3_cudnn8.2.0_0
+  - torchvision
+  - torchaudio
+  - lightgbm
+  - tqdm
+  - pip:
+    - cupy-cuda113
+    - scooby
+    - lasio
+    - segyio
+    - wandb
+    - torchsummary
+    - torchviz
+    - lightgbm
+    - xgboost
