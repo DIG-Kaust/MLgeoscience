@@ -12,6 +12,7 @@ dependencies:
   - scikit-learn 
   - scikit-image
   - pandas
+  - nbgitpuller
   - matplotlib
   - seaborn
   - pylops
