@@ -9,7 +9,7 @@
 echo 'Creating ML Course environment with latest Pytorch (CPU)'
 
 # create conda env
-conda env create -f environment_latest.yml
+conda env create -f environment-latest.yml
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate mlcourse_latest
 conda env list

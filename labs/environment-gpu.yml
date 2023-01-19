@@ -1,4 +1,4 @@
-name: mlcoursegpu
+name: mlcourse_gpu
 channels:
   - pytorch
   - conda-forge

@@ -11,7 +11,7 @@ echo 'Creating ML Course environment with Pytorch (GPU)'
 # create conda env
 conda env create -f environment-gpu.yml
 source ~/miniconda3/etc/profile.d/conda.sh
-conda activate mlcoursegpu
+conda activate mlcourse_gpu
 conda env list
 echo 'Created and activated environment:' $(which python)
 
