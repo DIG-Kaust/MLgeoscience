@@ -10,11 +10,11 @@ computational framework in the Python programming language.
 
 ## Lectures
 
-Tuesday, and Thursday, 10:15am - 11:45am
+Sunday, and Wednesday, 1:00pm - 2:30pm
 
 ## Teaching Staff
 
-- Instructor: [Matteo Ravasi](https://mrava87.github.io) - Office Hours: Tuesday 4pm to 5pm (by Appointment: Zoom or Office - BI-1432)
+- Instructor: [Matteo Ravasi](https://mrava87.github.io) - Office Hours: Monday 4pm to 5pm (by Appointment: BI-1432)
 
 ## Textbook
 
