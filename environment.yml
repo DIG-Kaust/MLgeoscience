@@ -17,7 +17,8 @@ dependencies:
   - pylops
   - ipython
   - jupyter
-  - pytorch=1.12.0
+  - cudatoolkit=11.6
+  - pytorch==1.12.0
   - torchvision=0.13.0
   - torchaudio=0.12.0
   - lightgbm
