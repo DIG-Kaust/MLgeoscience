@@ -17,9 +17,9 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: docs/index
+root: README
 chapters:
-  - title: Teaching Material
+  - title: Docs
     sections:
       - file: docs/index
       - file: docs/gradind
@@ -44,7 +44,7 @@ chapters:
           - file: docs/lectures/15_gans
           - file: docs/lectures/16_pinns
           - file: docs/lectures/17_deepinv
-  - title: Computer Labs
+  - title: Labs
     sections:
       - file: labs/README
       - title: Notebooks
@@ -54,7 +54,6 @@ chapters:
               - file: labs/notebooks/BasicTorch/BasicPytorch
               - file: labs/notebooks/BasicTorch/BasicPytorch_classification
               - file: labs/notebooks/BasicTorch/BasicPytorchlightning_classification
-
           - title: Eikonal PINN
             sections:
               - file: labs/notebooks/EikonalPINN/EikonalPINN_constant
@@ -73,7 +72,7 @@ chapters:
           - title: Salt Net
             sections:
               - file: labs/notebooks/SaltNet/SaltNet
-	 - title: Visual Network
+          - title: Visual Network
             sections:
               - file: labs/notebooks/VisualNetwork/AlexNet
           - title: Visual Optimization
