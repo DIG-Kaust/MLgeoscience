@@ -185,7 +185,7 @@ $$
 and the update becomes:
 
 $$
-\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \mathbf{v}_{i+1}
+\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} + \mathbf{v}_{i+1}
 $$
 
 where $\gamma \in [0, 1)$ is the momentum term. If we write explicitly the first three iterates of the velocity vector:
@@ -247,7 +247,7 @@ $$
 &\mathbf{g}_{i+1} = \frac{1}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j\\
 &\mathbf{r}_{i+1} = \mathbf{r}_i + \mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1} \\
 &\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\mathbf{r}_{i+1}}} \cdot \mathbf{g}_{i+1} \\
-&\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \Delta \boldsymbol\theta_{i+1}
+&\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} + \Delta \boldsymbol\theta_{i+1}
 \end{aligned}
 $$
   
@@ -294,12 +294,12 @@ The algorithm can be written as follows:
 $$
 \begin{aligned}
 &\mathbf{g}_{i+1} = \frac{1}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j\\
-&\mathbf{m}_{i+1} = \rho_1 \mathbf{m}_i + (1-\rho_1)\mathbf{g}_{i+1} \leftarrow velocity \; term \\
-&\mathbf{v}_{i+1} = \rho_2 \mathbf{v}_i + (1-\rho_2)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1}  \leftarrow scaling \; term \\
-&\hat{\mathbf{m}}_{i+1} = \frac{\mathbf{m}_{i+1}}{1-\rho_1^{i+1}} \leftarrow bias \; correction \\
-&\hat{\mathbf{v}}_{i+1} = \frac{\mathbf{v}_{i+1}}{1-\rho_2^{i+1}} \leftarrow bias \; correction \\
-&\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\hat{\mathbf{v}}_{i+1}}} \cdot \hat{\mathbf{m}}_{i+1}\\
-&\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \Delta \boldsymbol\theta_{i+1}
+&\mathbf{v}_{i+1} = \rho_1 \mathbf{v}_i + (1-\rho_1)\mathbf{g}_{i+1} \leftarrow velocity \; term \\
+&\mathbf{r}_{i+1} = \rho_2 \mathbf{r}_i + (1-\rho_2)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1}  \leftarrow scaling \; term \\
+&\hat{\mathbf{v}}_{i+1} = \frac{\mathbf{v}_{i+1}}{1-\rho_1^{i+1}} \leftarrow bias \; correction \\
+&\hat{\mathbf{r}}_{i+1} = \frac{\mathbf{r}_{i+1}}{1-\rho_2^{i+1}} \leftarrow bias \; correction \\
+&\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\hat{\mathbf{r}}_{i+1}}} \cdot \hat{\mathbf{v}}_{i+1}\\
+&\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} + \Delta \boldsymbol\theta_{i+1}
 \end{aligned}
 $$
 
