@@ -200,8 +200,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../READMEcurvenote/" class="md-nav__link">
-        READMEcurvenote
+      <a href="../../READMEcurvenotelocal/" class="md-nav__link">
+        READMEcurvenotelocal
       </a>
     </li>
   
@@ -1036,7 +1036,7 @@ Intuitively, momentum can be understood as some sort of medium resistance or ine
 \]</div>
 <p>and the update becomes:</p>
 <div class="arithmatex">\[
-\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \mathbf{v}_{i+1}
+\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} + \mathbf{v}_{i+1}
 \]</div>
 <p>where <span class="arithmatex">\(\gamma \in [0, 1)\)</span> is the momentum term. If we write explicitly the first three iterates of the velocity vector:</p>
 <div class="arithmatex">\[
@@ -1085,7 +1085,7 @@ values of the gradient.</p>
 &amp;\mathbf{g}_{i+1} = \frac{1}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j\\
 &amp;\mathbf{r}_{i+1} = \mathbf{r}_i + \mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1} \\
 &amp;\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\mathbf{r}_{i+1}}} \cdot \mathbf{g}_{i+1} \\
-&amp;\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \Delta \boldsymbol\theta_{i+1}
+&amp;\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} + \Delta \boldsymbol\theta_{i+1}
 \end{aligned}
 \]</div>
 <p>where the vector <span class="arithmatex">\(\mathbf{r}\)</span> contains a running sum of the element-wise square gradients 
@@ -1121,12 +1121,12 @@ is by far the most popular optimizer in the training of deep NNs. </p>
 <div class="arithmatex">\[
 \begin{aligned}
 &amp;\mathbf{g}_{i+1} = \frac{1}{N_b} \sum_{j=1}^{N_b} \nabla \mathscr{L}_j\\
-&amp;\mathbf{m}_{i+1} = \rho_1 \mathbf{m}_i + (1-\rho_1)\mathbf{g}_{i+1} \leftarrow velocity \; term \\
-&amp;\mathbf{v}_{i+1} = \rho_2 \mathbf{v}_i + (1-\rho_2)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1}  \leftarrow scaling \; term \\
-&amp;\hat{\mathbf{m}}_{i+1} = \frac{\mathbf{m}_{i+1}}{1-\rho_1^{i+1}} \leftarrow bias \; correction \\
-&amp;\hat{\mathbf{v}}_{i+1} = \frac{\mathbf{v}_{i+1}}{1-\rho_2^{i+1}} \leftarrow bias \; correction \\
-&amp;\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\hat{\mathbf{v}}_{i+1}}} \cdot \hat{\mathbf{m}}_{i+1}\\
-&amp;\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} - \Delta \boldsymbol\theta_{i+1}
+&amp;\mathbf{v}_{i+1} = \rho_1 \mathbf{v}_i + (1-\rho_1)\mathbf{g}_{i+1} \leftarrow velocity \; term \\
+&amp;\mathbf{r}_{i+1} = \rho_2 \mathbf{r}_i + (1-\rho_2)\mathbf{g}_{i+1} \cdot \mathbf{g}_{i+1}  \leftarrow scaling \; term \\
+&amp;\hat{\mathbf{v}}_{i+1} = \frac{\mathbf{v}_{i+1}}{1-\rho_1^{i+1}} \leftarrow bias \; correction \\
+&amp;\hat{\mathbf{r}}_{i+1} = \frac{\mathbf{r}_{i+1}}{1-\rho_2^{i+1}} \leftarrow bias \; correction \\
+&amp;\Delta \boldsymbol\theta_{i+1} = -\frac{\alpha}{\delta + \sqrt{\hat{\mathbf{r}}_{i+1}}} \cdot \hat{\mathbf{v}}_{i+1}\\
+&amp;\boldsymbol\theta_{i+1} = \boldsymbol\theta_{i} + \Delta \boldsymbol\theta_{i+1}
 \end{aligned}
 \]</div>
 <p>where, once again, a number of hyperparameters are introduced. These are the stabilizer, <span class="arithmatex">\(\delta=10^{-6}\)</span>, and two 
