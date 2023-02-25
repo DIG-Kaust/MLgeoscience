@@ -31,7 +31,7 @@ A number of more or less simple strategies can however be employed when training
 - *Distributional parameter estimation (DPE)*: a different route is to change the parametrization of the output itself. More specifically, considering here for simplicity the case of regression, the network is asked to produce two outputs. The first is tasked to predict the mean of the output distribution whilst the second predicts the standard deviation. Whilst in the more traditional training of NNs the standard deviation is kept fixed for all training samples, here the network will be able to understand which portion of the input data is noisier and which is cleaner (as well as detect where input data is missing). The negative log-likelihood is chosen to be the loss function of the network:
 
 $$
-\boldsymbol \theta = \underset{\boldsymbol \theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} \frac{log \hat{\sigma}^{(i)}}{2} +
+\boldsymbol \theta = \underset{\boldsymbol \theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} \frac{log \hat{\sigma}^{(i)2}}{2} +
 \frac{||\hat{y}^{(i)} - y^{(i)}||_2^2}{2\sigma^2} \\
 $$
 
