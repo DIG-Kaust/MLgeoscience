@@ -4,7 +4,7 @@ import torch.nn as nn
 from sklearn.metrics import accuracy_score
 
 
-def train(model, criterion, optimizer, data_loader):
+def train(model, criterion, optimizer, data_loader, device='cpu'):
     """Training step
 
     Perform a training step over the entire training data (1 epoch of training)
@@ -19,6 +19,8 @@ def train(model, criterion, optimizer, data_loader):
         Optimizer
     data_loader : :obj:`torch.utils.data.dataloader.DataLoader`
         Training dataloader
+    device : :obj:`str`, optional
+        Device
 
     Returns
     -------
@@ -32,21 +34,22 @@ def train(model, criterion, optimizer, data_loader):
     loss = 0.
     accuracy = 0.
     for X, y in data_loader:
+        X, y = X.to(device), y.to(device)
         optimizer.zero_grad()
         yprob = model(X)
         ls = criterion(yprob, y)
         ls.backward()
         optimizer.step()
         with torch.no_grad():
-            y_pred = np.argmax(nn.Softmax(dim=1)(yprob).detach().numpy(), axis=1)
+            y_pred = np.argmax(nn.Softmax(dim=1)(yprob).detach().cpu().numpy(), axis=1)
         loss += ls.item()
-        accuracy += accuracy_score(y, y_pred)
+        accuracy += accuracy_score(y.cpu(), y_pred)
     loss /= len(data_loader)
     accuracy /= len(data_loader)
     return loss, accuracy
 
 
-def evaluate(model, criterion, data_loader):
+def evaluate(model, criterion, data_loader, device='cpu'):
     """Evaluation step
 
     Perform an evaluation step over the entire training data
@@ -59,6 +62,8 @@ def evaluate(model, criterion, data_loader):
         Loss function
     data_loader : :obj:`torch.utils.data.dataloader.DataLoader`
         Evaluation dataloader
+    device : :obj:`str`, optional
+        Device
 
     Returns
     -------
@@ -72,18 +77,19 @@ def evaluate(model, criterion, data_loader):
     loss = 0.
     accuracy = 0.
     for X, y in data_loader:
+        X, y = X.to(device), y.to(device)
         with torch.no_grad(): # use no_grad to avoid making the computational graph...
             yprob = model(X)
             ls = criterion(yprob, y)
-            y_pred = np.argmax(nn.Softmax(dim=1)(yprob).detach().numpy(), axis=1)
+            y_pred = np.argmax(nn.Softmax(dim=1)(yprob).detach().cpu().numpy(), axis=1)
         loss += ls.item()
-        accuracy += accuracy_score(y, y_pred)
+        accuracy += accuracy_score(y.cpu(), y_pred)
     loss /= len(data_loader)
     accuracy /= len(data_loader)
     return loss, accuracy
 
 
-def classification(model, train_loader, valid_loader, epochs=1000):
+def classification(model, train_loader, valid_loader, epochs=1000, device='cpu'):
     """Classifier
 
     Perform binary classification
@@ -98,7 +104,9 @@ def classification(model, train_loader, valid_loader, epochs=1000):
         Validation dataloader
     epochs : :obj:`int`, optional
         Number of epochs
-
+    device : :obj:`str`, optional
+        Device
+        
     """
     bce_loss = nn.CrossEntropyLoss()
     optim = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=0.01)
@@ -108,8 +116,8 @@ def classification(model, train_loader, valid_loader, epochs=1000):
     train_acc_history = np.zeros(epochs)
     valid_acc_history = np.zeros(epochs)
     for i in range(epochs):
-        train_loss, train_acc = train(model, bce_loss, optim, train_loader)
-        valid_loss, valid_acc = evaluate(model, bce_loss, valid_loader)
+        train_loss, train_acc = train(model, bce_loss, optim, train_loader, device=device)
+        valid_loss, valid_acc = evaluate(model, bce_loss, valid_loader, device=device)
         train_loss_history[i] = train_loss
         valid_loss_history[i] = valid_loss
         train_acc_history[i] = train_acc
@@ -118,3 +126,4 @@ def classification(model, train_loader, valid_loader, epochs=1000):
             print(f'Epoch {i}, Training Loss {train_loss:.2f}, Training Accuracy {train_acc:.2f}, Validation Loss {valid_loss:.2f}, Test Accuracy {valid_acc:.2f}')
             
     return train_loss_history, valid_loss_history, train_acc_history, valid_acc_history
+
