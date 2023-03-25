@@ -409,7 +409,7 @@ instabilities in the training of basic RNNs, the training process will still be 
 ### Gated recurrent networks or GRU unit
 
 The most effective family of networks that can tackle both the exploding and vanishing gradient problem is called *Gated networks*. As the name
-implies, a gate is introduced in each block of the network to help information flow and be used by later unities without vanishing and exploding 
+implies, a gate is introduced in each block of the network to help information flow and be used by later units without vanishing and exploding 
 gradient issues. By doing so, the gate helps the network *remembering* some information from early steps, use it much later down the flow, and eventually
 *forget* about it.
 
@@ -477,8 +477,8 @@ $$
 Another popular, probably the most popular, RNN block that mitigates the vanishing gradient problem is called LSTM block. It uses similar concepts
 to those introduced for the GRU block, but at the same time introduces a number of additional hidden states, namely:
 
-- $\Gamma_f$: forget gate, which provides more flexibility when updating the memory cell with the old and candidate memory cells. More specifically,  
-  whist in the GRU block, the new memory cell was a linear combination of those two terms, now we have two independent weights (both of them learned) that
+- $\Gamma_f$: forget gate, which provides more flexibility when updating the memory cell with the old and candidate memory cells. 
+  More specifically, whilst in the GRU block, the new memory cell was a linear combination of those two terms, now we have two independent weights (both of them learned) that 
   can allow passing more or less information from the two inputs instead of having to weight their total contribution to 1.
 - $\Gamma_o$: output gate;
 
