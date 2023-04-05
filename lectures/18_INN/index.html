@@ -1,0 +1,961 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../17_deepinv/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.4">
+    
+    
+      
+        <title>Invertible Neural Networks - ErSE 222 - Machine Learning in Geoscience</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.240905d7.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#invertible-neural-networks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ErSE 222 - Machine Learning in Geoscience
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Invertible Neural Networks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-nav__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ErSE 222 - Machine Learning in Geoscience
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Homepage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gradind/" class="md-nav__link">
+        Grading system
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Lectures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_intro/" class="md-nav__link">
+        Introduction to Machine Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_linalg/" class="md-nav__link">
+        Linear Algebra refresher
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_prob/" class="md-nav__link">
+        Probability refresher
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_gradopt/" class="md-nav__link">
+        Gradient-based optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_linreg/" class="md-nav__link">
+        Linear and Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_nn/" class="md-nav__link">
+        Basics of Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_nn/" class="md-nav__link">
+        More on Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_bestpractice/" class="md-nav__link">
+        Best practices in the training of Machine Learning models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_gradopt1/" class="md-nav__link">
+        More on gradient-based optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_mdn/" class="md-nav__link">
+        Uncertainty Quantification in Neural Networks and Mixture Density Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_cnn/" class="md-nav__link">
+        Convolutional Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_cnnarch/" class="md-nav__link">
+        CNNs Popular Architectures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_seqmod/" class="md-nav__link">
+        Sequence modelling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_dimred/" class="md-nav__link">
+        Dimensionality reduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_vae/" class="md-nav__link">
+        Generative Modelling and Variational AutoEncoders
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15_gans/" class="md-nav__link">
+        Generative Adversarial Networks (GANs)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16_pinns/" class="md-nav__link">
+        Scientific Machine Learning and Physics-informed Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17_deepinv/" class="md-nav__link">
+        Deep learning for Inverse Problems
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Invertible Neural Networks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Invertible Neural Networks
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#normalizing-flows" class="md-nav__link">
+    Normalizing flows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coupling-flows" class="md-nav__link">
+    Coupling flows
+  </a>
+  
+    <nav class="md-nav" aria-label="Coupling flows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-coupling-function" class="md-nav__link">
+    The coupling function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-split-function" class="md-nav__link">
+    The split function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-scale-architecture" class="md-nav__link">
+    Multi-scale architecture
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reversible-network-architectures" class="md-nav__link">
+    Reversible network architectures
+  </a>
+  
+    <nav class="md-nav" aria-label="Reversible network architectures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#i-unet-invertible-unet" class="md-nav__link">
+    i-UNet: invertible UNet
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revnet-reversible-resnet" class="md-nav__link">
+    RevNet: reversible ResNet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    Further reading
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#normalizing-flows" class="md-nav__link">
+    Normalizing flows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coupling-flows" class="md-nav__link">
+    Coupling flows
+  </a>
+  
+    <nav class="md-nav" aria-label="Coupling flows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-coupling-function" class="md-nav__link">
+    The coupling function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-split-function" class="md-nav__link">
+    The split function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-scale-architecture" class="md-nav__link">
+    Multi-scale architecture
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reversible-network-architectures" class="md-nav__link">
+    Reversible network architectures
+  </a>
+  
+    <nav class="md-nav" aria-label="Reversible network architectures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#i-unet-invertible-unet" class="md-nav__link">
+    i-UNet: invertible UNet
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revnet-reversible-resnet" class="md-nav__link">
+    RevNet: reversible ResNet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    Further reading
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="invertible-neural-networks">Invertible Neural Networks</h1>
+<p>Invertible Neural Networks (INNs) are a class of neural networks where the input of the network can be reconstructed exactly from the output. Popular neural network 
+architectures such as (V)AE, UNet and ResNet are not invertible for a number of reasons. Firstly, these networks have layers that map to different dimensions by either 
+expanding or shrinking (mostly shrinking) the dimension of the current hidden layer to project the input into the so-called latent space. It was long believed that this 
+projection into a lower dimensional space is what made neural networks so powerful; invertible neural networks break with this notion. Additionally, the layers mostly carry
+out convolutions, which, even if they map to a space of the same dimension, are generally rank deficient and therefore non-invertible. Moreover, popular architectures 
+generally incorporate operations like batch normalization or average or max pooling that are non-invertible. On top of that, some popular activation functions, like ReLU, suffer the same issue
+of non-invertibility. Given that non-invertible operations like pooling, batch normalization and non-invertible activation functions are typically chosen because
+they greatly improve performance, discarding them just to ensure invertibility is undesirable. Therefore, constructing an INN that performs on par with modern architectures is not 
+straightforward.</p>
+<p>In this lecture we will cover how to construct INNs that perform on par with state-of-the-art neural network architectures and show some of their applications. INNs have two main applications 
+that we will cover in this lecture:</p>
+<ol>
+<li>INNs are used as generative models, mostly known under the name of <em>normalizing flows (NFs)</em>. The idea is that a complicated distribution can be transformed into a 
+Gaussian distribution through a sequence of invertible and differentiable transformations, also called <em>flow</em>, hence the name <em>normalizing flow</em>.</li>
+<li>INNs are used to overcome the memory requirements of neural networks due to storing all activations that are needed for backpropagation. In INNs, since the input can be computed from 
+the output, these values need not be stored and the memory requirements are constant as the size of the network increases.</li>
+</ol>
+<h2 id="normalizing-flows">Normalizing flows</h2>
+<p>Normalizing flows are used for generative modeling by transforming a sample distribution into the target distribution through a series of invertible transformations, called
+<em>flow</em>. This principle is illustrated in the figure below</p>
+<p><img alt="flow" src="../figs/flow.png" /></p>
+<p>Ideally, the sample distribution is a simple one whose parameters are known and is one that is easy to sample from. When one probability density function is related to 
+another via a flow the relationship between the two is given by</p>
+<div class="arithmatex">\[ 
+    p_X(x) = p_Z(f(x))\vert \det Df(x)\vert
+\]</div>
+<p>Ideally, when looking for a probability distribution that best fits the data one is interested in minimizing the negative log-likelihood. In the case of INNs this is straightforward,
+since the log-likelihood of <span class="arithmatex">\(p_X\)</span> is related to the log-likelihood of <span class="arithmatex">\(p_Z\)</span> via</p>
+<div class="arithmatex">\[
+    -\log p_X(x) = - \log p_Z(f(x)) - \log(\vert \det Df(x)\vert).
+\]</div>
+<p>This shows one benefit of INNs as compared to other generative models such as GANs and VAEs, that are not able to minimize the log-likelihood. GANs do not act on the log-likelihood and 
+VAEs only minimize an upper bound, see the lecture on VAEs. Moreover, by design both sampling from the distribution and inference are easy. This makes INNs well-suited for Variational Inference (VI),
+as discussed in the lecture on VAEs. </p>
+<p>Clearly, in order to efficiently evaluate the sought after distribution <span class="arithmatex">\(p_X\)</span>, we need to be able to evaluate <span class="arithmatex">\(\det Df(x)\)</span> efficiently. For a general matrix evaluating the
+determinant is costly; roughly equal to the cost of inverting the matrix. As an example, assume that we have a neural network that maps <span class="arithmatex">\(\mathbb{R}^n \to \mathbb{R}^n\)</span>. Choosing
+a sigmoid activation function yields the following expression for one forward pass from one layer to the next</p>
+<div class="arithmatex">\[
+    \sigma(x) = \frac{1}{1 + e^{- Wx - b}},
+\]</div>
+<p>where the exponential is evaluated pointwise. The gradient is given by</p>
+<div class="arithmatex">\[
+    D\sigma(x) = \begin{bmatrix} \frac{e^{-Wx - b}}{(1 + e^{-Wx - b})^2}\odot w_1, \ldots, \frac{e^{-Wx - b}}{(1 + e^{-Wx - b})^2}\odot w_n \end{bmatrix}.
+\]</div>
+<p>Clearly, evaluating the determinant of this matrix is not feasible for large-scale problems, even though the network itself has an invertible structure.
+When the matrix has special structure, e.g. diagonal or triangular, or if the matrix is unitary, computing the determinant is cheap. However, guaranteeing a certain structure
+or property of the weight matrix is either not possible, computationally expensive, or severely limits the expressive capabilities of the network. <a href="https://arxiv.org/abs/1410.8516">Dinh et al., 2014</a>
+proposed the <em>coupling flow</em> that is both invertible and has a determinant that is cheap to evaluate.</p>
+<h2 id="coupling-flows">Coupling flows</h2>
+<p>A coupling flow is a flow that splits the input into two parts, say <span class="arithmatex">\(x_A\)</span> and <span class="arithmatex">\(x_B\)</span>, after which <span class="arithmatex">\(x_A\)</span> is mapped directly to the output via the identity function and <span class="arithmatex">\(x_B\)</span> undergoes an invertible
+transformation, which is conditioned on <span class="arithmatex">\(x_A\)</span>. The principle is outlined in the figure below.</p>
+<p><img alt="coupling_flow" src="../figs/coupling_flow.png" /></p>
+<p>Here, <span class="arithmatex">\(f\)</span> denotes the <em>coupling function</em> that ensures the dependency of the output <span class="arithmatex">\(z_B\)</span> on the input <span class="arithmatex">\(x_A\)</span>. <span class="arithmatex">\(\theta\)</span> can be any function and need not even be invertible,
+since it only parametrizes the coupling function <span class="arithmatex">\(f\)</span>, and it can be computed from the output using the equality <span class="arithmatex">\(z_A = x_A\)</span>. For example, in <a href="https://arxiv.org/abs/1410.8516">Dinh et al., 2014</a> the authors 
+use a simple ReLU MLP, <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a> use a convolutional residual neural network, and in <a href="https://arxiv.org/pdf/1807.03039.pdf">Kingma et al., 2018</a> a three-layer
+CNN with ReLU activations. As illustrated in the figure below, the coupling flow is invertible.</p>
+<p><img alt="coupling_flow_inv" src="../figs/coupling_flow_inv.png" /></p>
+<p>By splitting the input the Jacobian will consist of four components. Denoting the function mapping the input <span class="arithmatex">\(x\)</span> to the output <span class="arithmatex">\(z\)</span> by <span class="arithmatex">\(g\)</span> we have</p>
+<div class="arithmatex">\[
+    Dg(x) = \begin{bmatrix} \frac{\partial z_A}{\partial x_A} &amp; \frac{\partial z_A}{\partial x_A} \\ \frac{\partial z_B}{\partial x_A} &amp; \frac{\partial z_B}{\partial x_B}\end{bmatrix} = 
+            \begin{bmatrix} I &amp; 0 \\ \frac{\partial}{\partial x_A} f(x_B;\theta(x_A)) &amp; Df(x_B;\theta(x_A)) \end{bmatrix}.
+\]</div>
+<p>The Jacobian is a triangular matrix and therefore the determinant is easy to evaluate since it is simply the product of the diagonal elements.</p>
+<h3 id="the-coupling-function">The coupling function</h3>
+<p>The coupling flow was introduced in <a href="https://arxiv.org/abs/1410.8516">Dinh et al., 2014</a>, where the additive coupling function has the following structure
+$$
+    \begin{aligned}
+        z_A = x_A \
+        z_B = x_B + \theta(x_A)
+    \end{aligned} 
+$$
+In subsequent work <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a> used the affine coupling function
+$$
+    \begin{aligned}
+        z_A = x_A \
+        z_B = x_B \odot e^{s(x_A)} + t(x_A),
+    \end{aligned} 
+$$
+where <span class="arithmatex">\(s\)</span> denotes a scaling function and <span class="arithmatex">\(t\)</span> a translation function.</p>
+<h3 id="the-split-function">The split function</h3>
+<p>Splitting the input can be done a number of ways. <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a> split the input along the spatial dimension using a checkerboard pattern,
+after which a squeezing operation is applied that reduces the spatial dimension and accordingly increases the number of channels. Subsequently, the channel dimension is masked in a 
+manner that doesn't interfere with the masking in the spatial dimension. This principle is illustrated in the figure below that is directly taken from the paper.</p>
+<p><img alt="splitting" src="../figs/splitting_RealNVP.png" /></p>
+<p>In this figure, the white squares are fed directly to the output whereas the black squares are fed through an invertible function conditioned on the white squares.
+By splitting the input the same way every time certain parts of the input are never used but only propagated directly to the output. To make sure all components are leveraged, the 
+intermediate outputs have to be shuffled. <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a> propose alternating shuffling where the components that are unaltered
+are fed through the invertible function in the next iteration and vice versa. Alternatively, <a href="https://arxiv.org/pdf/1807.03039.pdf">Kingma et al., 2018</a> propose the use of invertible
+learned 1-x-1 convolutions, and show that this improves performance compared to alternating shuffling of <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a> or random shuffling.</p>
+<h3 id="multi-scale-architecture">Multi-scale architecture</h3>
+<p>Along with the spatial splitting of the input <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a> propose a multi-scale architecture where the spatial dimension is downsampled followed
+by a corresponding increase in the number of channels. Their overal architecture combines 3 coupling layers with spatial checkerboard masking followed by a squeezing operation with channel-wise
+masking. Because the layers of an INN preserve dimension, propagating the input through the network is costly both in terms of computational cost and memory cost. Therefore, half of the dimension
+are fed through the network directly without undergoing any more coupling functions.</p>
+<h2 id="reversible-network-architectures">Reversible network architectures</h2>
+<p>Due to the reversible nature of the network INNs have low memory cost. To understand this, let's recall the algorithm that is used to perform gradient descent for neural networks: backpropagation.
+Backpropagation essentially computes the gradient by repeated application of the chain rule. Recall the following figure from lecture 6:</p>
+<p><img alt="BACKPROP_NN1" src="../figs/backprop_nn1.png" /></p>
+<p>To compute the derivative we need access to result of the activation functions. If the network is fully invertible these values can be computed from the output. However, if the network is not invertible 
+either the values have to be recomputed, which is extremely expensive for large networks, or the output of the activations has to be stored. This is essentially what happens in backpropagation. The drawback
+is that all the intermediate outputs have to be stored, putting a huge burden on the memory. Since GPUs generally have limited memory this becomes a bottleneck for deep neural networks. When the network is 
+reversible, the inputs can be computed from the outputs which lifts the burden from the memory in exchange computation. This is generally a favorable trade for GPUs. A number of popular architectures
+now have reversible or invertible counterparts, for example UNet and ResNet. Note that, in order to lift the memory burden from backpropagation, the network need not be invertible: injectivity suffices. We now
+show two popular network architectures that can be made invertible: UNet and ResNet.</p>
+<h3 id="i-unet-invertible-unet">i-UNet: invertible UNet</h3>
+<p>The UNet architecture calculates features on multiple scales by downsampling the input a number of times: this is the depth of the UNet. Every downsampling layers is followed by a number of convolutional layers that extract the 
+features at the current scale. When the maximum downsampling is reached, the input is upsampled at the same rate until an output with the same dimension as the input is reached. To combine the extracted features from different scales
+the UNet passes the downsampled images directly from the downsampling layers to the upsampling layers where they are concatenated. This is illustrated in the figure below.</p>
+<p><img alt="unet" src="../figs/unet.png" /></p>
+<p>The convolutional layers in the UNet can be replaced by the invertible coupling layers to make them invertible. The downsampling layers can be made invertible by increasing the number of channels. If we denote the size of the current image
+by <span class="arithmatex">\(h \times w \times c\)</span>, where <em>h</em> denotes the height, <em>w</em> denotes the width and <em>c</em> denotes the number of channels, then a map from <span class="arithmatex">\(\mathbb{R}^{h \times w \times c} \to \mathbb{R}^{h/n_h \times w/n_w \times n_h\cdot n_w\cdot c}\)</span> can be made
+invertible. In principle one could use the downsampling operation according to the checkerboard pattern as introduced by <a href="https://arxiv.org/pdf/1605.08803.pdf">Dinh et al., 2016</a>. However, the corresponding upsampling operation introduces checkerboard
+artifacts. <a href="https://arxiv.org/pdf/2005.05220.pdf">Etmann et al., 2020</a> proposed the use of learned orthogonal downsampling and upsampling operations. The key idea is that the downsampling operation can be expressed as a convolution where the kernel
+size equals the stride. This way, convolution can be seen as matrix-vector multiplication with a convolutional kernel matrix that has the dimension of the number of channels. This principle is illustrated in the figure below.</p>
+<p><img alt="conv_full" src="../figs/conv_full.png" /></p>
+<p>Note that it is convenient but not strictly necessary for the kernel matrix to be orthogonal. Orthogonality makes the subsequent upsampling operator easy to evaluate, as it's just the adjoint of the kernel matrix. The invertible UNet, i-UNet, is now constructed
+by combining the invertible downsampling operator with the coupling functions we have seen before, replacing the standard downsampling and convolutional layers respectively. The i-UNet architecture is shown in the figure below from the paper 
+by <a href="https://arxiv.org/pdf/2005.05220.pdf">Etmann et al., 2020</a>.</p>
+<p><img alt="iunet" src="../figs/i-UNet.png" /></p>
+<h3 id="revnet-reversible-resnet">RevNet: reversible ResNet</h3>
+<p>The ResNet architecture is characterized by skip connections and consists of residual blocks of the form</p>
+<div class="arithmatex">\[
+    y = x + \mathcal{F}(x),
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{F}(x)\)</span> denotes the residual block. The RevNet uses a coupling flow that is slightly different from the previous coupling as shown in the figure below.</p>
+<p>The coupling flow is given by</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+        z_A &amp; = x_A + F(x_B) \\
+        z_B &amp; = x_B + G(z_A)
+    \end{aligned}
+\]</div>
+<p>with inverse</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+        x_B &amp; = z_B - G(z_A) \\
+        x_A &amp; = z_A - F(x_B)
+    \end{aligned}
+\]</div>
+<h2 id="further-reading">Further reading</h2>
+<p>These notes were heavily inspired by the following tutorials:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=8XufsgG066A">Brubacker and Kothe</a></li>
+<li><a href="https://www.youtube.com/watch?v=IpbeIwSr7r0">Paul Hand</a></li>
+</ul>
+<p>Below are the references for the RealNVP, GLOW, i-UNet and RevNet papers:</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1605.08803">RealNVP</a></li>
+<li><a href="https://arxiv.org/abs/1807.03039">GLOW</a></li>
+<li><a href="https://arxiv.org/pdf/2005.05220.pdf">i-UNet</a></li>
+<li><a href="https://arxiv.org/pdf/1707.04585.pdf">RevNet</a></li>
+</ul>
+<p>Library for building INNs:</p>
+<ul>
+<li><a href="https://github.com/silvandeleemput/memcnn">MemCNN</a></li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.19047be9.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
