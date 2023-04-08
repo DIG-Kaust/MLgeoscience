@@ -32,7 +32,7 @@ def create_dataloader(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
     # initial condition
-    ic_loader = torch.tensor([xs, zs], dtype=torch.float, requires_grad=True)
+    ic_loader = torch.tensor([xs, zs], dtype=torch.float, requires_grad=True).to(device)
 
     return data_loader, ic_loader
 
@@ -48,7 +48,7 @@ def create_gridloader(X, Z, device='cpu'):
     return grid_loader
 
 
-def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1.):
+def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1., device='cpu'):
     model.train()
     loss_pde = []
     loss_ic = []
@@ -59,7 +59,7 @@ def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1.):
 
             # concatenate initial condition
             xz.requires_grad = True
-            xzic = torch.cat([xz, ic.view(1, -1)])
+            xzic = torch.cat([xz, ic.view(1, -1)]).to(device)
             # compute tau
             tau = model(xzic).view(-1)
 
@@ -102,19 +102,20 @@ def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1.):
     return loss, loss_pde, loss_ic
 
 
-def evaluate(model, grid_loader):
+def evaluate(model, grid_loader, device='cpu'):
     model.eval()
     with torch.no_grad():
-        xz = iter(grid_loader).next()[0]
+        xz = iter(grid_loader).next()[0].to(device)
         # compute tau
         tau = model(xz)
     return tau
 
 
-def evaluate_pde(model, grid_loader, vscaler=1.):
+def evaluate_pde(model, grid_loader, vscaler=1., device='cpu'):
     model.train()
     xz, v, t0, t0_dx, t0_dz = iter(grid_loader).next()
     xz.requires_grad = True
+    xz = xz.to(device)
     # compute tau
     tau = model(xz).view(-1)
 
@@ -155,7 +156,7 @@ def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
 
     # Evaluate grid with randomly initialized network
     if Xgrid is not None and Zgrid is not None:
-        tau_history.append(evaluate(model, grid_loader))
+        tau_history.append(evaluate(model, grid_loader, device=device))
 
     for i in range(epochs):
         if randompoints and i > 0:
@@ -170,7 +171,8 @@ def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
 
         # Train step
         loss, loss_pde, loss_ic = train(model, optimizer, data_loader, ic,
-                                        lossweights=lossweights, vscaler=vscaler)
+                                        lossweights=lossweights, vscaler=vscaler, 
+                                        device=device)
         loss_pde_history.append(loss_pde)
         loss_ic_history.append(loss_ic)
         loss_history.append(loss)
@@ -184,7 +186,7 @@ def training_loop(X, Z, xs, zs, v, tana, tana_dx, tana_dz,
         if i % 100 == 0:
             # Evaluate grid
             if Xgrid is not None and Zgrid is not None:
-                tau_history.append(evaluate(model, grid_loader))
+                tau_history.append(evaluate(model, grid_loader, device=device))
             print(f'Epoch {i}, Loss {loss:.7f}')
 
     return loss_history, loss_pde_history, loss_ic_history, tau_history
