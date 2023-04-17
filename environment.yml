@@ -34,3 +34,4 @@ dependencies:
     - lightgbm
     - xgboost
     - pytorch-lightning
+    - memcnn

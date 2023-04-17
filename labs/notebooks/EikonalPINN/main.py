@@ -77,7 +77,7 @@ def main(parser):
 
     # Setup environment
     set_seed(args.seed)
-    device = set_device()
+    device = 'cpu' # set_device()
 
     # Model grid (km)
     ox, dx, nx = 0., 10. / 1000., 101
@@ -110,11 +110,10 @@ def main(parser):
         remove_source(X, Z, xs, zs, vel, t0, t0_dx, t0_dz)
 
     # Create evaluation grid
-    grid_loader = create_gridloader(X, Z, device)
+    grid_loader = create_gridloader(X, Z)
 
     # Define and initialize network
     model = Network(2, 1, [args.unit] * args.hidden, act=args.act, lay=args.lay)
-    model.to(device)
     # model.apply(model.init_weights)
     if args.debug:
         print(model)
@@ -134,7 +133,7 @@ def main(parser):
                       model, optimizer, args.nepochs, Xgrid=X, Zgrid=Z,
                       randompoints=args.randompoints, batch_size=args.batchsize,
                       perc=args.perc_samples, lossweights=(args.lambda_pde, args.lambda_ic),
-                      device=device)
+                      )
 
     plt.figure()
     plt.semilogy(loss_history, 'k')
