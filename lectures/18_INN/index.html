@@ -8,12 +8,8 @@
       
       
       
-      
-        <link rel="prev" href="../17_deepinv/">
-      
-      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.4">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.5.1">
     
     
       
@@ -21,10 +17,15 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.240905d7.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2e8b5541.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
       
       
 
@@ -55,7 +56,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="teal">
   
     
     
@@ -77,9 +78,7 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="ErSE 222 - Machine Learning in Geoscience" class="md-header__button md-logo" aria-label="ErSE 222 - Machine Learning in Geoscience" data-md-component="logo">
       
@@ -135,7 +134,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
+          <ol class="md-search-result__list"></ol>
         </div>
       </div>
     </div>
@@ -201,6 +200,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../../READMEcurvenotelocal/" class="md-nav__link">
+        READMEcurvenotelocal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../gradind/" class="md-nav__link">
         Grading system
       </a>
@@ -236,19 +250,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
       
       
-      
-        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_5">
           Lectures
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_4">
+      <nav class="md-nav" aria-label="Lectures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Lectures
         </label>
@@ -515,7 +528,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
         
@@ -595,15 +608,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#i-unet-invertible-unet" class="md-nav__link">
-    i-UNet: invertible UNet
+  <a href="#revnet-reversible-resnet" class="md-nav__link">
+    RevNet: reversible ResNet
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#revnet-reversible-resnet" class="md-nav__link">
-    RevNet: reversible ResNet
+  <a href="#i-unet-invertible-unet" class="md-nav__link">
+    i-UNet: invertible UNet
   </a>
   
 </li>
@@ -711,15 +724,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#i-unet-invertible-unet" class="md-nav__link">
-    i-UNet: invertible UNet
+  <a href="#revnet-reversible-resnet" class="md-nav__link">
+    RevNet: reversible ResNet
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#revnet-reversible-resnet" class="md-nav__link">
-    RevNet: reversible ResNet
+  <a href="#i-unet-invertible-unet" class="md-nav__link">
+    i-UNet: invertible UNet
   </a>
   
 </li>
@@ -773,7 +786,9 @@ the output, these values need not be stored and the memory requirements are cons
 <p>Normalizing flows are used for generative modeling by transforming a sample distribution into the target distribution through a series of invertible transformations, called
 <em>flow</em>. This principle is illustrated in the figure below</p>
 <p><img alt="flow" src="../figs/flow.png" /></p>
-<p>Ideally, the sample distribution is a simple one whose parameters are known and is one that is easy to sample from. When one probability density function is related to 
+<p>Any sample <span class="arithmatex">\(x\)</span> from the target distribution can be transformed to a sample from the base distribution <span class="arithmatex">\(z\)</span> via the relation <span class="arithmatex">\(f(x) = z\)</span> and if <span class="arithmatex">\(f\)</span> is invertible then we can equivalently obtain
+<span class="arithmatex">\(x = f^{-1}(z)\)</span>. When the flow consists of multiple transformations like in the figure above, then <span class="arithmatex">\(f = f_1 \circ f_2 \circ f_3\)</span> and <span class="arithmatex">\(f^{-1} = f_3^{-1} \circ f_2^{-1} \circ f_1^{-1}\)</span>.
+Ideally, the sample distribution is a simple one whose parameters are known and is one that is easy to sample from. When one probability density function is related to 
 another via a flow the relationship between the two is given by</p>
 <div class="arithmatex">\[ 
     p_X(x) = p_Z(f(x))\vert \det Df(x)\vert
@@ -856,6 +871,27 @@ is that all the intermediate outputs have to be stored, putting a huge burden on
 reversible, the inputs can be computed from the outputs which lifts the burden from the memory in exchange computation. This is generally a favorable trade for GPUs. A number of popular architectures
 now have reversible or invertible counterparts, for example UNet and ResNet. Note that, in order to lift the memory burden from backpropagation, the network need not be invertible: injectivity suffices. We now
 show two popular network architectures that can be made invertible: UNet and ResNet.</p>
+<h3 id="revnet-reversible-resnet">RevNet: reversible ResNet</h3>
+<p>The ResNet architecture is characterized by skip connections and consists of residual blocks of the form</p>
+<div class="arithmatex">\[
+    y = x + \mathcal{F}(x),
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{F}(x)\)</span> denotes the residual block. The RevNet uses a coupling flow that is slightly different from the previous coupling as shown in the figure below from the RevNet paper <a href="https://arxiv.org/pdf/1707.04585.pdf">Gomez et al., 2017</a>.</p>
+<p><img alt="revnet" src="figs/RevNet.png" /></p>
+<p>Here, both <span class="arithmatex">\(F\)</span> and <span class="arithmatex">\(G\)</span> denote the residual blocks that are typical for the standard ResNet. The coupling flow is given by</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+        z_A &amp; = x_A + F(x_B) \\
+        z_B &amp; = x_B + G(z_A)
+    \end{aligned}
+\]</div>
+<p>with inverse</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+        x_B &amp; = z_B - G(z_A) \\
+        x_A &amp; = z_A - F(x_B)
+    \end{aligned}
+\]</div>
 <h3 id="i-unet-invertible-unet">i-UNet: invertible UNet</h3>
 <p>The UNet architecture calculates features on multiple scales by downsampling the input a number of times: this is the depth of the UNet. Every downsampling layers is followed by a number of convolutional layers that extract the 
 features at the current scale. When the maximum downsampling is reached, the input is upsampled at the same rate until an output with the same dimension as the input is reached. To combine the extracted features from different scales
@@ -871,26 +907,6 @@ size equals the stride. This way, convolution can be seen as matrix-vector multi
 by combining the invertible downsampling operator with the coupling functions we have seen before, replacing the standard downsampling and convolutional layers respectively. The i-UNet architecture is shown in the figure below from the paper 
 by <a href="https://arxiv.org/pdf/2005.05220.pdf">Etmann et al., 2020</a>.</p>
 <p><img alt="iunet" src="../figs/i-UNet.png" /></p>
-<h3 id="revnet-reversible-resnet">RevNet: reversible ResNet</h3>
-<p>The ResNet architecture is characterized by skip connections and consists of residual blocks of the form</p>
-<div class="arithmatex">\[
-    y = x + \mathcal{F}(x),
-\]</div>
-<p>where <span class="arithmatex">\(\mathcal{F}(x)\)</span> denotes the residual block. The RevNet uses a coupling flow that is slightly different from the previous coupling as shown in the figure below.</p>
-<p>The coupling flow is given by</p>
-<div class="arithmatex">\[
-    \begin{aligned}
-        z_A &amp; = x_A + F(x_B) \\
-        z_B &amp; = x_B + G(z_A)
-    \end{aligned}
-\]</div>
-<p>with inverse</p>
-<div class="arithmatex">\[
-    \begin{aligned}
-        x_B &amp; = z_B - G(z_A) \\
-        x_A &amp; = z_A - F(x_B)
-    \end{aligned}
-\]</div>
 <h2 id="further-reading">Further reading</h2>
 <p>These notes were heavily inspired by the following tutorials:</p>
 <ul>
@@ -924,6 +940,27 @@ by <a href="https://arxiv.org/pdf/2005.05220.pdf">Etmann et al., 2020</a>.</p>
       
         <footer class="md-footer">
   
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../17_deepinv/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Deep learning for Inverse Problems" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Deep learning for Inverse Problems
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -945,10 +982,10 @@ by <a href="https://arxiv.org/pdf/2005.05220.pdf">Etmann et al., 2020</a>.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.19047be9.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d691e9de.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
