@@ -23,6 +23,8 @@ Normalizing flows are used for generative modeling by transforming a sample dist
 
 ![flow](figs/flow.png)
 
+Any sample $x$ from the target distribution can be transformed to a sample from the base distribution $z$ via the relation $f(x) = z$ and if $f$ is invertible then we can equivalently obtain
+$x = f^{-1}(z)$. When the flow consists of multiple transformations like in the figure above, then $f = f_1 \circ f_2 \circ f_3$ and $f^{-1} = f_3^{-1} \circ f_2^{-1} \circ f_1^{-1}$.
 Ideally, the sample distribution is a simple one whose parameters are known and is one that is easy to sample from. When one probability density function is related to 
 another via a flow the relationship between the two is given by
 
@@ -131,6 +133,35 @@ reversible, the inputs can be computed from the outputs which lifts the burden f
 now have reversible or invertible counterparts, for example UNet and ResNet. Note that, in order to lift the memory burden from backpropagation, the network need not be invertible: injectivity suffices. We now
 show two popular network architectures that can be made invertible: UNet and ResNet.
 
+### RevNet: reversible ResNet
+The ResNet architecture is characterized by skip connections and consists of residual blocks of the form
+
+$$
+    y = x + \mathcal{F}(x),
+$$
+
+where $\mathcal{F}(x)$ denotes the residual block. The RevNet uses a coupling flow that is slightly different from the previous coupling as shown in the figure below from the RevNet paper [Gomez et al., 2017](https://arxiv.org/pdf/1707.04585.pdf).
+
+![revnet](figs/RevNet.png)
+
+Here, both $F$ and $G$ denote the residual blocks that are typical for the standard ResNet. The coupling flow is given by
+
+$$
+    \begin{aligned}
+        z_A & = x_A + F(x_B) \\
+        z_B & = x_B + G(z_A)
+    \end{aligned}
+$$
+
+with inverse
+
+$$
+    \begin{aligned}
+        x_B & = z_B - G(z_A) \\
+        x_A & = z_A - F(x_B)
+    \end{aligned}
+$$
+
 ### i-UNet: invertible UNet
 The UNet architecture calculates features on multiple scales by downsampling the input a number of times: this is the depth of the UNet. Every downsampling layers is followed by a number of convolutional layers that extract the 
 features at the current scale. When the maximum downsampling is reached, the input is upsampled at the same rate until an output with the same dimension as the input is reached. To combine the extracted features from different scales
@@ -151,33 +182,6 @@ by combining the invertible downsampling operator with the coupling functions we
 by [Etmann et al., 2020](https://arxiv.org/pdf/2005.05220.pdf).
 
 ![iunet](figs/i-UNet.png)
-
-### RevNet: reversible ResNet
-The ResNet architecture is characterized by skip connections and consists of residual blocks of the form
-
-$$
-    y = x + \mathcal{F}(x),
-$$
-
-where $\mathcal{F}(x)$ denotes the residual block. The RevNet uses a coupling flow that is slightly different from the previous coupling as shown in the figure below.
-
-The coupling flow is given by
-
-$$
-    \begin{aligned}
-        z_A & = x_A + F(x_B) \\
-        z_B & = x_B + G(z_A)
-    \end{aligned}
-$$
-
-with inverse
-
-$$
-    \begin{aligned}
-        x_B & = z_B - G(z_A) \\
-        x_A & = z_A - F(x_B)
-    \end{aligned}
-$$
 
 ## Further reading
 These notes were heavily inspired by the following tutorials:
