@@ -21,4 +21,5 @@
 | 17      | [GANs](lectures/15_gans.md)                                                               |          | 
 | 18      | [Scientific ML and PINNs](lectures/16_pinns.md)                                           | [link](https://github.com/DIG-Kaust/MLgeoscience/blob/main/labs/notebooks/EikonalPINN/EikonalPINN_constant.ipynb)  | 
 | 19      | [Deep learning for Inverse Problems](lectures/17_deepinv.md)                              |          | 
-| 20      | [Invertible Neural Networks](lectures/18_INN.md)                                          |          | 
+| 20      | [Invertible Neural Networks](lectures/18_INN.md)     
+| 21      | [Implicit Neural Networks](lectures/19_implicit.md) 
