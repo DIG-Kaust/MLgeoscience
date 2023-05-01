@@ -45,6 +45,7 @@ chapters:
           - file: docs/lectures/16_pinns
           - file: docs/lectures/17_deepinv
           - file: docs/lectures/18_INN
+          - file: docs/lectures/19_implicit
   - title: Labs
     sections:
       - file: labs/README
