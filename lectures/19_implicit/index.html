@@ -13,7 +13,7 @@
     
     
       
-        <title>Probability refresher - ErSE 222 - Machine Learning in Geoscience</title>
+        <title>Implicit neural networks - ErSE 222 - Machine Learning in Geoscience</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#probability-refresher" class="md-skip">
+        <a href="#implicit-neural-networks" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Probability refresher
+              Implicit neural networks
             
           </span>
         </div>
@@ -299,59 +299,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Probability refresher
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../02_prob/" class="md-nav__link">
         Probability refresher
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#probability" class="md-nav__link">
-    Probability
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#information-theory" class="md-nav__link">
-    Information theory
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -585,11 +537,59 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../19_implicit/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Implicit neural networks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Implicit neural networks
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fixed-point-iterations" class="md-nav__link">
+    Fixed point iterations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    Further reading
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -628,15 +628,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#probability" class="md-nav__link">
-    Probability
+  <a href="#fixed-point-iterations" class="md-nav__link">
+    Fixed point iterations
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#information-theory" class="md-nav__link">
-    Information theory
+  <a href="#further-reading" class="md-nav__link">
+    Further reading
   </a>
   
 </li>
@@ -656,185 +656,171 @@
                   
 
 
-<h1 id="probability-refresher">Probability refresher</h1>
-<p>Another set of fundamental mathematical tools required to develop various machine learning algorithms 
-(especially towards the end of the course when we will focus on generative modelling)</p>
-<p>In order to develop various machine learning algorithms (especially towards the end of the 
-course when we will focus on generative modelling) we need to be familiarized with some basic concepts of:
-mathematical tools from:</p>
+<h1 id="implicit-neural-networks">Implicit neural networks</h1>
+<p>Neural networks consists of a sequence of consecutive operations that are typically defined explicitly. An explicit operation is one that computes the output directly
+from a sequence of explicit operations applied to the input. A simple example is a feed-forward MLP, where the transition from one layer to the next is done by the following sequence 
+of operations</p>
+<div class="arithmatex">\[
+\begin{aligned}
+z_i &amp; = W_iz_{i-1} + b_i \\
+a_i &amp; = \sigma_i(z_i)
+\end{aligned}
+\]</div>
+<p>Additionally one could add operations like batch normalization and max pooling, all of which are given explicitly. Alternatively, two variables can be related
+via an implicit equation. A simple example of an explicit function versus an implicit function is <span class="arithmatex">\(y = x^2\)</span> versus <span class="arithmatex">\(x^2 + y^2 = 1\)</span>. From the second example it 
+becomes clear why implicit functions are sometimes favorable, since the implicit function <span class="arithmatex">\(x^2 + y^2 = 1\)</span> has an explicit counterpart with two equations, namely
+<span class="arithmatex">\(y = \sqrt{1 - x^2}\)</span> and <span class="arithmatex">\(y = -\sqrt{1 - x^2}\)</span>. In a more abstract fashion, we can write an explicit equation as</p>
+<div class="arithmatex">\[
+  y = f(x),
+\]</div>
+<p>and an implicit equation as</p>
+<div class="arithmatex">\[
+  f(x, y) = 0.
+\]</div>
+<p>Neural networks can be defined implicitly as well through the concept of implicit layers and were introduced under the name <em>Deep Equilibrium Models (DEQ)</em>. This concept 
+is a bit abstract but the nice thing about this paradigm is that the memory requirements for deep networks are constant. To understand this concept we need to cover
+two fundamental concepts:</p>
 <ul>
-<li><strong>Probability</strong>: mathematical framework to handle uncertain statements;</li>
-<li><strong>Information Theory</strong>: scientific field focused on the quantification of amount of uncertainty in a probability distribution.</li>
+<li>Implicit functions and the implicit function theorem. Taking derivatives of explicit functions is easy, since we have an explicit relation of the output with respect
+to the input, and we can compute <span class="arithmatex">\(\frac{dy}{dx}\)</span> in a straightforward manner. However, if <span class="arithmatex">\(y\)</span> is only given through <span class="arithmatex">\(f(x, y) = 0\)</span> then computing the derivative is 
+less straightforward.</li>
+<li>Fixed point iterations. Fixed point iterations are iterations of the form <span class="arithmatex">\(x_{k+1} = \mathcal{F}(x_k)\)</span> and we call a vector <span class="arithmatex">\(x_{\star}\)</span> a <em>fixed point of <span class="arithmatex">\(\mathcal{F}\)</span></em> 
+if <span class="arithmatex">\(x_{\star} = \mathcal{F}(x_{\star})\)</span>. DEQs are based on the idea that the layers of a neural network will eventually reach a fixed point.</li>
 </ul>
-<h2 id="probability">Probability</h2>
-<p><strong>Random Variable</strong>: a variable whose value is unknown, all we know is that it can take on different 
-values with a given probability. It is generally defined by an uppercase letter <span class="arithmatex">\(X\)</span>, whilst the values 
-it can take are in lowercase letter <span class="arithmatex">\(x\)</span>. (Note: Actually, random variable is not really a variable. To be exact, random variable is actually a function that maps from sample space to the probability space.)</p>
-<p><strong>Probability distribution</strong>: description of how likely a variable <span class="arithmatex">\(x\)</span> is, <span class="arithmatex">\(P(x)\)</span> (or <span class="arithmatex">\(p(x)\)</span>). 
-Depending on the type of variable we have:</p>
+<h2 id="fixed-point-iterations">Fixed point iterations</h2>
+<p>Consider the following fixed point iteration</p>
+<div class="arithmatex">\[
+  z_{k+1} = \tanh(Wz_k + b + x).
+\]</div>
+<p>This is essentially repeated application of one layer of a neural network with weight matrix <span class="arithmatex">\(W\)</span>, bias <span class="arithmatex">\(b\)</span>, some input <span class="arithmatex">\(x\)</span> and activation function <span class="arithmatex">\(\tanh\)</span>. Assuming for now that 
+a fixed point actually exists we iterate until convergence, i.e. <span class="arithmatex">\(z_{\star} = \mathcal{F}(z_{\star})\)</span> up to some tolerance. Alternatively, we can write the above equation as </p>
+<div class="arithmatex">\[
+  z - \tanh(Wz + b + x) = 0,
+\]</div>
+<p>where the function is now implicitly defined. Defining</p>
+<div class="arithmatex">\[
+  g(x, z) := z - \tanh(Wz + b + x),
+\]</div>
+<p>the goal is now to solve the root finding problem</p>
+<div class="arithmatex">\[
+  g(x, z_{\star}(x)) = 0,
+\]</div>
+<p>where <span class="arithmatex">\(z_{\star}(x)\)</span> denotes the solution depending on <span class="arithmatex">\(x\)</span>. Let the solution to this problem be given by <span class="arithmatex">\(z_{\star}(x)\)</span> and assume we want 
+to compute <span class="arithmatex">\(\frac{dz_{\star}(x)}{dx}\)</span> (note that we could choose to differentiate through any parameter, for example the weight matrix, 
+but this is just for illustrative purposes). Since we only have access to <span class="arithmatex">\(z_{\star}\)</span> through the equation <span class="arithmatex">\(g(x, z_{\star}(x)) = 0\)</span> need to 
+differentiate through this equation to obtain <span class="arithmatex">\(\frac{dz_{\star}(x)}{dx}\)</span>. This yields:</p>
+<div class="arithmatex">\[
+  \frac{\partial}{\partial x}g(x, z_{\star}(x)) = \frac{\partial g(x, z_{\star})}{\partial x} +  \frac{\partial g(x, z_{\star})}{\partial z_{\star}}\frac{\partial z_{\star}(x)}{\partial x} = 0
+\]</div>
+<p>This equation allows us to solve for <span class="arithmatex">\(\frac{dz_{\star}(x)}{dx}\)</span> as follows</p>
+<div class="arithmatex">\[
+  \frac{\partial z_{\star}(x)}{\partial x} = -\left(\frac{\partial g(x, z_{\star})}{\partial z_{\star}}\right)^{-1}\frac{\partial g(x, z_{\star})}{\partial x}
+\]</div>
+<p>The main question here is whether existence is guaranteed. The <em>implicit function theorem</em> states that if a fixed point exists and the function 
+<span class="arithmatex">\(g\)</span> is differentiable with non-singular Jacobian around <span class="arithmatex">\(z_{\star}\)</span> there exists a unique function <span class="arithmatex">\(z_{\star}(x)\)</span>. The key point here is that 
+one can differentiate through <span class="arithmatex">\(z_{\star}\)</span> without needing to differentiate through the solver used to obtain the fixed point. This saves a huge amount of 
+memory that would otherwise be needed in order to perform backpropagation. </p>
+<p>This observation has led to the development of the <em>Deep Equilibrium Network</em>. This network has the following structure:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+z_1 &amp; = 0 \\
+z_i &amp; = \sigma_i(Wz_i + Ux + b_i), \quad i=1,\ldots, k \\
+h(x) &amp; = W_kz_k + b_k
+\end{aligned}
+\]</div>
+<p>As we can see, DEQs apply a fixed point iteration to a single layer of a neural network. The question is whether this fixed point iteration
+actually converges: It could also blow-up or oscillate. It turns out that in general the fixed point iteration converges. As you can probably guess
+at this point, the fixed point iteration is solved using implicit differentiation, thereby bypassing the need to store any information necessary for 
+the backward pass. This way one can build an extremely deep network. If we now want to update the weights of the neural network we need to evaluate the 
+partial derivative with respect to <span class="arithmatex">\(W\)</span>. Given that <span class="arithmatex">\(z_{\star}\)</span> is a fixed point we have</p>
+<div class="arithmatex">\[
+  z_{\star} = f(x, z_{\star}) \: \Leftrightarrow \: \frac{\partial z_{\star}}{\partial W} = \frac{\partial f(x, z_{\star})}{\partial W}
+\]</div>
+<p>Computing <span class="arithmatex">\(\frac{\partial f(x, z_{\star})}{\partial W}\)</span> via implicit differentiation and rearranging terms gives</p>
+<div class="arithmatex">\[
+  \frac{\partial z_{\star}}{\partial W} =  \left(I - \frac{\partial f(x, z_{\star})}{\partial z_{\star}}\right)^{-1}\frac{\partial f(x, z_{\star})}{\partial W}
+\]</div>
+<p>Backpropagation actually implements the transpose of this expression, i.e.:</p>
+<div class="arithmatex">\[
+  \frac{\partial z_{\star}}{\partial W}^Ty =  \frac{\partial f(x, z_{\star})}{\partial W}^T\left(I - \frac{\partial f(x, z_{\star})}{\partial z_{\star}}\right)^{-T}y,
+\]</div>
+<p>where <span class="arithmatex">\(y\)</span> is some vector we apply the gradient to. Evaluating the gradient is now a two-step process:</p>
 <ul>
-<li>
-<p><em>Discrete distributions</em>: <span class="arithmatex">\(P(X)\)</span> called Probability Mass Function (PMF) and <span class="arithmatex">\(X\)</span> can take on a discrete number of states N.
-A classical example is represented by a coin where N=2 and <span class="arithmatex">\(X={0,1}\)</span>. For a fair coin, <span class="arithmatex">\(P(X=0)=0.5\)</span> and <span class="arithmatex">\(P(X=1)=0.5\)</span>.</p>
-</li>
-<li>
-<p><em>Continuous distributions</em>: <span class="arithmatex">\(p(X)\)</span> called Probability Density Function (PDF) and <span class="arithmatex">\(X\)</span> can take on any value from a continuous space 
-  (e.g., <span class="arithmatex">\(\mathbb{R}\)</span>). A classical example is represented by the gaussian distribution where <span class="arithmatex">\(x \in (-\infty, \infty)\)</span>.</p>
-</li>
+<li>Evaluate <span class="arithmatex">\(\left(I - \frac{\partial f(x, z_{\star})}{\partial z_{\star}}\right)^{-1}y\)</span>. Since this matrix tends to be large we do not evaluate
+the inverse directly, but rather solve the linear system 
+$$
+  y = \left(I - \frac{\partial f(x, z_{\star})}{\partial z_{\star}}\right)g \quad \Leftrightarrow \quad g = \frac{\partial f(x, z_{\star})}{\partial z_{\star}}g + y.
+$$</li>
+<li>Compute 
+$$
+  \frac{\partial z_{\star}}{\partial W}^Ty = \frac{\partial f(x, z_{\star})}{\partial W}^Tg
+$$</li>
 </ul>
-<p>A probability distribution must satisfy the following conditions:</p>
+<p>So far we have considered a rather simple model for the DEQ. We have assumed a constant weight <span class="arithmatex">\(W\)</span> accross the layers and have assumed a simple
+feed-forward model. It turns out that a feed-forward neural network with constant weights accross the layers is actually equivalent to a neural network
+with a layer-dependent matrix, which is summarized in the following theorem by <a href="https://arxiv.org/pdf/1909.01377.pdf">Bai et al., 2019</a>:</p>
+<p>Consider a traditional <span class="arithmatex">\(L\)</span>-layer MLP</p>
+<div class="arithmatex">\[
+  z_{i+1} = \sigma_{i}(W_iz_i + b_i), \quad i=0,\ldots,L-1, \quad z_0 = x.
+\]</div>
+<p>This network is equivalent to the following weight-tied network of equivalent depth:</p>
+<div class="arithmatex">\[
+  \tilde{z}_{i+1} = \tilde{\sigma}(W_zz_i + \tilde{b} + Ux), \quad i=0, \ldots, L-1, \quad \tilde{z}_{0} = (0, \ldots, 0)^T
+\]</div>
+<p>We prove the theorem for the case <span class="arithmatex">\(L = 4\)</span>, but it extends to general <span class="arithmatex">\(L\)</span>. Define the matrices</p>
+<div class="arithmatex">\[
+  W_z = \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \\ W_1 &amp; 0  &amp; 0 &amp; 0 \\ 0 &amp; W_2 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; W_{3} &amp; 0 \end{bmatrix}, \:
+U = \begin{bmatrix} W_0 \\ 0 \\ 0 \\ 0 \end{bmatrix}, \: \tilde{b} = \begin{bmatrix} b_0 \\ b_1 \\ b_2 \\ b_3 \end{bmatrix}, \: \tilde{\sigma} = \begin{bmatrix} \sigma_0 \\ \sigma_1 \\ \sigma_2 \\ \sigma_3 \end{bmatrix}.
+\]</div>
+<p>Then after one iteration we have</p>
+<div class="arithmatex">\[
+  \tilde{z}_1 = \tilde{\sigma}(W_z\tilde{z}_0 + Ux + \tilde{b}) = \begin{bmatrix} \sigma_0(W_0x + b_0) \\ \sigma_1(b_1) \\ \sigma_2(b_2) \\ \sigma_3(b_3) \end{bmatrix} 
+= \begin{bmatrix} z_0 \\ \sigma_1(b_1) \\ \sigma_2(b_2) \\ \sigma_3(b_3) \end{bmatrix}.
+\]</div>
+<p>For the second iteration we have</p>
+<div class="arithmatex">\[
+  W_z\tilde{z_1} = \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \\ W_1 &amp; 0  &amp; 0 &amp; 0 \\ 0 &amp; W_2 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; W_{3} &amp; 0 \end{bmatrix}\begin{bmatrix} z_0 \\ \sigma_1(b_1) \\ \sigma_2(b_2) \\ \sigma_3(b_3) \end{bmatrix} = \begin{bmatrix} 0 \\ W_1z_0 \\ W_2\sigma_2(b_2) \\ W_3\sigma_2(b_2) \end{bmatrix}
+\]</div>
+<p>and hence</p>
+<div class="arithmatex">\[
+  \tilde{z}_{2} = \tilde{\sigma}(W_zz_1 + \tilde{b} + Ux) = \begin{bmatrix} \sigma_0(W_0x + b_0) \\ \sigma_1(W_1z_0 + b_1) \\ \sigma_2(W_2\sigma_1(b_1) + b_2) \\ \sigma_3(W_3\sigma_2(b_2) + b_3) \end{bmatrix} 
+= \begin{bmatrix} z_0 \\ z_1 \\ \sigma_2(W_2\sigma_1(b_1) + b_2) \\ \sigma_3(W_3\sigma_2(b_2) + b_3) \end{bmatrix}. 
+\]</div>
+<p>Similarly, for the next layer we obtain</p>
+<div class="arithmatex">\[
+  \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \\ W_1 &amp; 0  &amp; 0 &amp; 0 \\ 0 &amp; W_2 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; W_{3} &amp; 0 \end{bmatrix}\begin{bmatrix} z_0 \\ z_1 \\ \sigma_2(W_2\sigma_1(b_1) + b_2) \\ \sigma_3(W_3\sigma_2(b_2) + b_3) \end{bmatrix} = \begin{bmatrix} 0 \\ W_1z_0 \\ W_2z_1 \\ W_3\sigma_2(W_2\sigma_1(b_1) + b_2) \end{bmatrix}
+\]</div>
+<p>which leads to </p>
+<div class="arithmatex">\[
+  \tilde{z}_3 = \begin{bmatrix} \sigma_0(W_0x + b_0) \\ \sigma_1(W_1z_0 + b_1) \\ \sigma_2(W_2z_1 + b_2) \\ \sigma_3(W_3\sigma_2(W_2\sigma_1(b_1) + b_2) + b_3) \end{bmatrix} = \begin{bmatrix} z_1 \\ z_2 \\ z_3 \\ \sigma_3(W_3\sigma_2(W_2\sigma_1(b_1) + b_2) + b_3) \end{bmatrix}
+\]</div>
+<p>Then, finally,</p>
+<div class="arithmatex">\[
+  \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \\ W_1 &amp; 0  &amp; 0 &amp; 0 \\ 0 &amp; W_2 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; W_{3} &amp; 0 \end{bmatrix}\begin{bmatrix} z_1 \\ z_2 \\ z_3 \\ \sigma_3(W_3\sigma_2(W_2\sigma_1(b_1) + b_2) + b_3) \end{bmatrix} = \begin{bmatrix} 0 \\ W_1z_1 \\ W_2z_2 \\ W_3z_3 \end{bmatrix}
+\]</div>
+<p>and hence</p>
+<div class="arithmatex">\[
+  \tilde{z}_4 = \begin{bmatrix} \sigma_0(W_0x + b_0) \\ \sigma_1(W_1z_0 + b_1) \\ \sigma_2(W_2z_1 + b_2) \\ \sigma_3(W_3z_2 + b_3) \end{bmatrix} = \begin{bmatrix} z_1 \\ z_2 \\ z_3 \\ z_4 \end{bmatrix}.
+\]</div>
+<p>Moreover, note that we have only used a single layer DEQ as opposed to the multi-layer architecture that is typical for powerful neural networks. However,
+any deep neural network can be represented as a deep neural network. The argument is as follows. Assume that construct a two-layer network <span class="arithmatex">\(g_2(g_1(x))\)</span>. This can 
+be posed a single layer DEQ using the following relation:</p>
+<div class="arithmatex">\[
+  f(z, x) = f\left( \begin{bmatrix} z_1 \\ z_2 \end{bmatrix}, x\right) = \begin{bmatrix} g(x) \\ g(z_1) \end{bmatrix}
+\]</div>
+<p>That is, the complexity of the extra layer can simply be added by concatenating the two layers to make a single layer neural network. The same argument
+holds for stacking DEQs: a single DEQ can model any number of stacked DEQs.</p>
+<p>Finally, we can increase the complexity of the DEQ by substituting the simple feed-forward neural network with any sequence of operations, including
+convolutions, normalizations, grouping and skip connections. </p>
+<h2 id="further-reading">Further reading</h2>
+<p>These notes are essentially a summary of the following tutorial, specifically chapters 1 and 4:</p>
 <ul>
-<li>
-<p>each of the possible states must have probability bounded between 0 (no occurrance) and 1 (certainty of occurcence):
-  <span class="arithmatex">\(\forall x \in X, \; 0 \leq P(x) \leq 1\)</span> (or <span class="arithmatex">\(p(x) \geq 0\)</span>, where the upper bound is removed because of the 
-  fact that the integration step <span class="arithmatex">\(\delta x\)</span> in the second condition can be smaller than 1: <span class="arithmatex">\(p(X=x) \delta x &lt;=1\)</span>);</p>
-</li>
-<li>
-<p>the sum of the probabilities of all possible states must equal to 1: <span class="arithmatex">\(\sum_x P(X=x)=1\)</span> (or <span class="arithmatex">\(\int p(X=x)dx=1\)</span>).</p>
-</li>
+<li><a href="http://implicit-layers-tutorial.org/">Implicit layer tutorial</a></li>
 </ul>
-<p><strong>Joint and Marginal Probabilities</strong>: assuming we have a probability distribution acting over a set of variables (e.g., <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>) 
-we can define</p>
+<p>Below is the paper introducing Deep Equilibrium Models (DEQ):</p>
 <ul>
-<li>
-<p><em>Joint distribution</em>: <span class="arithmatex">\(P(X=x, Y=y)\)</span> (or <span class="arithmatex">\(p(X=x, Y=y)\)</span>);</p>
-</li>
-<li>
-<p><em>Marginal distribution</em>: <span class="arithmatex">\(P(X=x) = \sum_{y \in Y} P(X=x, Y=y)\)</span> (or <span class="arithmatex">\(p(X=x) = \int P(X=x, Y=y) dy\)</span>), 
-  which is the probability spanning one or a subset of the original variables;</p>
-</li>
+<li><a href="https://arxiv.org/pdf/1909.01377.pdf">Bai et al., 2019</a></li>
 </ul>
-<p><strong>Conditional Probability</strong>: provides us with the probability of an event given the knowledge 
-that another event has already occurred</p>
-<div class="arithmatex">\[
-P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)}
-\]</div>
-<p>This formula can be used recursively to define the joint probability of N variables as product of conditional
-probabilities (so-called <em>Chain Rule of Probability</em>)</p>
-<div class="arithmatex">\[
-P(x_1, x_2, ..., x_N) = P(x_1) \prod_{i=2}^N P(x_i | x_1, x_2, x_{i-1})
-\]</div>
-<p><strong>Independence and Conditional Independence</strong>: Two variables X and Y are said to be independent if</p>
-<div class="arithmatex">\[
-P(X=x, Y=y) = P(X=x) P(Y=y)
-\]</div>
-<p>If both variables are conditioned on a third variable Z (i.e., P(X=x, Y=y | Z=z)), they are said to be conditionally
-independent if</p>
-<div class="arithmatex">\[
-P(X=x, Y=y | Z=z) = P(X=x | Z=z) P(Y=y| Z=z)
-\]</div>
-<p><strong>Bayes Rule</strong>: probabilistic way to update our knowledge of a certain phenomenon (called prior) based on a new piece of evidence
-(called likelihood):</p>
-<div class="arithmatex">\[
-P(x | y) = \frac{P(y|x) P(x)}{P(y)}
-\]</div>
-<p>where <span class="arithmatex">\(P(y) = \sum_x P(x, y) = \sum_x P(y |x) P(x)\)</span> is called the evidence. In practice, it is infeasible to compute this
-quantity as it would require evaluating <span class="arithmatex">\(y\)</span> for all possible combination of <span class="arithmatex">\(x\)</span> (we will see later how it is possible to 
-devise methods for which <span class="arithmatex">\(P(y)\)</span> can be ignored).</p>
-<p><strong>Mean (or Expectation)</strong>: Given a function <span class="arithmatex">\(f(x)\)</span> where <span class="arithmatex">\(x\)</span> is a random variable with probability <span class="arithmatex">\(P(x)\)</span>, its average
-or mean value is defined as follows for the discrete case:</p>
-<div class="arithmatex">\[
-\mu = E_{x \sim P} [f(x)] = \sum_x P(x) f(x)
-\]</div>
-<p>and for the continuous case</p>
-<div class="arithmatex">\[
-\mu = E_{x \sim p} [f(x)] = \int p(x) f(x) dx
-\]</div>
-<p>In most Machine Learning applications, we do not have knowledge of the full distribution to evaluate the mean, rather we 
-have access to N equi-probable samples that we assume are drawn from the underlying distribution. We can approximate the mean
-via the <em>Sample Mean</em>:</p>
-<div class="arithmatex">\[
-\mu \approx \sum_i \frac{1}{N} f(x_i)
-\]</div>
-<p><strong>Variance (and Covariance)</strong>: Given a function <span class="arithmatex">\(f(x)\)</span> where <span class="arithmatex">\(x\)</span> is a random variable with probability <span class="arithmatex">\(P(x)\)</span>,
-it represents a measure of how much the values of the function vary from the mean:</p>
-<div class="arithmatex">\[
-\sigma^2 = E_{x \sim p} [(f(x)-\mu)^2]
-\]</div>
-<p>Covariance is the extension of the variance to two or more variables, and it tells 
-how much these variables are related to each other:</p>
-<div class="arithmatex">\[
-Cov(f(x), g(y)) =  E_{x,y \sim p} [(f(x)-\mu_x)(f(y)-\mu_y)]
-\]</div>
-<p>Here, <span class="arithmatex">\(Cov \rightarrow 0\)</span> indicates no correlation between the variables, <span class="arithmatex">\(Cov &gt; 0\)</span> denotes positive correlation and
-<span class="arithmatex">\(Cov &lt; 0\)</span> denotes negative correlation. It is worth remembering that covariance is linked to correlation via:</p>
-<div class="arithmatex">\[
-Corr_{x,y} =  \frac{Cov_{x,y}}{\sigma_x \sigma_y}
-\]</div>
-<p>Finally, the covariance of a multidimensional vector <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^n\)</span> is defined as:</p>
-<div class="arithmatex">\[
-Cov_{i,j} = Cov(x_i, x_j), \qquad Cov_{i,i} = \sigma^2_i
-\]</div>
-<p><strong>Distributions</strong>: some of the most used probability distributions in Machine Learning are listed in the following.</p>
-<p><em>1. Bernoulli</em>: single binary variable <span class="arithmatex">\(x \in \{0,1\}\)</span> (commonly used to describe the toss of a coin). It is defined as</p>
-<div class="arithmatex">\[
-P(x=1)=\phi, \; P(x=0)=1-\phi, \; \phi \in [0,1]
-\]</div>
-<p>with probability:</p>
-<div class="arithmatex">\[
-P(x)=\phi^x(1-\phi)^{1-x} = \phi x + (1-\phi)(1-x)
-\]</div>
-<p>and momentum equal to:</p>
-<div class="arithmatex">\[
-E[x] = 1, \; \sigma^2 = \phi (1-\phi)
-\]</div>
-<p><em>2. Multinoulli (or categorical)</em>: extension of Bernoulli distribution to K different states</p>
-<div class="arithmatex">\[
-\textbf{P} \in [0,1]^{K-1}; \; P_k = 1- \textbf{1}^T\textbf{P}, \; \textbf{1}^T\textbf{P} \leq 1
-\]</div>
-<p><em>3. Gaussian</em>: most popular choice for continuous random variables (most distributions are close to a normal distribution
-  and the central limit theorem states that any sum of independent variables is approximately normal)</p>
-<div class="arithmatex">\[
-x \sim \mathcal{N}(\mu, \sigma^2) \rightarrow p(x) = \frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} = \sqrt{\frac{\beta}{2 \pi}} e^{-\frac{\beta(x-\mu)^2}{2}}
-\]</div>
-<p>where the second definition uses the precision <span class="arithmatex">\(\beta=\frac{1}{\sigma^2} \in (0, \infty)\)</span> to avoid possible division by zero. 
-A third way to parametrize the gaussian probability uses <span class="arithmatex">\(2 \delta = log \sigma^2 \in (-\infty, \infty)\)</span> which has the further
-benefit to be unbounded and can be easily optimized for during training.
-which is unbounded (compared to the variance that must be positive)</p>
-<p><em>4. Multivariate Gaussian</em>: extension of Gaussian distribution to a multidimensional vector <span class="arithmatex">\(\textbf{x} \in \mathbb{R}^n\)</span></p>
-<div class="arithmatex">\[
-\textbf{x} \sim \mathcal{N}(\boldsymbol\mu, \boldsymbol\Sigma) \rightarrow p(\textbf{x}) = 
-\sqrt{\frac{1}{(2 \pi)^n det \boldsymbol\Sigma}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\Sigma^{-1}(\textbf{x}- \boldsymbol\mu)}=
-\sqrt{\frac{det \boldsymbol\beta}{(2 \pi)^n}} e^{-\frac{1}{2}(\textbf{x}- \boldsymbol\mu)^T\boldsymbol\beta(\textbf{x}- \boldsymbol\mu)}
-\]</div>
-<p>where again <span class="arithmatex">\(\boldsymbol\beta =\boldsymbol\Sigma^{-1}\)</span>. In ML applications, <span class="arithmatex">\(\boldsymbol\beta\)</span> is generally assumed diagonal
-(mean-field approximation) or even isotropic ($\boldsymbol\beta = \beta \textbf{I}_n)</p>
-<p><em>5. Mixture of distributions</em>: any smooth probability density function can be expressed as a weighted sum of simpler distributions</p>
-<div class="arithmatex">\[
-P(x) = \sum_i P(c=i) P(x | c=i)
-\]</div>
-<p>where <span class="arithmatex">\(c\)</span> is a categorical variable with Multinoulli distribution and plays the role of a <em>latent variable</em>, a variable that 
-cannot be directly observed but is related to <span class="arithmatex">\(x\)</span> via the joint distribution:</p>
-<div class="arithmatex">\[
-P(x,c) = P(x | c) P(c), \; P(x) = \sum_c P(x|c)P(c)
-\]</div>
-<p>A special case is the so-called <em>Gaussian Mixture</em> where each probability <span class="arithmatex">\(P(x|c=i) \sim \mathcal{N}(\mu_i, \sigma_i^2)\)</span>.</p>
-<h2 id="information-theory">Information theory</h2>
-<p>In Machine Learning, we are sometimes interested to quantify how much information is contained in a signal or how much two
-signals (or probability distributions) differ from each other.</p>
-<p>A large body of literature exists in the context of telecommunications, where it is necessary to study how to transmit signals
-for a discrete alphabet over a noisy channel. More specifically, a code must be designed so to allow sending the least amount
-of bits for the most amount of useful information. Extension of such theory to continuous variables is also available and more 
-commonly used in the context of ML systems.</p>
-<p><strong>Self-information</strong>: a measure of information in such a way that likely events have low information content, less 
-likely events have higher information content and independent events have additive information:</p>
-<div class="arithmatex">\[
-I(x) = - log_eP(x)
-\]</div>
-<p>such that for <span class="arithmatex">\(P(x) \rightarrow 0\)</span> (unlikely event), <span class="arithmatex">\(I \rightarrow \infty\)</span> and for <span class="arithmatex">\(P(x) \rightarrow 1\)</span> (likely event), <span class="arithmatex">\(I \rightarrow 0\)</span>.</p>
-<p><strong>Shannon entropy</strong>: extension of self-information to continuous variables, representing the expected amount of information in an event <span class="arithmatex">\(x\)</span> drawn from a probability $P:</p>
-<div class="arithmatex">\[
-H(x) = E_{x \sim P} [I(x)] = - E_{x \sim P} [log_eP(x)]
-\]</div>
-<p><strong>Kullback-Leibler divergence</strong>: extension of entropy to 2 variables with probability <span class="arithmatex">\(P\)</span> and <span class="arithmatex">\(Q\)</span>, respectively. It is used to measure their distance</p>
-<div class="arithmatex">\[
-D_{KL}(P||Q)  = E_{x \sim P} [log\frac{P(x)}{Q(x)}] = 
-E_{x \sim P} [logP(x)-logQ(x)]  = E_{x \sim P} [logP(x)] -E_{x \sim P}[logQ(x)] 
-\]</div>
-<p>which is <span class="arithmatex">\(D_{KL}(P||Q)=0\)</span> only when <span class="arithmatex">\(P=Q\)</span> and grows the further away the two probabilities are. 
-Finally, note that this is not a real distance in that <span class="arithmatex">\(D_{KL}(P||Q) \neq D_{KL}(Q|| P)\)</span> (non-symmetric), therefore
-the direction matter and it must be chosen wisely when devising optimization schemes with KL divergence in the loss function as
-we will discuss in more details later.</p>
 
 
 
@@ -855,7 +841,7 @@ we will discuss in more details later.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../02_linalg/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Linear Algebra refresher" rel="prev">
+        <a href="../18_INN/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Invertible Neural Networks" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -864,26 +850,11 @@ we will discuss in more details later.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Linear Algebra refresher
+              Invertible Neural Networks
             </div>
           </div>
         </a>
       
-      
-        
-        <a href="../03_gradopt/" class="md-footer__link md-footer__link--next" aria-label="Next: Gradient-based optimization" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Gradient-based optimization
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
