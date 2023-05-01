@@ -882,14 +882,14 @@ chain of operations as a chain of atomic ones that we can then easily traverse b
 the network above and a single training sample <span class="arithmatex">\(\textbf{x}\)</span>:</p>
 <div class="arithmatex">\[
 \textbf{z}^{[1]} = \textbf{W}^{[1]}\textbf{x} + \textbf{b}^{[1]}, \quad
-\textbf{a}^{[1]} = \sigma(z^{[1]}),
+\textbf{a}^{[1]} = \sigma(\textbf{z}^{[1]}),
 \]</div>
 <div class="arithmatex">\[
 \textbf{z}^{[2]} = \textbf{W}^{[2]}\textbf{a}^{[1]} + \textbf{b}^{[2]}, \quad
-\textbf{a}^{[2]} = \sigma(z^{[2]}),
+\textbf{a}^{[2]} = \sigma(\textbf{z}^{[2]}),
 \]</div>
 <div class="arithmatex">\[
-\textbf{z}^{[3]} = \textbf{W}^{[3]}\textbf{a}^{[2]} + \textbf{b}^{[3]}, \quad
+z^{[3]} = \textbf{w}^{[3]T}\textbf{a}^{[2]} + b^{[3]}, \quad
 a^{[3]} = \sigma(z^{[3]}),
 \]</div>
 <div class="arithmatex">\[
@@ -898,26 +898,52 @@ l = \mathscr{L}(y,a^{[3]}).
 <p>Given such a chain of operations, we are now able to find the derivatives of the loss function with
 respect to any of the weights or biases. As an example we consider here <span class="arithmatex">\(\partial l / \partial \textbf{W}^{[2]}\)</span>:</p>
 <div class="arithmatex">\[
-\frac{\partial l}{\partial \textbf{W}^{[2]}} = \frac{\partial l}{\partial a^{[3]}} \frac{\partial a^{[3]}}{\partial \textbf{z}^{[3]}}
-\frac{\partial \textbf{z}^{[3]}}{\partial \textbf{a}^{[2]}} \frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} 
+\frac{\partial l}{\partial \textbf{W}^{[2]}} = \frac{\partial l}{\partial a^{[3]}} \frac{\partial a^{[3]}}{\partial z^{[3]}}
+\frac{\partial z^{[3]}}{\partial \textbf{a}^{[2]}} \frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} 
 \frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}}
 \]</div>
-<p>Assuming for simplicity that the binary cross-entropy and sigmoid functions are used here as the loss and activation functions, respectively:</p>
+<p>Note that since this will be effectively evaluated from left to right, it is perhaps easier to rewrite the chain of derivatives as follows:</p>
 <div class="arithmatex">\[
-\frac{\partial l}{\partial a^{[3]}} \frac{\partial a^{[3]}}{\partial z^{[3]}} = a^{[3]} - y
+\frac{\partial l}{\partial \textbf{W}^{[2]}} = \frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}} 
+\frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}}  
+\frac{\partial z^{[3]}}{\partial \textbf{a}^{[2]}} 
+\frac{\partial a^{[3]}}{\partial z^{[3]}} \frac{\partial l}{\partial a^{[3]}}
+\]</div>
+<p>Assuming for simplicity that the binary cross-entropy and sigmoid functions are used here as the loss and activation functions, respectively,
+we get:</p>
+<div class="arithmatex">\[
+\frac{\partial a^{[3]}}{\partial z^{[3]}} \frac{\partial l}{\partial a^{[3]}}  = a^{[3]} - y
+\]</div>
+<p>(which has already been derived in the logistic regression lecture). The subsequent derivatives are:</p>
+<div class="arithmatex">\[
+\frac{\partial z^{[3]}}{\partial \textbf{a}^{[2]}} = \textbf{w}^{[3]}_{N_{a^{[2]}} \times 1}
 \]</div>
 <div class="arithmatex">\[
-\frac{\partial z^{[3]}}{\partial \textbf{a}^{[2]}} = \textbf{W}^{[3]}
+\frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} = diag\{\textbf{a}^{[2]}(1-\textbf{a}^{[2]})\}_{N_{z^{[2]}} \times N_{a^{[2]}}}
 \]</div>
 <div class="arithmatex">\[
-\frac{\partial \textbf{a}^{[2]}}{\partial \textbf{z}^{[2]}} = \textbf{a}^{[2]}(1-\textbf{a}^{[2]})
+\frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}} = 
+\begin{bmatrix}
+    \mathbf{a}^{[1]}  &amp; \mathbf{0}       &amp;  \ldots &amp; \mathbf{0}  \\
+    \mathbf{0}        &amp; \mathbf{a}^{[1]} &amp;  \ldots &amp; \mathbf{0}  \\
+    \vdots            &amp; \vdots           &amp;  \ddots &amp; \vdots            \\
+     \mathbf{0}       &amp; \mathbf{0}       &amp;  \ldots &amp; \mathbf{a}^{[1]}
+\end{bmatrix}_{N_{a^{[1]}}N_{z^{[2]}} \times N_{z^{[2]}}}
 \]</div>
+<p>where the last two expressions correspond to the transposed Jacobian. Putting all together:</p>
 <div class="arithmatex">\[
-\frac{\partial \textbf{z}^{[2]}}{\partial \textbf{W}^{[2]}} = \textbf{a}^{[1]}
+\frac{\partial l}{\partial \textbf{W}^{[2]}} = \begin{bmatrix}
+    \mathbf{a}^{[1]}  &amp; \mathbf{0}       &amp;  \ldots &amp; \mathbf{0}  \\
+    \mathbf{0}        &amp; \mathbf{a}^{[1]} &amp;  \ldots &amp; \mathbf{0}  \\
+    \vdots            &amp; \vdots           &amp;  \ddots &amp; \vdots            \\
+     \mathbf{0}       &amp; \mathbf{0}       &amp;  \ldots &amp; \mathbf{a}^{[1]}
+\end{bmatrix} diag\{\textbf{a}^{[2]}(1-\textbf{a}^{[2]})\}
+ \textbf{w}^{[3]} (a^{[3]} - y)
 \]</div>
-<p>which put together:</p>
+<p>which can be later reshaped into a matrix of size <span class="arithmatex">\(N_{z^{[2]}} \times N_{a^{[1]}}\)</span>. This derivative
+can also written in a more compact form as</p>
 <div class="arithmatex">\[
-\frac{\partial l}{\partial \textbf{W}^{[2]}} = [(\textbf{a}^{[2]}(1-\textbf{a}^{[2]})) \cdot \textbf{W}^{[3]T}(a^{[3]} - y)] \textbf{a}^{[1]T}
+\frac{\partial l}{\partial \textbf{W}^{[2]}} = \textbf{a}^{[1]}[(\textbf{a}^{[2]}(1-\textbf{a}^{[2]})) \cdot \textbf{w}^{[3]}(a^{[3]} - y)]^T
 \]</div>
 <p>where <span class="arithmatex">\(\cdot\)</span> is used to refer to element-wise products. Similar results can be obtained for the bias vector
 and for both weights and biases in the other layers as depicted in the figure below for a 2-layer NN:</p>
