@@ -111,7 +111,7 @@ $$
 Backpropagation actually implements the transpose of this expression, i.e.:
 
 $$
-  \frac{\partial z_{\star}}{\partial W}^Ty =  \frac{\partial f(x, z_{\star})}{\partial W}^T\left(I - \frac{\partial f(x, z_{\star})}{\partial z_{\star}}\right)^{-T}y,
+  \left(\frac{\partial z_{\star}}{\partial W}\right)^Ty =  \left(\frac{\partial f(x, z_{\star})}{\partial W}\right)^T\left(I - \frac{\partial f(x, z_{\star})}{\partial z_{\star}}\right)^{-T}y,
 $$
 
 where $y$ is some vector we apply the gradient to. Evaluating the gradient is now a two-step process:
@@ -123,7 +123,7 @@ $$
 $$
 - Compute 
 $$
-  \frac{\partial z_{\star}}{\partial W}^Ty = \frac{\partial f(x, z_{\star})}{\partial W}^Tg
+  \left(\frac{\partial z_{\star}}{\partial W}\right)^Ty = \left(\frac{\partial f(x, z_{\star})}{\partial W}\right)^Tg
 $$
 
 So far we have considered a rather simple model for the DEQ. We have assumed a constant weight $W$ accross the layers and have assumed a simple
