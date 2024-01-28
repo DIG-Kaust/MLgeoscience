@@ -188,7 +188,7 @@ $$
 which we can combine together to obtain a simplified formula for the derivative of the loss function of the output of the weighted summation ($z$)
 
 $$
-\frac{\partial \mathscr{L}}{\partial z} = \frac{\partial \mathscr{L}}{\partial a} \frac{\partial a}{\partial \sigma} = 
+\frac{\partial \mathscr{L}}{\partial z} = \frac{\partial \mathscr{L}}{\partial a} \frac{\partial a}{\partial z} = 
 -y(1-a) + (1-y)a = a - y = dz
 $$
 

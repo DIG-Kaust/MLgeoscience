@@ -94,10 +94,10 @@ $$
 \theta_{i+1} = \theta_i - \frac{J(\theta)|_{\theta_i}}{J'(\theta)|_{\theta_i}} 
 $$
 
-which can be easily derived from the Taylor expansion of $f(\theta)$ around $\theta_{i+1}$.
+which can be easily derived from the Taylor expansion of $J(\theta)$ around $\theta_{i+1}$.
 
 If we remember that finding the minimum (or maximum) of a function is equivalent to find the zeros of its first derivative 
-($\theta: min_\theta f(\theta) \leftrightarrow \theta: f'(\theta)=0$), the Newton's method can be written as:
+($\theta: min_\theta J(\theta) \leftrightarrow \theta: J'(\theta)=0$), the Newton's method can be written as:
 
 $$
 \theta_{i+1} = \theta_i - \frac{J'(\theta)|_{\theta_i}}{J''(\theta)|_{\theta_i}} 
