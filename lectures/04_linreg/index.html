@@ -795,7 +795,7 @@ a = \sigma(z), \quad \mathscr{L} = -(y log(a) + (1-y)log(1-a))
 \]</div>
 <p>which we can combine together to obtain a simplified formula for the derivative of the loss function of the output of the weighted summation (<span class="arithmatex">\(z\)</span>)</p>
 <div class="arithmatex">\[
-\frac{\partial \mathscr{L}}{\partial z} = \frac{\partial \mathscr{L}}{\partial a} \frac{\partial a}{\partial \sigma} = 
+\frac{\partial \mathscr{L}}{\partial z} = \frac{\partial \mathscr{L}}{\partial a} \frac{\partial a}{\partial z} = 
 -y(1-a) + (1-y)a = a - y = dz
 \]</div>
 <p>Finally we differentiate between the weights and the bias to obtain:</p>
