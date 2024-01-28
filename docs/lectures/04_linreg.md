@@ -114,7 +114,7 @@ is represented by the so-called *binary cross-entropy*:
 
 $$
 \mathscr{L}(y_{train}^{(i)}, \hat{y}_{train}^{(i)}) = -(y_{train}^{(i)} log(\hat{y}_{train}^{(i)}) + 
-(1-y_{train}^{(i)})) log(1- \hat{y}_{train}^{(i)}))
+(1-y_{train}^{(i)}) log(1- \hat{y}_{train}^{(i)}))
 $$
 
 and
