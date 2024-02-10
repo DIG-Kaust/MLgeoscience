@@ -37,10 +37,13 @@ usually a good choice.
 
 A measure must be then chosen to evaluate the performance of such a model in terms of the
 estimation error after training. This can be for example the MSE for regression tasks, or cross-entropy for classification tasks. 
-Two quantities are generally computed:
+Three quantities are generally computed:
 
 - **Training error** (or performance): overall error (or performance) computed over the training dataset;
+- **Validation error** (or performance): overall error (or performance) computed over the validation dataset.
 - **Test/Generalization error** (or performance): overall error (or performance) computed over the testing dataset.
+
+The first two are usually computed during training, whilst the latter once the model is trained.
 
 The goodness of machine learning model is usually evaluated based on the following two criteria:
 
