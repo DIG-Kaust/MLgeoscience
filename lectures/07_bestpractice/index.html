@@ -746,11 +746,13 @@ and large datasets, choosing validation and training sets that are 5%/10% of the
 usually a good choice.</p>
 <p>A measure must be then chosen to evaluate the performance of such a model in terms of the
 estimation error after training. This can be for example the MSE for regression tasks, or cross-entropy for classification tasks. 
-Two quantities are generally computed:</p>
+Three quantities are generally computed:</p>
 <ul>
 <li><strong>Training error</strong> (or performance): overall error (or performance) computed over the training dataset;</li>
+<li><strong>Validation error</strong> (or performance): overall error (or performance) computed over the validation dataset.</li>
 <li><strong>Test/Generalization error</strong> (or performance): overall error (or performance) computed over the testing dataset.</li>
 </ul>
+<p>The first two are usually computed during training, whilst the latter once the model is trained.</p>
 <p>The goodness of machine learning model is usually evaluated based on the following two criteria:</p>
 <ul>
 <li><strong>Bias</strong>: ability to produce a small training error. When the error is small, we say that we have a model with low bias. 
