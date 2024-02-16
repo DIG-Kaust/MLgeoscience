@@ -953,13 +953,13 @@ J(\boldsymbol \theta) \approx J(\boldsymbol \theta_0) + (\boldsymbol \theta - \b
 \]</div>
 <p>and evaluate it at the next gradient step <span class="arithmatex">\(\boldsymbol \theta = \boldsymbol \theta_0 - \alpha \mathbf{g}\)</span>:</p>
 <div class="arithmatex">\[
-J(\boldsymbol \theta_0 - \alpha \mathbf{g}) \approx J(\boldsymbol \theta_0) - \mathbf{g}^T \mathbf{g} + 
+J(\boldsymbol \theta_0 - \alpha \mathbf{g}) \approx J(\boldsymbol \theta_0) - \alpha \mathbf{g}^T \mathbf{g} + 
 \frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g}
 \]</div>
 <p>We can interpret this expression as follows: a gradient step of <span class="arithmatex">\(- \alpha \mathbf{g}\)</span> adds the following contribution
-to the cost function, <span class="arithmatex">\(-\mathbf{g}^T \mathbf{g} + 
+to the cost function, <span class="arithmatex">\(-\alpha \mathbf{g}^T \mathbf{g} + 
 \frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g}\)</span>. When this contribution is positive (i.e., 
-<span class="arithmatex">\(\frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g} &gt; \mathbf{g}^T \mathbf{g}\)</span>), the cost function grows instead of
+<span class="arithmatex">\(\frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g} &gt; \alpha\mathbf{g}^T \mathbf{g}\)</span>), the cost function grows instead of
 being reduced. Under the assumption that <span class="arithmatex">\(\mathbf{H}\)</span> is known, we could easily choose a step-size <span class="arithmatex">\(\alpha\)</span> that prevents this from happening. However, when the Hessian cannot be estimated, a conservative selection of the step-size is the only remedy to prevent the cost function from growing. A downside of such an approach is that the smaller the learning rate the slower the training process.</p>
 <h3 id="local-minima">Local minima</h3>
 <p>Whilst the focus of the previous section has been in the neighbour of <span class="arithmatex">\(\boldsymbol \theta_0\)</span> where the functional 
