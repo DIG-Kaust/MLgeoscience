@@ -210,7 +210,7 @@ Based on what we wrote above for the first three iterates, we can easily conclud
 
 - if $\mathbf{g}_i \approx \mathbf{g}_{i-1} \approx \mathbf{g}_{i-2}$ (where the sign $\approx$ is used here to
   indicate a vector with approximately the same direction), the gradients' sum constructively leading to higher momentum and therefore a faster trajectory
-- if $\mathbf{g}_i \ne \mathbf{g}_{i-1} \ne \mathbf{g}_{i-2}$ (where the sign $\ne is used here to
+- if $\mathbf{g}_i \ne \mathbf{g}_{i-1} \ne \mathbf{g}_{i-2}$ (where the sign $\ne$ is used here to
   indicate a vector with different directions), the gradients' sum destructively leading to lower momentum and therefore a slower trajectory
 
 Finally, an even smarter approach would require us not only to accumulate past gradients but also to look ahead of time
