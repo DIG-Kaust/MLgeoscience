@@ -32,14 +32,14 @@ $$
 and evaluate it at the next gradient step $\boldsymbol \theta = \boldsymbol \theta_0 - \alpha \mathbf{g}$:
 
 $$
-J(\boldsymbol \theta_0 - \alpha \mathbf{g}) \approx J(\boldsymbol \theta_0) - \mathbf{g}^T \mathbf{g} + 
+J(\boldsymbol \theta_0 - \alpha \mathbf{g}) \approx J(\boldsymbol \theta_0) - \alpha \mathbf{g}^T \mathbf{g} + 
 \frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g}
 $$
 
 We can interpret this expression as follows: a gradient step of $- \alpha \mathbf{g}$ adds the following contribution
-to the cost function, $-\mathbf{g}^T \mathbf{g} + 
+to the cost function, $-\alpha \mathbf{g}^T \mathbf{g} + 
 \frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g}$. When this contribution is positive (i.e., 
-$\frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g} > \mathbf{g}^T \mathbf{g}$), the cost function grows instead of
+$\frac{1}{2} \alpha^2 \mathbf{g}^T \mathbf{H} \mathbf{g} > \alpha\mathbf{g}^T \mathbf{g}$), the cost function grows instead of
 being reduced. Under the assumption that $\mathbf{H}$ is known, we could easily choose a step-size $\alpha$ that prevents this from happening. However, when the Hessian cannot be estimated, a conservative selection of the step-size is the only remedy to prevent the cost function from growing. A downside of such an approach is that the smaller the learning rate the slower the training process.
 
 ### Local minima
