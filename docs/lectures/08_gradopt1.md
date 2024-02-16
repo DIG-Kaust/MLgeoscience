@@ -199,7 +199,12 @@ $$
 \end{aligned}
 $$
 
-we notice that the momentum tells us how quickly the contribution of the previous gradients should decay. With $\alpha=0$ we are back to the standard SGD algorithm, whilst with $\alpha \rightarrow 1$ we take into account the entire history of gradients. More commonly used values of momentum are $\alpha=0.5/0.9/0.99$ which can also be combined with a warming strategy (i.e., start from 0.5 and increase through iterations all the way to 0.99). This is a similar strategy (even though in opposite direction) to the one we previously discussed for the learning rate, even though it is known to impact the learning process to a lesser extent.
+we notice that the momentum tells us how quickly the contribution of the previous gradients should decay. 
+With $\gamma=0$ we are back to the standard SGD algorithm, whilst with $\gamma \rightarrow 1$ we take into account 
+the entire history of gradients. More commonly used values of momentum are $\gamma=0.5/0.9/0.99$ which can also be 
+combined with a warming strategy (i.e., start from 0.5 and increase through iterations all the way to 0.99). 
+This is a similar strategy (even though in opposite direction) to the one we previously discussed for the learning rate, 
+even though it is known to impact the learning process to a lesser extent.
 
 Based on what we wrote above for the first three iterates, we can easily conclude that:
 
