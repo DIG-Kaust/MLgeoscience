@@ -1075,7 +1075,12 @@ Intuitively, momentum can be understood as some sort of medium resistance or ine
 - \gamma^2 \alpha \mathbf{g}_0 - \gamma \alpha \mathbf{g}_1 - \alpha \mathbf{g}_2
 \end{aligned}
 \]</div>
-<p>we notice that the momentum tells us how quickly the contribution of the previous gradients should decay. With <span class="arithmatex">\(\alpha=0\)</span> we are back to the standard SGD algorithm, whilst with <span class="arithmatex">\(\alpha \rightarrow 1\)</span> we take into account the entire history of gradients. More commonly used values of momentum are <span class="arithmatex">\(\alpha=0.5/0.9/0.99\)</span> which can also be combined with a warming strategy (i.e., start from 0.5 and increase through iterations all the way to 0.99). This is a similar strategy (even though in opposite direction) to the one we previously discussed for the learning rate, even though it is known to impact the learning process to a lesser extent.</p>
+<p>we notice that the momentum tells us how quickly the contribution of the previous gradients should decay. 
+With <span class="arithmatex">\(\gamma=0\)</span> we are back to the standard SGD algorithm, whilst with <span class="arithmatex">\(\gamma \rightarrow 1\)</span> we take into account 
+the entire history of gradients. More commonly used values of momentum are <span class="arithmatex">\(\gamma=0.5/0.9/0.99\)</span> which can also be 
+combined with a warming strategy (i.e., start from 0.5 and increase through iterations all the way to 0.99). 
+This is a similar strategy (even though in opposite direction) to the one we previously discussed for the learning rate, 
+even though it is known to impact the learning process to a lesser extent.</p>
 <p>Based on what we wrote above for the first three iterates, we can easily conclude that:</p>
 <ul>
 <li>if <span class="arithmatex">\(\mathbf{g}_i \approx \mathbf{g}_{i-1} \approx \mathbf{g}_{i-2}\)</span> (where the sign <span class="arithmatex">\(\approx\)</span> is used here to
