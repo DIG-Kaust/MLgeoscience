@@ -20,7 +20,7 @@ are generally identified:
  
 ![UNCERT](figs/uncert.png)
 
-
+![](../../../../../../../../../var/folders/pc/wf4mhn4n2cv8wjt_jtj8t8qhsljrkk/T/TemporaryItems/NSIRD_screencaptureui_76gA2H/Screen Shot 2024-02-24 at 10.43.28 AM.png)
 A number of more or less simple strategies can however be employed when training NNs with the goal of obtaining a quantitative measurement of how certain our estimate is:
 
 - *Dropout*: this commonly used regularization strategy presented in one of our previous lectures can be also leveraged to produce an estimate of the uncertainty of our solution. This can be done by simply using dropout at the inference time and feeding the network multiple times with the same input. Multiple realizations of a prediction are computed, where different portions of the neurons of the network are deactivated for the different realizations. An empirical distribution or parameter estimates (e.g., mean and standard deviation) over the outputs can be finally estimated. 
@@ -35,7 +35,7 @@ $$
 \frac{(\hat{y}^{(i)} - y^{(i)})^2}{2\hat{\sigma}^{(i)2}} \\
 $$
 
-  with the main difference that not only the mean (here denoted as $\hat{y}^{(i)}$) but also the standard deviation ($\hat{\sigma}^{(i)}$) are produced by the network and therefore function of the free-parameters that we wish to optimize. Intuitively, the numerator of the second term encourages the mean prediction to be close to the observed data, while the denominator makes sure the variance is penalized the predictions. The first term avoids the network making the variance grow to infinity (which would lead to minimizing the second term no matter the mean value prediction).
+  with the main difference that not only the mean (here denoted as $\hat{y}^{(i)}$) but also the standard deviation ($\hat{\sigma}^{(i)}$) are produced by the network and therefore function of the free-parameters that we wish to optimize. Intuitively, the numerator of the second term encourages the mean prediction to be close to the observed data, while the denominator makes sure the variance penalizes the poor predictions. The first term avoids the network making the variance grow to infinity (which would lead to minimizing the second term no matter the mean value prediction).
 
 ![DPE](figs/dpe.png)
 
