@@ -53,7 +53,7 @@ and the probability of a single outcome $y$ given a single input $\mathbf{x}$ ca
 
 $$
 p(y|\mathbf{x}) = \sum_{i=1}^{N_m} \pi_i p_i(y|\mu_i,\sigma_i) = 
-  \sum_{i=1}^{N_m} \pi_i \frac{1}{\sqrt{2 \pi \sigma_i^2}} e^{-\frac{||y - \boldsymbol \mu_i||_2^2}{2 \sigma_i^2}}
+  \sum_{i=1}^{N_m} \pi_i \frac{1}{\sqrt{2 \pi \sigma_i^2}} e^{-\frac{(y -  \mu_i)^2}{2 \sigma_i^2}}
 $$
 
 A few key points worth highlighting for this model:
