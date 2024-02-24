@@ -673,7 +673,8 @@ are generally identified:</p>
 <li><em>Aleatoric uncertainty</em>: this uncertainty is associated with the fact that the input data may contain some intrinsic randomness. This is either represented by the fact that the function we try to approximate is multimodal (i.e., multiple possible outputs exist for a single input) or the recorded data is polluted by noise. As a result, the training data will include samples with very close input values and a large spread of output values. We wish to be able to get such an insight out of the network predictions.</li>
 </ul>
 <p><img alt="UNCERT" src="../figs/uncert.png" /></p>
-<p>A number of more or less simple strategies can however be employed when training NNs with the goal of obtaining a quantitative measurement of how certain our estimate is:</p>
+<p><img alt="" src="../../../../../../../../../var/folders/pc/wf4mhn4n2cv8wjt_jtj8t8qhsljrkk/T/TemporaryItems/NSIRD_screencaptureui_76gA2H/Screen Shot 2024-02-24 at 10.43.28 AM.png" />
+A number of more or less simple strategies can however be employed when training NNs with the goal of obtaining a quantitative measurement of how certain our estimate is:</p>
 <ul>
 <li>
 <p><em>Dropout</em>: this commonly used regularization strategy presented in one of our previous lectures can be also leveraged to produce an estimate of the uncertainty of our solution. This can be done by simply using dropout at the inference time and feeding the network multiple times with the same input. Multiple realizations of a prediction are computed, where different portions of the neurons of the network are deactivated for the different realizations. An empirical distribution or parameter estimates (e.g., mean and standard deviation) over the outputs can be finally estimated. 
@@ -690,7 +691,7 @@ are generally identified:</p>
 \boldsymbol \theta = \underset{\boldsymbol \theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} \frac{log \hat{\sigma}^{(i)2}}{2} +
 \frac{(\hat{y}^{(i)} - y^{(i)})^2}{2\hat{\sigma}^{(i)2}} \\
 \]</div>
-<p>with the main difference that not only the mean (here denoted as <span class="arithmatex">\(\hat{y}^{(i)}\)</span>) but also the standard deviation (<span class="arithmatex">\(\hat{\sigma}^{(i)}\)</span>) are produced by the network and therefore function of the free-parameters that we wish to optimize. Intuitively, the numerator of the second term encourages the mean prediction to be close to the observed data, while the denominator makes sure the variance is penalized the predictions. The first term avoids the network making the variance grow to infinity (which would lead to minimizing the second term no matter the mean value prediction).</p>
+<p>with the main difference that not only the mean (here denoted as <span class="arithmatex">\(\hat{y}^{(i)}\)</span>) but also the standard deviation (<span class="arithmatex">\(\hat{\sigma}^{(i)}\)</span>) are produced by the network and therefore function of the free-parameters that we wish to optimize. Intuitively, the numerator of the second term encourages the mean prediction to be close to the observed data, while the denominator makes sure the variance penalizes the poor predictions. The first term avoids the network making the variance grow to infinity (which would lead to minimizing the second term no matter the mean value prediction).</p>
 <p><img alt="DPE" src="../figs/dpe.png" /></p>
 <ul>
 <li><em>Mixture density networks</em>: a natural extension of the DPE method is is represented by networks that try to predict more complex probability distributions by parametrizing them as a mixture of gaussians. </li>
