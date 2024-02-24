@@ -32,7 +32,7 @@ A number of more or less simple strategies can however be employed when training
 
 $$
 \boldsymbol \theta = \underset{\boldsymbol \theta} {\mathrm{argmin}} \; \sum_{i=1}^{N_s} \frac{log \hat{\sigma}^{(i)2}}{2} +
-\frac{||\hat{y}^{(i)} - y^{(i)}||_2^2}{2\hat{\sigma}^{(i)2}} \\
+\frac{(\hat{y}^{(i)} - y^{(i)})^2}{2\hat{\sigma}^{(i)2}} \\
 $$
 
   with the main difference that not only the mean (here denoted as $\hat{y}^{(i)}$) but also the standard deviation ($\hat{\sigma}^{(i)}$) are produced by the network and therefore function of the free-parameters that we wish to optimize. Intuitively, the numerator of the second term encourages the mean prediction to be close to the observed data, while the denominator makes sure the variance is penalized the predictions. The first term avoids the network making the variance grow to infinity (which would lead to minimizing the second term no matter the mean value prediction).
