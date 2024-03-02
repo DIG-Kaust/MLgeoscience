@@ -802,7 +802,7 @@ N_y = N_x - N_h + 1
 <p>Extending the concept of convolution to two- and multi-dimensional data is straightforward. This can be done by simply
 sliding the filter in all dimensions and can be mathematically written (in the discrete form) as follows:</p>
 <div class="arithmatex">\[
-y_{i,j} = \sum_m \sum_l x_{ij} h_{i+m,j+l}
+y_{i,j} = \sum_m \sum_l x_{m,l} h_{i+m,j+l}
 \]</div>
 <p>Finally, another interesting thing to notice is that convolution is a linear process. Therefore we can express it as a matrix-vector multiplication where the vector identifies the input data and the filter is re-organized into a Toeplitz matrix as show in the figure below</p>
 <p><img alt="CONVMTX" src="../figs/convmtx.png" /></p>
@@ -861,7 +861,7 @@ form as follows:</p>
 \]</div>
 <p>In summary, a convolutional layer has the following number of trainable parameters:</p>
 <div class="arithmatex">\[
-N_{clay}=N_{w,h}N_{h,h}N_{ch,x}N_{ch,y} + N_{ch,y}
+N=N_{w,h}N_{h,h}N_{ch,x}N_{ch,y} + N_{ch,y}
 \]</div>
 <p>For example, if <span class="arithmatex">\(N_{ch,x}=3\)</span>, <span class="arithmatex">\(N_{ch,y}=10\)</span>, and the filters have size <span class="arithmatex">\(3 \times 3\)</span>, the overall number of parameters is <span class="arithmatex">\(3\cdot3\cdot3\cdot10 + 10 =280\)</span>. </p>
 <p>Moreover, as convolutional layers can be stacked similarly to what we have done with MLP layers, the following nomenclature will be used in the following when
