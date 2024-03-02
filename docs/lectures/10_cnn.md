@@ -68,7 +68,7 @@ Extending the concept of convolution to two- and multi-dimensional data is strai
 sliding the filter in all dimensions and can be mathematically written (in the discrete form) as follows:
 
 $$
-y_{i,j} = \sum_m \sum_l x_{ij} h_{i+m,j+l}
+y_{i,j} = \sum_m \sum_l x_{m,l} h_{i+m,j+l}
 $$
 
 Finally, another interesting thing to notice is that convolution is a linear process. Therefore we can express it as a matrix-vector multiplication where the vector identifies the input data and the filter is re-organized into a Toeplitz matrix as show in the figure below
@@ -157,7 +157,7 @@ $$
 In summary, a convolutional layer has the following number of trainable parameters:
 
 $$
-N_{clay}=N_{w,h}N_{h,h}N_{ch,x}N_{ch,y} + N_{ch,y}
+N=N_{w,h}N_{h,h}N_{ch,x}N_{ch,y} + N_{ch,y}
 $$
 
 For example, if $N_{ch,x}=3$, $N_{ch,y}=10$, and the filters have size $3 \times 3$, the overall number of parameters is $3\cdot3\cdot3\cdot10 + 10 =280$. 

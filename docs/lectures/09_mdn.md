@@ -20,7 +20,6 @@ are generally identified:
  
 ![UNCERT](figs/uncert.png)
 
-![](../../../../../../../../../var/folders/pc/wf4mhn4n2cv8wjt_jtj8t8qhsljrkk/T/TemporaryItems/NSIRD_screencaptureui_76gA2H/Screen Shot 2024-02-24 at 10.43.28 AM.png)
 A number of more or less simple strategies can however be employed when training NNs with the goal of obtaining a quantitative measurement of how certain our estimate is:
 
 - *Dropout*: this commonly used regularization strategy presented in one of our previous lectures can be also leveraged to produce an estimate of the uncertainty of our solution. This can be done by simply using dropout at the inference time and feeding the network multiple times with the same input. Multiple realizations of a prediction are computed, where different portions of the neurons of the network are deactivated for the different realizations. An empirical distribution or parameter estimates (e.g., mean and standard deviation) over the outputs can be finally estimated. 
