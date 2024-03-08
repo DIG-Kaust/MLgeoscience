@@ -194,7 +194,7 @@ We have already discussed that by choosing the filter size, stride and padding, 
 At times, it may however be better to avoid changing the size of the output directly as part of the convolution process, rather perform this in a separate step. In this section we introduce the
 so-called *pooling* process, which is designed specifically to reduce the size of an input N-dimensional array by an arbitrary factor $N_p$.
 
-Let's start with an example. We are interested to take a matrix of size $N_{h,x} \times $N_{w,x}$ as input and produce an output of half the size (i.e., $N_{h,x}/2 \times $N_{w,x}/2$.
+Let's start with an example. We are interested to take a matrix of size $N_{h,x} \times N_{w,x}$ as input and produce an output of half the size (i.e., $N_{h,x}/2 \times N_{w,x}/2$.
 A possible way to achieve this without purely discarding some of the values of the matrix is to select the maximum value within a sliding window of size $2 \times 2$ (stride=2):
 
 ![MAXP](figs/maxpooling.png)
