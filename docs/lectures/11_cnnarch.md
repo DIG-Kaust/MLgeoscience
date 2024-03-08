@@ -17,7 +17,7 @@ dataset).
 
 As shown in the figure below, this network is composed of:
 
-- 2 convolutional layers with filter size equal to $5 \times $5$, stride equal to 1, and number of channels equal to 6 and 16, respectively;
+- 2 convolutional layers with filter size equal to $5 \times 5$, stride equal to 1, and number of channels equal to 6 and 16, respectively;
 - 2 average pooling layers that reduce the height and width of the feature maps by a factor of 2;
 - 3 fully connected layers of size 120, 84, and 10 (the number of digits to classify);
 - softmax activation in the final layer;
