@@ -66,7 +66,7 @@ where the same filters are used in different parts of the input. Similarly in se
 parameters at different stages of the sequence and therefore allows the network to easily handle sequences of variable length. By doing so,
 a new type of neural network is created under the name of Recurrent Neural Network (RNN):
 
-![RNN](figs/rnn.png)
+![RNN](figs/rnnfold.png)
 
 where $\mathbf{x}$ is the input vector (or matrix when multiple features are present), $\mathbf{y}$ is the output vector, and $\mathbf{h}$
 is the so called hidden state vector.
