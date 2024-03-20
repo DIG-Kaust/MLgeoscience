@@ -43,9 +43,9 @@ we consider a sequence of $N_\tau$ samples and $N_f$ features:
 
 $$
 \mathbf{X} = \begin{bmatrix} 
-                x_1^{<1>} & x_1^{<2>} & x_1^{N_\tau} \\
+                x_1^{<1>} & x_1^{<2>} & x_1^{<N_\tau>} \\
                 ...     & ...     & ... \\
-                x_{N_f}^{1} & x_1^{<2>} & x_{N_f}^{N_\tau}
+                x_{N_f}^{<1>} & x_1^{<2>} & x_{N_f}^{<N_\tau>}
   \end{bmatrix} =
   \begin{bmatrix} 
                 \mathbf{x}^{<1>} & \mathbf{x}^{<2>} & \mathbf{x}^{<N_\tau>}
