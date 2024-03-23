@@ -334,7 +334,7 @@ allow learning short and long term dependencies not only from the past but also 
 where the network architecture presents a simple modification. Instead of having a single flow of information from left to right as it is the 
 case for basic RNNs, we have now added a second flow of information from right to left. The hidden states of the first have been labelled with
 the suffix F (for forward), and those of the second with the suffix B (for backward). The inputs remain unchanged, apart from the fact that they 
-are now fed twice to the network, once for the forward flow and once for the backward flow, whilst the output is not the concatenation of the 
+are now fed twice to the network, once for the forward flow and once for the backward flow, whilst the output is now the concatenation of the 
 outputs of the two flows, i.e., $\hat{\mathbf{y}}^{<t>} = [\hat{\mathbf{y}}_F^{<t>T} \; \hat{\mathbf{y}}_B^{<t>T}]^T$.
 
 ## Deep RNNs
