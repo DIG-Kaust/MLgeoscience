@@ -841,7 +841,7 @@ This two-steps approach is becoming very popular these days especially in fields
 as a way to take advantage as much as possible of unlabelled samples and then being able to fine-tune supervised models using
 small amounts of labelled data.</p>
 <p>Before we consider a number of different approaches to dimensionality reduction, let's write the problem in a common mathematical form. 
-Given a number of training samples $\mathbf{x}^{(i)}, we wish to identify:</p>
+Given a number of training samples <span class="arithmatex">\(\mathbf{x}^{(i)}\)</span>, we wish to identify:</p>
 <ul>
 <li>encoder: <span class="arithmatex">\(\mathbf{c}^{(i)} = e(\mathbf{x}^{(i)})\)</span></li>
 <li>decoder: <span class="arithmatex">\(\hat{\mathbf{x}}^{(i)} = d(\mathbf{c}^{(i)})\)</span></li>
@@ -868,19 +868,19 @@ PCA derivation we must assume that the columns of <span class="arithmatex">\(\ma
 \]</div>
 <p>By making such a strong assumption we can easily see that</p>
 <div class="arithmatex">\[
-$\hat{\mathbf{x}}^{(i)} = \mathbf{D}\mathbf{E}\mathbf{x}^{(i)}=\mathbf{D}\mathbf{D}^T\mathbf{x}^{(i)} \quad (\mathbf{E}=\mathbf{D}^T)
+\hat{\mathbf{x}}^{(i)} = \mathbf{D}\mathbf{E}\mathbf{x}^{(i)}=\mathbf{D}\mathbf{D}^T\mathbf{x}^{(i)} \quad (\mathbf{E}=\mathbf{D}^T)
 \]</div>
 <p>is the choice of encoder-decoder that minimizes the reconstruction error. Let's now prove to ourselves that this is the case for 
 a single training sample:</p>
 <div class="arithmatex">\[
-\hat{\mathbf{c}} = \underset{\mathbf{c}} {\mathrm{argmin}} \; ||\mathbf{x}-d(\mathbf{x})||_2^2
+\hat{\mathbf{c}} = \underset{\mathbf{c}} {\mathrm{argmin}} \; ||\mathbf{x}-d(\mathbf{c})||_2^2
 \]</div>
 <p>where for the moment we do not specify the decoder and simply call it <span class="arithmatex">\(d\)</span>. Let's first expand the loss function</p>
 <div class="arithmatex">\[
 \begin{aligned}
-||\mathbf{x}-d(\mathbf{x})||_2^2 &amp;= (\mathbf{x}-g(\mathbf{x}))^T (\mathbf{x}-d(\mathbf{x})) \\
-&amp;= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{x}) - g(\mathbf{x})^T \mathbf{x} + d(\mathbf{c})^T g(\mathbf{c})^T\\
-&amp;= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{x}) + d(\mathbf{c})^T g(\mathbf{c})^T\\
+||\mathbf{x}-d(\mathbf{c})||_2^2 &amp;= (\mathbf{x}-d(\mathbf{c}))^T (\mathbf{x}-d(\mathbf{c})) \\
+&amp;= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{c}) - d(\mathbf{c})^T \mathbf{x} + d(\mathbf{c})^T d(\mathbf{c})\\
+&amp;= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{c}) + d(\mathbf{c})^T d(\mathbf{c})^T\\
 \end{aligned}
 \]</div>
 <p>where we can ignore the first term given it does not depend on <span class="arithmatex">\(\mathbf{c}\)</span>. At this point let's consider the special
