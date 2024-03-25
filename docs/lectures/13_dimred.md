@@ -86,7 +86,7 @@ case of $d()=\mathbf{D}$, which gives:
 
 $$
 \begin{aligned}
-||\mathbf{x}-d(\mathbf{x})||_2^2 &= \mathbf{c}^T \mathbf{D}^T \mathbf{D} \mathbf{c} - 2 \mathbf{x}^T \mathbf{D} \mathbf{c} \\
+||\mathbf{x}-d(\mathbf{c})||_2^2 &= \mathbf{c}^T \mathbf{D}^T \mathbf{D} \mathbf{c} - 2 \mathbf{x}^T \mathbf{D} \mathbf{c} \\
 &= \mathbf{c}^T \mathbf{I}_{N_l} \mathbf{c} - 2 \mathbf{x}^T \mathbf{D} \mathbf{c}
 \end{aligned}
 $$
