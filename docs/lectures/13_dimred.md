@@ -27,7 +27,7 @@ as a way to take advantage as much as possible of unlabelled samples and then be
 small amounts of labelled data.
 
 Before we consider a number of different approaches to dimensionality reduction, let's write the problem in a common mathematical form. 
-Given a number of training samples $\mathbf{x}^{(i)}, we wish to identify:
+Given a number of training samples $\mathbf{x}^{(i)}$, we wish to identify:
 
 - encoder: $\mathbf{c}^{(i)} = e(\mathbf{x}^{(i)})$
 - decoder: $\hat{\mathbf{x}}^{(i)} = d(\mathbf{c}^{(i)})$
@@ -61,23 +61,23 @@ $$
 By making such a strong assumption we can easily see that
 
 $$
-$\hat{\mathbf{x}}^{(i)} = \mathbf{D}\mathbf{E}\mathbf{x}^{(i)}=\mathbf{D}\mathbf{D}^T\mathbf{x}^{(i)} \quad (\mathbf{E}=\mathbf{D}^T)
+\hat{\mathbf{x}}^{(i)} = \mathbf{D}\mathbf{E}\mathbf{x}^{(i)}=\mathbf{D}\mathbf{D}^T\mathbf{x}^{(i)} \quad (\mathbf{E}=\mathbf{D}^T)
 $$
 
 is the choice of encoder-decoder that minimizes the reconstruction error. Let's now prove to ourselves that this is the case for 
 a single training sample:
 
 $$
-\hat{\mathbf{c}} = \underset{\mathbf{c}} {\mathrm{argmin}} \; ||\mathbf{x}-d(\mathbf{x})||_2^2
+\hat{\mathbf{c}} = \underset{\mathbf{c}} {\mathrm{argmin}} \; ||\mathbf{x}-d(\mathbf{c})||_2^2
 $$
 
 where for the moment we do not specify the decoder and simply call it $d$. Let's first expand the loss function
 
 $$
 \begin{aligned}
-||\mathbf{x}-d(\mathbf{x})||_2^2 &= (\mathbf{x}-g(\mathbf{x}))^T (\mathbf{x}-d(\mathbf{x})) \\
-&= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{x}) - g(\mathbf{x})^T \mathbf{x} + d(\mathbf{c})^T g(\mathbf{c})^T\\
-&= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{x}) + d(\mathbf{c})^T g(\mathbf{c})^T\\
+||\mathbf{x}-d(\mathbf{c})||_2^2 &= (\mathbf{x}-d(\mathbf{c}))^T (\mathbf{x}-d(\mathbf{c})) \\
+&= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{c}) - d(\mathbf{c})^T \mathbf{x} + d(\mathbf{c})^T d(\mathbf{c})\\
+&= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{c}) + d(\mathbf{c})^T d(\mathbf{c})^T\\
 \end{aligned}
 $$
 
