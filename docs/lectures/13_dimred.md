@@ -162,7 +162,7 @@ associated eigenvector $\mathbf{v}_i$ as follows (we use a 2d example for simpli
 ![PCA](figs/pca.png)
 
 so we observe that the first direction of PCA (i.e. $\mathbf{v}_1$) is the one that best minimizes the 
-reconstruction error (i.e., \sum_i d_{i,1}). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
+reconstruction error (i.e., $\sum_i d_{i,1}$). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
 error of the projected data points from smallest to largest.
 
 
@@ -195,11 +195,11 @@ it is worth pointing out that this requires solving a nonlinear inverse problem 
 
 ### Sparse Coding (or Dictionary Learning)
 Sparse coding is another heavily studied model for dimensionality reduction. The general idea has origin in a large body of 
-work carried out in other areas of applied mathematics where hand-crafted transformations (e.g., wavelets) habe been identified
+work carried out in other areas of applied mathematics where hand-crafted transformations (e.g., wavelets) have been identified
 to nicely represent data of different kind (e.g., images, sounds, seismic recordings) in a very sparse fashion. Here *sparse*
 refers to the fact that the transformed signal can be represented by a vector with many zeros and just few non-zero entries.
 
-In this context, however, the transformation is represented a matrix $\mathbf{W}$, whose entries are once again learned directly
+In this context, however, the transformation is represented by a matrix $\mathbf{W}$, whose entries are once again learned directly
 from the available training data. This is achieved by imposing a strong condition on the probability distribution associated with 
 the latent vector $\mathbf{c}$:
 
@@ -218,7 +218,7 @@ which mathematically can be written as:
 $$
 \begin{aligned}
 \hat{\mathbf{W}}, \hat{\mathbf{h}} &= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmax}} p(\mathbf{h}|\mathbf{x}) 
-&= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{h}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+&= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
 \end{aligned}
 $$
 where $\beta$, $\lambda$ are directly related to the parameters of the posterior distribution that we wish to maximize. This
