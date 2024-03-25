@@ -144,7 +144,7 @@ We can therefore conclude that PCA is defined as:
 More in general, it is also worth remembering that if the training data is not zero-mean, PCA can be slightly modified to take that into account:
 
 $$
-\mathbf{c}=\mathbf{D}^T (\mathbf{x}-\boldsymbol\mu$ and $\hat{\mathbf{x}}=\mathbf{D} \mathbf{c}+\boldsymbol\mu$.
+\mathbf{c}=\mathbf{D}^T (\mathbf{x}-\boldsymbol\mu \; and \; \hat{\mathbf{x}}=\mathbf{D} \mathbf{c}+\boldsymbol\mu$.
 $$
 
 where $\boldsymbol\mu$ is the sample mean.
