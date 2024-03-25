@@ -947,7 +947,7 @@ let's recall the covariance matrix that we form and create SVD on:</p>
 associated eigenvector <span class="arithmatex">\(\mathbf{v}_i\)</span> as follows (we use a 2d example for simplicity):</p>
 <p><img alt="PCA" src="../figs/pca.png" /></p>
 <p>so we observe that the first direction of PCA (i.e. <span class="arithmatex">\(\mathbf{v}_1\)</span>) is the one that best minimizes the 
-reconstruction error (i.e., \sum_i d_{i,1}). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
+reconstruction error (i.e., <span class="arithmatex">\(\sum_i d_{i,1}\)</span>). In multiple dimensions, the eigenvectors are organized in order of reconstruction 
 error of the projected data points from smallest to largest.</p>
 <h2 id="other-linear-dimensionality-reduction-techniques">Other linear dimensionality reduction techniques</h2>
 <p>Whilst PCA is very popular for its simplicity (both of understanding and implementation), other techniques for linead dimensionality
@@ -969,10 +969,10 @@ normalized sample kurtosis) or minimizes mutual information (MI). Whilst we don'
 it is worth pointing out that this requires solving a nonlinear inverse problem as <span class="arithmatex">\(\mathbf{W}\)</span> relates in a nonlinear manner to kurtosis or MI. </p>
 <h3 id="sparse-coding-or-dictionary-learning">Sparse Coding (or Dictionary Learning)</h3>
 <p>Sparse coding is another heavily studied model for dimensionality reduction. The general idea has origin in a large body of 
-work carried out in other areas of applied mathematics where hand-crafted transformations (e.g., wavelets) habe been identified
+work carried out in other areas of applied mathematics where hand-crafted transformations (e.g., wavelets) have been identified
 to nicely represent data of different kind (e.g., images, sounds, seismic recordings) in a very sparse fashion. Here <em>sparse</em>
 refers to the fact that the transformed signal can be represented by a vector with many zeros and just few non-zero entries.</p>
-<p>In this context, however, the transformation is represented a matrix <span class="arithmatex">\(\mathbf{W}\)</span>, whose entries are once again learned directly
+<p>In this context, however, the transformation is represented by a matrix <span class="arithmatex">\(\mathbf{W}\)</span>, whose entries are once again learned directly
 from the available training data. This is achieved by imposing a strong condition on the probability distribution associated with 
 the latent vector <span class="arithmatex">\(\mathbf{c}\)</span>:</p>
 <div class="arithmatex">\[
@@ -988,7 +988,7 @@ solution exist like in the PCA case. Instead, the training process is set up wit
 <p>$$
 \begin{aligned}
 \hat{\mathbf{W}}, \hat{\mathbf{h}} &amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmax}} p(\mathbf{h}|\mathbf{x}) 
-&amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{h}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+&amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
 \end{aligned}
 $$
 where <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\lambda\)</span> are directly related to the parameters of the posterior distribution that we wish to maximize. This
