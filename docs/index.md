@@ -14,7 +14,7 @@ Sunday, and Wednesday, 1:00pm - 2:30pm
 
 ## Teaching Staff
 
-- Instructor: [Matteo Ravasi](https://mrava87.github.io) - Office Hours: Monday 4pm to 5pm (by Appointment: BI-1432)
+- Instructor: [Matteo Ravasi](https://mrava87.github.io) - Office Hours: Monday 4pm to 5pm (by Appointment: B1-3142)
 
 ## Textbook
 
