@@ -218,7 +218,7 @@ which mathematically can be written as:
 $$
 \begin{aligned}
 \hat{\mathbf{W}}, \hat{\mathbf{c}} &= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmax}} p(\mathbf{c}|\mathbf{x}) 
-&= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+&= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{c}||_2^2 +\lambda ||\mathbf{c}||_1
 \end{aligned}
 $$
 where $\beta$, $\lambda$ are directly related to the parameters of the posterior distribution that we wish to maximize. This
