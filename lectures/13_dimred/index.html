@@ -880,7 +880,7 @@ a single training sample:</p>
 \begin{aligned}
 ||\mathbf{x}-d(\mathbf{c})||_2^2 &amp;= (\mathbf{x}-d(\mathbf{c}))^T (\mathbf{x}-d(\mathbf{c})) \\
 &amp;= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{c}) - d(\mathbf{c})^T \mathbf{x} + d(\mathbf{c})^T d(\mathbf{c})\\
-&amp;= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{c}) + d(\mathbf{c})^T d(\mathbf{c})^T\\
+&amp;= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{c}) + d(\mathbf{c})^T d(\mathbf{c})\\
 \end{aligned}
 \]</div>
 <p>where we can ignore the first term given it does not depend on <span class="arithmatex">\(\mathbf{c}\)</span>. At this point let's consider the special
@@ -987,15 +987,15 @@ solution exist like in the PCA case. Instead, the training process is set up wit
 <p>which mathematically can be written as:</p>
 <p>$$
 \begin{aligned}
-\hat{\mathbf{W}}, \hat{\mathbf{h}} &amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmax}} p(\mathbf{h}|\mathbf{x}) 
-&amp;= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+\hat{\mathbf{W}}, \hat{\mathbf{c}} &amp;= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmax}} p(\mathbf{c}|\mathbf{x}) 
+&amp;= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
 \end{aligned}
 $$
 where <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\lambda\)</span> are directly related to the parameters of the posterior distribution that we wish to maximize. This
 functional can be minimized in an alternating fashion, first for <span class="arithmatex">\(\mathbf{W}\)</span>, then for <span class="arithmatex">\(\mathbf{x}\)</span>, and so on and so forth.</p>
 <p>Finally, once the training process is over and <span class="arithmatex">\(\hat{\mathbf{W}}\)</span> is available, it is worth noting that sparse coding does require
 solving a sparsity-promoting inverse problem for any new training sample <span class="arithmatex">\(\mathbf{x}\)</span> in order to find its best
-representation <span class="arithmatex">\(\hat{\mathbf{h}}\)</span>. Nevertheless, despite the higher cost compared to for example PCA, sparse coding has shown 
+representation <span class="arithmatex">\(\hat{\mathbf{c}}\)</span>. Nevertheless, despite the higher cost compared to for example PCA, sparse coding has shown 
 great promise in both data compression and representation learning, the latter when coupled with down-the-line supervised tasks.</p>
 <h2 id="autoencoders">Autoencoders</h2>
 <p>Finally, we turn our attention onto nonlinear dimensionality reduction models. We should know by now that nonlinear mappings (like
