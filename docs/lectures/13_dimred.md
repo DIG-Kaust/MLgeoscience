@@ -77,7 +77,7 @@ $$
 \begin{aligned}
 ||\mathbf{x}-d(\mathbf{c})||_2^2 &= (\mathbf{x}-d(\mathbf{c}))^T (\mathbf{x}-d(\mathbf{c})) \\
 &= \mathbf{x}^T \mathbf{x} - \mathbf{x}^Td(\mathbf{c}) - d(\mathbf{c})^T \mathbf{x} + d(\mathbf{c})^T d(\mathbf{c})\\
-&= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{c}) + d(\mathbf{c})^T d(\mathbf{c})^T\\
+&= \mathbf{x}^T \mathbf{x} - 2 \mathbf{x}^Td(\mathbf{c}) + d(\mathbf{c})^T d(\mathbf{c})\\
 \end{aligned}
 $$
 
@@ -217,8 +217,8 @@ which mathematically can be written as:
 
 $$
 \begin{aligned}
-\hat{\mathbf{W}}, \hat{\mathbf{h}} &= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmax}} p(\mathbf{h}|\mathbf{x}) 
-&= \underset{\mathbf{W}, \mathbf{h}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+\hat{\mathbf{W}}, \hat{\mathbf{c}} &= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmax}} p(\mathbf{c}|\mathbf{x}) 
+&= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
 \end{aligned}
 $$
 where $\beta$, $\lambda$ are directly related to the parameters of the posterior distribution that we wish to maximize. This
@@ -226,7 +226,7 @@ functional can be minimized in an alternating fashion, first for $\mathbf{W}$, t
 
 Finally, once the training process is over and $\hat{\mathbf{W}}$ is available, it is worth noting that sparse coding does require
 solving a sparsity-promoting inverse problem for any new training sample $\mathbf{x}$ in order to find its best
-representation $\hat{\mathbf{h}}$. Nevertheless, despite the higher cost compared to for example PCA, sparse coding has shown 
+representation $\hat{\mathbf{c}}$. Nevertheless, despite the higher cost compared to for example PCA, sparse coding has shown 
 great promise in both data compression and representation learning, the latter when coupled with down-the-line supervised tasks.
 
 ## Autoencoders
