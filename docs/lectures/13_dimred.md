@@ -222,7 +222,7 @@ $$
 \end{aligned}
 $$
 where $\beta$, $\lambda$ are directly related to the parameters of the posterior distribution that we wish to maximize. This
-functional can be minimized in an alternating fashion, first for $\mathbf{W}$, then for $\mathbf{x}$, and so on and so forth.
+functional can be minimized in an alternating fashion, first for $\mathbf{W}$, then for $\mathbf{c}$, and so on and so forth.
 
 Finally, once the training process is over and $\hat{\mathbf{W}}$ is available, it is worth noting that sparse coding does require
 solving a sparsity-promoting inverse problem for any new training sample $\mathbf{x}$ in order to find its best
