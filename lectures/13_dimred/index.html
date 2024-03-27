@@ -988,7 +988,7 @@ solution exist like in the PCA case. Instead, the training process is set up wit
 <p>$$
 \begin{aligned}
 \hat{\mathbf{W}}, \hat{\mathbf{c}} &amp;= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmax}} p(\mathbf{c}|\mathbf{x}) 
-&amp;= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{h}||_2^2 +\lambda ||\mathbf{h}||_1
+&amp;= \underset{\mathbf{W}, \mathbf{c}} {\mathrm{argmin}} \beta ||\mathbf{x}-\mathbf{W}\mathbf{c}||_2^2 +\lambda ||\mathbf{c}||_1
 \end{aligned}
 $$
 where <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\lambda\)</span> are directly related to the parameters of the posterior distribution that we wish to maximize. This
