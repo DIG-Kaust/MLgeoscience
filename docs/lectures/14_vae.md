@@ -10,7 +10,7 @@ number of different tasks where input-target pairs are not available. Dimensiona
 usually categorized under the umbrella of unsupervised learning.
 
 Another very exciting area of statistics that has been recently heavily influenced by the deep learning revolution is the
-so-called field of *Generative modelling*. Here, instead of having access to input-target pairs, we are able to only gather
+so-called field of *generative modelling*. Here, instead of having access to input-target pairs, we are able to only gather
 a (large) number of samples $\mathbf{X} = \{ \mathbf{x}^{(1)}, \mathbf{x}^{(2)}, ..., \mathbf{x}^{(N_s)} \}$
 that we believe come from a given hidden distribution. The task that we wish to accomplished is  therefore:
 
@@ -222,5 +222,6 @@ and the expectation is taken over the training samples (or a batch of them).
 
 ## Additional readings
 
+- A great resource to learn more about the basics of probabilistic (or generative) modelling can be found [here](https://jmtomczak.github.io/blog/19/19_mog_pcs.html).
 - The flow of this lecture is heavily inspired by this [blog post](https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73)
 - A Python library that can help you step up your game with Variational Inference is [Pyro](https://pyro.ai) from Uber.
