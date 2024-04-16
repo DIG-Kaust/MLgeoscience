@@ -105,7 +105,7 @@ def train(model, optimizer, data_loader, ic, lossweights=(1, 1), vscaler=1., dev
 def evaluate(model, grid_loader, device='cpu'):
     model.eval()
     with torch.no_grad():
-        xz = iter(grid_loader).next()[0].to(device)
+        xz = next(iter(grid_loader))[0].to(device)
         # compute tau
         tau = model(xz)
     return tau
@@ -113,7 +113,7 @@ def evaluate(model, grid_loader, device='cpu'):
 
 def evaluate_pde(model, grid_loader, vscaler=1., device='cpu'):
     model.train()
-    xz, v, t0, t0_dx, t0_dz = iter(grid_loader).next()
+    xz, v, t0, t0_dx, t0_dz = next(iter(grid_loader))
     xz.requires_grad = True
     xz = xz.to(device)
     # compute tau
