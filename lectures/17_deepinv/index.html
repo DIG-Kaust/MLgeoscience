@@ -787,7 +787,7 @@ therefore the only viable option.</p>
 \mathbf{m}_{2} = \mathbf{m}_0 - \alpha \frac{\partial J}{\partial \mathbf{m}} | _ {\mathbf{m}=\mathbf{m}_0} - \alpha \frac{\partial J}{\partial \mathbf{m}} | _ {\mathbf{m}=\mathbf{m}_1}
 \]</div>
 <p>This expression clearly shows that the solution of an iterative solver at a given iteration is a simple weighted summation of the intermediate gradients that are subtracted from
-the initial guess $\mathbf{m}_0 $. Similarly, more advanced solvers like the linear or nonlinear conjugate gradient algorithm take into account the past gradients at each iteration,
+the initial guess <span class="arithmatex">\(\mathbf{m}_0\)</span>. Similarly, more advanced solvers like the linear or nonlinear conjugate gradient algorithm take into account the past gradients at each iteration,
 however they still apply simple linear scalings to the gradients to produce the final solution.</p>
 <p>The mathematical community has recently started to investigate a new family of iterative solvers, called learned solvers. The key idea lies in the fact that a linear combination of gradients may not be the 
 best choice (both in terms of convergence speed and ultimate quality of the solution). An alternative update rule of this form</p>
