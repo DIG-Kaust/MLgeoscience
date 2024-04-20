@@ -128,7 +128,7 @@ $$
 $$
 
 This expression clearly shows that the solution of an iterative solver at a given iteration is a simple weighted summation of the intermediate gradients that are subtracted from
-the initial guess $\mathbf{m}_0 $. Similarly, more advanced solvers like the linear or nonlinear conjugate gradient algorithm take into account the past gradients at each iteration,
+the initial guess $\mathbf{m}_0$. Similarly, more advanced solvers like the linear or nonlinear conjugate gradient algorithm take into account the past gradients at each iteration,
 however they still apply simple linear scalings to the gradients to produce the final solution.
 
 The mathematical community has recently started to investigate a new family of iterative solvers, called learned solvers. The key idea lies in the fact that a linear combination of gradients may not be the 
